@@ -1,0 +1,40 @@
+---
+/** 404 (served by nginx `error_page 404 /404.html`). */
+import BaseLayout from "../layouts/BaseLayout.astro";
+---
+
+<BaseLayout title="Not found · HLLMR Ventures" description="This page does not exist on hllmr.com." sheet="404" noindex>
+  <section class="nf">
+    <div class="wrap">
+      <p class="anno anno-red">RFI-404 · Request for information</p>
+      <h1>Not on this drawing.</h1>
+      <p>The page you asked for isn't in the current set. It may never have existed, or it was superseded.</p>
+      <p class="links">
+        <a class="btn btn-primary" href="/">Home</a>
+        <a class="btn btn-ghost" href="/projects/">Projects</a>
+        <a class="btn btn-ghost" href="/writing/">Writing</a>
+      </p>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .nf {
+    padding: var(--space-9) 0 var(--space-8);
+  }
+  .nf h1 {
+    font-size: var(--text-3xl);
+    font-stretch: 125%;
+    margin: var(--space-3) 0 var(--space-4);
+  }
+  .nf p {
+    color: var(--muted);
+    max-width: 60ch;
+  }
+  .links {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+    margin-top: var(--space-5);
+  }
+</style>

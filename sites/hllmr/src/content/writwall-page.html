@@ -1,0 +1,70 @@
+<!-- Writwall page as published on hllmr.com 2026-08-29 (HLLMR/hllmr-site 3b8930d). Text unchanged except the release link
+     (v0.8.1 -> latest release, owner decision 2026-10-18) and the essay link made site-relative. -->
+<p class="lead">A human ratifies intent, dispatches one bounded work order at a time
+  with an explicit capability grant, an agent works inside that grant, a separate
+  review checks the result against the record, and the human accepts on evidence.
+  Between work orders the project is locked. Everything is plain files in your
+  repository. There is no service.</p>
+
+  <p>Spec tools answer <em>what should the agent build</em>. Writwall answers what
+  comes after: who authorized this change, what was the agent allowed to touch,
+  what did it try, what was actually blocked, and what did a human accept.</p>
+
+  <p class="repo">Repository:
+  <a href="https://github.com/HLLMR/writwall">github.com/HLLMR/writwall</a><br>
+  Current release:
+  <a href="https://github.com/HLLMR/writwall/releases/latest">latest release on GitHub</a></p>
+
+  <p>It ran on itself for ten work orders. The credibility hook is one number and
+  it is the honest one: <span class="num">0</span> capability surfaces were fully
+  mechanically enforced under the strict definition, in every counted order,
+  because the shipped hook covers the file-edit tools and not writes made through
+  a shell. The same log records <span class="num">12</span> denials and
+  <span class="num">0</span> successful out-of-grant mutations. Both facts are in
+  the repository.</p>
+
+  <p class="epigraph">A wall nobody has watched deny anything is an assumption.<br>
+  <span class="src">Doctrine 8.3.5</span></p>
+
+  <hr>
+
+  <!-- Zone 2: the essay -->
+  <h2>Where this came from</h2>
+
+  <p>The methodology is document control, moved from construction to software.
+  In building automation you do not accept a smoke damper because the submittal
+  says it closes. You put it in alarm and you watch it close. That is the birth
+  test. You do not regenerate a plan from the as-built and call the drift
+  resolved. You hold the plan and the state as two documents that must agree.
+  A decision without its rejected alternatives transfers the conclusion and not
+  the ability to judge the next case. Twenty years of that discipline is where
+  every part of Writwall came from.</p>
+
+  <p>The full mapping is an essay:
+  <a href="/writing/document-control-for-ai-agents/">Document control for AI-assisted development</a>.
+  It is the argument in long form, and it stands on its own without the repository.</p>
+
+  <hr>
+
+  <!-- Zone 3: limits, from Doctrine Part 10 and the adapter README -->
+  <h2>What it does not do</h2>
+
+  <p>Stated plainly, because the methodology requires it of itself.</p>
+
+  <table class="metrics">
+    <tbody>
+    <tr><td>Enforcement</td><td>The only mechanical enforcement shipped is a Claude Code adapter. With any other agent it is instruction-bounded, and the README uses those two words. The hook also cannot fail closed on its own absence: if it does not start, it does not block.</td></tr>
+    <tr><td>Sessions</td><td>Agents still degrade inside long sessions. The method makes sessions short and their deaths cheap. It does not make them immortal.</td></tr>
+    <tr><td>Judgment</td><td>A vacuous plan yields vacuous conformance. Gates check work against intent. They cannot supply intent.</td></tr>
+    <tr><td>Evidence</td><td>One pilot on one repository. It shows the records exposed real drift and that tested channels blocked forbidden actions. It does not prove Writwall lowers cost or generalizes to other teams.</td></tr>
+      </tbody>
+  </table>
+
+  <p class="src">Limits from Doctrine Part 10 and adapters/claude-code/README.md.</p>
+<footer class="ww-foot">
+    <p>Writwall is a methodology and toolkit, not a hosted service or runtime.
+    CC-BY-4.0 prose, CC0 templates, MIT-0 adapter, Apache-2.0 tooling. The
+    Writwall name is not licensed; see NAMING.md.</p>
+    <p>Published as Plumbline through August 2026. The name changed; the method
+    did not.</p>
+  </footer>

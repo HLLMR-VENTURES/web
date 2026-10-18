@@ -1,0 +1,67 @@
+---
+/**
+ * Privacy notice. Must match what the site and its host actually do. Facts that depend on infra
+ * (proxy log retention, the counting job) are confirmed in the hllmr-infra request before launch.
+ */
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import PageHead from "../../components/PageHead.astro";
+import { CONTACT_EMAIL, OWNER, THEME_STORAGE_KEY } from "../../lib/site";
+---
+
+<BaseLayout
+  title="Privacy · HLLMR Ventures"
+  description="What hllmr.com collects: no cookies, no trackers, no third-party requests; aggregate request counts from server logs, kept private."
+  sheet="Privacy"
+>
+  <PageHead dwg="DWG L-001 · Privacy" title="Privacy" lede="Short, because the site does very little." />
+  <section class="section">
+    <div class="wrap prose">
+      <h2>What this site does not do</h2>
+      <ul>
+        <li>No cookies, no analytics scripts, no tracking pixels, no advertising.</li>
+        <li>No third-party requests: fonts, styles and images are all served from hllmr.com.</li>
+        <li>No forms. Nothing you do on the site is sent anywhere by the site.</li>
+      </ul>
+
+      <h2>What the server records</h2>
+      <p>
+        Like any web server, ours writes an access log entry for each request: the time, the page, the response, the
+        referring page, your browser's user-agent string and your IP address. We use these logs to keep the site running
+        and secure, and to count requests.
+      </p>
+      <p>
+        Those counts are aggregate (for example, requests per page per day). The IP addresses are not kept in the counts,
+        and the counts are visible only to {OWNER}. We do not sell or share log data.
+      </p>
+
+      <h2>Your theme choice</h2>
+      <p>
+        If you use the light/dark toggle, your choice is saved in your browser's local storage under the key
+        <code>{THEME_STORAGE_KEY}</code>. It never leaves your browser and you can clear it at any time.
+      </p>
+
+      <h2>Where it is hosted</h2>
+      <p>
+        The site is self-hosted by {OWNER} on servers in Germany, with backups and a recovery copy in North America.
+      </p>
+
+      <h2>Email</h2>
+      <p>
+        If you email us, we keep the message to reply and to run the business, in our own mail system. We do not add you
+        to any list.
+      </p>
+
+      <h2>Questions</h2>
+      <p><a href={`mailto:${CONTACT_EMAIL}`}>{CONTACT_EMAIL}</a></p>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .prose li::marker {
+    color: var(--accent);
+  }
+  .prose h2:first-child {
+    margin-top: 0;
+  }
+</style>

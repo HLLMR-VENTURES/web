@@ -1,0 +1,5 @@
+/* Self-hosted fonts for hllmr.com (SIL OFL 1.1), bundled by the site build: no font CDN, no
+ * third-party request. Archivo carries both a weight and a width axis (62%-125%), so one family
+ * covers expanded display headings and condensed labels; Martian Mono sets tags and annotations. */
+@import "@fontsource-variable/archivo/wdth.css";
+@import "@fontsource-variable/martian-mono/index.css";

@@ -1,0 +1,100 @@
+---
+/** Company: what HLLMR Ventures is, how it operates, and a short founder note (the 2026-08 home-page bio, moved here). */
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import PageHead from "../../components/PageHead.astro";
+import { CONTACT_EMAIL, FOUNDER, LINKS, LOCALITY, OWNER } from "../../lib/site";
+---
+
+<BaseLayout
+  title="Company · HLLMR Ventures"
+  description="HLLMR Ventures LLC is a Texas company that builds software with AI agents and helps teams do the same, using the discipline of building-systems commissioning."
+  sheet="Company"
+>
+  <PageHead
+    dwg="DWG C-001 · Company"
+    title="HLLMR Ventures"
+    lede="A small Texas company that builds software, runs it, and helps others build with AI agents without losing track of what is true."
+  />
+
+  <section class="section">
+    <div class="wrap co">
+      <dl class="spec ident">
+        <dt>Entity</dt><dd>{OWNER}, a Texas limited liability company</dd>
+        <dt>Based</dt><dd>{LOCALITY}</dd>
+        <dt>Founder</dt><dd>{FOUNDER}</dd>
+        <dt>Contact</dt><dd><a href={`mailto:${CONTACT_EMAIL}`}>{CONTACT_EMAIL}</a></dd>
+        <dt>Code</dt><dd><a href={LINKS.github} rel="noopener">github.com/HLLMR</a></dd>
+      </dl>
+
+      <div class="prose">
+        <h2>Operating principles</h2>
+        <ol class="principles">
+          <li><strong>Witness it.</strong> A claim that something works is checked by running it. A control that has never been seen to refuse anything is an assumption.</li>
+          <li><strong>Keep the record.</strong> Decisions are written down with the options that were rejected, on the day they are made.</li>
+          <li><strong>A person decides.</strong> Agents do bounded work. Merges, releases and production changes wait for a named person's approval.</li>
+          <li><strong>Prove the way back.</strong> Rollback and restore are exercised before a change is approved, not discovered after it fails.</li>
+          <li><strong>Own the stack.</strong> We run our own infrastructure and prefer that clients can run theirs.</li>
+          <li><strong>Say the limits.</strong> Every case study ends with what it does not prove.</li>
+        </ol>
+
+        <h2>From the founder</h2>
+        <p>I build control systems, and lately I build software the way I was trained to build control systems.</p>
+        <p>
+          Twenty years in building automation and integrated building systems: the controls, physical security, fire, and
+          networks that run a building, and the commissioning discipline that proves they do what the drawings say. Before
+          that, the Navy's nuclear program, where you assume nothing works until you have watched it work.
+        </p>
+        <p>
+          Now I build software with AI coding agents every day, and the same discipline turns out to be the missing piece.
+          An agent will report a task complete when it is not. A control nobody has watched deny anything is an assumption.
+          A plan regenerated from the code launders drift into the record. None of that is new. It is the failure mode
+          every commissioning engineer already knows, arriving in an industry that has not learned to distrust a status
+          point yet.
+        </p>
+        <p class="sig anno">{FOUNDER}, founder</p>
+      </div>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .co {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1.8fr);
+    gap: clamp(24px, 5vw, 72px);
+    align-items: start;
+  }
+  .ident {
+    border: 1.5px solid var(--text);
+    background: var(--surface);
+    padding: 4px 16px;
+  }
+  .ident > :nth-last-child(-n + 2) {
+    border-bottom: 0;
+  }
+  .ident {
+    border-top: 1.5px solid var(--text);
+  }
+  .prose h2:first-child {
+    margin-top: 0;
+  }
+  .principles {
+    padding-left: 1.3em;
+  }
+  .principles li {
+    margin-bottom: var(--space-3);
+  }
+  .principles li::marker {
+    font-family: var(--font-mono);
+    font-size: 0.8rem;
+    color: var(--accent);
+  }
+  .sig {
+    margin-top: var(--space-5);
+  }
+  @media (max-width: 900px) {
+    .co {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

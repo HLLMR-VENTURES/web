@@ -1,0 +1,133 @@
+---
+/** Case study: Silo. Facts are public and checkable (repository, releases, the site, the API). */
+import BaseLayout from "../../../layouts/BaseLayout.astro";
+import PageHead from "../../../components/PageHead.astro";
+import { LINKS } from "../../../lib/site";
+---
+
+<BaseLayout
+  title="Silo case study · HLLMR Ventures"
+  description="How HLLMR Ventures built and ships Silo, a free, open-source Farming Simulator 25 mod manager: a code-signed desktop app, a public catalog API and a Discord bot, built with AI agents under review."
+  sheet="Case study: Silo"
+  ogType="article"
+>
+  <PageHead
+    dwg="DWG P-01 · Case study"
+    title="Silo"
+    lede="A free, open-source mod manager for Farming Simulator 25. Built and released by one developer working with AI coding agents, and run on HLLMR's own infrastructure."
+  >
+    <p class="links">
+      <a class="btn btn-primary" href={LINKS.silo}>silo.hllmr.com</a>
+      <a class="btn btn-ghost" href={LINKS.siloSource} rel="noopener">Source on GitHub</a>
+    </p>
+  </PageHead>
+
+  <section class="section">
+    <div class="wrap cs">
+      <aside class="facts" aria-label="Project facts">
+        <dl class="spec">
+          <dt>Started</dt><dd>July 2026</dd>
+          <dt>Status</dt><dd>Public beta, 18 public releases by 18 October 2026</dd>
+          <dt>License</dt><dd>MIT</dd>
+          <dt>Platforms</dt><dd>Windows, code-signed and tested; macOS and Linux preview</dd>
+          <dt>Desktop</dt><dd>Rust and Tauri, Svelte UI</dd>
+          <dt>Services</dt><dd>Public catalog API, Discord bot, project site</dd>
+          <dt>Hosting</dt><dd>Self-hosted on the <a href="/projects/self-hosted-stack/">HLLMR stack</a></dd>
+        </dl>
+      </aside>
+
+      <div class="prose">
+        <h2>The problem</h2>
+        <p>
+          Farming Simulator 25 reads a single mods folder, and everything in it is active at once. Players run hundreds of
+          community mods. When the game crashes, finding the one mod responsible can take the whole evening, and conflicts
+          between mods often show up only after a long load.
+        </p>
+
+        <h2>What was built</h2>
+        <p>
+          Silo adds a management layer on top of that folder without editing inside any mod. It parses the game's log,
+          separates real errors from noise and ranks mods by the errors they caused. It flags conflicts before launch, keeps
+          a tidy library, switches between loadouts and can bisect a broken set automatically. A cross-source catalog,
+          served by a public read API, records where each mod comes from and lets Silo check an installed mod against the
+          build its author published.
+        </p>
+        <p>
+          Around the app sit the pieces a real product needs: a project site, a Discord bot for the community, signed
+          Windows installers with published verification steps, and a release pipeline.
+        </p>
+
+        <h2>How it was built</h2>
+        <p>
+          The code was written largely by AI coding agents, in bounded tasks, with a person reviewing each result against
+          what was asked. The agents work inside written roles. The application agent owns the app and its release
+          requests. A separate infrastructure agent owns hosting. Neither merges or releases without the owner's recorded
+          approval.
+        </p>
+        <p>
+          Every server-side release goes through a request record: what changes, what was tested, how it rolls back and
+          what was actually verified afterwards. Rollback is exercised before the approval is asked for. Health checks
+          ("it answers") are reported separately from functional tests ("it does the job").
+        </p>
+
+        <h2>What it shows</h2>
+        <ul>
+          <li>A small operation can ship and run a complete product, desktop, API, bot and site, when the agents' speed comes with review discipline.</li>
+          <li>Public, checkable artifacts: the source, the release history and the signed installers are all on GitHub.</li>
+          <li>
+            The site publishes its own aggregate usage counts, with no IP addresses kept, at
+            <a href="https://silo.hllmr.com/metrics.json">silo.hllmr.com/metrics.json</a>.
+          </li>
+        </ul>
+
+        <h2>Limits, stated plainly</h2>
+        <p>
+          Silo is in public beta. Windows is the tested platform; macOS and Linux builds are a preview. It is a free
+          hobbyist product, not a commercial engagement, so it shows how HLLMR builds, not a client outcome.
+        </p>
+      </div>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .links {
+    display: flex;
+    gap: 14px;
+    flex-wrap: wrap;
+    margin-top: var(--space-5);
+  }
+  .cs {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 2fr);
+    gap: clamp(24px, 5vw, 72px);
+    align-items: start;
+  }
+  .facts {
+    position: sticky;
+    top: 96px;
+    border: 1.5px solid var(--text);
+    background: var(--surface);
+    padding: 6px 16px 10px;
+  }
+  .facts .spec {
+    border-top: 0;
+  }
+  .facts .spec > :nth-last-child(-n + 2) {
+    border-bottom: 0;
+  }
+  .prose h2:first-child {
+    margin-top: 0;
+  }
+  .prose li::marker {
+    color: var(--accent);
+  }
+  @media (max-width: 900px) {
+    .cs {
+      grid-template-columns: 1fr;
+    }
+    .facts {
+      position: static;
+    }
+  }
+</style>

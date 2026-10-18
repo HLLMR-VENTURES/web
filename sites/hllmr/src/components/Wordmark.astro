@@ -1,0 +1,97 @@
+---
+/**
+ * The hllmr wordmark: a plumb line and bob hang through the second "l". On first paint the bob
+ * swings and settles true (CSS only; still under prefers-reduced-motion). Carried over from the
+ * 2026-08 site's mark.
+ */
+interface Props {
+  size?: "sm" | "lg";
+}
+const { size = "sm" } = Astro.props;
+---
+
+<span class:list={["wm", size]} aria-hidden="true"
+  >h<span class="l">l<span class="plumb"><span class="cord"></span><span class="bob"></span></span></span>lmr</span
+>
+
+<style>
+  .wm {
+    font-family: var(--font-mono);
+    font-weight: 500;
+    letter-spacing: 0.02em;
+    color: var(--text);
+    display: inline-block;
+    line-height: 1;
+  }
+  .sm {
+    font-size: 1.12rem;
+  }
+  .lg {
+    font-size: clamp(2.6rem, 1.6rem + 4vw, 4.6rem);
+    font-weight: 400;
+  }
+  .l {
+    position: relative;
+    display: inline-block;
+  }
+  .plumb {
+    position: absolute;
+    left: 50%;
+    top: -0.12em;
+    width: 0;
+    height: 1.62em;
+    transform-origin: 0 0;
+    animation: settle 2.6s cubic-bezier(0.25, 0.6, 0.3, 1) 0.15s both;
+  }
+  .cord {
+    position: absolute;
+    left: -1px;
+    top: 0;
+    width: 2px;
+    height: 100%;
+    background: var(--primary);
+    border-radius: 2px;
+  }
+  .lg .cord {
+    left: -1.5px;
+    width: 3px;
+  }
+  .bob {
+    position: absolute;
+    left: 0;
+    top: 100%;
+    width: 0.38em;
+    height: 0.46em;
+    transform: translate(-50%, -0.06em);
+    background: var(--accent);
+    clip-path: polygon(50% 100%, 0 30%, 18% 0, 82% 0, 100% 30%);
+  }
+  @keyframes settle {
+    0% {
+      transform: rotate(16deg);
+    }
+    22% {
+      transform: rotate(-10deg);
+    }
+    42% {
+      transform: rotate(6deg);
+    }
+    60% {
+      transform: rotate(-3deg);
+    }
+    76% {
+      transform: rotate(1.4deg);
+    }
+    90% {
+      transform: rotate(-0.5deg);
+    }
+    100% {
+      transform: rotate(0deg);
+    }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .plumb {
+      animation: none;
+    }
+  }
+</style>

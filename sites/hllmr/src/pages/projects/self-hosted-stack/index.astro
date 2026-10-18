@@ -1,0 +1,137 @@
+---
+/**
+ * Case study: the self-hosted business stack. Deliberately high level (owner decision 2026-10-18):
+ * no hostnames, addresses, versions, ports or provider account details.
+ */
+import BaseLayout from "../../../layouts/BaseLayout.astro";
+import PageHead from "../../../components/PageHead.astro";
+---
+
+<BaseLayout
+  title="Self-hosted business stack case study · HLLMR Ventures"
+  description="How HLLMR Ventures runs its own mail, files, documents, automation and app hosting on infrastructure it controls, operated with AI agents under written roles and owner approvals."
+  sheet="Case study: stack"
+  ogType="article"
+>
+  <PageHead
+    dwg="DWG P-02 · Case study"
+    title="A business stack we run ourselves"
+    lede="HLLMR runs its mail, files, documents, automation and products on infrastructure it controls, instead of renting each one by the seat. AI agents do much of the operating work. A person approves every change."
+  />
+
+  <section class="section">
+    <div class="wrap cs">
+      <aside class="facts" aria-label="Stack summary">
+        <table class="schedule">
+          <caption class="anno">Systems schedule</caption>
+          <tbody>
+            <tr><th scope="row">Mail</th><td>Business mail on our own server, with a backup mail exchanger at the recovery site</td></tr>
+            <tr><th scope="row">Files</th><td>File sync and online document editing</td></tr>
+            <tr><th scope="row">Automation</th><td>Workflow automation between services</td></tr>
+            <tr><th scope="row">Apps</th><td>Silo's API, bot and site; this website</td></tr>
+            <tr><th scope="row">Recovery</th><td>Encrypted off-host backups, a second site in another country, restore drills</td></tr>
+            <tr><th scope="row">Watch</th><td>Uptime monitoring and push alerts to the owner</td></tr>
+          </tbody>
+        </table>
+      </aside>
+
+      <div class="prose">
+        <h2>Why run it ourselves</h2>
+        <p>
+          Per-seat cloud suites are convenient until the business wants to know where its data lives, what happens when
+          an account is locked, or what the fifth year costs. Running the stack on owned and leased hardware trades that
+          convenience for control. The catch is operating work, which used to need a team. That is the work the agents do.
+        </p>
+
+        <h2>How it is operated</h2>
+        <p>
+          Every operating agent has a written role. An infrastructure agent owns the infrastructure code and performs
+          changes. An advisory agent reviews plans and reports but changes nothing. Application agents own their own
+          services. All of them work in branches and pull requests. Nothing merges, and nothing changes in production,
+          until the owner authorizes that specific change in writing.
+        </p>
+        <p>
+          Decisions are kept as numbered decision records on the day they are made, with the options that were turned
+          down. Each change to a running service has a request record that says what will change, how it rolls back and
+          what was verified afterwards.
+        </p>
+
+        <h2>Recovery is proven, not assumed</h2>
+        <p>
+          A backup that has never been restored is an assumption. Backups are encrypted and stored off the host they
+          protect. Restores are drilled into isolated machines and the result is written down, including what the drill
+          did not cover. Virtual machines replicate to a recovery site in a second country. Storage is scrubbed on a
+          schedule, and a missed scrub raises an alert instead of passing silently. The keys needed to read the backups are
+          held in escrow, and the escrow itself is checked.
+        </p>
+
+        <h2>Defaults that stay off</h2>
+        <p>
+          Every system that could send mail or messages is off by default and turned on only by a recorded decision. This
+          website sends nothing. A contact link opens your own mail program, and no form on this site stores or forwards
+          anything.
+        </p>
+
+        <h2>What it shows</h2>
+        <ul>
+          <li>Agents can carry real operating load when the work is bounded, recorded and approved.</li>
+          <li>Owning the infrastructure is practical for a small business once the operating discipline is written down.</li>
+          <li>The same method we would bring to a client's systems, tested on our own first.</li>
+        </ul>
+
+        <h2>Limits, stated plainly</h2>
+        <p>
+          This is our own infrastructure, described at a high level on purpose; we do not publish its layout. Full
+          bare-metal recovery and restoring from outside the estate have not yet been proven end to end, and we say so in
+          our own records too.
+        </p>
+      </div>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .cs {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1.8fr);
+    gap: clamp(24px, 5vw, 72px);
+    align-items: start;
+  }
+  .facts {
+    position: sticky;
+    top: 96px;
+  }
+  .facts th {
+    font-family: var(--font-mono);
+    font-size: 0.66rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--muted);
+    white-space: nowrap;
+    background: var(--raised);
+  }
+  .facts td {
+    font-size: 0.9rem;
+  }
+  .prose h2:first-child {
+    margin-top: 0;
+  }
+  .prose li::marker {
+    color: var(--accent);
+  }
+  @media (max-width: 900px) {
+    .cs {
+      grid-template-columns: 1fr;
+    }
+    .facts {
+      position: static;
+    }
+  }
+  @media (max-width: 620px) {
+    .facts th {
+      display: block;
+      padding: 12px 12px 0;
+      background: transparent;
+    }
+  }
+</style>

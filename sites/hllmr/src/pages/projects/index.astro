@@ -1,0 +1,24 @@
+---
+/** Projects index (the 2026-08 URL, kept): the full project schedule. */
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import PageHead from "../../components/PageHead.astro";
+import ProjectSchedule from "../../components/ProjectSchedule.astro";
+import { PROJECTS } from "../../lib/projects";
+---
+
+<BaseLayout
+  title="Projects · HLLMR Ventures"
+  description="HLLMR Ventures projects: Silo, a self-hosted business stack, the Writwall method, Conset, stratum-dsp, Farming Simulator 25 mods and open-source agent tooling."
+  sheet="Projects"
+>
+  <PageHead
+    dwg="DWG P-001 · Project schedule"
+    title="Projects"
+    lede="What HLLMR has built and runs. Where something is public, the link is here so you can check it rather than take our word."
+  />
+  <section class="section">
+    <div class="wrap">
+      <ProjectSchedule projects={PROJECTS} caption="Schedule of projects, current revision" />
+    </div>
+  </section>
+</BaseLayout>

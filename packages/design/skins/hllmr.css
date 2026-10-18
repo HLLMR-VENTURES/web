@@ -1,0 +1,71 @@
+/* HLLMR skin: "drawing sheet". Light is drafting vellum (ink on warm paper, blueprint-blue line,
+ * red-pen accent); dark is a blueprint (navy ground, pale line work, amber redline). The plumb-line
+ * blue (#2b5aa6) and redline (#b3261e) carry over from the 2026-08 hllmr.com wordmark.
+ * Contrast (WCAG): --text and --muted on --bg >= 4.5:1, --primary on --bg >= 4.5:1, --focus >= 3:1
+ * on --bg and --surface, in both themes. */
+:root {
+  --font-display: "Archivo Variable", "Archivo", "Arial Narrow", system-ui, sans-serif;
+  --font-ui: "Archivo Variable", "Archivo", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-mono: "Martian Mono Variable", "Martian Mono", ui-monospace, "Cascadia Code", Consolas, monospace;
+
+  /* Light: vellum. */
+  --bg: #f2efe6;
+  --surface: #f7f5ee;
+  --raised: #fffdf7;
+  --border: #d3cdbd;
+  --rule: #b9b2a0;
+  --text: #15181b;
+  --muted: #565b61; /* 6.4:1 on --bg */
+  --primary: #1f4f9c; /* 7.4:1 on --bg */
+  --primary-hover: #163b77;
+  --on-primary: #ffffff;
+  --accent: #b3261e; /* redline */
+  --grid: rgba(31, 79, 156, 0.075);
+  --grid-major: rgba(31, 79, 156, 0.12);
+  --focus: #b3261e; /* 5.9:1 on --bg */
+  --shadow-1: 0 1px 0 rgba(21, 24, 27, 0.06), 0 10px 30px rgba(60, 50, 20, 0.07);
+  --shadow-2: 0 14px 44px rgba(30, 25, 10, 0.16);
+  color-scheme: light;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #0c1a2c;
+    --surface: #0f2034;
+    --raised: #132840;
+    --border: #284563;
+    --rule: #3b5f86;
+    --text: #e4ecf6;
+    --muted: #9db1c9; /* 8.1:1 on --bg */
+    --primary: #9cc0f4; /* 9.5:1 on --bg */
+    --primary-hover: #c3daf9;
+    --on-primary: #0c1a2c;
+    --accent: #ffab73; /* amber redline, 9.4:1 on --bg */
+    --grid: rgba(156, 192, 244, 0.06);
+    --grid-major: rgba(156, 192, 244, 0.11);
+    --focus: #ffab73;
+    --shadow-1: 0 1px 0 rgba(0, 0, 0, 0.3), 0 10px 30px rgba(0, 0, 0, 0.3);
+    --shadow-2: 0 14px 44px rgba(0, 0, 0, 0.5);
+    color-scheme: dark;
+  }
+}
+
+:root[data-theme="dark"] {
+  --bg: #0c1a2c;
+  --surface: #0f2034;
+  --raised: #132840;
+  --border: #284563;
+  --rule: #3b5f86;
+  --text: #e4ecf6;
+  --muted: #9db1c9;
+  --primary: #9cc0f4;
+  --primary-hover: #c3daf9;
+  --on-primary: #0c1a2c;
+  --accent: #ffab73;
+  --grid: rgba(156, 192, 244, 0.06);
+  --grid-major: rgba(156, 192, 244, 0.11);
+  --focus: #ffab73;
+  --shadow-1: 0 1px 0 rgba(0, 0, 0, 0.3), 0 10px 30px rgba(0, 0, 0, 0.3);
+  --shadow-2: 0 14px 44px rgba(0, 0, 0, 0.5);
+  color-scheme: dark;
+}

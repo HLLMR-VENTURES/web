@@ -7,19 +7,23 @@
   "type": "module",
   "exports": {
     "./silo.css": "./silo.css",
+    "./hllmr.css": "./hllmr.css",
     "./tokens/*": "./tokens/*",
     "./skins/*": "./skins/*",
     "./components/*": "./components/*"
   },
   "files": [
     "silo.css",
+    "hllmr.css",
     "tokens",
     "skins",
     "components"
   ],
   "dependencies": {
+    "@fontsource-variable/archivo": "5.3.0",
     "@fontsource-variable/fraunces": "5.3.0",
     "@fontsource-variable/hanken-grotesk": "5.3.0",
+    "@fontsource-variable/martian-mono": "5.3.0",
     "@fontsource/jetbrains-mono": "5.3.0"
   }
 }

@@ -1,0 +1,240 @@
+/* hllmr.com site styles on top of @hllmr/design (core tokens + HLLMR skin + base).
+ * Visual language: a drawing sheet. Faint drafting grid, ink rules, mono annotations, schedules
+ * drawn as tables, a title block in the footer. Components keep their own scoped styles; this file
+ * holds what every page shares. */
+
+html {
+  background: var(--bg);
+}
+
+body {
+  font-size: 17.5px;
+  font-variation-settings: normal;
+  background-color: var(--bg);
+  background-image:
+    linear-gradient(var(--grid-major) 1px, transparent 1px),
+    linear-gradient(90deg, var(--grid-major) 1px, transparent 1px),
+    linear-gradient(var(--grid) 1px, transparent 1px),
+    linear-gradient(90deg, var(--grid) 1px, transparent 1px);
+  background-size:
+    96px 96px,
+    96px 96px,
+    16px 16px,
+    16px 16px;
+  background-position: -1px -1px;
+}
+
+::selection {
+  background: color-mix(in srgb, var(--accent) 28%, transparent);
+}
+
+h1,
+h2,
+h3 {
+  font-weight: 760;
+  font-stretch: 112%;
+  letter-spacing: -0.012em;
+  line-height: 1.08;
+}
+
+a {
+  color: var(--primary);
+  text-decoration-thickness: 1px;
+  text-underline-offset: 3px;
+}
+a:hover {
+  color: var(--primary-hover);
+}
+
+main:focus {
+  outline: none;
+}
+
+/* Mono annotation text: tags, labels, eyebrows. */
+.eyebrow,
+.anno {
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+.anno-red {
+  color: var(--accent);
+}
+
+/* Page section rhythm. */
+.section {
+  padding: var(--space-8) 0;
+}
+.section + .section {
+  border-top: 1px solid var(--border);
+}
+.section-head {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: var(--space-2);
+  margin-bottom: var(--space-6);
+}
+.section-head h2 {
+  font-size: var(--text-2xl);
+}
+.section-head p {
+  margin: 0;
+  max-width: 62ch;
+  color: var(--muted);
+}
+
+/* Page header used by inner pages: sheet number, title, lede. */
+.page-head {
+  padding: var(--space-8) 0 var(--space-6);
+  border-bottom: 1.5px solid var(--text);
+}
+.page-head h1 {
+  font-size: var(--text-3xl);
+  font-stretch: 118%;
+  max-width: 18ch;
+  margin-top: var(--space-3);
+}
+.page-head .lede {
+  font-size: var(--text-lg);
+  max-width: 60ch;
+  margin: var(--space-4) 0 0;
+}
+
+/* Long-form text. */
+.prose {
+  max-width: 68ch;
+}
+.prose p,
+.prose li {
+  font-size: 1.04rem;
+  line-height: 1.68;
+}
+.prose h2 {
+  font-size: var(--text-xl);
+  margin: var(--space-7) 0 var(--space-3);
+}
+.prose h3 {
+  font-size: var(--text-lg);
+  margin: var(--space-6) 0 var(--space-2);
+}
+.prose hr {
+  border: 0;
+  border-top: 1px solid var(--rule);
+  margin: var(--space-7) 0;
+}
+.prose blockquote {
+  margin: var(--space-5) 0;
+  padding-left: var(--space-4);
+  border-left: 2px solid var(--accent);
+}
+
+/* Schedules: tables drawn like an equipment schedule on a drawing. */
+.schedule {
+  width: 100%;
+  border-collapse: collapse;
+  border: 1.5px solid var(--text);
+  background: var(--surface);
+  font-size: 0.95rem;
+}
+.schedule caption {
+  caption-side: top;
+  text-align: left;
+  padding-bottom: var(--space-2);
+}
+.schedule th,
+.schedule td {
+  border: 1px solid var(--rule);
+  padding: 10px 12px;
+  text-align: left;
+  vertical-align: top;
+}
+.schedule thead th {
+  font-family: var(--font-mono);
+  font-size: 0.66rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--muted);
+  background: var(--raised);
+  border-bottom: 1.5px solid var(--text);
+}
+.schedule .tag {
+  font-family: var(--font-mono);
+  font-size: 0.78rem;
+  white-space: nowrap;
+  color: var(--accent);
+}
+.schedule td p {
+  margin: 0;
+}
+
+/* Specification list (key: value rows). */
+.spec {
+  display: grid;
+  grid-template-columns: max-content minmax(0, 1fr);
+  margin: 0;
+  border-top: 1px solid var(--rule);
+}
+.spec dt,
+.spec dd {
+  margin: 0;
+  padding: 9px 0;
+  border-bottom: 1px solid var(--rule);
+}
+.spec dt {
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--muted);
+  padding-right: var(--space-5);
+  padding-top: 12px;
+}
+
+.btn {
+  border-radius: 2px;
+  font-weight: 650;
+  letter-spacing: 0.01em;
+}
+.btn-primary {
+  box-shadow: 3px 3px 0 var(--text);
+}
+.btn-primary:hover {
+  transform: translate(-1px, -1px);
+  box-shadow: 4px 4px 0 var(--text);
+}
+.btn-ghost {
+  border-color: var(--text);
+}
+
+@media (max-width: 620px) {
+  .section {
+    padding: var(--space-7) 0;
+  }
+  .schedule thead {
+    display: none;
+  }
+  .schedule,
+  .schedule tbody,
+  .schedule tr,
+  .schedule td {
+    display: block;
+    width: 100%;
+  }
+  .schedule tr {
+    border-bottom: 1.5px solid var(--text);
+  }
+  .schedule td {
+    border: 0;
+    padding: 6px 12px;
+  }
+  .schedule td:first-child {
+    padding-top: 12px;
+  }
+  .schedule td:last-child {
+    padding-bottom: 12px;
+  }
+}
