@@ -18,10 +18,11 @@
     "test": "npm run build && npm run check && npm run test:contract",
     "test:contract": "node --test \"tests/**/*.test.mjs\"",
     "test:contract:nginx": "bash tests/url-contract/run-nginx.sh",
-    "check": "node scripts/check-built-html.mjs sites/silo/dist && html-validate \"sites/silo/dist/**/*.html\" && node scripts/gen-nginx-redirects.mjs --check",
+    "check": "node scripts/check-built-html.mjs sites/silo/dist && html-validate \"sites/silo/dist/**/*.html\" && node scripts/check-internal-links.mjs sites/silo/dist && node scripts/gen-nginx-redirects.mjs --check",
     "gen:redirects": "node scripts/gen-nginx-redirects.mjs",
     "fixtures": "node scripts/fixture-api.mjs",
-    "artifact": "bash scripts/make-artifact.sh sites/silo/dist"
+    "artifact": "bash scripts/make-artifact.sh sites/silo/dist",
+    "check:links": "node scripts/check-internal-links.mjs sites/silo/dist"
   },
   "devDependencies": {
     "html-validate": "11.16.3"

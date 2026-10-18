@@ -11,4 +11,4 @@ Thumbs.db
 # Proton Drive / sync-client clash artifacts
 *(# Name clash*
 *(# Delete conflict*
-.lycheeignore
+lychee.pending.toml
