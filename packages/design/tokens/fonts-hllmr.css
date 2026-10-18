@@ -1,5 +1,12 @@
 /* Self-hosted fonts for hllmr.com (SIL OFL 1.1), bundled by the site build: no font CDN, no
- * third-party request. Archivo carries both a weight and a width axis (62%-125%), so one family
- * covers expanded display headings and condensed labels; Martian Mono sets tags and annotations. */
+ * third-party request. Heraldry direction (owner decision 2026-10-18):
+ *   Bodoni Moda (optical-size axis) for display and blazons, 28 px and up only;
+ *   Archivo (weight and width axes) for body, interface and labels;
+ *   IBM Plex Mono for hex values, ratios, register codes and the provenance line. */
+@import "@fontsource-variable/bodoni-moda/opsz.css";
+@import "@fontsource-variable/bodoni-moda/opsz-italic.css";
 @import "@fontsource-variable/archivo/wdth.css";
-@import "@fontsource-variable/martian-mono/index.css";
+@import "@fontsource/ibm-plex-mono/latin-400.css";
+@import "@fontsource/ibm-plex-mono/latin-ext-400.css";
+@import "@fontsource/ibm-plex-mono/latin-500.css";
+@import "@fontsource/ibm-plex-mono/latin-ext-500.css";

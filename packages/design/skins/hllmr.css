@@ -1,130 +1,104 @@
-/* HLLMR skins for hllmr.com.
+/* HLLMR skin for hllmr.com: modern heraldry (owner decision 2026-10-18).
  *
- * Hub (default, :root): HLLMR Ventures, the incubator. Industry-neutral: ink on warm paper, a single
- * signal red, near-black in dark mode. Ventures bring their own accent (--venture) per row.
+ * Tinctures are the marks' colours. They are constant across light and dark; only the outline
+ * around a mark changes (--edge: Sable on light grounds, Argent on dark). Page tokens around them
+ * are neutral, so the only saturated colour on a page comes from the arms themselves.
  *
- * Build (:root[data-skin="build"]): the AI-assisted development venture at /build/. "Drawing sheet":
- * drafting vellum in light, blueprint in dark, red-pen accent. Set by BaseLayout's `skin` prop.
+ * Rule of tincture = contrast rule: every coat is one metal (Argent, Or) on one colour, and every
+ * permitted pair clears 3:1 for graphics (WCAG 1.4.11). Text is Argent on a colour or Sable on a
+ * metal, at 4.5:1 or better.
  *
- * Contrast (WCAG): --text and --muted on --bg >= 4.5:1, --primary on --bg >= 4.5:1, --focus >= 3:1
- * on --bg and --surface, in every skin and theme. */
+ * Venture pages set data-skin="<venture>"; that only changes --venture (the venture's field
+ * tincture, used for accents). Contrast: --text and --muted on --bg >= 4.5:1, --primary on --bg
+ * >= 4.5:1, --focus >= 3:1 on --bg and --surface, in both themes. */
 :root {
-  --font-display: "Archivo Variable", "Archivo", "Arial Narrow", system-ui, sans-serif;
-  --font-ui: "Archivo Variable", "Archivo", system-ui, -apple-system, "Segoe UI", sans-serif;
-  --font-mono: "Martian Mono Variable", "Martian Mono", ui-monospace, "Cascadia Code", Consolas, monospace;
+  /* Tinctures (fixed). */
+  --t-argent: #f3f4f5;
+  --t-or: #e3b23c;
+  --t-sable: #14161a;
+  --t-azure: #1a4480;
+  --t-gules: #a3262a;
+  --t-vert: #36602a;
+  --t-purpure: #5a3672;
 
-  /* Hub, light: paper. */
-  --bg: #f4f2ec;
-  --surface: #faf9f5;
+  --font-display: "Bodoni Moda Variable", "Bodoni Moda", "Bodoni 72", Didot, Georgia, serif;
+  --font-ui: "Archivo Variable", "Archivo", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-mono: "IBM Plex Mono", ui-monospace, "Cascadia Code", Consolas, monospace;
+
+  /* Page, light. */
+  --bg: #e9ecef;
+  --surface: #f6f7f8;
   --raised: #ffffff;
-  --border: #dedad0;
-  --rule: #c4bfb2;
-  --text: #121212;
-  --muted: #5a5a57; /* 6.5:1 on --bg */
-  --primary: #121212;
-  --primary-hover: #b8261a;
-  --on-primary: #f4f2ec;
-  --accent: #b8261a; /* HLLMR red, 5.9:1 on --bg */
+  --border: #dce0e5;
+  --rule: #c3c9d1;
+  --text: #14161a;
+  --muted: #525a66; /* 6.1:1 on --bg */
+  --primary: #1a4480; /* Azure, 7.6:1 on --bg */
+  --primary-hover: #14161a;
+  --on-primary: #f3f4f5;
+  --accent: #1a4480;
+  --edge: #14161a;
+  --venture: #14161a;
   --grid: transparent;
   --grid-major: transparent;
-  --focus: #b8261a;
-  --shadow-1: 0 1px 0 rgba(0, 0, 0, 0.05), 0 10px 30px rgba(40, 30, 10, 0.06);
-  --shadow-2: 0 14px 44px rgba(20, 15, 5, 0.14);
+  --focus: #1a4480;
+  --ok: #2e6a3a;
+  --shadow-1: 0 1px 0 rgba(0, 0, 0, 0.04);
+  --shadow-2: 0 14px 44px rgba(20, 22, 26, 0.14);
   color-scheme: light;
 }
 
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme="light"]) {
-    --bg: #101010;
-    --surface: #161616;
-    --raised: #1d1d1d;
-    --border: #2c2c2a;
-    --rule: #3d3d3a;
-    --text: #ecebe6;
-    --muted: #a3a29c; /* 7.6:1 on --bg */
-    --primary: #ecebe6;
-    --primary-hover: #ff7a63;
-    --on-primary: #101010;
-    --accent: #ff6a52; /* 6.9:1 on --bg */
-    --focus: #ff6a52;
-    --shadow-1: 0 1px 0 rgba(0, 0, 0, 0.4), 0 10px 30px rgba(0, 0, 0, 0.35);
+    --bg: #0e1013;
+    --surface: #16191d;
+    --raised: #1c2025;
+    --border: #1f242a;
+    --rule: #2b3139;
+    --text: #eceef1;
+    --muted: #9ba3ae; /* 7.6:1 on --bg */
+    --primary: #e3b23c; /* Or, 9.6:1 on --bg */
+    --primary-hover: #f3f4f5;
+    --on-primary: #14161a;
+    --accent: #e3b23c;
+    --edge: #e6e8eb;
+    --venture: #eceef1;
+    --focus: #e3b23c;
+    --ok: #7dba86;
     --shadow-2: 0 14px 44px rgba(0, 0, 0, 0.5);
     color-scheme: dark;
   }
 }
 
 :root[data-theme="dark"] {
-  --bg: #101010;
-  --surface: #161616;
-  --raised: #1d1d1d;
-  --border: #2c2c2a;
-  --rule: #3d3d3a;
-  --text: #ecebe6;
-  --muted: #a3a29c;
-  --primary: #ecebe6;
-  --primary-hover: #ff7a63;
-  --on-primary: #101010;
-  --accent: #ff6a52;
-  --focus: #ff6a52;
-  --shadow-1: 0 1px 0 rgba(0, 0, 0, 0.4), 0 10px 30px rgba(0, 0, 0, 0.35);
+  --bg: #0e1013;
+  --surface: #16191d;
+  --raised: #1c2025;
+  --border: #1f242a;
+  --rule: #2b3139;
+  --text: #eceef1;
+  --muted: #9ba3ae;
+  --primary: #e3b23c;
+  --primary-hover: #f3f4f5;
+  --on-primary: #14161a;
+  --accent: #e3b23c;
+  --edge: #e6e8eb;
+  --venture: #eceef1;
+  --focus: #e3b23c;
+  --ok: #7dba86;
   --shadow-2: 0 14px 44px rgba(0, 0, 0, 0.5);
   color-scheme: dark;
 }
 
-/* Build venture, light: vellum. */
+/* Venture accents: the venture's field tincture in light, a lighter tint of it in dark. */
 :root[data-skin="build"] {
-  --bg: #f2efe6;
-  --surface: #f7f5ee;
-  --raised: #fffdf7;
-  --border: #d3cdbd;
-  --rule: #b9b2a0;
-  --text: #15181b;
-  --muted: #565b61; /* 6.4:1 on --bg */
-  --primary: #1f4f9c; /* 7.4:1 on --bg */
-  --primary-hover: #163b77;
-  --on-primary: #ffffff;
-  --accent: #b3261e; /* redline */
-  --grid: rgba(31, 79, 156, 0.075);
-  --grid-major: rgba(31, 79, 156, 0.12);
-  --focus: #b3261e; /* 5.9:1 on --bg */
-  color-scheme: light;
+  --venture: #1a4480;
 }
-
-/* Build venture, dark: blueprint. */
 @media (prefers-color-scheme: dark) {
   :root[data-skin="build"]:not([data-theme="light"]) {
-    --bg: #0c1a2c;
-    --surface: #0f2034;
-    --raised: #132840;
-    --border: #284563;
-    --rule: #3b5f86;
-    --text: #e4ecf6;
-    --muted: #9db1c9; /* 8.1:1 on --bg */
-    --primary: #9cc0f4; /* 9.5:1 on --bg */
-    --primary-hover: #c3daf9;
-    --on-primary: #0c1a2c;
-    --accent: #ffab73; /* amber redline, 9.4:1 on --bg */
-    --grid: rgba(156, 192, 244, 0.06);
-    --grid-major: rgba(156, 192, 244, 0.11);
-    --focus: #ffab73;
-    color-scheme: dark;
+    --venture: #8fb0e6;
   }
 }
-
 :root[data-skin="build"][data-theme="dark"] {
-  --bg: #0c1a2c;
-  --surface: #0f2034;
-  --raised: #132840;
-  --border: #284563;
-  --rule: #3b5f86;
-  --text: #e4ecf6;
-  --muted: #9db1c9;
-  --primary: #9cc0f4;
-  --primary-hover: #c3daf9;
-  --on-primary: #0c1a2c;
-  --accent: #ffab73;
-  --grid: rgba(156, 192, 244, 0.06);
-  --grid-major: rgba(156, 192, 244, 0.11);
-  --focus: #ffab73;
-  color-scheme: dark;
+  --venture: #8fb0e6;
 }

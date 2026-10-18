@@ -1,27 +1,16 @@
 /* hllmr.com site styles on top of @hllmr/design (core tokens + HLLMR skin + base).
- * Visual language: a drawing sheet. Faint drafting grid, ink rules, mono annotations, schedules
- * drawn as tables, a title block in the footer. Components keep their own scoped styles; this file
- * holds what every page shares. */
+ * Visual language: modern heraldry. Neutral page, square panels, the only saturated colour comes
+ * from the arms. Bodoni Moda for display (28 px and up only), Archivo for everything else,
+ * IBM Plex Mono for records. Components keep their own scoped styles; this file holds what every
+ * page shares. */
 
 html {
   background: var(--bg);
 }
 
 body {
-  font-size: 17.5px;
-  font-variation-settings: normal;
+  font-size: 17px;
   background-color: var(--bg);
-  background-image:
-    linear-gradient(var(--grid-major) 1px, transparent 1px),
-    linear-gradient(90deg, var(--grid-major) 1px, transparent 1px),
-    linear-gradient(var(--grid) 1px, transparent 1px),
-    linear-gradient(90deg, var(--grid) 1px, transparent 1px);
-  background-size:
-    96px 96px,
-    96px 96px,
-    16px 16px,
-    16px 16px;
-  background-position: -1px -1px;
 }
 
 ::selection {
@@ -29,12 +18,18 @@ body {
 }
 
 h1,
-h2,
-h3 {
-  font-weight: 760;
-  font-stretch: 112%;
+h2 {
+  font-family: var(--font-display);
+  font-weight: 450;
+  font-optical-sizing: auto;
   letter-spacing: -0.012em;
-  line-height: 1.08;
+  line-height: 1.04;
+}
+h3 {
+  font-family: var(--font-ui);
+  font-weight: 650;
+  letter-spacing: 0;
+  line-height: 1.2;
 }
 
 a {
@@ -53,10 +48,11 @@ main:focus {
 /* Mono annotation text: tags, labels, eyebrows. */
 .eyebrow,
 .anno {
-  font-family: var(--font-mono);
-  font-size: 0.7rem;
-  font-weight: 500;
-  letter-spacing: 0.08em;
+  font-family: var(--font-ui);
+  font-stretch: 118%;
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.16em;
   text-transform: uppercase;
   color: var(--muted);
 }
@@ -89,11 +85,10 @@ main:focus {
 /* Page header used by inner pages: sheet number, title, lede. */
 .page-head {
   padding: var(--space-8) 0 var(--space-6);
-  border-bottom: 1.5px solid var(--text);
+  border-bottom: 1px solid var(--rule);
 }
 .page-head h1 {
-  font-size: var(--text-3xl);
-  font-stretch: 118%;
+  font-size: clamp(2.4rem, 1.4rem + 3.6vw, 4.4rem);
   max-width: 18ch;
   margin-top: var(--space-3);
 }
@@ -113,7 +108,7 @@ main:focus {
   line-height: 1.68;
 }
 .prose h2 {
-  font-size: var(--text-xl);
+  font-size: var(--text-2xl);
   margin: var(--space-7) 0 var(--space-3);
 }
 .prose h3 {
@@ -135,7 +130,8 @@ main:focus {
 .schedule {
   width: 100%;
   border-collapse: collapse;
-  border: 1.5px solid var(--text);
+  border: 1px solid var(--border);
+  border-top: 2px solid var(--text);
   background: var(--surface);
   font-size: 0.95rem;
 }
@@ -152,14 +148,15 @@ main:focus {
   vertical-align: top;
 }
 .schedule thead th {
-  font-family: var(--font-mono);
+  font-family: var(--font-ui);
+  font-stretch: 118%;
   font-size: 0.66rem;
   font-weight: 600;
-  letter-spacing: 0.08em;
+  letter-spacing: 0.14em;
   text-transform: uppercase;
   color: var(--muted);
   background: var(--raised);
-  border-bottom: 1.5px solid var(--text);
+  border-bottom: 1px solid var(--rule);
 }
 .schedule .tag {
   font-family: var(--font-mono);
@@ -195,19 +192,25 @@ main:focus {
 }
 
 .btn {
-  border-radius: 2px;
-  font-weight: 650;
-  letter-spacing: 0.01em;
+  border-radius: 0;
+  font-weight: 600;
+  letter-spacing: 0.02em;
 }
 .btn-primary {
-  box-shadow: 3px 3px 0 var(--text);
+  background: var(--text);
+  color: var(--bg);
 }
 .btn-primary:hover {
-  transform: translate(-1px, -1px);
-  box-shadow: 4px 4px 0 var(--text);
+  background: var(--primary);
+  color: var(--on-primary);
+  transform: none;
 }
 .btn-ghost {
   border-color: var(--text);
+}
+.btn-ghost:hover {
+  background: var(--text);
+  color: var(--bg);
 }
 
 @media (max-width: 620px) {
@@ -225,7 +228,7 @@ main:focus {
     width: 100%;
   }
   .schedule tr {
-    border-bottom: 1.5px solid var(--text);
+    border-bottom: 1px solid var(--rule);
   }
   .schedule td {
     border: 0;

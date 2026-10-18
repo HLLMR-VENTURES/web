@@ -130,12 +130,14 @@ export const PROJECT_STAGE: Record<string, Stage> = {
 
 /**
  * Ventures: lines of business that start inside HLLMR Ventures and may graduate to their own
- * subdomain, domain or company. Each brings its own accent colour, set per slug in
- * components/VentureRegister.astro (inline styles are blocked by the CSP). Names marked "to come" are placeholders
+ * subdomain, domain or company. Each bears its own arms
+ * (src/lib/arms.ts); its stage track takes its field tincture (components/VentureRegister.astro). Names marked "to come" are placeholders
  * the owner has not chosen; never invent a public name for one.
  */
 export interface Venture {
   slug: string;
+  /** Key into the armory (src/lib/arms.ts). */
+  coat: "silo" | "build" | "live";
   name: string;
   /** Industry or field, in two or three words. */
   field: string;
@@ -147,6 +149,7 @@ export interface Venture {
 export const VENTURES: Venture[] = [
   {
     slug: "silo",
+    coat: "silo",
     name: "Silo",
     field: "Software product",
     line: "A free, open-source mod manager for Farming Simulator 25, with its own catalog API and community bot.",
@@ -155,6 +158,7 @@ export const VENTURES: Venture[] = [
   },
   {
     slug: "build",
+    coat: "build",
     name: "HLLMR Build",
     field: "AI-assisted development",
     line: "Software and automation built with AI agents, and help for teams adopting them, with nothing called done until it is seen working.",
@@ -163,6 +167,7 @@ export const VENTURES: Venture[] = [
   },
   {
     slug: "live",
+    coat: "live",
     name: "DJ & events",
     field: "Entertainment",
     line: "Music, performance and events under the HLLMR name. Its own site is to come.",

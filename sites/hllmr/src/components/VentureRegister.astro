@@ -1,9 +1,11 @@
 ---
 /**
- * The venture register: one row per venture or project, each with its own accent colour and a
- * stage track (Idea, Building, Launched, Spun out). Industry-neutral on purpose: a DJ business and a
- * software product sit in the same list.
+ * The venture register: one row per venture or project. A venture leads with its arms; every row
+ * has a stage track (Idea, Building, Launched, Spun out) drawn in the venture's tincture.
+ * Industry-neutral on purpose: a DJ business and a software product sit in the same list.
  */
+import Arms from "./Arms.astro";
+import { ARMS, type ArmsKey } from "../lib/arms";
 import { STAGES, type Stage } from "../lib/projects";
 
 export interface RegisterRow {
@@ -15,6 +17,8 @@ export interface RegisterRow {
   href?: string;
   /** Extra links shown small (source, case study). */
   links?: { label: string; href: string }[];
+  /** The bearer's arms, for ventures. */
+  coat?: ArmsKey;
 }
 
 interface Props {
@@ -33,7 +37,7 @@ const external = (href: string) => /^https?:/.test(href);
       const at = STAGES.indexOf(r.stage);
       return (
         <li class:list={["row", `v-${r.slug}`]}>
-          <span class="bar" aria-hidden="true" />
+          {r.coat ? <Arms coat={r.coat} size={size === "lg" ? 52 : 28} form="banner" decorative class="ra" /> : <span class="bar" aria-hidden="true" />}
           <div class="id">
             <span class="field anno">{r.field}</span>
             <h3 class="name">
@@ -46,7 +50,10 @@ const external = (href: string) => /^https?:/.test(href);
               )}
             </h3>
           </div>
-          <p class="line">{r.line}</p>
+          <div class="mid">
+            <p class="line">{r.line}</p>
+            {r.coat && <p class="blazon">{ARMS[r.coat].blazon}</p>}
+          </div>
           <div class="stage">
             <span class="visually-hidden">Stage: {r.stage}</span>
             <ol class="track" aria-hidden="true">
@@ -74,35 +81,36 @@ const external = (href: string) => /^https?:/.test(href);
 </ol>
 
 <style>
-  /* Venture accents (one per slug; the CSP blocks inline styles). Light first, then dark. */
+  /* Venture accents: the field tincture in light, a lighter tint of it in dark (CSP: no inline
+   * styles, so one class per slug). */
   .row.v-silo {
-    --venture: #4a7330;
+    --venture: #36602a;
   }
   .row.v-build {
-    --venture: #1f4f9c;
+    --venture: #1a4480;
   }
   .row.v-live {
-    --venture: #b0237a;
+    --venture: #a3262a;
   }
   @media (prefers-color-scheme: dark) {
-    :global(:root:not([data-theme="light"])) .v-silo {
+    :global(:root:not([data-theme="light"])) .row.v-silo {
       --venture: #8fbf5f;
     }
-    :global(:root:not([data-theme="light"])) .v-build {
-      --venture: #8fb6f2;
+    :global(:root:not([data-theme="light"])) .row.v-build {
+      --venture: #8fb0e6;
     }
-    :global(:root:not([data-theme="light"])) .v-live {
-      --venture: #f07cbd;
+    :global(:root:not([data-theme="light"])) .row.v-live {
+      --venture: #ef8a8d;
     }
   }
   :global(:root[data-theme="dark"]) .row.v-silo {
     --venture: #8fbf5f;
   }
   :global(:root[data-theme="dark"]) .row.v-build {
-    --venture: #8fb6f2;
+    --venture: #8fb0e6;
   }
   :global(:root[data-theme="dark"]) .row.v-live {
-    --venture: #f07cbd;
+    --venture: #ef8a8d;
   }
 
   .reg {
@@ -115,29 +123,29 @@ const external = (href: string) => /^https?:/.test(href);
     --venture: var(--text);
     position: relative;
     display: grid;
-    grid-template-columns: minmax(0, 1.1fr) minmax(0, 1.4fr) minmax(0, 1fr);
+    grid-template-columns: 52px minmax(0, 1.1fr) minmax(0, 1.4fr) minmax(0, 1fr);
     gap: var(--space-5);
     align-items: start;
-    padding: var(--space-6) 0 var(--space-6) var(--space-5);
+    padding: var(--space-6) 0;
     border-bottom: 1px solid var(--rule);
   }
   .bar {
-    position: absolute;
-    left: 0;
-    top: var(--space-6);
-    bottom: var(--space-6);
-    width: 5px;
-    background: var(--venture);
-    transition: width var(--dur) var(--ease);
+    width: 52px;
+    height: 2px;
+    margin-top: 12px;
+    background: var(--rule);
   }
-  .row:hover .bar {
-    width: 9px;
+  .blazon {
+    margin: 6px 0 0;
+    font-family: var(--font-display);
+    font-style: italic;
+    font-size: 1rem;
   }
   .name {
-    font-size: clamp(1.7rem, 1.1rem + 2.2vw, 2.8rem);
-    font-stretch: 122%;
-    font-weight: 820;
-    letter-spacing: -0.02em;
+    font-family: var(--font-display);
+    font-size: clamp(1.8rem, 1.2rem + 2vw, 2.7rem);
+    font-weight: 450;
+    letter-spacing: -0.015em;
     line-height: 1.02;
     margin-top: 6px;
   }
@@ -235,23 +243,30 @@ const external = (href: string) => /^https?:/.test(href);
     padding-bottom: var(--space-4);
     gap: var(--space-4);
   }
+  .sm .row {
+    grid-template-columns: 28px minmax(0, 1.1fr) minmax(0, 1.4fr) minmax(0, 1fr);
+  }
   .sm .bar {
-    top: var(--space-4);
-    bottom: var(--space-4);
-    width: 3px;
+    width: 28px;
   }
   .sm .name {
-    font-size: var(--text-xl);
-    font-stretch: 112%;
+    font-family: var(--font-ui);
+    font-size: var(--text-lg);
+    font-weight: 650;
+    letter-spacing: 0;
   }
   .sm .line {
     font-size: 0.95rem;
   }
 
   @media (max-width: 900px) {
-    .row {
-      grid-template-columns: 1fr;
-      gap: var(--space-3);
+    .row,
+    .sm .row {
+      grid-template-columns: auto minmax(0, 1fr);
+      gap: var(--space-3) var(--space-4);
+    }
+    .row > :nth-child(n + 3) {
+      grid-column: 2;
     }
   }
 </style>

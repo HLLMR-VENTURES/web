@@ -1,0 +1,96 @@
+---
+/**
+ * The provenance strip, borrowed from the hallmarks direction (owner decision 2026-10-18): a row
+ * of punched marks in a fixed order, maker, standard, office, date.
+ *   maker    HLLMR in the chamfered oblong (constant)
+ *   standard the venture's arms (the one coloured mark in the strip)
+ *   office   where it is seated: a star in a cushion for Texas
+ *   date     the year the venture was started, as a date letter (cycle I: A = 2026, J skipped)
+ * The year is always written out beside it in text, because few readers know date letters.
+ */
+import { ARMS, BANNER_PATH, coatMarkup, type ArmsKey } from "../lib/arms";
+
+interface Props {
+  coat?: ArmsKey;
+  /** Short venture label for the text line ("Ventures", "Build"). */
+  label?: string;
+  /** Year the venture was started; cycle I covers 2026-2045. */
+  year?: number;
+  class?: string;
+}
+const { coat = "house", label = "Ventures", year = 2026, class: cls = "" } = Astro.props;
+const LETTERS = "ABCDEFGHIKLMNOPQRSTU"; // twenty letters, no J
+const letter = LETTERS[year - 2026] ?? "?";
+const description = `Provenance: HLLMR maker's mark, ${ARMS[coat].bearer} arms (${ARMS[coat].blazon}), Texas office mark, date letter ${letter} for ${year}`;
+// The date letter A is drawn, not set, so it never depends on font loading. Other letters fall back
+// to set type until they are drawn (cycle I letters are needed from 2027).
+const drawnA = letter === "A";
+---
+
+<div class:list={["prov", cls]}>
+  <svg class="prov-strip" viewBox="0 0 297 44" role="img" aria-label={description} focusable="false">
+    <g fill="none" stroke="currentColor" stroke-width="3">
+      <path d="M8.5,1.5 H123.5 L130.5,8.5 V35.5 L123.5,42.5 H8.5 L1.5,35.5 V8.5 Z"></path>
+      <path d="M205.5,1.5 H234.5 A6,6 0 0 0 240.5,7.5 V36.5 A6,6 0 0 0 234.5,42.5 H205.5 A6,6 0 0 0 199.5,36.5 V7.5 A6,6 0 0 0 205.5,1.5 Z"></path>
+      <path d="M257.1,3 H292.9 V19.6 C292.9,31.5 285.1,38.4 275,42 C264.9,38.4 257.1,31.5 257.1,19.6 Z"></path>
+    </g>
+    <svg x="20" y="10.5" width="92" height="23" viewBox="0 0 106.5 24"
+      ><g fill="currentColor"
+        ><path d="M0 0h4v10.4h10V0h4v24h-4V13.6H4V24H0z"></path><path transform="translate(24 0)" d="M0 0h4v20.8h10V24H0z"
+        ></path><path transform="translate(41 0)" d="M0 0h4v20.8h10V24H0z"></path><path
+          transform="translate(58.5 0)"
+          d="M0 24V0h5l7 17 7-17h5v24h-4V8.46L13.6 24h-3.2L4 8.46V24z"></path><g transform="translate(88.5 0)"
+          ><path d="M0 0h4v24H0z"></path><path fill-rule="evenodd" d="M4 0h6.5a7 7 0 0 1 0 14H4zM4 3.2h6.5a3 3.8 0 0 1 0 7.6H4z"
+          ></path><path d="M8.2 13h4.4L18 24h-4.4z"></path></g
+        ></g
+      ></svg
+    >
+    <svg x="143" y="0" width="44" height="44" viewBox="-0.75 -0.75 25.5 25.5"
+      ><g clip-path="url(#arms-clip-banner)" set:html={coatMarkup(coat, "banner")} /><path
+        d={BANNER_PATH}
+        fill="none"
+        stroke="currentColor"
+        stroke-width="1.5"></path></svg
+    >
+    <polygon
+      fill="currentColor"
+      points="220,11.5 223,19.9 231.9,20.2 224.9,25.6 227.4,34.1 220,29.1 212.6,34.1 215.1,25.6 208.1,20.2 217,19.9"
+    ></polygon>
+    {
+      drawnA ? (
+        <path fill="currentColor" fill-rule="evenodd" d="M275,10 L284,33 H280 L278,28 H272 L270,33 H266 Z M273.2,24.6 H276.8 L275,19.6 Z" />
+      ) : (
+        <text x="275" y="31" text-anchor="middle" font-size="22" fill="currentColor" class="prov-letter">
+          {letter}
+        </text>
+      )
+    }
+  </svg>
+  <p class="prov-line">HLLMR · {label} · TX · Struck {year} · {letter}</p>
+</div>
+
+<style>
+  .prov {
+    display: grid;
+    gap: 8px;
+    justify-items: start;
+    color: var(--text);
+  }
+  .prov-strip {
+    display: block;
+    width: 222px;
+    max-width: 100%;
+    height: auto;
+  }
+  .prov-letter {
+    font-family: var(--font-display);
+  }
+  .prov-line {
+    margin: 0;
+    font-family: var(--font-mono);
+    font-size: 0.68rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+</style>

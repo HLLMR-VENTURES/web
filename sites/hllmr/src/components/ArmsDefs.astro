@@ -1,0 +1,21 @@
+---
+/** Page-level SVG definitions every coat of arms references: one clip path per form. */
+import { BANNER_PATH, SHIELD_PATH } from "../lib/arms";
+---
+
+<svg class="visually-hidden" width="0" height="0" aria-hidden="true" focusable="false">
+  <defs>
+    <clipPath id="arms-clip-banner" clipPathUnits="userSpaceOnUse"><path d={BANNER_PATH}></path></clipPath>
+    <clipPath id="arms-clip-shield" clipPathUnits="userSpaceOnUse"><path d={SHIELD_PATH}></path></clipPath>
+  </defs>
+</svg>
+
+<style is:global>
+  .arms {
+    display: block;
+    flex: none;
+  }
+  .arms-edge {
+    stroke: var(--edge);
+  }
+</style>

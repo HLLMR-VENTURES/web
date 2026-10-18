@@ -1,26 +1,18 @@
 <!-- Source of public/build/og.png (1200x630). Render from this directory after npm ci:
-     msedge --headless=new --hide-scrollbars --force-device-scale-factor=1 --window-size=1200,630 --screenshot=og.png og.html
+     msedge --headless=new --hide-scrollbars --force-device-scale-factor=1 --window-size=1200,630 --screenshot=og.png build.html
      then copy og.png to ../public/build/og.png. Not part of the site build. -->
 <!doctype html><html><head><meta charset="utf-8"><style>
+@font-face{font-family:B;src:url(../../../node_modules/@fontsource-variable/bodoni-moda/files/bodoni-moda-latin-opsz-normal.woff2) format('woff2');font-weight:400 900}
+@font-face{font-family:B;font-style:italic;src:url(../../../node_modules/@fontsource-variable/bodoni-moda/files/bodoni-moda-latin-opsz-italic.woff2) format('woff2');font-weight:400 900}
 @font-face{font-family:A;src:url(../../../node_modules/@fontsource-variable/archivo/files/archivo-latin-wdth-normal.woff2) format('woff2');font-weight:100 900;font-stretch:62% 125%}
-@font-face{font-family:M;src:url(../../../node_modules/@fontsource-variable/martian-mono/files/martian-mono-latin-wght-normal.woff2) format('woff2');font-weight:100 800}
 html,body{margin:0;width:1200px;height:630px;overflow:hidden}
-body{background:#f2efe6;background-image:linear-gradient(rgba(31,79,156,.12) 1px,transparent 1px),linear-gradient(90deg,rgba(31,79,156,.12) 1px,transparent 1px),linear-gradient(rgba(31,79,156,.06) 1px,transparent 1px),linear-gradient(90deg,rgba(31,79,156,.06) 1px,transparent 1px);background-size:96px 96px,96px 96px,16px 16px,16px 16px;font-family:A;color:#15181b}
-.sheet{position:absolute;inset:28px;border:2px solid #15181b}
-.in{position:absolute;inset:18px;border:1px solid #b9b2a0;padding:56px 64px}
-.anno{font-family:M;font-size:17px;letter-spacing:.08em;text-transform:uppercase;color:#565b61}
-h1{font-size:98px;font-weight:820;font-stretch:125%;letter-spacing:-.03em;line-height:.98;margin:30px 0 28px}
-h1 span{color:#1f4f9c}
-p{font-size:28px;margin:0;max-width:640px;line-height:1.35}
-.wm{position:absolute;right:64px;bottom:96px;font-family:M;font-size:56px;letter-spacing:.02em}
-.l{position:relative;display:inline-block}
-.cord{position:absolute;left:50%;top:-8px;width:3px;height:92px;margin-left:-1.5px;background:#1f4f9c;border-radius:2px}
-.bob{position:absolute;left:50%;top:82px;width:22px;height:27px;margin-left:-11px;background:#b3261e;clip-path:polygon(50% 100%,0 30%,18% 0,82% 0,100% 30%)}
-.red{position:absolute;right:64px;top:56px;font-family:M;font-size:17px;letter-spacing:.06em;text-transform:uppercase;color:#b3261e}
-</style></head><body><div class="sheet"><div class="in">
-<div class="anno">HLLMR Ventures LLC · hllmr.com</div>
-<h1>Software,<br><span>commissioned.</span></h1>
-<p>Software and automation built with AI agents, and proven working before it is called done.</p>
-<div class="red">Silo · self-hosted stack · Writwall</div>
-<div class="wm">h<span class="l">l<span class="cord"></span><span class="bob"></span></span>lmr</div>
-</div></div></body></html>
+body{background:#e9ecef;color:#14161a;font-family:A}
+.lbl{font-family:A;font-stretch:118%;font-weight:600;font-size:17px;letter-spacing:.16em;text-transform:uppercase;color:#525a66}
+h1{font-family:B;font-weight:400;letter-spacing:-.02em;line-height:.95;margin:0}
+.cap{font-family:B;font-style:italic;font-size:24px;text-align:center;margin-top:14px}
+</style></head><body><div style="position:absolute;left:72px;top:60px" class="lbl">HLLMR Build · a venture of HLLMR Ventures</div>
+<div style="position:absolute;left:72px;top:104px;display:flex;align-items:center;gap:16px"><svg viewBox="0 0 106.5 24" width="213" height="48"><g fill="#14161a"><path d="M0 0h4v10.4h10V0h4v24h-4V13.6H4V24H0z"/><path transform="translate(24 0)" d="M0 0h4v20.8h10V24H0z"/><path transform="translate(41 0)" d="M0 0h4v20.8h10V24H0z"/><path transform="translate(58.5 0)" d="M0 24V0h5l7 17 7-17h5v24h-4V8.46L13.6 24h-3.2L4 8.46V24z"/><g transform="translate(88.5 0)"><path d="M0 0h4v24H0z"/><path fill-rule="evenodd" d="M4 0h6.5a7 7 0 0 1 0 14H4zM4 3.2h6.5a3 3.8 0 0 1 0 7.6H4z"/><path d="M8.2 13h4.4L18 24h-4.4z"/></g></g></svg><span style="font-stretch:125%;font-weight:500;font-size:22px;letter-spacing:.24em;padding-left:16px;border-left:1px solid #c3c9d1">BUILD</span></div>
+<h1 style="position:absolute;left:68px;top:220px;font-size:116px">Software,<br><i style="color:#1a4480">commissioned.</i></h1>
+<div style="position:absolute;left:72px;bottom:56px;font-size:24px;color:#525a66;max-width:640px">Software and automation built with AI agents, proven working before it is called done.</div>
+<div style="position:absolute;right:86px;top:90px"><svg viewBox="-0.05 -0.05 24.1 28.885" width="230" height="275.7"><defs><clipPath id="c"><path d="M0 0H24V8A24 24 0 0 1 12 28.785A24 24 0 0 1 0 8Z"/></clipPath></defs><g clip-path="url(#c)"><rect x="-2" y="-2" width="28" height="33" fill="#1a4480"/><polygon points="-10,27.757 12,5.757 34,27.757 34,36.243 12,14.243 -10,36.243" fill="#f3f4f5"/></g><path d="M0 0H24V8A24 24 0 0 1 12 28.785A24 24 0 0 1 0 8Z" fill="none" stroke="#14161a" stroke-width="0.1"/></svg><div class="cap">Azure, a chevron Argent</div></div>
+</body></html>

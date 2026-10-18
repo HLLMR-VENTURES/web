@@ -1,114 +1,54 @@
 ---
 /**
- * The HLLMR wordmark: all caps, heavy and expanded. A plumb line drops from the stem of the first L
- * and a red bob settles true on first paint (CSS only; still under prefers-reduced-motion). The
- * plumb device carries over from the 2026-08 mark. `suffix` names the entity or venture
- * ("Ventures", "Build"), set small beside the mark.
+ * The HLLMR wordmark: five capitals drawn on the arms' 24-unit grid (stems 4, horizontals 3.2).
+ * The H's bar sits on the fess point; the M's centre is a chevron. Nothing hangs off any letter.
+ * `suffix` names the entity or venture ("Ventures", "Build"), set beside the mark after a rule.
+ * Geometry from the heraldry mood board; a type designer's optical pass is still to come.
  */
 interface Props {
-  size?: "sm" | "xl";
+  /** Rendered cap height in CSS px. */
+  height?: number;
   suffix?: string;
+  class?: string;
 }
-const { size = "sm", suffix } = Astro.props;
+const { height = 18, suffix, class: cls = "" } = Astro.props;
+const width = Math.round((height * 106.5) / 24 * 100) / 100;
 ---
 
-<span class:list={["wm", size]} aria-hidden="true"
-  ><span class="mark">H<span class="l">L<span class="plumb"><span class="cord"></span><span class="bob"></span></span></span>LMR</span
-  >{suffix && <span class="sfx">{suffix}</span>}</span
+<span class:list={["wm", cls]}
+  ><svg class="wm-svg" viewBox="0 0 106.5 24" width={width} height={height} role="img" aria-label="HLLMR" focusable="false"
+    ><g fill="currentColor"
+      ><path d="M0 0h4v10.4h10V0h4v24h-4V13.6H4V24H0z"></path><path transform="translate(24 0)" d="M0 0h4v20.8h10V24H0z"
+      ></path><path transform="translate(41 0)" d="M0 0h4v20.8h10V24H0z"></path><path
+        transform="translate(58.5 0)"
+        d="M0 24V0h5l7 17 7-17h5v24h-4V8.46L13.6 24h-3.2L4 8.46V24z"></path><g transform="translate(88.5 0)"
+        ><path d="M0 0h4v24H0z"></path><path fill-rule="evenodd" d="M4 0h6.5a7 7 0 0 1 0 14H4zM4 3.2h6.5a3 3.8 0 0 1 0 7.6H4z"
+        ></path><path d="M8.2 13h4.4L18 24h-4.4z"></path></g
+      ></g
+    ></svg
+  >{suffix && <span class="wm-sfx">{suffix}</span>}</span
 >
 
 <style>
   .wm {
     display: inline-flex;
-    align-items: baseline;
-    gap: 0.5em;
+    align-items: center;
+    gap: 0.7em;
     color: var(--text);
     line-height: 1;
     white-space: nowrap;
   }
-  .mark {
-    font-family: var(--font-display);
-    font-weight: 860;
+  .wm-svg {
+    display: block;
+  }
+  .wm-sfx {
+    font-family: var(--font-ui);
     font-stretch: 125%;
-    letter-spacing: -0.01em;
-  }
-  .sm .mark {
-    font-size: 1.32rem;
-  }
-  .xl .mark {
-    font-size: clamp(4.2rem, 1rem + 16vw, 15rem);
-    letter-spacing: -0.035em;
-  }
-  .sfx {
-    font-family: var(--font-mono);
-    font-size: 0.66rem;
     font-weight: 500;
-    letter-spacing: 0.12em;
+    font-size: 0.74rem;
+    letter-spacing: 0.24em;
     text-transform: uppercase;
-    color: var(--muted);
-  }
-  .l {
-    position: relative;
-    display: inline-block;
-  }
-  /* The L's stem sits at the left of the glyph; the cord hangs from its foot. */
-  .plumb {
-    position: absolute;
-    left: 0.115em;
-    top: 0.72em;
-    width: 0;
-    height: 0.5em;
-    transform-origin: 0 0;
-    animation: settle 2.6s cubic-bezier(0.25, 0.6, 0.3, 1) 0.15s both;
-  }
-  .xl .plumb {
-    height: 0.38em;
-  }
-  .cord {
-    position: absolute;
-    left: -0.025em;
-    top: 0;
-    width: 0.05em;
-    min-width: 1.5px;
-    height: 100%;
-    background: var(--text);
-  }
-  .bob {
-    position: absolute;
-    left: 0;
-    top: 100%;
-    width: 0.2em;
-    height: 0.25em;
-    transform: translate(-50%, -0.02em);
-    background: var(--accent);
-    clip-path: polygon(50% 100%, 0 30%, 18% 0, 82% 0, 100% 30%);
-  }
-  @keyframes settle {
-    0% {
-      transform: rotate(16deg);
-    }
-    22% {
-      transform: rotate(-10deg);
-    }
-    42% {
-      transform: rotate(6deg);
-    }
-    60% {
-      transform: rotate(-3deg);
-    }
-    76% {
-      transform: rotate(1.4deg);
-    }
-    90% {
-      transform: rotate(-0.5deg);
-    }
-    100% {
-      transform: rotate(0deg);
-    }
-  }
-  @media (prefers-reduced-motion: reduce) {
-    .plumb {
-      animation: none;
-    }
+    padding-left: 0.7em;
+    border-left: 1px solid var(--rule);
   }
 </style>

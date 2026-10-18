@@ -5,13 +5,13 @@
     {
       "path": "/",
       "status": 200,
-      "contains": "Projects start here.",
+      "contains": "Projects start here</title>",
       "why": "home; canonical"
     },
     {
       "path": "/index.html",
       "status": 200,
-      "contains": "Projects start here."
+      "contains": "Projects start here</title>"
     },
     {
       "path": "/projects/",
