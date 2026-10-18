@@ -26,7 +26,7 @@ export const NAV = [
   { href: "/contact/", label: "Contact" },
 ] as const;
 
-/** The AI-assisted development venture (path /build/; name and path are owner-adjustable before launch). */
+/** The AI-assisted development venture. Name "HLLMR Build" and path /build/ confirmed by the owner 2026-10-18. */
 export const BUILD = {
   name: "HLLMR Build",
   label: "AI-assisted development",
