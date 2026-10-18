@@ -112,3 +112,60 @@ export const PROJECTS: Project[] = [
     ],
   },
 ];
+
+/** Incubator stages, in order. Every venture and project sits at exactly one. */
+export const STAGES = ["Idea", "Building", "Launched", "Spun out"] as const;
+export type Stage = (typeof STAGES)[number];
+
+/** Stage of each project above, for the hub register. */
+export const PROJECT_STAGE: Record<string, Stage> = {
+  silo: "Launched",
+  "self-hosted-stack": "Launched",
+  writwall: "Launched",
+  conset: "Building",
+  "stratum-dsp": "Launched",
+  "fs25-markets": "Launched",
+  "agent-tooling": "Launched",
+};
+
+/**
+ * Ventures: lines of business that start inside HLLMR Ventures and may graduate to their own
+ * subdomain, domain or company. Each brings its own accent colour, set per slug in
+ * components/VentureRegister.astro (inline styles are blocked by the CSP). Names marked "to come" are placeholders
+ * the owner has not chosen; never invent a public name for one.
+ */
+export interface Venture {
+  slug: string;
+  name: string;
+  /** Industry or field, in two or three words. */
+  field: string;
+  line: string;
+  stage: Stage;
+  href?: string;
+}
+
+export const VENTURES: Venture[] = [
+  {
+    slug: "silo",
+    name: "Silo",
+    field: "Software product",
+    line: "A free, open-source mod manager for Farming Simulator 25, with its own catalog API and community bot.",
+    stage: "Launched",
+    href: "https://silo.hllmr.com",
+  },
+  {
+    slug: "build",
+    name: "HLLMR Build",
+    field: "AI-assisted development",
+    line: "Software and automation built with AI agents, and help for teams adopting them, with nothing called done until it is seen working.",
+    stage: "Launched",
+    href: "/build/",
+  },
+  {
+    slug: "live",
+    name: "DJ & events",
+    field: "Entertainment",
+    line: "Music, performance and events under the HLLMR name. Its own site is to come.",
+    stage: "Idea",
+  },
+];

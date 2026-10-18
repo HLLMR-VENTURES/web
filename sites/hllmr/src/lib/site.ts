@@ -20,12 +20,22 @@ export const LINKS = {
 } as const;
 
 export const NAV = [
-  { href: "/services/", label: "Services" },
-  { href: "/projects/", label: "Projects" },
+  { href: "/projects/", label: "Ventures" },
   { href: "/writing/", label: "Writing" },
-  { href: "/company/", label: "Company" },
+  { href: "/company/", label: "About" },
   { href: "/contact/", label: "Contact" },
 ] as const;
+
+/** The AI-assisted development venture (path /build/; name and path are owner-adjustable before launch). */
+export const BUILD = {
+  name: "HLLMR Build",
+  label: "AI-assisted development",
+  nav: [
+    { href: "/build/", label: "Overview" },
+    { href: "/build/services/", label: "Services" },
+    { href: "/projects/silo/", label: "Case study" },
+  ],
+} as const;
 
 /**
  * Absolute URL for a site path, from the build-time origin.

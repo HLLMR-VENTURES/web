@@ -1,68 +1,85 @@
 ---
 /**
- * The hllmr wordmark: a plumb line and bob hang through the second "l". On first paint the bob
- * swings and settles true (CSS only; still under prefers-reduced-motion). Carried over from the
- * 2026-08 site's mark.
+ * The HLLMR wordmark: all caps, heavy and expanded. A plumb line drops from the stem of the first L
+ * and a red bob settles true on first paint (CSS only; still under prefers-reduced-motion). The
+ * plumb device carries over from the 2026-08 mark. `suffix` names the entity or venture
+ * ("Ventures", "Build"), set small beside the mark.
  */
 interface Props {
-  size?: "sm" | "lg";
+  size?: "sm" | "xl";
+  suffix?: string;
 }
-const { size = "sm" } = Astro.props;
+const { size = "sm", suffix } = Astro.props;
 ---
 
 <span class:list={["wm", size]} aria-hidden="true"
-  >h<span class="l">l<span class="plumb"><span class="cord"></span><span class="bob"></span></span></span>lmr</span
+  ><span class="mark">H<span class="l">L<span class="plumb"><span class="cord"></span><span class="bob"></span></span></span>LMR</span
+  >{suffix && <span class="sfx">{suffix}</span>}</span
 >
 
 <style>
   .wm {
-    font-family: var(--font-mono);
-    font-weight: 500;
-    letter-spacing: 0.02em;
+    display: inline-flex;
+    align-items: baseline;
+    gap: 0.5em;
     color: var(--text);
-    display: inline-block;
     line-height: 1;
+    white-space: nowrap;
   }
-  .sm {
-    font-size: 1.12rem;
+  .mark {
+    font-family: var(--font-display);
+    font-weight: 860;
+    font-stretch: 125%;
+    letter-spacing: -0.01em;
   }
-  .lg {
-    font-size: clamp(2.6rem, 1.6rem + 4vw, 4.6rem);
-    font-weight: 400;
+  .sm .mark {
+    font-size: 1.32rem;
+  }
+  .xl .mark {
+    font-size: clamp(4.2rem, 1rem + 16vw, 15rem);
+    letter-spacing: -0.035em;
+  }
+  .sfx {
+    font-family: var(--font-mono);
+    font-size: 0.66rem;
+    font-weight: 500;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--muted);
   }
   .l {
     position: relative;
     display: inline-block;
   }
+  /* The L's stem sits at the left of the glyph; the cord hangs from its foot. */
   .plumb {
     position: absolute;
-    left: 50%;
-    top: -0.12em;
+    left: 0.115em;
+    top: 0.72em;
     width: 0;
-    height: 1.62em;
+    height: 0.5em;
     transform-origin: 0 0;
     animation: settle 2.6s cubic-bezier(0.25, 0.6, 0.3, 1) 0.15s both;
   }
+  .xl .plumb {
+    height: 0.38em;
+  }
   .cord {
     position: absolute;
-    left: -1px;
+    left: -0.025em;
     top: 0;
-    width: 2px;
+    width: 0.05em;
+    min-width: 1.5px;
     height: 100%;
-    background: var(--primary);
-    border-radius: 2px;
-  }
-  .lg .cord {
-    left: -1.5px;
-    width: 3px;
+    background: var(--text);
   }
   .bob {
     position: absolute;
     left: 0;
     top: 100%;
-    width: 0.38em;
-    height: 0.46em;
-    transform: translate(-50%, -0.06em);
+    width: 0.2em;
+    height: 0.25em;
+    transform: translate(-50%, -0.02em);
     background: var(--accent);
     clip-path: polygon(50% 100%, 0 30%, 18% 0, 82% 0, 100% 30%);
   }

@@ -1,14 +1,78 @@
-/* HLLMR skin: "drawing sheet". Light is drafting vellum (ink on warm paper, blueprint-blue line,
- * red-pen accent); dark is a blueprint (navy ground, pale line work, amber redline). The plumb-line
- * blue (#2b5aa6) and redline (#b3261e) carry over from the 2026-08 hllmr.com wordmark.
+/* HLLMR skins for hllmr.com.
+ *
+ * Hub (default, :root): HLLMR Ventures, the incubator. Industry-neutral: ink on warm paper, a single
+ * signal red, near-black in dark mode. Ventures bring their own accent (--venture) per row.
+ *
+ * Build (:root[data-skin="build"]): the AI-assisted development venture at /build/. "Drawing sheet":
+ * drafting vellum in light, blueprint in dark, red-pen accent. Set by BaseLayout's `skin` prop.
+ *
  * Contrast (WCAG): --text and --muted on --bg >= 4.5:1, --primary on --bg >= 4.5:1, --focus >= 3:1
- * on --bg and --surface, in both themes. */
+ * on --bg and --surface, in every skin and theme. */
 :root {
   --font-display: "Archivo Variable", "Archivo", "Arial Narrow", system-ui, sans-serif;
   --font-ui: "Archivo Variable", "Archivo", system-ui, -apple-system, "Segoe UI", sans-serif;
   --font-mono: "Martian Mono Variable", "Martian Mono", ui-monospace, "Cascadia Code", Consolas, monospace;
 
-  /* Light: vellum. */
+  /* Hub, light: paper. */
+  --bg: #f4f2ec;
+  --surface: #faf9f5;
+  --raised: #ffffff;
+  --border: #dedad0;
+  --rule: #c4bfb2;
+  --text: #121212;
+  --muted: #5a5a57; /* 6.5:1 on --bg */
+  --primary: #121212;
+  --primary-hover: #b8261a;
+  --on-primary: #f4f2ec;
+  --accent: #b8261a; /* HLLMR red, 5.9:1 on --bg */
+  --grid: transparent;
+  --grid-major: transparent;
+  --focus: #b8261a;
+  --shadow-1: 0 1px 0 rgba(0, 0, 0, 0.05), 0 10px 30px rgba(40, 30, 10, 0.06);
+  --shadow-2: 0 14px 44px rgba(20, 15, 5, 0.14);
+  color-scheme: light;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #101010;
+    --surface: #161616;
+    --raised: #1d1d1d;
+    --border: #2c2c2a;
+    --rule: #3d3d3a;
+    --text: #ecebe6;
+    --muted: #a3a29c; /* 7.6:1 on --bg */
+    --primary: #ecebe6;
+    --primary-hover: #ff7a63;
+    --on-primary: #101010;
+    --accent: #ff6a52; /* 6.9:1 on --bg */
+    --focus: #ff6a52;
+    --shadow-1: 0 1px 0 rgba(0, 0, 0, 0.4), 0 10px 30px rgba(0, 0, 0, 0.35);
+    --shadow-2: 0 14px 44px rgba(0, 0, 0, 0.5);
+    color-scheme: dark;
+  }
+}
+
+:root[data-theme="dark"] {
+  --bg: #101010;
+  --surface: #161616;
+  --raised: #1d1d1d;
+  --border: #2c2c2a;
+  --rule: #3d3d3a;
+  --text: #ecebe6;
+  --muted: #a3a29c;
+  --primary: #ecebe6;
+  --primary-hover: #ff7a63;
+  --on-primary: #101010;
+  --accent: #ff6a52;
+  --focus: #ff6a52;
+  --shadow-1: 0 1px 0 rgba(0, 0, 0, 0.4), 0 10px 30px rgba(0, 0, 0, 0.35);
+  --shadow-2: 0 14px 44px rgba(0, 0, 0, 0.5);
+  color-scheme: dark;
+}
+
+/* Build venture, light: vellum. */
+:root[data-skin="build"] {
   --bg: #f2efe6;
   --surface: #f7f5ee;
   --raised: #fffdf7;
@@ -23,13 +87,12 @@
   --grid: rgba(31, 79, 156, 0.075);
   --grid-major: rgba(31, 79, 156, 0.12);
   --focus: #b3261e; /* 5.9:1 on --bg */
-  --shadow-1: 0 1px 0 rgba(21, 24, 27, 0.06), 0 10px 30px rgba(60, 50, 20, 0.07);
-  --shadow-2: 0 14px 44px rgba(30, 25, 10, 0.16);
   color-scheme: light;
 }
 
+/* Build venture, dark: blueprint. */
 @media (prefers-color-scheme: dark) {
-  :root:not([data-theme="light"]) {
+  :root[data-skin="build"]:not([data-theme="light"]) {
     --bg: #0c1a2c;
     --surface: #0f2034;
     --raised: #132840;
@@ -44,13 +107,11 @@
     --grid: rgba(156, 192, 244, 0.06);
     --grid-major: rgba(156, 192, 244, 0.11);
     --focus: #ffab73;
-    --shadow-1: 0 1px 0 rgba(0, 0, 0, 0.3), 0 10px 30px rgba(0, 0, 0, 0.3);
-    --shadow-2: 0 14px 44px rgba(0, 0, 0, 0.5);
     color-scheme: dark;
   }
 }
 
-:root[data-theme="dark"] {
+:root[data-skin="build"][data-theme="dark"] {
   --bg: #0c1a2c;
   --surface: #0f2034;
   --raised: #132840;
@@ -65,7 +126,5 @@
   --grid: rgba(156, 192, 244, 0.06);
   --grid-major: rgba(156, 192, 244, 0.11);
   --focus: #ffab73;
-  --shadow-1: 0 1px 0 rgba(0, 0, 0, 0.3), 0 10px 30px rgba(0, 0, 0, 0.3);
-  --shadow-2: 0 14px 44px rgba(0, 0, 0, 0.5);
   color-scheme: dark;
 }

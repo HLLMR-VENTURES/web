@@ -15,7 +15,8 @@ export interface IndexablePage {
 
 export const INDEXABLE: IndexablePage[] = [
   { path: "/", source: "src/pages/index.astro", changefreq: "monthly", priority: 1.0 },
-  { path: "/services/", source: "src/pages/services/index.astro", changefreq: "monthly", priority: 0.9 },
+  { path: "/build/", source: "src/pages/build/index.astro", changefreq: "monthly", priority: 0.9 },
+  { path: "/build/services/", source: "src/pages/build/services/index.astro", changefreq: "monthly", priority: 0.8 },
   { path: "/projects/", source: "src/pages/projects/index.astro", changefreq: "monthly", priority: 0.9 },
   { path: "/projects/silo/", source: "src/pages/projects/silo/index.astro", changefreq: "monthly", priority: 0.8 },
   { path: "/projects/self-hosted-stack/", source: "src/pages/projects/self-hosted-stack/index.astro", changefreq: "monthly", priority: 0.8 },

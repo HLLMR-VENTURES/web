@@ -1,0 +1,257 @@
+---
+/**
+ * The venture register: one row per venture or project, each with its own accent colour and a
+ * stage track (Idea, Building, Launched, Spun out). Industry-neutral on purpose: a DJ business and a
+ * software product sit in the same list.
+ */
+import { STAGES, type Stage } from "../lib/projects";
+
+export interface RegisterRow {
+  slug: string;
+  name: string;
+  field: string;
+  line: string;
+  stage: Stage;
+  href?: string;
+  /** Extra links shown small (source, case study). */
+  links?: { label: string; href: string }[];
+}
+
+interface Props {
+  rows: RegisterRow[];
+  label: string;
+  /** Large rows for ventures, compact rows for projects. */
+  size?: "lg" | "sm";
+}
+const { rows, label, size = "lg" } = Astro.props;
+const external = (href: string) => /^https?:/.test(href);
+---
+
+<ol class:list={["reg", size]} aria-label={label}>
+  {
+    rows.map((r) => {
+      const at = STAGES.indexOf(r.stage);
+      return (
+        <li class:list={["row", `v-${r.slug}`]}>
+          <span class="bar" aria-hidden="true" />
+          <div class="id">
+            <span class="field anno">{r.field}</span>
+            <h3 class="name">
+              {r.href ? (
+                <a href={r.href} rel={external(r.href) ? "noopener" : undefined}>
+                  {r.name}
+                </a>
+              ) : (
+                r.name
+              )}
+            </h3>
+          </div>
+          <p class="line">{r.line}</p>
+          <div class="stage">
+            <span class="visually-hidden">Stage: {r.stage}</span>
+            <ol class="track" aria-hidden="true">
+              {STAGES.map((s, i) => (
+                <li class:list={{ done: i < at, now: i === at }}>
+                  <span class="dot" />
+                  <span class="lbl">{s}</span>
+                </li>
+              ))}
+            </ol>
+            {r.links && r.links.length > 0 && (
+              <p class="links">
+                {r.links.map((l) => (
+                  <a href={l.href} rel={external(l.href) ? "noopener" : undefined}>
+                    {l.label}
+                  </a>
+                ))}
+              </p>
+            )}
+          </div>
+        </li>
+      );
+    })
+  }
+</ol>
+
+<style>
+  /* Venture accents (one per slug; the CSP blocks inline styles). Light first, then dark. */
+  .row.v-silo {
+    --venture: #4a7330;
+  }
+  .row.v-build {
+    --venture: #1f4f9c;
+  }
+  .row.v-live {
+    --venture: #b0237a;
+  }
+  @media (prefers-color-scheme: dark) {
+    :global(:root:not([data-theme="light"])) .v-silo {
+      --venture: #8fbf5f;
+    }
+    :global(:root:not([data-theme="light"])) .v-build {
+      --venture: #8fb6f2;
+    }
+    :global(:root:not([data-theme="light"])) .v-live {
+      --venture: #f07cbd;
+    }
+  }
+  :global(:root[data-theme="dark"]) .row.v-silo {
+    --venture: #8fbf5f;
+  }
+  :global(:root[data-theme="dark"]) .row.v-build {
+    --venture: #8fb6f2;
+  }
+  :global(:root[data-theme="dark"]) .row.v-live {
+    --venture: #f07cbd;
+  }
+
+  .reg {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    border-top: 2px solid var(--text);
+  }
+  .row {
+    --venture: var(--text);
+    position: relative;
+    display: grid;
+    grid-template-columns: minmax(0, 1.1fr) minmax(0, 1.4fr) minmax(0, 1fr);
+    gap: var(--space-5);
+    align-items: start;
+    padding: var(--space-6) 0 var(--space-6) var(--space-5);
+    border-bottom: 1px solid var(--rule);
+  }
+  .bar {
+    position: absolute;
+    left: 0;
+    top: var(--space-6);
+    bottom: var(--space-6);
+    width: 5px;
+    background: var(--venture);
+    transition: width var(--dur) var(--ease);
+  }
+  .row:hover .bar {
+    width: 9px;
+  }
+  .name {
+    font-size: clamp(1.7rem, 1.1rem + 2.2vw, 2.8rem);
+    font-stretch: 122%;
+    font-weight: 820;
+    letter-spacing: -0.02em;
+    line-height: 1.02;
+    margin-top: 6px;
+  }
+  .name a {
+    color: var(--text);
+    text-decoration: none;
+    background-image: linear-gradient(var(--venture), var(--venture));
+    background-size: 0 3px;
+    background-position: 0 100%;
+    background-repeat: no-repeat;
+    transition: background-size var(--dur-slow) var(--ease);
+  }
+  .name a:hover,
+  .name a:focus-visible {
+    background-size: 100% 3px;
+  }
+  .line {
+    margin: 4px 0 0;
+    color: var(--muted);
+    max-width: 46ch;
+  }
+  .track {
+    list-style: none;
+    margin: 6px 0 0;
+    padding: 0;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+  }
+  .track li {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: 7px;
+  }
+  .track li::before {
+    content: "";
+    position: absolute;
+    top: 5px;
+    left: 0;
+    right: 0;
+    height: 1px;
+    background: var(--rule);
+  }
+  .track li.done::before,
+  .track li.now::before {
+    background: var(--venture);
+    height: 2px;
+    top: 4.5px;
+  }
+  .track li.now::before {
+    right: 50%;
+  }
+  .dot {
+    position: relative;
+    width: 11px;
+    height: 11px;
+    border-radius: 50%;
+    border: 1.5px solid var(--rule);
+    background: var(--bg);
+  }
+  .done .dot {
+    border-color: var(--venture);
+    background: var(--venture);
+  }
+  .now .dot {
+    border-color: var(--venture);
+    background: var(--venture);
+    box-shadow: 0 0 0 4px color-mix(in srgb, var(--venture) 22%, transparent);
+  }
+  .lbl {
+    font-family: var(--font-mono);
+    font-size: 0.58rem;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+  .now .lbl {
+    color: var(--text);
+    font-weight: 600;
+  }
+  .links {
+    margin: var(--space-3) 0 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px 14px;
+    font-family: var(--font-mono);
+    font-size: 0.72rem;
+  }
+  .links a {
+    color: var(--text);
+  }
+
+  .sm .row {
+    padding-top: var(--space-4);
+    padding-bottom: var(--space-4);
+    gap: var(--space-4);
+  }
+  .sm .bar {
+    top: var(--space-4);
+    bottom: var(--space-4);
+    width: 3px;
+  }
+  .sm .name {
+    font-size: var(--text-xl);
+    font-stretch: 112%;
+  }
+  .sm .line {
+    font-size: 0.95rem;
+  }
+
+  @media (max-width: 900px) {
+    .row {
+      grid-template-columns: 1fr;
+      gap: var(--space-3);
+    }
+  }
+</style>

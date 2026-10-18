@@ -25,6 +25,8 @@ interface Props {
   noindex?: boolean;
   /** Schema.org graph, serialized into one application/ld+json block. */
   jsonLd?: Record<string, unknown>;
+  /** "hub" for HLLMR Ventures pages; a venture skin for venture pages (packages/design/skins/hllmr.css). */
+  skin?: "hub" | "build";
 }
 
 const {
@@ -34,10 +36,11 @@ const {
   ogTitle = title,
   ogDescription = description,
   ogImage = "/og.png",
-  ogImageAlt = "HLLMR Ventures. Software, commissioned.",
+  ogImageAlt = "HLLMR Ventures. Projects start here.",
   ogType = "website",
   noindex = false,
   jsonLd,
+  skin = "hub",
 } = Astro.props;
 
 const canonical = abs(Astro.url.pathname, Astro.site);
@@ -45,7 +48,7 @@ const image = abs(ogImage, Astro.site);
 ---
 
 <!doctype html>
-<html lang="en">
+<html lang="en" data-skin={skin}>
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -77,8 +80,8 @@ const image = abs(ogImage, Astro.site);
     <meta name="twitter:description" content={ogDescription} />
     <meta name="twitter:image" content={image} />
     <meta name="author" content={OWNER} />
-    <meta name="theme-color" content="#f2efe6" media="(prefers-color-scheme: light)" />
-    <meta name="theme-color" content="#0c1a2c" media="(prefers-color-scheme: dark)" />
+    <meta name="theme-color" content={skin === "build" ? "#f2efe6" : "#f4f2ec"} media="(prefers-color-scheme: light)" />
+    <meta name="theme-color" content={skin === "build" ? "#0c1a2c" : "#101010"} media="(prefers-color-scheme: dark)" />
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
     <link rel="icon" href="/favicon.png" type="image/png" sizes="32x32" />
     <link rel="alternate" type="application/rss+xml" title="HLLMR writing" href="/feed.xml" />
@@ -86,7 +89,7 @@ const image = abs(ogImage, Astro.site);
   </head>
   <body>
     <SkipLink target="main" />
-    <SiteHeader />
+    <SiteHeader skin={skin} />
     <main id="main" tabindex="-1">
       <slot />
     </main>

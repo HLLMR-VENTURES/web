@@ -3,22 +3,37 @@
 import BaseLayout from "../../layouts/BaseLayout.astro";
 import PageHead from "../../components/PageHead.astro";
 import ProjectSchedule from "../../components/ProjectSchedule.astro";
-import { PROJECTS } from "../../lib/projects";
+import VentureRegister from "../../components/VentureRegister.astro";
+import { PROJECTS, VENTURES } from "../../lib/projects";
 ---
 
 <BaseLayout
-  title="Projects · HLLMR Ventures"
-  description="HLLMR Ventures projects: Silo, a self-hosted business stack, the Writwall method, Conset, stratum-dsp, Farming Simulator 25 mods and open-source agent tooling."
-  sheet="Projects"
+  title="Ventures and projects · HLLMR Ventures"
+  description="The HLLMR Ventures register: ventures (Silo, HLLMR Build, DJ and events) and projects (a self-hosted business stack, Writwall, Conset, stratum-dsp, Farming Simulator 25 mods, agent tooling)."
+  sheet="Ventures"
 >
   <PageHead
-    dwg="DWG P-001 · Project schedule"
-    title="Projects"
-    lede="What HLLMR has built and runs. Where something is public, the link is here so you can check it rather than take our word."
+    dwg="Register"
+    title="Ventures and projects"
+    lede="Everything that has started here, with its stage. Where something is public, the link is here so you can check it rather than take our word."
   />
-  <section class="section">
+  <section class="section" aria-labelledby="v-h">
     <div class="wrap">
+      <h2 id="v-h" class="sh">Ventures</h2>
+      <VentureRegister rows={VENTURES} label="Ventures" />
+    </div>
+  </section>
+  <section class="section" aria-labelledby="p-h">
+    <div class="wrap">
+      <h2 id="p-h" class="sh">Projects</h2>
       <ProjectSchedule projects={PROJECTS} caption="Schedule of projects, current revision" />
     </div>
   </section>
 </BaseLayout>
+
+<style>
+  .sh {
+    font-size: var(--text-2xl);
+    margin-bottom: var(--space-4);
+  }
+</style>

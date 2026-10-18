@@ -1,11 +1,14 @@
 ---
-/** Home: the proposition, two equal doors (build for a business / help a team), the work, the
- * method, the writing and the contact route. */
+/**
+ * Home: HLLMR Ventures, the incubator. Industry-neutral on purpose (owner decision 2026-10-18):
+ * ventures in any field start here, each with its own front door and skin once it is ready.
+ */
 import BaseLayout from "../layouts/BaseLayout.astro";
 import Wordmark from "../components/Wordmark.astro";
-import ProjectSchedule from "../components/ProjectSchedule.astro";
-import { PROJECTS } from "../lib/projects";
-import { CONTACT_EMAIL, FOUNDER, LINKS, OWNER, abs } from "../lib/site";
+import VentureRegister, { type RegisterRow } from "../components/VentureRegister.astro";
+import { PROJECTS, PROJECT_STAGE, VENTURES } from "../lib/projects";
+import { WRITING } from "../lib/writing";
+import { CONTACT_EMAIL, FOUNDER, LINKS, LOCALITY, OWNER, abs } from "../lib/site";
 
 const site = Astro.site;
 const jsonLd = {
@@ -25,513 +28,271 @@ const jsonLd = {
     {
       "@type": "WebSite",
       "@id": abs("/#website", site),
-      name: "HLLMR",
+      name: "HLLMR Ventures",
       url: abs("/", site),
       publisher: { "@id": abs("/#organization", site) },
     },
   ],
 };
-const silo = PROJECTS[0]!;
+
+const ventures: RegisterRow[] = VENTURES.map((v) => ({
+  ...v,
+  links: v.slug === "silo" ? [{ label: "case study", href: "/projects/silo/" }, { label: "source", href: LINKS.siloSource }] : undefined,
+}));
+const projects: RegisterRow[] = PROJECTS.filter((p) => p.slug !== "silo").map((p) => ({
+  slug: p.slug,
+  name: p.name,
+  field: p.kind,
+  line: p.what,
+  stage: PROJECT_STAGE[p.slug] ?? "Building",
+  href: p.page ?? `/projects/#${p.slug}`,
+  links: p.links,
+}));
+const essay = WRITING[0]!;
 ---
 
 <BaseLayout
-  title="HLLMR Ventures · Software, commissioned"
-  description="HLLMR Ventures builds software and automation with AI agents, and proves it works before calling it done. We build for businesses and help teams adopt AI-assisted development with discipline."
-  sheet="General"
+  title="HLLMR Ventures · Projects start here"
+  description="HLLMR Ventures LLC is where new ventures begin: software, services, entertainment and whatever comes next. Each starts here, proves itself, and gets its own front door when it is ready."
+  sheet="Home"
   jsonLd={jsonLd}
 >
   <section class="hero">
     <div class="wrap">
-      <div class="sheet">
-        <div class="zones top" aria-hidden="true"><span>1</span><span>2</span><span>3</span><span>4</span><span>5</span><span>6</span></div>
-        <div class="zones side" aria-hidden="true"><span>A</span><span>B</span><span>C</span><span>D</span></div>
-        <div class="sheet-in">
-          <p class="anno reveal r1">HLLMR Ventures LLC · DWG G-001 · General</p>
-          <h1 class="reveal r2">
-            Software, <span class="mark">commissioned.<span class="callout anno anno-red" aria-hidden="true">built, then witnessed working</span></span>
-          </h1>
-          <p class="lede reveal r3">
-            We build software and automation with AI agents, and we prove it works before we call it done. The speed is
-            real. So is the habit agents have of reporting work finished when it isn't. We bring the second discipline
-            to the first.
-          </p>
-          <div class="ctas reveal r4">
-            <a class="btn btn-primary" href="/contact/">Start a conversation</a>
-            <a class="btn btn-ghost" href="/projects/">See the work</a>
-          </div>
-          <div class="big-mark reveal r5" aria-hidden="true"><Wordmark size="lg" /></div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <section class="section doors" aria-labelledby="doors-h">
-    <div class="wrap">
-      <div class="section-head">
-        <p class="anno">Two ways in</p>
-        <h2 id="doors-h">What we do</h2>
-      </div>
-      <div class="door-grid">
-        <a class="door" href="/services/#build">
-          <span class="anno anno-red">Detail A</span>
-          <h3>Build it for us</h3>
-          <p>
-            For a business that needs software, an internal tool or an automation built and kept running. We scope it with
-            you, build it with AI agents under review, test it against what you asked for, and hand over something you can
-            run and audit.
-          </p>
-          <span class="go">Building with HLLMR →</span>
-        </a>
-        <a class="door" href="/services/#teams">
-          <span class="anno anno-red">Detail B</span>
-          <h3>Help our team do it</h3>
-          <p>
-            For an engineering team already using AI coding agents. We set up the guardrails that keep agent work
-            honest: bounded work, explicit permissions, independent review, controls tested before they are trusted, and
-            a record a new person can follow.
-          </p>
-          <span class="go">Working with your team →</span>
-        </a>
-      </div>
-    </div>
-  </section>
-
-  <section class="section featured" aria-labelledby="featured-h">
-    <div class="wrap feat-grid">
-      <div>
-        <p class="anno">Featured · {silo.tag}</p>
-        <h2 id="featured-h">{silo.name}</h2>
-        <p class="feat-what">{silo.what}</p>
-        <p>{silo.summary}</p>
-        <div class="ctas">
-          <a class="btn btn-primary" href="/projects/silo/">Read the case study</a>
-          <a class="btn btn-ghost" href={LINKS.silo}>Visit silo.hllmr.com</a>
-        </div>
-      </div>
-      <dl class="spec">
-        <dt>Status</dt><dd>{silo.status}</dd>
-        <dt>License</dt><dd>MIT, source on GitHub</dd>
-        <dt>Platforms</dt><dd>Windows (code-signed), macOS and Linux preview</dd>
-        <dt>Stack</dt><dd>Rust and Tauri desktop app, Svelte UI, Node API, Postgres</dd>
-        <dt>Runs on</dt><dd>The HLLMR self-hosted stack, released through the same approvals as everything else</dd>
-      </dl>
-    </div>
-  </section>
-
-  <section class="section" aria-labelledby="work-h">
-    <div class="wrap">
-      <div class="section-head">
-        <p class="anno">Project schedule</p>
-        <h2 id="work-h">The work</h2>
-        <p>Products, infrastructure, methods and libraries. Most of it is public, so you can check it.</p>
-      </div>
-      <ProjectSchedule projects={PROJECTS} />
-    </div>
-  </section>
-
-  <section class="section method" aria-labelledby="method-h">
-    <div class="wrap">
-      <div class="section-head">
-        <p class="anno">Sequence of operations</p>
-        <h2 id="method-h">How we work</h2>
-        <p>
-          The method comes from twenty years of commissioning building systems, where nobody accepts a damper because the
-          submittal says it closes.
+      <p class="meta anno">
+        <span>{OWNER}</span><span>{LOCALITY}</span><span>Est. 2026</span>
+      </p>
+      <h1 class="visually-hidden">HLLMR Ventures: projects start here.</h1>
+      <div class="big" aria-hidden="true"><Wordmark size="xl" /></div>
+      <div class="under">
+        <p class="claim">Projects start here.</p>
+        <p class="lede">
+          HLLMR Ventures is where new things begin: software, services, entertainment and whatever comes next. Each venture
+          starts as a line in the register below, proves itself in the open, and gets its own name and front door when it is
+          ready.
         </p>
       </div>
-      <ol class="seq">
+    </div>
+  </section>
+
+  <section class="section" aria-labelledby="ventures-h">
+    <div class="wrap">
+      <div class="head">
+        <h2 id="ventures-h">Ventures</h2>
+        <p class="count anno">{VENTURES.length} in the register</p>
+      </div>
+      <VentureRegister rows={ventures} label="Ventures" />
+    </div>
+  </section>
+
+  <section class="section" aria-labelledby="path-h">
+    <div class="wrap">
+      <div class="head">
+        <h2 id="path-h">How a venture grows</h2>
+      </div>
+      <ol class="path">
         <li>
-          <span class="n">01</span>
-          <h3>Intent, written and approved</h3>
-          <p>What the system is for, decided by a person and kept in the record, not in anyone's memory or chat history.</p>
+          <span class="n anno">01 · Idea</span>
+          <h3>Start here</h3>
+          <p>An idea gets a line in the register and a page on this site. Nothing more until it earns it.</p>
         </li>
         <li>
-          <span class="n">02</span>
-          <h3>Bounded work</h3>
-          <p>Agents work one scoped unit at a time, with explicit limits on what they may touch.</p>
+          <span class="n anno">02 · Building</span>
+          <h3>Prove it</h3>
+          <p>It is built and tested in the open, with its limits written down next to its claims.</p>
         </li>
         <li>
-          <span class="n">03</span>
-          <h3>Witnessed test</h3>
-          <p>Every claim is checked by running it. Rollback is exercised before a release is approved, not after it fails.</p>
+          <span class="n anno">03 · Launched</span>
+          <h3>Its own front door</h3>
+          <p>A launched venture gets its own name, look and address, like silo.hllmr.com.</p>
         </li>
         <li>
-          <span class="n">04</span>
-          <h3>A record you keep</h3>
-          <p>Decisions, with the alternatives that were rejected, stay with the work, so the next person can judge the next change.</p>
+          <span class="n anno">04 · Spun out</span>
+          <h3>Its own company</h3>
+          <p>When it outgrows the house, it moves to its own domain or company. The register keeps the link.</p>
         </li>
       </ol>
     </div>
   </section>
 
-  <section class="section" aria-labelledby="writing-h">
-    <div class="wrap writing">
-      <div>
-        <p class="anno">Writing</p>
-        <h2 id="writing-h">Document control for AI-assisted development</h2>
-        <p>
-          Twenty years of construction document control, mapped onto building software with AI agents: witnessed tests over
-          accepted claims, plan versus as-built, reasoning as the asset, and a corpus that sheds superseded revisions.
-        </p>
-        <p><a href="/writing/document-control-for-ai-agents/">Read the essay →</a></p>
+  <section class="section" aria-labelledby="projects-h">
+    <div class="wrap">
+      <div class="head">
+        <h2 id="projects-h">Projects and tools</h2>
+        <p class="count anno"><a href="/projects/">Full schedule →</a></p>
       </div>
-      <blockquote class="pull">
-        <p>Put it in alarm. Watch it close.</p>
-      </blockquote>
+      <VentureRegister rows={projects} label="Projects and tools" size="sm" />
+    </div>
+  </section>
+
+  <section class="section" aria-labelledby="writing-h">
+    <div class="wrap two">
+      <div>
+        <p class="anno">Writing · {essay.kind}</p>
+        <h2 id="writing-h"><a href={essay.path}>{essay.title}</a></h2>
+      </div>
+      <p class="muted">{essay.description} <a href="/writing/">All writing →</a></p>
     </div>
   </section>
 
   <section class="section contact" aria-labelledby="contact-h">
-    <div class="wrap contact-in">
+    <div class="wrap two">
+      <h2 id="contact-h">Have something that should start here?</h2>
       <div>
-        <p class="anno">Contact</p>
-        <h2 id="contact-h">Start with an email.</h2>
-        <p>Say what you want built or what your team is trying to do. A person reads every message.</p>
+        <p class="muted">A partnership, a project, a booking or a question. One address reaches a person.</p>
+        <p><a class="btn btn-primary" href={`mailto:${CONTACT_EMAIL}`}>{CONTACT_EMAIL}</a></p>
       </div>
-      <a class="btn btn-primary mail" href={`mailto:${CONTACT_EMAIL}`}>{CONTACT_EMAIL}</a>
     </div>
   </section>
 </BaseLayout>
 
 <style>
   .hero {
-    padding: var(--space-7) 0 var(--space-6);
-  }
-  .sheet {
-    position: relative;
-    border: 1.5px solid var(--text);
-    padding: 26px;
-    background: color-mix(in srgb, var(--surface) 70%, transparent);
-  }
-  .sheet-in {
-    position: relative;
-    border: 1px solid var(--rule);
-    padding: clamp(28px, 6vw, 72px) clamp(20px, 5vw, 64px) clamp(28px, 5vw, 56px);
+    padding: var(--space-7) 0 var(--space-7);
+    border-bottom: 2px solid var(--text);
     overflow: hidden;
   }
-  .zones {
-    position: absolute;
+  .meta {
     display: flex;
-    font-family: var(--font-mono);
-    font-size: 0.6rem;
-    color: var(--muted);
-  }
-  .zones.top {
-    top: 4px;
-    left: 26px;
-    right: 26px;
-    justify-content: space-around;
-  }
-  .zones.side {
-    top: 26px;
-    bottom: 26px;
-    left: 7px;
-    flex-direction: column;
-    justify-content: space-around;
-  }
-  .hero h1 {
-    font-size: clamp(2.7rem, 1.2rem + 6.2vw, 6.4rem);
-    font-stretch: 125%;
-    font-weight: 820;
-    letter-spacing: -0.03em;
-    line-height: 0.98;
-    margin: var(--space-5) 0 var(--space-5);
-    max-width: 11ch;
-  }
-  .mark {
-    position: relative;
-    color: var(--primary);
-    white-space: nowrap;
-  }
-  .callout {
-    position: absolute;
-    right: 0.1em;
-    bottom: calc(100% + 0.32em);
-    white-space: nowrap;
-    font-size: 0.68rem;
-    font-stretch: 100%;
-    letter-spacing: 0.06em;
-    line-height: 1;
-    padding-bottom: 6px;
-    border-bottom: 1px solid var(--accent);
-  }
-  .callout::after {
-    content: "";
-    position: absolute;
-    left: 0;
-    top: 100%;
-    width: 1px;
-    height: 0.5em;
-    background: var(--accent);
-    transform: rotate(-32deg);
-    transform-origin: top;
-  }
-  .lede {
-    font-size: clamp(1.08rem, 1rem + 0.35vw, 1.28rem);
-    max-width: 52ch;
-    margin: 0;
-  }
-  .ctas {
-    display: flex;
-    gap: 14px;
     flex-wrap: wrap;
-    margin-top: var(--space-6);
+    gap: 6px 22px;
+    margin: 0 0 var(--space-5);
   }
-  .big-mark {
-    position: absolute;
-    right: clamp(16px, 4vw, 56px);
-    bottom: clamp(18px, 4vw, 48px);
-    opacity: 0.9;
+  @media (min-width: 621px) {
+    .meta span + span::before {
+      content: "·";
+      margin-right: 22px;
+      color: var(--accent);
+    }
   }
   @media (max-width: 620px) {
-    .sheet {
-      padding: 14px;
-    }
-    .sheet-in {
-      padding: 26px 16px 24px;
-    }
-    .zones.side {
-      display: none;
-    }
-    .zones.top {
-      left: 14px;
-      right: 14px;
-      top: -1px;
-    }
-    .hero h1 {
-      font-size: 8.6vw;
-      font-stretch: 100%;
-      letter-spacing: -0.02em;
+    .meta {
+      flex-direction: column;
     }
   }
-  @media (max-width: 900px) {
-    .big-mark {
-      display: none;
-    }
-    .callout {
-      display: none;
-    }
+  /* Room under the mark for the plumb line and bob to hang clear of the claim. */
+  .big {
+    margin-left: -0.04em;
+    padding-bottom: clamp(56px, 7vw, 120px);
   }
-  .reveal {
-    animation: rise 0.7s var(--ease) both;
-  }
-  .r2 {
-    animation-delay: 0.08s;
-  }
-  .r3 {
-    animation-delay: 0.18s;
-  }
-  .r4 {
-    animation-delay: 0.28s;
-  }
-  .r5 {
-    animation-delay: 0.38s;
-  }
-  /* Transform only: if animations never run (background tab, print), content is still visible. */
-  @keyframes rise {
-    from {
-      transform: translateY(12px);
-    }
-    to {
-      opacity: 1;
-      transform: none;
-    }
-  }
-  @media (prefers-reduced-motion: reduce) {
-    .reveal {
-      animation: none;
-    }
-  }
-
-  .door-grid {
+  .under {
     display: grid;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 0;
-    border: 1.5px solid var(--text);
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    gap: clamp(20px, 5vw, 72px);
+    align-items: end;
+    margin-top: var(--space-6);
   }
-  .door {
-    display: flex;
-    flex-direction: column;
-    gap: var(--space-3);
-    padding: clamp(22px, 3vw, 40px);
-    color: var(--text);
-    text-decoration: none;
-    background: var(--surface);
-    transition: background var(--dur) var(--ease);
-  }
-  .door + .door {
-    border-left: 1.5px solid var(--text);
-  }
-  .door:hover {
-    background: var(--raised);
-    color: var(--text);
-  }
-  .door h3 {
-    font-size: var(--text-2xl);
-  }
-  .door p {
+  .claim {
     margin: 0;
-    color: var(--muted);
-    flex: 1;
+    font-family: var(--font-display);
+    font-weight: 800;
+    font-stretch: 118%;
+    font-size: clamp(2rem, 1.1rem + 3.4vw, 3.8rem);
+    letter-spacing: -0.025em;
+    line-height: 1;
   }
-  .go {
-    font-family: var(--font-mono);
-    font-size: 0.74rem;
-    color: var(--primary);
-  }
-  .door:hover .go {
-    text-decoration: underline;
-  }
-  @media (max-width: 720px) {
-    .door-grid {
-      grid-template-columns: 1fr;
-    }
-    .door + .door {
-      border-left: 0;
-      border-top: 1.5px solid var(--text);
-    }
-  }
-
-  .feat-grid {
-    display: grid;
-    grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr);
-    gap: clamp(24px, 5vw, 72px);
-    align-items: start;
-  }
-  .featured h2 {
-    font-size: var(--text-3xl);
-    font-stretch: 120%;
-    margin-top: var(--space-2);
-  }
-  .feat-what {
+  .lede {
+    margin: 0;
     font-size: var(--text-lg);
-    font-weight: 600;
+    color: var(--muted);
+    max-width: 48ch;
   }
-  @media (max-width: 900px) {
-    .feat-grid {
+  @media (max-width: 760px) {
+    .under {
       grid-template-columns: 1fr;
     }
   }
 
-  .seq {
+  .head {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: var(--space-4);
+    margin-bottom: var(--space-4);
+  }
+  .head h2 {
+    font-size: var(--text-2xl);
+    font-stretch: 118%;
+  }
+  .count a {
+    color: var(--text);
+  }
+
+  .path {
     list-style: none;
     margin: 0;
     padding: 0;
     display: grid;
     grid-template-columns: repeat(4, minmax(0, 1fr));
-    border: 1.5px solid var(--text);
-    counter-reset: none;
+    border-top: 2px solid var(--text);
   }
-  .seq li {
-    padding: 22px 20px 26px;
-    background: var(--surface);
-    position: relative;
+  .path li {
+    padding: var(--space-5) var(--space-5) var(--space-5) 0;
   }
-  .seq li + li {
+  .path li + li {
+    padding-left: var(--space-5);
     border-left: 1px solid var(--rule);
   }
-  .seq li + li::before {
-    content: "";
-    position: absolute;
-    left: -7px;
-    top: 30px;
-    width: 12px;
-    height: 12px;
-    border-top: 1.5px solid var(--text);
-    border-right: 1.5px solid var(--text);
-    transform: rotate(45deg);
-    background: var(--surface);
-  }
-  .n {
-    font-family: var(--font-mono);
-    font-size: 0.8rem;
-    color: var(--accent);
-  }
-  .seq h3 {
-    font-size: var(--text-lg);
+  .path h3 {
+    font-size: var(--text-xl);
     margin: var(--space-3) 0 var(--space-2);
   }
-  .seq p {
+  .path p {
     margin: 0;
     color: var(--muted);
-    font-size: 0.95rem;
+    font-size: 0.97rem;
+  }
+  .n {
+    color: var(--accent);
   }
   @media (max-width: 900px) {
-    .seq {
+    .path {
       grid-template-columns: 1fr 1fr;
     }
-    .seq li:nth-child(3) {
+    .path li:nth-child(3) {
+      padding-left: 0;
       border-left: 0;
     }
-    .seq li:nth-child(n + 3) {
+    .path li:nth-child(n + 3) {
       border-top: 1px solid var(--rule);
-    }
-    .seq li::before {
-      display: none;
     }
   }
   @media (max-width: 560px) {
-    .seq {
+    .path {
       grid-template-columns: 1fr;
     }
-    .seq li + li {
+    .path li + li {
+      padding-left: 0;
       border-left: 0;
       border-top: 1px solid var(--rule);
     }
   }
 
-  .writing {
+  .two {
     display: grid;
-    grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr);
-    gap: clamp(24px, 5vw, 72px);
-    align-items: center;
-  }
-  .writing h2 {
-    font-size: var(--text-2xl);
-    margin: var(--space-2) 0 var(--space-4);
-  }
-  .writing p {
-    max-width: 60ch;
-  }
-  .pull {
-    margin: 0;
-    padding: var(--space-5) 0 var(--space-5) var(--space-5);
-    border-left: 3px solid var(--accent);
-  }
-  .pull p {
-    margin: 0;
-    font-family: var(--font-display);
-    font-stretch: 125%;
-    font-weight: 780;
-    font-size: var(--text-2xl);
-    line-height: 1.1;
-  }
-  @media (max-width: 720px) {
-    .writing {
-      grid-template-columns: 1fr;
-    }
-  }
-
-  .contact-in {
-    display: flex;
-    gap: var(--space-6);
+    grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr);
+    gap: clamp(20px, 5vw, 72px);
     align-items: end;
-    justify-content: space-between;
-    flex-wrap: wrap;
-    border: 1.5px solid var(--text);
-    background: var(--surface);
-    padding: clamp(22px, 4vw, 44px);
   }
-  .contact h2 {
+  .two h2 {
     font-size: var(--text-2xl);
-    margin: var(--space-2) 0 var(--space-3);
+    margin-top: var(--space-2);
   }
-  .contact p {
-    margin: 0;
+  .two h2 a {
+    color: var(--text);
+    text-decoration-color: var(--rule);
+  }
+  .muted {
     color: var(--muted);
   }
-  .mail {
-    font-family: var(--font-mono);
-    font-size: 0.95rem;
+  .contact h2 {
+    font-size: var(--text-3xl);
+    font-stretch: 120%;
+    line-height: 1;
+  }
+  @media (max-width: 760px) {
+    .two {
+      grid-template-columns: 1fr;
+    }
   }
 </style>

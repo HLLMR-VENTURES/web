@@ -1,7 +1,7 @@
 ---
 /**
- * Footer drawn as a drawing title block: owner, sheet (this page), revision (last commit touching
- * the site), contact and the sheet index (site links).
+ * Footer as a colophon block: the company, this page, the site revision (last commit touching the
+ * site), contact and the index. On the Build skin it reads as a drawing title block.
  */
 import Wordmark from "./Wordmark.astro";
 import { CONTACT_EMAIL, LINKS, LOCALITY, NAV, OWNER, REVISION } from "../lib/site";
@@ -15,19 +15,19 @@ const year = REVISION.date === "unreleased" ? "2026" : REVISION.date.slice(0, 4)
 
 <footer class="ft">
   <div class="wrap">
-    <div class="tb" role="group" aria-label="Title block">
+    <div class="tb" role="group" aria-label="Colophon">
       <div class="cell owner">
-        <span class="anno">Owner</span>
-        <a class="brand" href="/" aria-label="HLLMR Ventures, home"><Wordmark /></a>
+        <span class="anno">Company</span>
+        <a class="brand" href="/" aria-label="HLLMR Ventures, home"><Wordmark suffix="Ventures" /></a>
         <span class="v">{OWNER}</span>
         <span class="muted">{LOCALITY}</span>
       </div>
       <div class="cell">
-        <span class="anno">Sheet</span>
+        <span class="anno">Page</span>
         <span class="v">{sheet}</span>
       </div>
       <div class="cell">
-        <span class="anno">Rev</span>
+        <span class="anno">Revision</span>
         <span class="v mono">{REVISION.date}</span>
         <a class="muted mono" href={LINKS.siteSource} rel="noopener">{REVISION.hash}</a>
       </div>
@@ -37,9 +37,10 @@ const year = REVISION.date === "unreleased" ? "2026" : REVISION.date.slice(0, 4)
         <a class="muted" href={LINKS.github} rel="noopener">github.com/HLLMR</a>
       </div>
       <nav class="cell index" aria-label="Footer">
-        <span class="anno">Sheet index</span>
+        <span class="anno">Index</span>
         <ul>
           <li><a href="/">Home</a></li>
+          <li><a href="/build/">Build</a></li>
           {
             NAV.map((l) => (
               <li>
