@@ -3,8 +3,12 @@
 # <id> is content-addressed (see scripts/make-artifact.sh), so a rebuild that changes nothing is
 # not republished. Nothing here touches the host: infra's release tool PULLS these assets
 # (public repo, no credential) and switches www/current atomically under its own approvals.
-# Strict mode: every pending URL-contract entry must be live, so this workflow cannot publish
-# until the parity port is complete (Phase 2 gate).
+#
+# Strict mode (default): every pending URL-contract entry must be live, so this workflow cannot
+# publish a real release until the parity port is complete (the Phase 2 gate).
+# Test mode (manual run with prerelease=true): non-strict, tag silo-site-test/…, marked
+# pre-release. These exist so infra can exercise release A -> B -> A and the failure path off
+# production before asking for any approval. Never point production at a silo-site-test tag.
 name: release-silo
 
 on:
@@ -17,6 +21,11 @@ on:
       - "tests/url-contract/**"
       - "package-lock.json"
   workflow_dispatch:
+    inputs:
+      prerelease:
+        description: "Test artifact for infra exercises (non-strict, silo-site-test/ tag, pre-release)"
+        type: boolean
+        default: false
   # Sent by HLLMR/silo release.yml after an app release (download links and version data).
   repository_dispatch:
     types: [silo-app-release]
@@ -42,7 +51,8 @@ jobs:
       # repository variables, not secrets.
       PUBLIC_GOOGLE_SITE_VERIFICATION: ${{ vars.GOOGLE_SITE_VERIFICATION }}
       PUBLIC_BING_SITE_VERIFICATION: ${{ vars.BING_SITE_VERIFICATION }}
-      CONTRACT_STRICT: "1"
+      PRERELEASE: ${{ inputs.prerelease && '1' || '0' }}
+      CONTRACT_STRICT: ${{ inputs.prerelease && '0' || '1' }}
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
@@ -52,11 +62,15 @@ jobs:
           node-version-file: .nvmrc
           cache: npm
       - run: npm ci
-      - name: Build and check (strict contract, release copy gate)
+      - name: Build and check
         run: |
           npm test
-          node scripts/check-built-html.mjs sites/silo/dist --release
-      - name: URL contract against real nginx (strict)
+          if [ "$PRERELEASE" = "1" ]; then
+            node scripts/check-built-html.mjs sites/silo/dist
+          else
+            node scripts/check-built-html.mjs sites/silo/dist --release
+          fi
+      - name: URL contract against real nginx
         run: bash tests/url-contract/run-nginx.sh
       - name: Pack artifact
         id: pack
@@ -66,13 +80,15 @@ jobs:
           GH_TOKEN: ${{ github.token }}
           ID: ${{ steps.pack.outputs.id }}
         run: |
-          if gh release list --limit 50 --json tagName --jq '.[].tagName' | grep -q -- "-${ID:0:12}$"; then
-            echo "content ${ID} already released; nothing to do"
+          prefix="silo-site"; flags=()
+          if [ "$PRERELEASE" = "1" ]; then prefix="silo-site-test"; flags=(--prerelease); fi
+          if gh release list --limit 100 --json tagName --jq '.[].tagName' | grep -q -- "^${prefix}/.*-${ID:0:12}$"; then
+            echo "content ${ID} already released under ${prefix}/; nothing to do"
             exit 0
           fi
-          tag="silo-site/$(date -u +%Y%m%d)-${ID:0:12}"
+          tag="${prefix}/$(date -u +%Y%m%d)-${ID:0:12}"
           {
-            echo "silo.hllmr.com static release."
+            echo "silo.hllmr.com static release${flags:+ (TEST ARTIFACT, not for production)}."
             echo
             echo '```json'
             cat out/ARTIFACT.json
@@ -81,5 +97,5 @@ jobs:
             echo "Release tool arguments: \`release <id> <tarballSha256> <manifestSha256>\` from ARTIFACT.json."
             echo "Built from ${GITHUB_SHA} by ${GITHUB_WORKFLOW} run ${GITHUB_RUN_ID} (${GITHUB_EVENT_NAME})."
           } > out/notes.md
-          gh release create "$tag" --target "$GITHUB_SHA" --title "$tag" --notes-file out/notes.md \
-            "out/site-${ID}.tar.gz" out/SHA256SUMS out/ARTIFACT.json
+          gh release create "$tag" "${flags[@]}" --target "$GITHUB_SHA" --title "$tag" \
+            --notes-file out/notes.md "out/site-${ID}.tar.gz" out/SHA256SUMS out/ARTIFACT.json
