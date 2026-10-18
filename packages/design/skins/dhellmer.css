@@ -1,0 +1,72 @@
+/* dhellmer.com skin: "the log". A personal site kept like a watch log or a commissioning record:
+ * ruled cream paper, navy-black ink, and one oxide-red margin rule that every entry hangs from.
+ * Dark is "night watch": a dark bridge with the instruments lit in red-orange.
+ *
+ * Kin to hllmr.com (Archivo, Martian Mono, a single warm accent), but its own voice: Fraunces sets
+ * the name and headings, and the accent is oxide, not HLLMR signal red.
+ *
+ * Contrast (WCAG, checked 2026-10-18): light --text 14.1:1, --muted 5.5:1, --accent 5.7:1 on --bg;
+ * dark --text 14.6:1, --muted 7.3:1, --accent 8.1:1 on --bg. --focus >= 5.7:1 on --bg and --surface. */
+:root {
+  --font-display: "Fraunces Variable", "Fraunces", Georgia, "Times New Roman", serif;
+  --font-ui: "Archivo Variable", "Archivo", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-mono: "Martian Mono Variable", "Martian Mono", ui-monospace, "Cascadia Code", Consolas, monospace;
+
+  /* Light: log paper. */
+  --bg: #f1ede2;
+  --surface: #f7f4eb;
+  --raised: #fffdf6;
+  --border: #ddd6c4;
+  --rule: #c9c0aa;
+  --text: #14202b;
+  --muted: #55606a; /* 5.5:1 on --bg */
+  --primary: #14202b;
+  --primary-hover: #a13a16;
+  --on-primary: #f1ede2;
+  --accent: #a13a16; /* oxide, 5.7:1 on --bg */
+  --margin: rgba(161, 58, 22, 0.55); /* the log's margin rule */
+  --ruled: rgba(20, 32, 43, 0.055); /* the paper's ruled lines */
+  --focus: #a13a16;
+  --shadow-1: 0 1px 0 rgba(0, 0, 0, 0.04), 0 10px 30px rgba(40, 30, 10, 0.06);
+  color-scheme: light;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #0e1216;
+    --surface: #13181d;
+    --raised: #192027;
+    --border: #26303a;
+    --rule: #36424e;
+    --text: #e8e2d4;
+    --muted: #9aa3a8; /* 7.3:1 on --bg */
+    --primary: #e8e2d4;
+    --primary-hover: #ff8a68;
+    --on-primary: #0e1216;
+    --accent: #ff8a68; /* night-watch red-orange, 8.1:1 on --bg */
+    --margin: rgba(255, 138, 104, 0.42);
+    --ruled: rgba(232, 226, 212, 0.035);
+    --focus: #ff8a68;
+    --shadow-1: 0 1px 0 rgba(0, 0, 0, 0.4), 0 10px 30px rgba(0, 0, 0, 0.35);
+    color-scheme: dark;
+  }
+}
+
+:root[data-theme="dark"] {
+  --bg: #0e1216;
+  --surface: #13181d;
+  --raised: #192027;
+  --border: #26303a;
+  --rule: #36424e;
+  --text: #e8e2d4;
+  --muted: #9aa3a8;
+  --primary: #e8e2d4;
+  --primary-hover: #ff8a68;
+  --on-primary: #0e1216;
+  --accent: #ff8a68;
+  --margin: rgba(255, 138, 104, 0.42);
+  --ruled: rgba(232, 226, 212, 0.035);
+  --focus: #ff8a68;
+  --shadow-1: 0 1px 0 rgba(0, 0, 0, 0.4), 0 10px 30px rgba(0, 0, 0, 0.35);
+  color-scheme: dark;
+}

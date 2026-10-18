@@ -1,0 +1,25 @@
+---
+/**
+ * One log entry: a margin note (number and label, in mono) and a body that hangs from the margin
+ * rule. Consecutive entries join into one continuous rule down the page.
+ */
+interface Props {
+  /** Entry number shown in the margin, e.g. "01". */
+  no?: string;
+  /** Margin label, e.g. "Now". */
+  label: string;
+  /** id of the entry's heading, for aria-labelledby. */
+  id?: string;
+}
+const { no, label, id } = Astro.props;
+---
+
+<section class="entry" aria-labelledby={id}>
+  <div class="mark" aria-hidden="true">
+    {no && <span class="no">{no}</span>}
+    <span class="lbl">{label}</span>
+  </div>
+  <div class="body">
+    <slot />
+  </div>
+</section>

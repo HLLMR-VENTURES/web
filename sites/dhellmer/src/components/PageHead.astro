@@ -1,0 +1,18 @@
+---
+/** Inner-page head: a margin note, the page title and an italic lede, on the log's grid. */
+interface Props {
+  /** Margin note, e.g. "About". */
+  k: string;
+  title: string;
+  lede?: string;
+}
+const { k, title, lede } = Astro.props;
+---
+
+<header class="ph wrap">
+  <p class="k">{k}</p>
+  <div>
+    <h1>{title}</h1>
+    {lede && <p class="lede">{lede}</p>}
+  </div>
+</header>

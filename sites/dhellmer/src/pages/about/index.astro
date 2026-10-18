@@ -1,0 +1,98 @@
+---
+/**
+ * About: the public biography. Facts come only from copy the owner has already published (the
+ * founder note on hllmr.com, 2026-08, and the essay); anything else waits for the owner's CV.
+ */
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import PageHead from "../../components/PageHead.astro";
+import Entry from "../../components/Entry.astro";
+import Pending from "../../components/Pending.astro";
+import { HUB, LINKS, LOCALITY, NAME } from "../../lib/site";
+---
+
+<BaseLayout
+  title={`About · ${NAME}`}
+  description="David Hellmer builds software the way he was trained to build control systems: the Navy's nuclear program, twenty years in building systems, and now AI-assisted development."
+  ogType="profile"
+>
+  <PageHead k="About" title="About" lede="I build control systems, and lately I build software the way I was trained to build control systems." />
+
+  <div class="log wrap">
+    <Entry no="01" label="Portrait">
+      <div class="split">
+        <Pending what="Portrait photograph">
+          <p>The owner will supply the photo. It ships with metadata (EXIF, GPS) stripped, in AVIF and JPEG, with alt text.</p>
+        </Pending>
+        <dl class="facts">
+          <dt>Name</dt>
+          <dd>{NAME}</dd>
+          <dt>Based</dt>
+          <dd>{LOCALITY}</dd>
+          <dt>Work</dt>
+          <dd>Founder, <a href={HUB}>HLLMR Ventures LLC</a></dd>
+          <dt>Before</dt>
+          <dd>U.S. Navy nuclear program; building automation and integrated building systems</dd>
+          <dt>Writes at</dt>
+          <dd><a href={LINKS.hubWriting}>hllmr.com/writing</a></dd>
+        </dl>
+      </div>
+    </Entry>
+
+    <Entry no="02" label="The short version" id="bio">
+      <h2 id="bio">The short version</h2>
+      <div class="prose">
+        <p>
+          I spent twenty years in building automation and integrated building systems: the controls, physical security,
+          fire and networks that run a building, and the commissioning discipline that proves they do what the drawings say.
+          Before that I was in the Navy's nuclear program, where you assume nothing works until you have watched it work.
+        </p>
+        <p>
+          Now I build software with AI coding agents every day, and the same discipline turns out to be the missing piece.
+          An agent will report a task complete when it is not. A control nobody has watched deny anything is an assumption.
+          A plan regenerated from the code launders drift into the record. None of that is new. It is the failure mode
+          every commissioning engineer already knows, arriving in an industry that has not learned to distrust a status
+          point yet.
+        </p>
+      </div>
+    </Entry>
+
+    <Entry no="03" label="Now" id="now">
+      <h2 id="now">What I do now</h2>
+      <div class="prose">
+        <p>
+          I run <a href={HUB}>HLLMR Ventures</a>, a small company in Texas where new ventures start: a software product,
+          a development practice, and in time a music and events business. Each one has to prove itself, and when it does it
+          gets its own name, look and address.
+        </p>
+        <p>
+          The company runs on infrastructure it operates itself, with AI agents doing much of the work inside written roles
+          and a person approving every change that ships.
+        </p>
+      </div>
+      <a class="more" href="/ventures/">The ventures</a>
+    </Entry>
+  </div>
+</BaseLayout>
+
+<style>
+  .split {
+    display: grid;
+    grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
+    gap: var(--space-6);
+    align-items: start;
+  }
+  .split :global(.pending) {
+    aspect-ratio: 4 / 5;
+    justify-content: flex-end;
+    margin: 0;
+  }
+  @media (max-width: 900px) {
+    .split {
+      grid-template-columns: minmax(0, 1fr);
+    }
+    .split :global(.pending) {
+      aspect-ratio: auto;
+      min-height: 180px;
+    }
+  }
+</style>

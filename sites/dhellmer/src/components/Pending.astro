@@ -1,0 +1,18 @@
+---
+/**
+ * A visible placeholder for content the owner has said they will supply (CV detail, photo, profile
+ * URLs). It carries the TODO(v1-copy) marker, so `check-built-html --release` refuses any release
+ * build that still contains one: placeholders can be previewed, never published.
+ */
+interface Props {
+  /** What is missing, e.g. "Roles, employers and dates". */
+  what: string;
+}
+const { what } = Astro.props;
+---
+
+<div class="pending" data-todo="TODO(v1-copy)">
+  <span class="pl">Pending · owner to supply</span>
+  <span class="pw">{what}</span>
+  <slot />
+</div>

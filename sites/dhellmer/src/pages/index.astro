@@ -1,0 +1,263 @@
+---
+/** Home: who, what now, what before, the ventures, the writing, and where else to find him. */
+import BaseLayout from "../layouts/BaseLayout.astro";
+import Entry from "../components/Entry.astro";
+import StageTag from "../components/StageTag.astro";
+import { ESSAYS, VENTURE_LINKS, shortDate } from "../lib/hllmr";
+import { HUB, LINKS, LOCALITY, NAME, ROLE, abs } from "../lib/site";
+
+const ERAS = [
+  { k: "Navy", t: "U.S. Navy nuclear program", d: "Where you assume nothing works until you have watched it work." },
+  {
+    k: "Buildings",
+    t: "Building automation and integrated building systems",
+    d: "Twenty years of controls, physical security, fire and networks, and the commissioning that proves they do what the drawings say.",
+  },
+  { k: "Now", t: "Software, built with AI agents", d: "HLLMR Ventures, and the same discipline applied to a new kind of system." },
+];
+
+const jsonLd = {
+  "@context": "https://schema.org",
+  "@type": "Person",
+  "@id": abs("/#person", Astro.site),
+  name: NAME,
+  url: abs("/", Astro.site),
+  jobTitle: "Founder",
+  worksFor: { "@type": "Organization", name: "HLLMR Ventures LLC", url: HUB },
+  homeLocation: { "@type": "Place", name: LOCALITY },
+};
+---
+
+<BaseLayout
+  title={`${NAME} · ${ROLE}`}
+  description="David Hellmer: founder of HLLMR Ventures in Dallas–Fort Worth. Navy nuclear program, twenty years in building systems, now building software with AI agents."
+  ogType="profile"
+  jsonLd={jsonLd}
+>
+  <section class="hero wrap" aria-labelledby="name">
+    <p class="k"><span>{ROLE}</span><span>{LOCALITY}</span></p>
+    <h1 id="name"><span class="first">David</span> <span class="last">Hellmer</span></h1>
+    <figure class="epi">
+      <blockquote><p>Assume nothing works until you have watched it work.</p></blockquote>
+      <figcaption>Learned in the Navy's nuclear program. Still the rule.</figcaption>
+    </figure>
+  </section>
+
+  <div class="log wrap">
+    <Entry no="01" label="Now" id="now">
+      <h2 id="now">I build software the way I was trained to build control systems.</h2>
+      <div class="prose">
+        <p>
+          I run <a href={HUB}>HLLMR Ventures</a>, a small Texas company where new ventures start and grow until they can
+          stand on their own. Most days I build with AI coding agents, and I hold the work to a commissioning standard:
+          nothing is called done until someone has seen it working.
+        </p>
+      </div>
+      <a class="more" href="/about/">About me</a>
+    </Entry>
+
+    <Entry no="02" label="Before" id="before">
+      <h2 id="before">From reactors to buildings to software.</h2>
+      <ol class="rows eras">
+        {
+          ERAS.map((e) => (
+            <li class="row">
+              <div>
+                <span class="f">{e.k}</span>
+                <span class="t">{e.t}</span>
+                <p class="d">{e.d}</p>
+              </div>
+            </li>
+          ))
+        }
+      </ol>
+      <a class="more" href="/cv/">Curriculum vitae</a>
+    </Entry>
+
+    <Entry no="03" label="Ventures" id="ventures">
+      <h2 id="ventures">What I'm building.</h2>
+      <ul class="rows">
+        {
+          VENTURE_LINKS.map((v) => (
+            <li class="row">
+              <div>
+                <span class="f">{v.field}</span>
+                {v.href ? (
+                  <a class="t" href={v.href}>
+                    {v.name}
+                  </a>
+                ) : (
+                  <span class="t">{v.name}</span>
+                )}
+                <p class="d">{v.line}</p>
+              </div>
+              <div class="meta">
+                <StageTag stage={v.stage} />
+                {v.href ? (
+                  <a class="ext" href={v.href}>
+                    {v.host}
+                  </a>
+                ) : (
+                  <span>site to come</span>
+                )}
+              </div>
+            </li>
+          ))
+        }
+      </ul>
+      <a class="more" href="/ventures/">All ventures and projects</a>
+    </Entry>
+
+    <Entry no="04" label="Writing" id="writing">
+      <h2 id="writing">Writing</h2>
+      <ul class="rows">
+        {
+          ESSAYS.slice(0, 3).map((e) => (
+            <li class="row">
+              <div>
+                <span class="f">{e.kind}</span>
+                <a class="t" href={e.href}>
+                  {e.title}
+                </a>
+                <p class="d">{e.description}</p>
+              </div>
+              <div class="meta">
+                <time datetime={e.published}>{shortDate(e.published)}</time>
+                <span>hllmr.com</span>
+              </div>
+            </li>
+          ))
+        }
+      </ul>
+      <a class="more" href="/writing/">Everything I've written</a>
+    </Entry>
+
+    <Entry no="05" label="Elsewhere" id="elsewhere">
+      <h2 id="elsewhere">Elsewhere</h2>
+      <div class="prose">
+        <p>
+          Code lives at <a href={LINKS.github}>github.com/HLLMR</a>. For business, write through
+          <a href={LINKS.hubContact}>hllmr.com</a>.
+        </p>
+      </div>
+      <a class="more" href="/elsewhere/">Profiles and links</a>
+    </Entry>
+  </div>
+</BaseLayout>
+
+<style>
+  .hero {
+    display: grid;
+    grid-template-columns: var(--margin-col) minmax(0, 1fr);
+    grid-template-areas:
+      "k k"
+      ". name"
+      ". epi";
+    padding-top: var(--space-9);
+    padding-bottom: var(--space-7);
+  }
+  .k {
+    grid-area: k;
+    display: flex;
+    gap: 6px 22px;
+    flex-wrap: wrap;
+    margin: 0 0 var(--space-5) var(--margin-col);
+    font-family: var(--font-mono);
+    font-size: 0.68rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+  .k span:first-child {
+    color: var(--accent);
+  }
+  h1 {
+    grid-area: name;
+    font-variation-settings: "opsz" 144;
+    font-weight: 340;
+    font-size: clamp(3.4rem, 1.2rem + 9.4vw, 9.6rem);
+    letter-spacing: -0.045em;
+    line-height: 0.88;
+    margin-left: -0.06em;
+  }
+  .first,
+  .last {
+    display: inline-block;
+  }
+  .last {
+    font-style: italic;
+    font-weight: 300;
+    color: var(--accent);
+  }
+  .epi {
+    grid-area: epi;
+    margin: var(--space-7) 0 0;
+    padding-left: var(--space-5);
+    border-left: 3px solid var(--accent);
+    max-width: 40rem;
+  }
+  .epi blockquote {
+    margin: 0;
+  }
+  .epi blockquote p {
+    font-family: var(--font-display);
+    font-style: italic;
+    font-variation-settings: "opsz" 60;
+    font-weight: 360;
+    font-size: var(--text-2xl);
+    line-height: 1.2;
+    margin: 0;
+  }
+  .epi figcaption {
+    font-family: var(--font-mono);
+    font-size: 0.68rem;
+    letter-spacing: 0.06em;
+    color: var(--muted);
+    margin-top: var(--space-3);
+  }
+  .eras .row {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  @media (prefers-reduced-motion: no-preference) {
+    .first,
+    .last {
+      animation: ink 760ms var(--ease) both;
+    }
+    .last {
+      animation-delay: 140ms;
+    }
+    .epi {
+      animation: rule 900ms var(--ease) 320ms both;
+    }
+  }
+  @keyframes ink {
+    from {
+      opacity: 0;
+      transform: translateY(0.06em);
+      letter-spacing: -0.02em;
+    }
+    to {
+      opacity: 1;
+      transform: none;
+    }
+  }
+  @keyframes rule {
+    from {
+      opacity: 0;
+      border-left-color: transparent;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+  @media (max-width: 720px) {
+    .hero {
+      grid-template-columns: minmax(0, 1fr);
+      grid-template-areas: "k" "name" "epi";
+      padding-top: var(--space-7);
+    }
+    .k {
+      margin-left: 0;
+    }
+  }
+</style>

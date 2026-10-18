@@ -1,0 +1,139 @@
+{
+  "$comment": "dhellmer.com public URL contract. A new site: the domain's only earlier content was a hosting placeholder at / (Wayback, 2025-07), so nothing legacy needs to keep resolving. Statuses are what deploy/dhellmer/nginx.conf answers; 'location' is the exact Location header (absolute_redirect off keeps directory redirects relative). www.dhellmer.com -> apex is an NPM redirection host and is not tested here.",
+  "site": "dhellmer",
+  "entries": [
+    {
+      "path": "/",
+      "status": 200,
+      "contains": "Assume nothing works until you have watched it work.",
+      "why": "home; canonical"
+    },
+    {
+      "path": "/index.html",
+      "status": 200,
+      "contains": "David Hellmer"
+    },
+    {
+      "path": "/about/",
+      "status": 200,
+      "contains": "The short version"
+    },
+    {
+      "path": "/about",
+      "status": 301,
+      "location": "/about/"
+    },
+    {
+      "path": "/about/index.html",
+      "status": 200
+    },
+    {
+      "path": "/cv/",
+      "status": 200,
+      "contains": "Curriculum vitae"
+    },
+    {
+      "path": "/cv",
+      "status": 301,
+      "location": "/cv/"
+    },
+    {
+      "path": "/cv/index.html",
+      "status": 200
+    },
+    {
+      "path": "/writing/",
+      "status": 200,
+      "contains": "Document control for AI-assisted development",
+      "why": "index only: links to the canonical essay on hllmr.com"
+    },
+    {
+      "path": "/writing",
+      "status": 301,
+      "location": "/writing/"
+    },
+    {
+      "path": "/writing/index.html",
+      "status": 200
+    },
+    {
+      "path": "/ventures/",
+      "status": 200,
+      "contains": "silo.hllmr.com",
+      "why": "every HLLMR venture, linked to its own front door"
+    },
+    {
+      "path": "/ventures",
+      "status": 301,
+      "location": "/ventures/"
+    },
+    {
+      "path": "/ventures/index.html",
+      "status": 200
+    },
+    {
+      "path": "/elsewhere/",
+      "status": 200,
+      "contains": "hllmr.com/contact",
+      "why": "contact route: links only, no email (owner decision 2026-10-18)"
+    },
+    {
+      "path": "/elsewhere",
+      "status": 301,
+      "location": "/elsewhere/"
+    },
+    {
+      "path": "/elsewhere/index.html",
+      "status": 200
+    },
+    {
+      "path": "/privacy/",
+      "status": 200,
+      "contains": "No cookies"
+    },
+    {
+      "path": "/privacy",
+      "status": 301,
+      "location": "/privacy/"
+    },
+    {
+      "path": "/privacy/index.html",
+      "status": 200
+    },
+    {
+      "path": "/og.png",
+      "status": 200
+    },
+    {
+      "path": "/favicon.png",
+      "status": 200
+    },
+    {
+      "path": "/favicon.svg",
+      "status": 200
+    },
+    {
+      "path": "/js/theme.js",
+      "status": 200
+    },
+    {
+      "path": "/robots.txt",
+      "status": 200,
+      "contains": "Sitemap: https://dhellmer.com/sitemap.xml"
+    },
+    {
+      "path": "/sitemap.xml",
+      "status": 200,
+      "contains": "https://dhellmer.com/cv/"
+    },
+    {
+      "path": "/no-such-page/",
+      "status": 404,
+      "contains": "No entry in the log."
+    },
+    {
+      "path": "/.git/config",
+      "status": 403
+    }
+  ]
+}

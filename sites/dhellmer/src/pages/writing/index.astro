@@ -1,0 +1,56 @@
+---
+/**
+ * Writing index. Every essay is published on hllmr.com and only linked from here (no copied bodies,
+ * so there is one canonical URL per piece). The list comes from hllmr.com's own writing index.
+ */
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import PageHead from "../../components/PageHead.astro";
+import Entry from "../../components/Entry.astro";
+import { ESSAYS, shortDate } from "../../lib/hllmr";
+import { LINKS, NAME } from "../../lib/site";
+---
+
+<BaseLayout
+  title={`Writing · ${NAME}`}
+  description="An index of David Hellmer's essays and notes. Each one is published on hllmr.com."
+>
+  <PageHead k="Writing" title="Writing" lede="Essays on building with AI agents, and the older disciplines that already know how. Published on hllmr.com." />
+
+  <div class="log wrap">
+    <Entry label={`${ESSAYS.length} published`} id="index">
+      <h2 id="index" class="visually-hidden">All writing</h2>
+      <ol class="rows">
+        {
+          ESSAYS.map((e) => (
+            <li class="row">
+              <div>
+                <span class="f">{e.kind}</span>
+                <a class="t" href={e.href}>
+                  {e.title}
+                </a>
+                <p class="d">{e.description}</p>
+              </div>
+              <div class="meta">
+                <time datetime={e.published}>{shortDate(e.published)}</time>
+                <a class="ext" href={e.href}>
+                  hllmr.com
+                </a>
+              </div>
+            </li>
+          ))
+        }
+      </ol>
+      <p class="note">
+        Follow along with the <a href={LINKS.hubFeed}>hllmr.com feed</a>.
+      </p>
+    </Entry>
+  </div>
+</BaseLayout>
+
+<style>
+  .note {
+    color: var(--muted);
+    font-size: 0.92rem;
+    margin: var(--space-4) 0 0;
+  }
+</style>

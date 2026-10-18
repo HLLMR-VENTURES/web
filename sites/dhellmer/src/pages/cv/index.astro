@@ -1,0 +1,69 @@
+---
+/**
+ * Curriculum vitae. Owner decision 2026-10-18: a full CV (roles, employers, dates, certifications),
+ * supplied by the owner. Until it arrives, each era shows only what is already public, and the
+ * detail is a Pending block, which a release build refuses.
+ */
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import PageHead from "../../components/PageHead.astro";
+import Entry from "../../components/Entry.astro";
+import Pending from "../../components/Pending.astro";
+import { HUB, NAME } from "../../lib/site";
+
+const ERAS = [
+  {
+    no: "03",
+    k: "Now",
+    t: "Founder, HLLMR Ventures LLC",
+    d: "A small Texas company where new ventures start. Software built with AI coding agents, held to a commissioning standard; infrastructure the company runs itself.",
+    link: { href: HUB, label: "hllmr.com" },
+  },
+  {
+    no: "02",
+    k: "Buildings",
+    t: "Building automation and integrated building systems",
+    d: "About twenty years with the controls, physical security, fire and networks that run a building, and the commissioning that proves they do what the drawings say. Construction document control throughout.",
+  },
+  {
+    no: "01",
+    k: "Navy",
+    t: "U.S. Navy nuclear program",
+    d: "Where you assume nothing works until you have watched it work.",
+  },
+];
+---
+
+<BaseLayout
+  title={`CV · ${NAME}`}
+  description="David Hellmer's curriculum vitae: the U.S. Navy nuclear program, building automation and integrated building systems, and HLLMR Ventures."
+  ogType="profile"
+>
+  <PageHead k="Curriculum vitae" title="CV" lede="Three eras, one discipline: watch it work before you call it done." />
+
+  <div class="log wrap">
+    {
+      ERAS.map((e) => (
+        <Entry no={e.no} label={e.k} id={`era-${e.no}`}>
+          <h2 id={`era-${e.no}`}>{e.t}</h2>
+          <div class="prose">
+            <p>{e.d}</p>
+          </div>
+          <Pending what="Roles, employers, dates and highlights for this era">
+            <p>From the CV the owner will supply. Nothing here is guessed.</p>
+          </Pending>
+          {e.link && (
+            <a class="more ext" href={e.link.href}>
+              {e.link.label}
+            </a>
+          )}
+        </Entry>
+      ))
+    }
+    <Entry label="Credentials" id="credentials">
+      <h2 id="credentials">Credentials and education</h2>
+      <Pending what="Certifications, licences, training and education">
+        <p>From the CV the owner will supply.</p>
+      </Pending>
+    </Entry>
+  </div>
+</BaseLayout>

@@ -1,0 +1,60 @@
+---
+/**
+ * Privacy notice. Must match what the site and its host actually do. Facts that depend on infra
+ * (proxy log retention, the counting job) are confirmed in the hllmr-infra request before launch.
+ */
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import PageHead from "../../components/PageHead.astro";
+import Entry from "../../components/Entry.astro";
+import { LINKS, NAME, THEME_STORAGE_KEY } from "../../lib/site";
+---
+
+<BaseLayout
+  title={`Privacy · ${NAME}`}
+  description="What dhellmer.com collects: no cookies, no trackers, no forms, no third-party requests; aggregate request counts from server logs, kept private."
+>
+  <PageHead k="Privacy" title="Privacy" lede="Short, because the site does very little." />
+
+  <div class="log wrap">
+    <Entry label="Not done" id="not">
+      <h2 id="not">What this site does not do</h2>
+      <div class="prose">
+        <ul>
+          <li>No cookies, no analytics scripts, no tracking pixels, no advertising.</li>
+          <li>No third-party requests: fonts, styles and images are all served from dhellmer.com.</li>
+          <li>No forms and no email address. Nothing you do on the site is sent anywhere by the site.</li>
+        </ul>
+      </div>
+    </Entry>
+    <Entry label="Server" id="logs">
+      <h2 id="logs">What the server records</h2>
+      <div class="prose">
+        <p>
+          Like any web server, this one writes an access log entry for each request: the time, the page, the response, the
+          referring page, your browser's user-agent string and your IP address. The logs keep the site running and secure,
+          and are used to count requests.
+        </p>
+        <p>
+          The counts are aggregate (for example, requests per page per day), do not keep IP addresses, and are seen only by
+          me. Log data is not sold or shared.
+        </p>
+      </div>
+    </Entry>
+    <Entry label="Theme" id="theme">
+      <h2 id="theme">Your theme choice</h2>
+      <div class="prose">
+        <p>
+          If you use the light/dark toggle, your choice is saved in your browser's local storage under the key
+          <code>{THEME_STORAGE_KEY}</code>. It never leaves your browser and you can clear it at any time.
+        </p>
+      </div>
+    </Entry>
+    <Entry label="Host" id="host">
+      <h2 id="host">Where it is hosted</h2>
+      <div class="prose">
+        <p>On servers operated by HLLMR Ventures LLC in Germany, with backups and a recovery copy in North America.</p>
+        <p>Questions about this notice: <a href={LINKS.hubContact}>hllmr.com/contact</a>.</p>
+      </div>
+    </Entry>
+  </div>
+</BaseLayout>

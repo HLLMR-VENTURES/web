@@ -1,0 +1,64 @@
+---
+/** 404 (served by nginx `error_page 404 /404.html`). */
+import BaseLayout from "../layouts/BaseLayout.astro";
+import { NAME } from "../lib/site";
+---
+
+<BaseLayout title={`Not found · ${NAME}`} description="This page does not exist on dhellmer.com." noindex>
+  <section class="nf wrap">
+    <p class="k">404</p>
+    <div>
+      <h1>No entry in the log.</h1>
+      <p>The page you asked for isn't here. The essays live on hllmr.com; everything else is one of these.</p>
+      <p class="links">
+        <a class="btn btn-primary" href="/">Home</a>
+        <a class="btn btn-ghost" href="/writing/">Writing</a>
+        <a class="btn btn-ghost" href="/ventures/">Ventures</a>
+      </p>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .nf {
+    display: grid;
+    grid-template-columns: var(--margin-col) minmax(0, 1fr);
+    padding-top: var(--space-9);
+  }
+  .k {
+    font-family: var(--font-mono);
+    font-size: 0.7rem;
+    letter-spacing: 0.14em;
+    color: var(--accent);
+    text-align: right;
+    padding: 1.2em var(--space-5) 0 0;
+    margin: 0;
+  }
+  h1 {
+    font-variation-settings: "opsz" 144;
+    font-weight: 360;
+    font-style: italic;
+    font-size: var(--text-3xl);
+    letter-spacing: -0.02em;
+    margin-bottom: var(--space-4);
+  }
+  p {
+    color: var(--muted);
+    max-width: 56ch;
+  }
+  .links {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+    margin-top: var(--space-5);
+  }
+  @media (max-width: 720px) {
+    .nf {
+      grid-template-columns: minmax(0, 1fr);
+    }
+    .k {
+      text-align: left;
+      padding: 0;
+    }
+  }
+</style>
