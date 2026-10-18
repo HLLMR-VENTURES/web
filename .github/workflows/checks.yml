@@ -94,12 +94,16 @@ jobs:
       - name: URL contract against real nginx with deploy/dhellmer/nginx.conf
         run: bash tests/url-contract/run-nginx-dhellmer.sh
       - name: Owner-content placeholders still pending (release builds refuse them)
-        run: grep -rl 'TODO(v1-copy)' sites/dhellmer/dist --include='*.html' | sed 's#^#pending: #' || echo "none: releasable"
+        run: |
+          if grep -rl 'TODO(v1-copy)' sites/dhellmer/dist --include='*.html'; then
+            echo "::notice::owner-content placeholders remain (listed above); a release build refuses them"
+          else
+            echo "no placeholders: releasable"
+          fi
       - name: Size report
         run: |
           du -sh sites/dhellmer/dist
-          for f in sites/dhellmer/dist/index.html sites/dhellmer/dist/*/index.html; do printf '%7d  %s
-' "$(wc -c <"$f")" "$f"; done
+          for f in sites/dhellmer/dist/index.html sites/dhellmer/dist/*/index.html; do printf '%7d  %s\n' "$(wc -c <"$f")" "$f"; done
 
   secrets:
     name: secrets (gitleaks)
