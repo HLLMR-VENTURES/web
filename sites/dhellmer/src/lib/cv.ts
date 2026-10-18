@@ -4,7 +4,7 @@
  *
  * Employer-owned work (ADR-0006 in hllmr-infra): roles at an employer are described only at the
  * level the owner's public profile already describes them. Nothing here is drawn from archived
- * employer material, and none of it is published.
+ * employer material, and none of it is published. Curia is left out (owner decision 2026-10-18).
  */
 
 export interface Role {
@@ -66,10 +66,6 @@ export const ERAS: Era[] = [
           {
             name: "Silo",
             text: "A cross-platform Farming Simulator mod manager (Rust/Tauri, Svelte) with a separately hosted API that I operate. As of September 2026: 14 releases, 225 installer downloads and 17,844 API requests in the preceding 30 days.",
-          },
-          {
-            name: "Curia",
-            text: "In development: a verification platform that tests coding agents' completion claims against live operational state.",
           },
         ],
       },

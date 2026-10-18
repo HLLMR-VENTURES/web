@@ -2,12 +2,13 @@
 /**
  * About: the public biography. Facts come from copy the owner has published: the 2026-08 founder
  * note on hllmr.com and the owner's LinkedIn profile (supplied 2026-10-18 as starting content, with
- * leave to expand). The portrait waits for the owner's photo.
+ * leave to expand). A typographic plate stands in for the portrait until the owner's photo arrives
+ * (owner decision 2026-10-18).
  */
 import BaseLayout from "../../layouts/BaseLayout.astro";
 import PageHead from "../../components/PageHead.astro";
 import Entry from "../../components/Entry.astro";
-import Pending from "../../components/Pending.astro";
+import Plate from "../../components/Plate.astro";
 import { ENVIRONMENTS } from "../../lib/cv";
 import { HUB, LINKS, LOCALITY, NAME, PROFILES } from "../../lib/site";
 
@@ -22,11 +23,9 @@ const linkedin = PROFILES.find((p) => p.label === "LinkedIn");
   <PageHead k="About" title="About" lede="I build control systems, and lately I build software the way I was trained to build control systems." />
 
   <div class="log wrap">
-    <Entry no="01" label="Portrait">
+    <Entry no="01" label="At a glance">
       <div class="split">
-        <Pending what="Portrait photograph">
-          <p>The owner will supply the photo. It ships with metadata (EXIF, GPS) stripped, in AVIF and JPEG, with alt text.</p>
-        </Pending>
+        <Plate caption="David Hellmer · Dallas–Fort Worth" />
         <dl class="facts">
           <dt>Name</dt>
           <dd>{NAME}</dd>
@@ -119,11 +118,6 @@ const linkedin = PROFILES.find((p) => p.label === "LinkedIn");
     gap: var(--space-6);
     align-items: start;
   }
-  .split :global(.pending) {
-    aspect-ratio: 4 / 5;
-    justify-content: flex-end;
-    margin: 0;
-  }
   .env {
     list-style: none;
     margin: 0 0 var(--space-5);
@@ -144,10 +138,6 @@ const linkedin = PROFILES.find((p) => p.label === "LinkedIn");
   @media (max-width: 900px) {
     .split {
       grid-template-columns: minmax(0, 1fr);
-    }
-    .split :global(.pending) {
-      aspect-ratio: auto;
-      min-height: 180px;
     }
   }
 </style>
