@@ -1,0 +1,75 @@
+/* Silo skin: "Golden Hour" values mirrored from the app (Silo/src/lib/styles/tokens.css and
+ * docs/DESIGN.md) as shipped on silo.hllmr.com on 2026-10-17. After the UI overhaul this file is
+ * regenerated from (or CI-verified against) the app's tokens. */
+:root {
+  --green-300: #9cc06e;
+  --green-500: #5c8a3a;
+  --green-600: #4a7330;
+  --green-700: #395a25;
+  --green-900: #21361a;
+  --gold-300: #f2d26b;
+  --gold-500: #e3b23c;
+  --gold-700: #a5751f;
+  --soil-500: #8a6a45;
+  --soil-700: #5e472e;
+  --barn-500: #b34a38;
+  --sky-500: #4a90c2;
+
+  --font-display: "Fraunces Variable", "Fraunces", "Iowan Old Style", "Palatino Linotype", Georgia, serif;
+  --font-ui: "Hanken Grotesk Variable", "Hanken Grotesk", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, "SF Mono", "Cascadia Code", Consolas, monospace;
+
+  /* Light theme (default). */
+  --bg: #f6f3ec;
+  --surface: #fcfaf4;
+  --raised: #ffffff;
+  --border: #e4dece;
+  --text: #2a2a22;
+  --muted: #6b6a5c;
+  --primary: var(--green-600);
+  --primary-hover: var(--green-700);
+  --on-primary: #ffffff;
+  --accent: var(--gold-500);
+  --info: var(--sky-500);
+  --warn: var(--gold-700);
+  --danger: var(--barn-500);
+  --success: var(--green-600);
+  --focus: var(--green-700); /* 7.1:1 on --bg (the old gold ring was 1.8:1) */
+  --shadow-1: 0 1px 2px rgba(40, 30, 10, 0.06), 0 8px 24px rgba(40, 30, 10, 0.06);
+  --shadow-2: 0 12px 40px rgba(20, 15, 5, 0.16);
+  color-scheme: light;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #171a14;
+    --surface: #1f231c;
+    --raised: #282d24;
+    --border: #39402f;
+    --text: #edebe0;
+    --muted: #a8a897;
+    --primary: var(--green-500);
+    --primary-hover: var(--green-300);
+    --on-primary: #12180e;
+    --focus: var(--gold-300); /* 11.9:1 on --bg */
+    --shadow-1: 0 1px 2px rgba(0, 0, 0, 0.3), 0 8px 24px rgba(0, 0, 0, 0.28);
+    --shadow-2: 0 14px 44px rgba(0, 0, 0, 0.45);
+    color-scheme: dark;
+  }
+}
+
+:root[data-theme="dark"] {
+  --bg: #171a14;
+  --surface: #1f231c;
+  --raised: #282d24;
+  --border: #39402f;
+  --text: #edebe0;
+  --muted: #a8a897;
+  --primary: var(--green-500);
+  --primary-hover: var(--green-300);
+  --on-primary: #12180e;
+  --focus: var(--gold-300);
+  --shadow-1: 0 1px 2px rgba(0, 0, 0, 0.3), 0 8px 24px rgba(0, 0, 0, 0.28);
+  --shadow-2: 0 14px 44px rgba(0, 0, 0, 0.45);
+  color-scheme: dark;
+}

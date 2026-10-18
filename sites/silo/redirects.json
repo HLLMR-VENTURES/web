@@ -1,0 +1,50 @@
+{
+  "$comment": "Single source for the redirect layer. scripts/gen-nginx-redirects.mjs turns it into deploy/silo/redirects.conf (nginx, authoritative once infra includes it) and src/pages/go/[key]/index.astro builds static fallback stubs from it. Status: go and vanity are 302 (targets may change), permanent is 301. Keys are stable forever; only targets change. Help targets point at the legacy single-page anchors until the help split lands, then at /help/<topic>/. The release tool fetches every artifact file through nginx and compares bytes, so a redirect must never cover a path that exists as a file in the artifact (the stubs live at /go/<key>/index.html and /discord/index.html, which nginx serves as files).",
+  "go": {
+    "discord": "https://discord.gg/NpxcYdGHrW",
+    "discussions": "https://github.com/HLLMR/silo/discussions",
+    "issues": "https://github.com/HLLMR/silo/issues",
+    "new-issue": "https://github.com/HLLMR/silo/issues/new/choose",
+    "source": "https://github.com/HLLMR/silo",
+    "releases": "https://github.com/HLLMR/silo/releases",
+    "download": "/#download",
+    "trust": "/trust/",
+    "browse": "/browse/",
+    "authors": "/authors/",
+    "privacy": "/legal/privacy-policy.html",
+    "terms": "/legal/terms-of-service.html",
+    "disclaimer": "/legal/disclaimer.html",
+    "takedown": "/legal/copyright-takedown.html",
+    "help": "/help/",
+    "help-getting-started": "/help/#getting-started-h",
+    "help-library": "/help/#library-h",
+    "help-mods-folder": "/help/#mods-folder-h",
+    "help-library-archive": "/help/#library-archive-h",
+    "help-curation": "/help/#curation-h",
+    "help-loadouts": "/help/#loadouts-h",
+    "help-collections": "/help/#collections-h",
+    "help-health": "/help/#health-h",
+    "help-browsing-installing": "/help/#browsing-installing-h",
+    "help-updates": "/help/#updates-h",
+    "help-provenance": "/help/#provenance-h",
+    "help-conflicts": "/help/#conflicts-h",
+    "help-crash-triage": "/help/#crash-triage-h",
+    "help-guided-bisection": "/help/#guided-bisection-h",
+    "help-savegames": "/help/#savegames-h",
+    "help-mod-config": "/help/#mod-config-h",
+    "help-multiplayer": "/help/#multiplayer-h",
+    "help-filltype-bridge": "/help/#filltype-bridge-h",
+    "help-bindings": "/help/#bindings-h",
+    "help-settings-accounts": "/help/#settings-accounts-h",
+    "help-troubleshooting": "/help/#troubleshooting-h"
+  },
+  "vanity": {
+    "/discord": "https://discord.gg/NpxcYdGHrW",
+    "/discord/": "https://discord.gg/NpxcYdGHrW"
+  },
+  "permanent": {
+    "/catalog/": "/trust/",
+    "/catalog": "/trust/",
+    "/catalog/index.html": "/trust/"
+  }
+}

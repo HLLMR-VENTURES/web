@@ -1,0 +1,8 @@
+{
+  "login": "jane-doe",
+  "avatarUrl": null,
+  "verifiedMods": [
+    { "id": 101, "title": "Realistic Example Mod", "techName": "FS25_RealisticExample", "latestVersion": "1.2.0.0" },
+    { "id": 102, "title": "Another Example", "techName": "FS25_AnotherExample", "latestVersion": null }
+  ]
+}

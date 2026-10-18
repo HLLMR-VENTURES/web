@@ -1,0 +1,25 @@
+{
+  "name": "@hllmr/design",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Shared design core (tokens, base styles, fonts, generic components) and per-site skins.",
+  "license": "MIT",
+  "type": "module",
+  "exports": {
+    "./silo.css": "./silo.css",
+    "./tokens/*": "./tokens/*",
+    "./skins/*": "./skins/*",
+    "./components/*": "./components/*"
+  },
+  "files": [
+    "silo.css",
+    "tokens",
+    "skins",
+    "components"
+  ],
+  "dependencies": {
+    "@fontsource-variable/fraunces": "5.3.0",
+    "@fontsource-variable/hanken-grotesk": "5.3.0",
+    "@fontsource/jetbrains-mono": "5.3.0"
+  }
+}

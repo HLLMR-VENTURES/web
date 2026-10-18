@@ -1,0 +1,39 @@
+---
+/**
+ * Light/dark toggle. The saved choice lives in localStorage under `storageKey` (disclosed in the
+ * site's privacy policy); the site's blocking /js/theme.js applies it before first paint.
+ */
+interface Props {
+  storageKey: string;
+  class?: string;
+}
+const { storageKey, class: className = "" } = Astro.props;
+---
+
+<button
+  class:list={["theme-toggle", className]}
+  type="button"
+  data-theme-toggle
+  data-storage-key={storageKey}
+  aria-label="Toggle light / dark theme"
+  title="Toggle theme"
+>
+  <span aria-hidden="true">◐</span>
+</button>
+
+<script>
+  for (const btn of document.querySelectorAll<HTMLButtonElement>("[data-theme-toggle]")) {
+    btn.addEventListener("click", () => {
+      const root = document.documentElement;
+      let cur = root.getAttribute("data-theme");
+      if (!cur) cur = matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
+      const next = cur === "dark" ? "light" : "dark";
+      root.setAttribute("data-theme", next);
+      try {
+        localStorage.setItem(btn.dataset.storageKey ?? "theme", next);
+      } catch {
+        /* storage blocked: the theme still applies for this page view */
+      }
+    });
+  }
+</script>

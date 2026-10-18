@@ -1,0 +1,24 @@
+---
+/**
+ * Shell for public author profiles at /authors/<login>/. nginx serves this file for every
+ * /authors/<login>/ path (`try_files $uri $uri/ /authors/profile.shell.html`). The file name has a
+ * dot, which a GitHub login cannot contain, so it can never shadow a real author. The island reads
+ * the login from the path. noindex until the nightly prerender of verified authors (Phase 4).
+ */
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import AuthorProfile from "../../islands/AuthorProfile.svelte";
+import { SILO_API } from "../../lib/site";
+---
+
+<BaseLayout
+  title="Verified author | Silo"
+  description="A mod author who claimed their GitHub-published Farming Simulator 25 mods on Silo."
+  ogTitle="Verified author on Silo"
+  noindex
+>
+  <div class="wrap">
+    <Fragment set:html="<!-- [html-validate-disable-block element-permitted-content: Astro places its island loader style here] -->" />
+    <AuthorProfile client:load api={SILO_API} />
+    <noscript><p>This page needs JavaScript to load the author's verified mods.</p></noscript>
+  </div>
+</BaseLayout>

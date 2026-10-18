@@ -1,0 +1,38 @@
+---
+/** Branded 404 (served by nginx `error_page 404 /404.html`). Pagefind search joins it in Phase 1. */
+import BaseLayout from "../layouts/BaseLayout.astro";
+---
+
+<BaseLayout title="Page not found | Silo" description="This page doesn't exist on silo.hllmr.com." noindex>
+  <section class="nf wrap">
+    <p class="eyebrow">404</p>
+    <h1>This field is fallow.</h1>
+    <p>The page you asked for isn't here. It may have moved when the help pages were split up.</p>
+    <p class="links">
+      <a class="btn btn-primary" href="/">Home</a>
+      <a class="btn btn-ghost" href="/help/">Help</a>
+      <a class="btn btn-ghost" href="/browse/">Browse mods</a>
+    </p>
+  </section>
+</BaseLayout>
+
+<style>
+  .nf {
+    padding-top: 96px;
+    padding-bottom: 64px;
+  }
+  .nf h1 {
+    font-size: var(--text-3xl);
+    line-height: var(--leading-tight);
+  }
+  .nf p {
+    color: var(--muted);
+    max-width: 60ch;
+  }
+  .links {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+    margin-top: 24px;
+  }
+</style>

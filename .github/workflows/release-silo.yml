@@ -1,0 +1,85 @@
+# Builds silo.hllmr.com and publishes a versioned static artifact as a GitHub Release:
+#   tag  silo-site/<yyyymmdd>-<id12>   assets  site-<id>.tar.gz, SHA256SUMS, ARTIFACT.json
+# <id> is content-addressed (see scripts/make-artifact.sh), so a rebuild that changes nothing is
+# not republished. Nothing here touches the host: infra's release tool PULLS these assets
+# (public repo, no credential) and switches www/current atomically under its own approvals.
+# Strict mode: every pending URL-contract entry must be live, so this workflow cannot publish
+# until the parity port is complete (Phase 2 gate).
+name: release-silo
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "sites/silo/**"
+      - "packages/design/**"
+      - "deploy/silo/**"
+      - "tests/url-contract/**"
+      - "package-lock.json"
+  workflow_dispatch:
+  # Sent by HLLMR/silo release.yml after an app release (download links and version data).
+  repository_dispatch:
+    types: [silo-app-release]
+  # Safety net for build-time data (releases, catalog snapshot).
+  schedule:
+    - cron: "17 5 * * *"
+
+permissions:
+  contents: write # create the release and upload assets; nothing else
+
+concurrency:
+  group: release-silo
+  cancel-in-progress: false
+
+jobs:
+  release:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+    env:
+      SITE_URL: https://silo.hllmr.com
+      PUBLIC_SILO_API: https://silo-api.hllmr.com
+      # Search-console verification tokens are public by design (they sit in the HTML); stored as
+      # repository variables, not secrets.
+      PUBLIC_GOOGLE_SITE_VERIFICATION: ${{ vars.GOOGLE_SITE_VERIFICATION }}
+      PUBLIC_BING_SITE_VERIFICATION: ${{ vars.BING_SITE_VERIFICATION }}
+      CONTRACT_STRICT: "1"
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
+        with:
+          node-version-file: .nvmrc
+          cache: npm
+      - run: npm ci
+      - name: Build and check (strict contract, release copy gate)
+        run: |
+          npm test
+          node scripts/check-built-html.mjs sites/silo/dist --release
+      - name: URL contract against real nginx (strict)
+        run: bash tests/url-contract/run-nginx.sh
+      - name: Pack artifact
+        id: pack
+        run: bash scripts/make-artifact.sh sites/silo/dist "$GITHUB_SHA" out
+      - name: Publish release unless identical content is already released
+        env:
+          GH_TOKEN: ${{ github.token }}
+          ID: ${{ steps.pack.outputs.id }}
+        run: |
+          if gh release list --limit 50 --json tagName --jq '.[].tagName' | grep -q -- "-${ID:0:12}$"; then
+            echo "content ${ID} already released; nothing to do"
+            exit 0
+          fi
+          tag="silo-site/$(date -u +%Y%m%d)-${ID:0:12}"
+          {
+            echo "silo.hllmr.com static release."
+            echo
+            echo '```json'
+            cat out/ARTIFACT.json
+            echo '```'
+            echo
+            echo "Release tool arguments: \`release <id> <tarballSha256> <manifestSha256>\` from ARTIFACT.json."
+            echo "Built from ${GITHUB_SHA} by ${GITHUB_WORKFLOW} run ${GITHUB_RUN_ID} (${GITHUB_EVENT_NAME})."
+          } > out/notes.md
+          gh release create "$tag" --target "$GITHUB_SHA" --title "$tag" --notes-file out/notes.md \
+            "out/site-${ID}.tar.gz" out/SHA256SUMS out/ARTIFACT.json

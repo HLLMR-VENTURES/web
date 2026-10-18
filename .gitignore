@@ -1,0 +1,14 @@
+node_modules/
+dist/
+.astro/
+out/
+*.log
+.env
+.env.*
+!.env.example
+.DS_Store
+Thumbs.db
+# Proton Drive / sync-client clash artifacts
+*(# Name clash*
+*(# Delete conflict*
+.lycheeignore

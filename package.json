@@ -1,0 +1,29 @@
+{
+  "name": "hllmr-web",
+  "private": true,
+  "description": "HLLMR static websites: shared design package and per-site Astro builds.",
+  "license": "MIT",
+  "type": "module",
+  "workspaces": [
+    "packages/*",
+    "sites/*"
+  ],
+  "engines": {
+    "node": ">=22.12.0"
+  },
+  "scripts": {
+    "dev": "npm run dev -w @hllmr/site-silo",
+    "build": "npm run build -w @hllmr/site-silo",
+    "preview": "npm run preview -w @hllmr/site-silo",
+    "test": "npm run build && npm run check && npm run test:contract",
+    "test:contract": "node --test \"tests/**/*.test.mjs\"",
+    "test:contract:nginx": "bash tests/url-contract/run-nginx.sh",
+    "check": "node scripts/check-built-html.mjs sites/silo/dist && html-validate \"sites/silo/dist/**/*.html\" && node scripts/gen-nginx-redirects.mjs --check",
+    "gen:redirects": "node scripts/gen-nginx-redirects.mjs",
+    "fixtures": "node scripts/fixture-api.mjs",
+    "artifact": "bash scripts/make-artifact.sh sites/silo/dist"
+  },
+  "devDependencies": {
+    "html-validate": "11.16.3"
+  }
+}

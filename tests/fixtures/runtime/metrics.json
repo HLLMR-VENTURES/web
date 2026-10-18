@@ -1,0 +1,11 @@
+{
+  "generated": "2026-10-17T00:00:00Z",
+  "api": {
+    "queries": { "1h": 12, "24h": 340, "5d": 1500, "30d": 6100, "total": 21000 },
+    "uniques": { "1h": 3, "24h": 41, "5d": 120, "30d": 380 },
+    "app": { "uniques": { "30d": 210 } },
+    "web": { "uniques": { "30d": 170 } }
+  },
+  "site": { "uniques": { "30d": 900 } },
+  "catalog": { "hostedMods": 0 }
+}

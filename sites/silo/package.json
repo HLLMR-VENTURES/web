@@ -1,0 +1,20 @@
+{
+  "name": "@hllmr/site-silo",
+  "version": "0.1.0",
+  "private": true,
+  "description": "silo.hllmr.com: the Silo product site.",
+  "license": "MIT",
+  "type": "module",
+  "scripts": {
+    "dev": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview"
+  },
+  "dependencies": {
+    "@astrojs/svelte": "9.0.1",
+    "@hllmr/design": "0.1.0",
+    "astro": "7.3.8",
+    "svelte": "5.57.1",
+    "typescript": "6.0.3"
+  }
+}

@@ -1,0 +1,16 @@
+---
+/** /go/<key>/ fallback stubs, one per key in redirects.json (nginx answers /go/<key> with a 302). */
+import RedirectStub from "../../../components/RedirectStub.astro";
+import { GO_KEY, redirects } from "../../../lib/redirects";
+
+export function getStaticPaths() {
+  return Object.entries(redirects.go).map(([key, to]) => {
+    if (!GO_KEY.test(key)) throw new Error(`redirects.json: invalid /go/ key "${key}"`);
+    return { params: { key }, props: { to } };
+  });
+}
+
+const { to } = Astro.props as { to: string };
+---
+
+<RedirectStub to={to} />

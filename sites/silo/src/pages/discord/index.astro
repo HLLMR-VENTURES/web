@@ -1,0 +1,10 @@
+---
+/** /discord vanity fallback stub (nginx answers /discord with a 302 to the current invite). */
+import RedirectStub from "../../components/RedirectStub.astro";
+import { redirects } from "../../lib/redirects";
+
+const to = redirects.vanity["/discord"];
+if (!to) throw new Error("redirects.json: vanity /discord is missing");
+---
+
+<RedirectStub to={to} label="the Silo Discord" />

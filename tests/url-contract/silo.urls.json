@@ -1,0 +1,103 @@
+{
+  "$comment": "silo.hllmr.com public URL contract. Every path the current site serves, that shipped binaries, gists, Discord posts, the DMCA filing or search engines may hold, plus the planned additions. A regression here fails CI. 'pending' names the plan task that makes an entry live; pending entries are reported as TODO and become hard failures under CONTRACT_STRICT=1 (the release workflow sets it). Statuses are what the deployed nginx (deploy/silo/nginx.conf) answers; 'location' is the exact Location header (relative, absolute_redirect off).",
+  "site": "silo",
+  "entries": [
+    { "path": "/", "status": 200, "contains": "Less fixing.", "why": "home; canonical; JSON-LD url" },
+    { "path": "/index.html", "status": 200, "contains": "Less fixing.", "why": "old nav.js treated it as home" },
+
+    { "path": "/browse/", "status": 200, "pending": "P1-05", "why": "README, llms.txt, app copy, Discord bot" },
+    { "path": "/browse", "status": 301, "location": "/browse/", "pending": "P1-05", "why": "README.md:58 links without slash" },
+    { "path": "/browse/index.html", "status": 200, "pending": "P1-05" },
+
+    { "path": "/help/", "status": 200, "pending": "P1-07", "why": "ISSUE_TEMPLATE config.yml, Discord autopilot corpus" },
+    { "path": "/help", "status": 301, "location": "/help/", "pending": "P1-07" },
+    { "path": "/help/index.html", "status": 200, "pending": "P1-07" },
+
+    { "path": "/trust/", "status": 200, "pending": "P1-06", "why": "README.md:57, privacy policy" },
+    { "path": "/trust", "status": 301, "location": "/trust/", "pending": "P1-06" },
+    { "path": "/trust/index.html", "status": 200, "pending": "P1-06" },
+
+    { "path": "/c/", "status": 200, "noindex": true, "pending": "P1-04", "why": "collection.rs PAGE_BASE, compiled into every shipped build" },
+    { "path": "/c/?g=0123456789abcdef0123456789abcdef", "status": 200, "noindex": true, "pending": "P1-04", "why": "gist_page_url(): permanent in gists, chat, Discord" },
+    { "path": "/c/?r=hllmr/silo-my-server-pack", "status": 200, "noindex": true, "pending": "P1-04", "why": "repo_page_url(): written into users' repo READMEs" },
+    { "path": "/c/index.html", "status": 200, "pending": "P1-04" },
+    { "path": "/c?g=0123456789abcdef0123456789abcdef", "status": 301, "location": "/c/?g=0123456789abcdef0123456789abcdef", "pending": "P1-04", "why": "hand-typed links: query must survive the slash redirect" },
+
+    { "path": "/catalog/", "status": 301, "location": "/trust/", "why": "renamed page; was a meta refresh" },
+    { "path": "/catalog", "status": 301, "location": "/trust/" },
+    { "path": "/catalog/index.html", "status": 301, "location": "/trust/" },
+
+    { "path": "/legal/", "status": 200, "pending": "P1-03", "why": "footer, privacy scope" },
+    { "path": "/legal/index.html", "status": 200, "pending": "P1-03" },
+    { "path": "/legal/privacy-policy.html", "status": 200, "pending": "P1-03", "why": "Discord PRIVACY_URL (seed-content.ts:14), home, FAQ" },
+    { "path": "/legal/terms-of-service.html", "status": 200, "pending": "P1-03", "why": "authors plan #authors anchor" },
+    { "path": "/legal/disclaimer.html", "status": 200, "pending": "P1-03" },
+    { "path": "/legal/copyright-takedown.html", "status": 200, "pending": "P1-03", "why": "DMCA-1083317 designated-agent page" },
+
+    { "path": "/og.png", "status": 200, "why": "og:image on every shared link already posted" },
+    { "path": "/favicon.ico", "status": 200 },
+    { "path": "/favicon-32.png", "status": 200 },
+    { "path": "/apple-touch-icon.png", "status": 200 },
+    { "path": "/screenshots/library.png", "status": 200, "why": "JSON-LD screenshot; possibly hot-linked" },
+    { "path": "/screenshots/browse.png", "status": 200 },
+    { "path": "/screenshots/verified.png", "status": 200 },
+    { "path": "/screenshots/conflicts.png", "status": 200 },
+    { "path": "/screenshots/triage.png", "status": 200 },
+    { "path": "/screenshots/savegames.png", "status": 200 },
+    { "path": "/screenshots/loadouts.png", "status": 200 },
+    { "path": "/screenshots/mp.png", "status": 200 },
+    { "path": "/screenshots/bindings.png", "status": 200 },
+    { "path": "/screenshots/bridge.png", "status": 200 },
+
+    { "path": "/robots.txt", "status": 200, "contains": "Sitemap: https://silo.hllmr.com/sitemap.xml" },
+    { "path": "/sitemap.xml", "status": 200, "contains": "<loc>https://silo.hllmr.com/</loc>", "why": "robots.txt; search consoles" },
+    { "path": "/llms.txt", "status": 200, "contains": "# Silo" },
+    { "path": "/metrics.json", "status": 200, "runtime": true, "why": "written every 2 min by metrics.sh; /trust reads it" },
+
+    { "path": "/nav.js", "status": 404, "why": "dropped deliberately: chrome is static now and no external page includes it (memo §2.3)" },
+
+    { "path": "/discord", "status": 302, "location": "https://discord.gg/NpxcYdGHrW", "why": "vanity invite; footer, README, app, bot" },
+    { "path": "/discord/", "status": 302, "location": "https://discord.gg/NpxcYdGHrW" },
+    { "path": "/go/discord", "status": 302, "location": "https://discord.gg/NpxcYdGHrW" },
+    { "path": "/go/privacy", "status": 302, "location": "/legal/privacy-policy.html", "why": "app and bot link through /go/ keys only" },
+    { "path": "/go/help-crash-triage", "status": 302, "location": "/help/#crash-triage-h" },
+    { "path": "/go/not-a-key", "status": 404 },
+
+    { "path": "/authors/jane-doe/", "status": 200, "contains": "astro-island", "why": "profileUrl format decided 2026-10-17 (not /authors/#/login)" },
+    { "path": "/authors/jane-doe", "status": 200, "contains": "astro-island" },
+    { "path": "/authors/", "status": 200, "contains": "Claim your mods", "pending": "P1-10", "why": "authors pitch + dashboard (plan A7)" },
+    { "path": "/schema/silo.v1.json", "status": 200, "pending": "P1-11", "why": "authors commit this $schema URL into silo.json (permanent from A7)" },
+
+    { "path": "/healthz", "status": 200, "why": "container health" },
+    { "path": "/this-page-does-not-exist", "status": 404, "contains": "This field is fallow" },
+    { "path": "/.git/config", "status": 403, "why": "dot paths denied" }
+  ],
+  "anchors": {
+    "$comment": "The old one-page help used these h2 ids; they are in Discord answers, the bot corpus and bookmarks. Fragments never reach the server, so /help/ carries a shim that maps each to its topic page, and each topic page keeps an element with the legacy id.",
+    "page": "/help/",
+    "pending": "P1-07",
+    "map": {
+      "getting-started-h": "/help/getting-started/",
+      "library-h": "/help/library/",
+      "mods-folder-h": "/help/mods-folder/",
+      "library-archive-h": "/help/library-archive/",
+      "curation-h": "/help/curation/",
+      "loadouts-h": "/help/loadouts/",
+      "collections-h": "/help/collections/",
+      "health-h": "/help/health/",
+      "browsing-installing-h": "/help/browsing-installing/",
+      "updates-h": "/help/updates/",
+      "provenance-h": "/help/provenance/",
+      "conflicts-h": "/help/conflicts/",
+      "crash-triage-h": "/help/crash-triage/",
+      "guided-bisection-h": "/help/guided-bisection/",
+      "savegames-h": "/help/savegames/",
+      "mod-config-h": "/help/mod-config/",
+      "multiplayer-h": "/help/multiplayer/",
+      "filltype-bridge-h": "/help/filltype-bridge/",
+      "bindings-h": "/help/bindings/",
+      "settings-accounts-h": "/help/settings-accounts/",
+      "troubleshooting-h": "/help/troubleshooting/"
+    }
+  }
+}

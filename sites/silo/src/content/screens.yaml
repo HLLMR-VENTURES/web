@@ -1,0 +1,62 @@
+# Screenshot manifest. Masters (1416x939 PNG, captured before the UI overhaul) live in
+# src/assets/screens/ and are re-encoded to AVIF/WebP at build time; the originals are also copied
+# to /screenshots/<file> to keep the legacy URLs alive.
+- id: library
+  order: 0
+  file: library.png
+  alt: "The Silo library: 728 mods by category, each marked active or parked."
+  gallery: false
+- id: browse
+  order: 1
+  file: browse.png
+  alt: "Silo's cross-source catalog: thousands of mods with cover art, ratings and per-source versions."
+  caption: "One catalog · ModHub and GitHub"
+  dialogCaption: "One catalog — ModHub and GitHub"
+- id: verified
+  order: 2
+  file: verified.png
+  alt: "Integrity check showing a mod Verified against the published build."
+  caption: "Verify it's the real build"
+  dialogCaption: "Check a mod against its published build"
+- id: conflicts
+  order: 3
+  file: conflicts.png
+  alt: "Conflict detection naming colliding script mods before launch."
+  caption: "Conflicts caught before launch"
+  dialogCaption: "Conflicts caught before you launch"
+- id: triage
+  order: 4
+  file: triage.png
+  alt: "Crash and log triage separating real errors from cosmetic warnings and ranking the likely culprit."
+  caption: "Crash triage ranks the likely culprit"
+  dialogCaption: "Crash triage ranks the likely culprit"
+- id: savegames
+  order: 5
+  file: savegames.png
+  alt: "Editing a savegame's difficulty and world settings from within Silo."
+  caption: "Edit saves without launching"
+  dialogCaption: "Edit a save without launching the game"
+- id: loadouts
+  order: 6
+  file: loadouts.png
+  alt: "Loadouts — save and switch named sets of active mods per playthrough."
+  caption: "A loadout per playthrough"
+  dialogCaption: "A loadout for every playthrough"
+- id: mp
+  order: 7
+  file: mp.png
+  alt: "Multiplayer mod-set sync: export a hashed manifest, joiners verify their set matches."
+  caption: "Match sets for multiplayer"
+  dialogCaption: "Match mod sets for multiplayer"
+- id: bindings
+  order: 8
+  file: bindings.png
+  alt: "The full control-binding map with inputs bound to more than one action highlighted."
+  caption: "Your whole control map"
+  dialogCaption: "Your whole control map, searchable"
+- id: bridge
+  order: 9
+  file: bridge.png
+  alt: "The filltype-compatibility bridge generating a small companion mod."
+  caption: "Generate a filltype fix"
+  dialogCaption: "Generate a filltype-compatibility fix"

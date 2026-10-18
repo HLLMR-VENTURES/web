@@ -1,0 +1,61 @@
+# PR and main-branch checks for HLLMR/web. Proves hygiene, structure and the URL contract; it
+# does not prove the site works in browsers (Lighthouse/axe land in plan task P1-09).
+name: checks
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+
+concurrency:
+  group: checks-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  silo:
+    name: silo site (build, static checks, URL contract)
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          fetch-depth: 0 # sitemap lastmod comes from git history
+      - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
+        with:
+          node-version-file: .nvmrc
+          cache: npm
+      - run: npm ci
+      - name: Build, static checks, contract (nginx model)
+        run: npm test
+      - name: URL contract against real nginx with deploy/silo/nginx.conf
+        run: bash tests/url-contract/run-nginx.sh
+      - name: Skip links to pages the contract still marks pending
+        run: node scripts/lychee-ignore-pending.mjs
+      - name: Internal links and anchors (offline)
+        uses: lycheeverse/lychee-action@e7477775783ea5526144ba13e8db5eec57747ce8 # v2.9.0
+        with:
+          args: >-
+            --offline --no-progress --include-fragments
+            --root-dir ${{ github.workspace }}/sites/silo/dist
+            "sites/silo/dist/**/*.html"
+          fail: true
+      - name: Copy and size report
+        run: |
+          du -sh sites/silo/dist
+          echo "JS (gzip) per file:"; for f in sites/silo/dist/_astro/*.js; do printf '%6d  %s\n' "$(gzip -c "$f" | wc -c)" "$(basename "$f")"; done
+
+  secrets:
+    name: secrets (gitleaks)
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          fetch-depth: 0
+      - name: gitleaks over full history
+        run: |
+          docker run --rm --user "$(id -u):$(id -g)" -v "$PWD:/repo:ro" ghcr.io/gitleaks/gitleaks:v8.30.1 \
+            git /repo --redact --no-banner --exit-code 1

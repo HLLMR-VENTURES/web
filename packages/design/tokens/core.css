@@ -1,0 +1,55 @@
+/* @hllmr/design core tokens: shared by every HLLMR site.
+ * Skins (skins/*.css) fill the semantic color slots and the font stacks; nothing here names a
+ * brand color. Theme mechanism (all sites): prefers-color-scheme, overridden by
+ * <html data-theme="light|dark"> (set by /js/theme.js from localStorage). */
+:root {
+  /* Spacing, 4-pt base. */
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 24px;
+  --space-6: 32px;
+  --space-7: 48px;
+  --space-8: 64px;
+  --space-9: 96px;
+
+  /* Type scale (fluid display sizes). */
+  --text-xs: 0.75rem;
+  --text-sm: 0.875rem;
+  --text-md: 1rem;
+  --text-lg: 1.125rem;
+  --text-xl: clamp(1.25rem, 1.1rem + 0.6vw, 1.5rem);
+  --text-2xl: clamp(1.7rem, 1.3rem + 1.6vw, 2.4rem);
+  --text-3xl: clamp(2.5rem, 1.6rem + 3.4vw, 3.9rem);
+  --leading-tight: 1.1;
+  --leading-body: 1.6;
+
+  /* Shape. */
+  --radius-sm: 8px;
+  --radius: 12px;
+  --radius-lg: 18px;
+
+  /* Motion: "wind, not springs". */
+  --dur-fast: 150ms;
+  --dur: 200ms;
+  --dur-slow: 250ms;
+  --ease: cubic-bezier(0.2, 0.7, 0.2, 1);
+
+  /* Layers. */
+  --z-header: 40;
+  --z-overlay: 100;
+
+  /* Layout. */
+  --maxw: 1120px;
+  --maxw-docs: 1180px;
+  --gutter: 24px;
+
+  /* Focus: 2px ring + 2px offset. The skin sets --focus per theme; it must reach at least 3:1
+   * against --bg and --surface in both themes (WCAG 1.4.11). */
+  --focus-width: 2px;
+  --focus-offset: 2px;
+}
+
+/* Breakpoints (reference only; custom properties cannot be used in media queries):
+ *   sm 620px, nav 720px, md 900px */
