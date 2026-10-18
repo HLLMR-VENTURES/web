@@ -1,7 +1,7 @@
 ---
 /**
- * Privacy notice. Must match what the site and its host actually do. Facts that depend on infra
- * (proxy log retention, the counting job) are confirmed in the hllmr-infra request before launch.
+ * Privacy notice. Must match what the site and its host actually do. Proxy access-log retention
+ * (weekly rotation, 4 generations: up to about five weeks) confirmed by Claude (infra) 2026-10-18.
  */
 import BaseLayout from "../../layouts/BaseLayout.astro";
 import PageHead from "../../components/PageHead.astro";
@@ -27,7 +27,7 @@ import { CONTACT_EMAIL, OWNER, THEME_STORAGE_KEY } from "../../lib/site";
       <p>
         Like any web server, ours writes an access log entry for each request: the time, the page, the response, the
         referring page, your browser's user-agent string and your IP address. We use these logs to keep the site running
-        and secure, and to count requests.
+        and secure, and to count requests. Access logs are kept for up to about five weeks, then deleted.
       </p>
       <p>
         Those counts are aggregate (for example, requests per page per day). The IP addresses are not kept in the counts,
