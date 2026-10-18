@@ -8,7 +8,7 @@ import "../styles/site.css";
 import SkipLink from "@hllmr/design/components/SkipLink.astro";
 import SiteHeader from "../components/SiteHeader.astro";
 import SiteFooter from "../components/SiteFooter.astro";
-import { NAME, SITE_NAME, abs } from "../lib/site";
+import { LINKS, NAME, SITE_NAME, abs } from "../lib/site";
 
 interface Props {
   /** Full <title>. */
@@ -78,6 +78,8 @@ const image = abs(ogImage, Astro.site);
     <meta name="theme-color" content="#0e1216" media="(prefers-color-scheme: dark)" />
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
     <link rel="icon" href="/favicon.png" type="image/png" sizes="32x32" />
+    <!-- The writing lives on hllmr.com, so its feed is the one to follow from here. -->
+    <link rel="alternate" type="application/rss+xml" title="David Hellmer's writing (hllmr.com)" href={LINKS.hubFeed} />
     {jsonLd && <script is:inline type="application/ld+json" set:html={JSON.stringify(jsonLd).replace(/</g, "\\u003c")} />}
   </head>
   <body>
