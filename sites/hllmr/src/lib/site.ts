@@ -17,6 +17,8 @@ export const LINKS = {
   writwall: "https://github.com/HLLMR/writwall",
   writwallLatest: "https://github.com/HLLMR/writwall/releases/latest",
   siteSource: "https://github.com/HLLMR/web",
+  /** The founder's personal site; it links back here (owner decision 2026-10-18: cross-link the two). */
+  founder: "https://dhellmer.com",
 } as const;
 
 export const NAV = [
