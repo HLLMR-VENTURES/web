@@ -1,69 +1,189 @@
 ---
 /**
- * Curriculum vitae. Owner decision 2026-10-18: a full CV (roles, employers, dates, certifications),
- * supplied by the owner. Until it arrives, each era shows only what is already public, and the
- * detail is a Pending block, which a release build refuses.
+ * Curriculum vitae, from src/lib/cv.ts (the owner's LinkedIn profile, supplied 2026-10-18).
+ * Newest era first; each era is one log entry, each role a row.
  */
 import BaseLayout from "../../layouts/BaseLayout.astro";
 import PageHead from "../../components/PageHead.astro";
 import Entry from "../../components/Entry.astro";
-import Pending from "../../components/Pending.astro";
-import { HUB, NAME } from "../../lib/site";
+import { CERTIFICATIONS, EDUCATION, ENVIRONMENTS, ERAS, HEADLINE, HONORS, SKILLS } from "../../lib/cv";
+import { LINKS, LOCALITY, NAME, PROFILES } from "../../lib/site";
 
-const ERAS = [
-  {
-    no: "03",
-    k: "Now",
-    t: "Founder, HLLMR Ventures LLC",
-    d: "A small Texas company where new ventures start. Software built with AI coding agents, held to a commissioning standard; infrastructure the company runs itself.",
-    link: { href: HUB, label: "hllmr.com" },
-  },
-  {
-    no: "02",
-    k: "Buildings",
-    t: "Building automation and integrated building systems",
-    d: "About twenty years with the controls, physical security, fire and networks that run a building, and the commissioning that proves they do what the drawings say. Construction document control throughout.",
-  },
-  {
-    no: "01",
-    k: "Navy",
-    t: "U.S. Navy nuclear program",
-    d: "Where you assume nothing works until you have watched it work.",
-  },
-];
+const linkedin = PROFILES.find((p) => p.label === "LinkedIn");
 ---
 
 <BaseLayout
   title={`CV · ${NAME}`}
-  description="David Hellmer's curriculum vitae: the U.S. Navy nuclear program, building automation and integrated building systems, and HLLMR Ventures."
+  description="David Hellmer's curriculum vitae: U.S. Navy nuclear power training, twenty years in building automation and low-voltage systems, businesses built and run, and applied AI for physical systems."
   ogType="profile"
 >
   <PageHead k="Curriculum vitae" title="CV" lede="Three eras, one discipline: watch it work before you call it done." />
 
   <div class="log wrap">
+    <Entry no="00" label="Summary" id="summary">
+      <h2 id="summary">{HEADLINE}</h2>
+      <div class="prose">
+        <p>
+          More than twenty years across building automation, low-voltage systems, mission-critical facilities and business
+          ownership: field execution and programming, project management, engineering, estimating, sales support and
+          department leadership. I have established and led a building automation division, and built a manufacturing
+          business to more than $1M in annual revenue with a team of twelve.
+        </p>
+      </div>
+      <dl class="facts summary">
+        <dt>Based</dt>
+        <dd>{LOCALITY}</dd>
+        <dt>Skills</dt>
+        <dd>{SKILLS.join(" · ")}</dd>
+        <dt>Settings</dt>
+        <dd>{ENVIRONMENTS.join(" · ")}</dd>
+        {
+          linkedin?.href && (
+            <>
+              <dt>Profile</dt>
+              <dd>
+                <a href={linkedin.href}>{linkedin.handle}</a>
+              </dd>
+            </>
+          )
+        }
+      </dl>
+    </Entry>
+
     {
-      ERAS.map((e) => (
-        <Entry no={e.no} label={e.k} id={`era-${e.no}`}>
-          <h2 id={`era-${e.no}`}>{e.t}</h2>
-          <div class="prose">
-            <p>{e.d}</p>
-          </div>
-          <Pending what="Roles, employers, dates and highlights for this era">
-            <p>From the CV the owner will supply. Nothing here is guessed.</p>
-          </Pending>
-          {e.link && (
-            <a class="more ext" href={e.link.href}>
-              {e.link.label}
-            </a>
-          )}
+      ERAS.map((era, i) => (
+        <Entry no={era.years} label={era.k} id={`era-${i}`}>
+          <h2 id={`era-${i}`}>{era.title}</h2>
+          <p class="era-lede">{era.lede}</p>
+          <ol class="rows roles">
+            {era.roles.map((r) => (
+              <li class="row role">
+                <div>
+                  <span class="f">{r.org}</span>
+                  <h3 class="t">{r.title}</h3>
+                  <p class="d">{r.summary}</p>
+                  {r.highlights && (
+                    <ul class="hl">
+                      {r.highlights.map((h) => (
+                        <li>
+                          <strong>{h.name}.</strong> {h.text}
+                        </li>
+                      ))}
+                    </ul>
+                  )}
+                </div>
+                <div class="meta">
+                  <span class="when">{r.dates}</span>
+                  <span>{r.place}</span>
+                </div>
+              </li>
+            ))}
+          </ol>
         </Entry>
       ))
     }
-    <Entry label="Credentials" id="credentials">
-      <h2 id="credentials">Credentials and education</h2>
-      <Pending what="Certifications, licences, training and education">
-        <p>From the CV the owner will supply.</p>
-      </Pending>
+
+    <Entry no="1998" label="Credentials" id="credentials">
+      <h2 id="credentials">Education and credentials</h2>
+      <div class="creds">
+        <section aria-labelledby="edu">
+          <h3 id="edu">Education</h3>
+          <ul>{EDUCATION.map((c) => <li><strong>{c.name}</strong><span>{c.detail}</span></li>)}</ul>
+        </section>
+        <section aria-labelledby="cert">
+          <h3 id="cert">Certifications</h3>
+          <ul>{CERTIFICATIONS.map((c) => <li><strong>{c.name}</strong><span>{c.detail}</span></li>)}</ul>
+        </section>
+        <section aria-labelledby="hon">
+          <h3 id="hon">Honors</h3>
+          <ul>{HONORS.map((c) => <li><strong>{c.name}</strong><span>{c.detail}</span></li>)}</ul>
+        </section>
+      </div>
+      <p class="note">
+        The ventures and public projects are on <a href="/ventures/">Ventures</a>; code is at
+        <a href={LINKS.github}>github.com/HLLMR</a>.
+      </p>
     </Entry>
   </div>
 </BaseLayout>
+
+<style>
+  .summary {
+    margin-top: var(--space-5);
+  }
+  .era-lede {
+    font-family: var(--font-display);
+    font-style: italic;
+    font-variation-settings: "opsz" 24;
+    color: var(--muted);
+    margin: calc(-1 * var(--space-2)) 0 var(--space-4);
+    max-width: 60ch;
+  }
+  .role .t {
+    margin: 0;
+  }
+  .when {
+    color: var(--text);
+    white-space: nowrap;
+  }
+  .hl {
+    list-style: none;
+    margin: var(--space-3) 0 0;
+    padding: 0;
+    max-width: 66ch;
+  }
+  .hl li {
+    font-size: 0.93rem;
+    color: var(--muted);
+    padding-left: var(--space-4);
+    border-left: 2px solid var(--rule);
+    margin-bottom: var(--space-3);
+  }
+  .hl strong {
+    color: var(--text);
+    font-weight: 650;
+  }
+  .creds {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: var(--space-5);
+  }
+  .creds h3 {
+    font-family: var(--font-mono);
+    font-size: 0.66rem;
+    font-weight: 400;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: var(--space-3);
+  }
+  .creds ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+  .creds li {
+    display: flex;
+    flex-direction: column;
+    padding: 10px 0;
+    border-top: 1px solid var(--rule);
+  }
+  .creds li strong {
+    font-weight: 600;
+    font-size: 0.95rem;
+  }
+  .creds li span {
+    color: var(--muted);
+    font-size: 0.88rem;
+  }
+  .note {
+    color: var(--muted);
+    font-size: 0.92rem;
+    margin: var(--space-5) 0 0;
+  }
+  @media (max-width: 900px) {
+    .creds {
+      grid-template-columns: minmax(0, 1fr);
+    }
+  }
+</style>

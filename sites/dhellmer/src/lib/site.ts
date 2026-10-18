@@ -43,16 +43,16 @@ export interface Profile {
 
 export const PROFILES: Profile[] = [
   {
+    label: "LinkedIn",
+    handle: "linkedin.com/in/dhellmer",
+    href: "https://www.linkedin.com/in/dhellmer",
+    note: "The working history in full, and the best place for a professional introduction.",
+  },
+  {
     label: "GitHub",
     handle: "github.com/HLLMR",
     href: LINKS.github,
     note: "Code for Silo, Writwall, stratum-dsp and the rest, under the HLLMR organization.",
-  },
-  {
-    label: "Personal profiles",
-    handle: "to be confirmed",
-    note: "LinkedIn and any other profile the owner wants listed, with exact URLs.",
-    pending: true,
   },
 ];
 
