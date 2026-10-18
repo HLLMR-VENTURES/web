@@ -1,7 +1,7 @@
 {
   "name": "hllmr-web",
   "private": true,
-  "description": "HLLMR static websites: shared design package and per-site Astro builds.",
+  "description": "HLLMR static websites: shared design package and per-site Astro builds (silo.hllmr.com, hllmr.com).",
   "license": "MIT",
   "type": "module",
   "workspaces": [
@@ -22,7 +22,13 @@
     "gen:redirects": "node scripts/gen-nginx-redirects.mjs",
     "fixtures": "node scripts/fixture-api.mjs",
     "artifact": "bash scripts/make-artifact.sh sites/silo/dist",
-    "check:links": "node scripts/check-internal-links.mjs sites/silo/dist"
+    "check:links": "node scripts/check-internal-links.mjs sites/silo/dist",
+    "dev:hllmr": "npm run dev -w @hllmr/site-hllmr",
+    "build:hllmr": "npm run build -w @hllmr/site-hllmr",
+    "check:hllmr": "node scripts/check-built-html.mjs sites/hllmr/dist && html-validate \"sites/hllmr/dist/**/*.html\" && node scripts/check-internal-links.mjs sites/hllmr/dist",
+    "test:hllmr": "npm run build:hllmr && npm run check:hllmr && node --test tests/url-contract/hllmr.contract.mjs",
+    "test:contract:nginx:hllmr": "bash tests/url-contract/run-nginx-hllmr.sh",
+    "artifact:hllmr": "bash scripts/make-artifact.sh sites/hllmr/dist"
   },
   "devDependencies": {
     "html-validate": "11.16.3"

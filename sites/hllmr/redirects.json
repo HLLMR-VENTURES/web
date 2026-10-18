@@ -1,0 +1,9 @@
+{
+  "$comment": "hllmr.com redirect layer, mirrored by hand in deploy/hllmr/nginx.conf (tests/url-contract/hllmr.contract.mjs checks the two agree). go and vanity are unused; permanent is 301.",
+  "go": {},
+  "vanity": {},
+  "permanent": {
+    "/plumbline": "https://hllmr.com/writwall/",
+    "/plumbline/": "https://hllmr.com/writwall/"
+  }
+}
