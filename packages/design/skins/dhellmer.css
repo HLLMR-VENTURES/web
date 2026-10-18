@@ -2,7 +2,7 @@
  * ruled cream paper, navy-black ink, and one oxide-red margin rule that every entry hangs from.
  * Dark is "night watch": a dark bridge with the instruments lit in red-orange.
  *
- * Kin to hllmr.com (Archivo, Martian Mono, a single warm accent), but its own voice: Fraunces sets
+ * Kin to hllmr.com (Archivo, IBM Plex Mono, a single warm accent), but its own voice: Fraunces sets
  * the name and headings, and the accent is oxide, not HLLMR signal red.
  *
  * Contrast (WCAG, checked 2026-10-18): light --text 14.1:1, --muted 5.5:1, --accent 5.7:1 on --bg;
@@ -10,7 +10,7 @@
 :root {
   --font-display: "Fraunces Variable", "Fraunces", Georgia, "Times New Roman", serif;
   --font-ui: "Archivo Variable", "Archivo", system-ui, -apple-system, "Segoe UI", sans-serif;
-  --font-mono: "Martian Mono Variable", "Martian Mono", ui-monospace, "Cascadia Code", Consolas, monospace;
+  --font-mono: "IBM Plex Mono", ui-monospace, "Cascadia Code", Consolas, monospace;
 
   /* Light: log paper. */
   --bg: #f1ede2;
