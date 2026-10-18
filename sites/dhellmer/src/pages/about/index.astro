@@ -2,13 +2,12 @@
 /**
  * About: the public biography. Facts come from copy the owner has published: the 2026-08 founder
  * note on hllmr.com and the owner's LinkedIn profile (supplied 2026-10-18 as starting content, with
- * leave to expand). A typographic plate stands in for the portrait until the owner's photo arrives
- * (owner decision 2026-10-18).
+ * leave to expand). The portrait is the owner's pick from the 2025-11-22 shoot (components/Portrait.astro).
  */
 import BaseLayout from "../../layouts/BaseLayout.astro";
 import PageHead from "../../components/PageHead.astro";
 import Entry from "../../components/Entry.astro";
-import Plate from "../../components/Plate.astro";
+import Portrait from "../../components/Portrait.astro";
 import { ENVIRONMENTS } from "../../lib/cv";
 import { HUB, LINKS, LOCALITY, NAME, PROFILES } from "../../lib/site";
 
@@ -25,7 +24,7 @@ const linkedin = PROFILES.find((p) => p.label === "LinkedIn");
   <div class="log wrap">
     <Entry no="01" label="At a glance">
       <div class="split">
-        <Plate caption="David Hellmer · Dallas–Fort Worth" />
+        <Portrait caption="David Hellmer · November 2025" />
         <dl class="facts">
           <dt>Name</dt>
           <dd>{NAME}</dd>

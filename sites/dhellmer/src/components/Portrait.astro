@@ -1,0 +1,60 @@
+---
+/**
+ * The About-page portrait (owner's pick 2026-10-18: DSC07703 from the 2025-11-22 shoot). The source
+ * in src/assets is a 1200x1500 sRGB derivative (4:5 crop of x 432-2832, y 540-3540 of the 2832x3540
+ * original) with all metadata (EXIF, XMP, IPTC, ICC, maker notes)
+ * removed; the 9 MB original stays in the owner's Nextcloud and never enters Git. Astro builds AVIF,
+ * WebP and JPEG at three widths; sharp writes no metadata by default.
+ * Framed like the log: hung from the oxide margin rule, with a mono caption.
+ */
+import { Picture } from "astro:assets";
+import portrait from "../assets/portrait.jpg";
+
+interface Props {
+  caption: string;
+}
+const { caption } = Astro.props;
+---
+
+<figure class="portrait">
+  <Picture
+    src={portrait}
+    formats={["avif", "webp"]}
+    fallbackFormat="jpg"
+    widths={[480, 800, 1200]}
+    sizes="(max-width: 900px) calc(100vw - 72px), 440px"
+    alt="David Hellmer seated on the edge of a stone fountain in a hotel courtyard, wearing a light check blazer and a dark shirt, looking off to the side."
+    loading="eager"
+    decoding="async"
+  />
+  <figcaption>{caption}</figcaption>
+</figure>
+
+<style>
+  .portrait {
+    margin: 0;
+    padding: 0 0 var(--space-3) 0;
+    border-left: 4px solid var(--accent);
+    background: var(--surface);
+    border-top: 1px solid var(--rule);
+    border-right: 1px solid var(--rule);
+    border-bottom: 1px solid var(--rule);
+  }
+  .portrait :global(img) {
+    display: block;
+    width: 100%;
+    height: auto;
+    aspect-ratio: 4 / 5;
+    object-fit: cover;
+  }
+  figcaption {
+    margin: var(--space-3) var(--space-4) 0;
+    padding-top: var(--space-3);
+    border-top: 1px solid var(--rule);
+    font-family: var(--font-mono);
+    font-size: 0.66rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+</style>
