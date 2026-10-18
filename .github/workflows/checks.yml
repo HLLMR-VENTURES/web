@@ -52,6 +52,30 @@ jobs:
           du -sh sites/silo/dist
           echo "JS (gzip) per file:"; for f in sites/silo/dist/_astro/*.js; do printf '%6d  %s\n' "$(gzip -c "$f" | wc -c)" "$(basename "$f")"; done
 
+  hllmr:
+    name: hllmr.com site (build, static checks, URL contract)
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          fetch-depth: 0 # sitemap lastmod and the footer revision come from git history
+      - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
+        with:
+          node-version-file: .nvmrc
+          cache: npm
+      - run: npm ci
+      - name: Build, static checks, contract (nginx model)
+        run: npm run test:hllmr
+      - name: URL contract against real nginx with deploy/hllmr/nginx.conf
+        run: bash tests/url-contract/run-nginx-hllmr.sh
+      - name: Release-mode static checks
+        run: node scripts/check-built-html.mjs sites/hllmr/dist --release
+      - name: Size report
+        run: |
+          du -sh sites/hllmr/dist
+          for f in sites/hllmr/dist/index.html sites/hllmr/dist/*/index.html; do printf '%7d  %s\n' "$(wc -c <"$f")" "$f"; done
+
   secrets:
     name: secrets (gitleaks)
     runs-on: ubuntu-24.04

@@ -1,0 +1,41 @@
+---
+/**
+ * A coat of arms from the HLLMR armory. `form` defaults by size: the escutcheon from 48 px up, the
+ * banner below (rulebook). The 1 px outline uses --edge, so it is Sable on light pages and Argent on
+ * dark. Clip paths are defined once per page by ArmsDefs.astro (no per-instance ids).
+ */
+import { ARMS, BANNER_PATH, FORM_HEIGHT, SHIELD_PATH, coatMarkup, type ArmsKey, type Form } from "../lib/arms";
+
+interface Props {
+  coat: ArmsKey;
+  /** Rendered width in CSS px. */
+  size: number;
+  form?: Form;
+  /** Decorative instances (a caption names the coat) set this to hide it from assistive tech. */
+  decorative?: boolean;
+  class?: string;
+}
+const { coat, size, form = size >= 48 ? "shield" : "banner", decorative = false, class: cls = "" } = Astro.props;
+const H = FORM_HEIGHT[form];
+const e = Math.round((24 / size) * 1000) / 1000; // one CSS pixel, in grid units
+const vb = `${-e / 2} ${-e / 2} ${24 + e} ${Math.round((H + e) * 1000) / 1000}`;
+const height = Math.round((size * (H + e)) / (24 + e) * 100) / 100;
+const outline = form === "shield" ? SHIELD_PATH : BANNER_PATH;
+const label = `${ARMS[coat].bearer}: ${ARMS[coat].blazon}`;
+---
+
+<svg
+  class:list={["arms", cls]}
+  viewBox={vb}
+  width={size}
+  height={height}
+  role={decorative ? undefined : "img"}
+  aria-label={decorative ? undefined : label}
+  aria-hidden={decorative ? "true" : undefined}
+  focusable="false"
+  ><g clip-path={`url(#arms-clip-${form})`} set:html={coatMarkup(coat, form)} /><path
+    d={outline}
+    fill="none"
+    class="arms-edge"
+    stroke-width={e}></path></svg
+>

@@ -1,0 +1,272 @@
+---
+/**
+ * The venture register: one row per venture or project. A venture leads with its arms; every row
+ * has a stage track (Idea, Building, Launched, Spun out) drawn in the venture's tincture.
+ * Industry-neutral on purpose: a DJ business and a software product sit in the same list.
+ */
+import Arms from "./Arms.astro";
+import { ARMS, type ArmsKey } from "../lib/arms";
+import { STAGES, type Stage } from "../lib/projects";
+
+export interface RegisterRow {
+  slug: string;
+  name: string;
+  field: string;
+  line: string;
+  stage: Stage;
+  href?: string;
+  /** Extra links shown small (source, case study). */
+  links?: { label: string; href: string }[];
+  /** The bearer's arms, for ventures. */
+  coat?: ArmsKey;
+}
+
+interface Props {
+  rows: RegisterRow[];
+  label: string;
+  /** Large rows for ventures, compact rows for projects. */
+  size?: "lg" | "sm";
+}
+const { rows, label, size = "lg" } = Astro.props;
+const external = (href: string) => /^https?:/.test(href);
+---
+
+<ol class:list={["reg", size]} aria-label={label}>
+  {
+    rows.map((r) => {
+      const at = STAGES.indexOf(r.stage);
+      return (
+        <li class:list={["row", `v-${r.slug}`]}>
+          {r.coat ? <Arms coat={r.coat} size={size === "lg" ? 52 : 28} form="banner" decorative class="ra" /> : <span class="bar" aria-hidden="true" />}
+          <div class="id">
+            <span class="field anno">{r.field}</span>
+            <h3 class="name">
+              {r.href ? (
+                <a href={r.href} rel={external(r.href) ? "noopener" : undefined}>
+                  {r.name}
+                </a>
+              ) : (
+                r.name
+              )}
+            </h3>
+          </div>
+          <div class="mid">
+            <p class="line">{r.line}</p>
+            {r.coat && <p class="blazon">{ARMS[r.coat].blazon}</p>}
+          </div>
+          <div class="stage">
+            <span class="visually-hidden">Stage: {r.stage}</span>
+            <ol class="track" aria-hidden="true">
+              {STAGES.map((s, i) => (
+                <li class:list={{ done: i < at, now: i === at }}>
+                  <span class="dot" />
+                  <span class="lbl">{s}</span>
+                </li>
+              ))}
+            </ol>
+            {r.links && r.links.length > 0 && (
+              <p class="links">
+                {r.links.map((l) => (
+                  <a href={l.href} rel={external(l.href) ? "noopener" : undefined}>
+                    {l.label}
+                  </a>
+                ))}
+              </p>
+            )}
+          </div>
+        </li>
+      );
+    })
+  }
+</ol>
+
+<style>
+  /* Venture accents: the field tincture in light, a lighter tint of it in dark (CSP: no inline
+   * styles, so one class per slug). */
+  .row.v-silo {
+    --venture: #36602a;
+  }
+  .row.v-build {
+    --venture: #1a4480;
+  }
+  .row.v-live {
+    --venture: #a3262a;
+  }
+  @media (prefers-color-scheme: dark) {
+    :global(:root:not([data-theme="light"])) .row.v-silo {
+      --venture: #8fbf5f;
+    }
+    :global(:root:not([data-theme="light"])) .row.v-build {
+      --venture: #8fb0e6;
+    }
+    :global(:root:not([data-theme="light"])) .row.v-live {
+      --venture: #ef8a8d;
+    }
+  }
+  :global(:root[data-theme="dark"]) .row.v-silo {
+    --venture: #8fbf5f;
+  }
+  :global(:root[data-theme="dark"]) .row.v-build {
+    --venture: #8fb0e6;
+  }
+  :global(:root[data-theme="dark"]) .row.v-live {
+    --venture: #ef8a8d;
+  }
+
+  .reg {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    border-top: 2px solid var(--text);
+  }
+  .row {
+    --venture: var(--text);
+    position: relative;
+    display: grid;
+    grid-template-columns: 52px minmax(0, 1.1fr) minmax(0, 1.4fr) minmax(0, 1fr);
+    gap: var(--space-5);
+    align-items: start;
+    padding: var(--space-6) 0;
+    border-bottom: 1px solid var(--rule);
+  }
+  .bar {
+    width: 52px;
+    height: 2px;
+    margin-top: 12px;
+    background: var(--rule);
+  }
+  .blazon {
+    margin: 6px 0 0;
+    font-family: var(--font-display);
+    font-style: italic;
+    font-size: 1rem;
+  }
+  .name {
+    font-family: var(--font-display);
+    font-size: clamp(1.8rem, 1.2rem + 2vw, 2.7rem);
+    font-weight: 450;
+    letter-spacing: -0.015em;
+    line-height: 1.02;
+    margin-top: 6px;
+  }
+  .name a {
+    color: var(--text);
+    text-decoration: none;
+    background-image: linear-gradient(var(--venture), var(--venture));
+    background-size: 0 3px;
+    background-position: 0 100%;
+    background-repeat: no-repeat;
+    transition: background-size var(--dur-slow) var(--ease);
+  }
+  .name a:hover,
+  .name a:focus-visible {
+    background-size: 100% 3px;
+  }
+  .line {
+    margin: 4px 0 0;
+    color: var(--muted);
+    max-width: 46ch;
+  }
+  .track {
+    list-style: none;
+    margin: 6px 0 0;
+    padding: 0;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+  }
+  .track li {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: 7px;
+  }
+  .track li::before {
+    content: "";
+    position: absolute;
+    top: 5px;
+    left: 0;
+    right: 0;
+    height: 1px;
+    background: var(--rule);
+  }
+  .track li.done::before,
+  .track li.now::before {
+    background: var(--venture);
+    height: 2px;
+    top: 4.5px;
+  }
+  .track li.now::before {
+    right: 50%;
+  }
+  .dot {
+    position: relative;
+    width: 11px;
+    height: 11px;
+    border-radius: 50%;
+    border: 1.5px solid var(--rule);
+    background: var(--bg);
+  }
+  .done .dot {
+    border-color: var(--venture);
+    background: var(--venture);
+  }
+  .now .dot {
+    border-color: var(--venture);
+    background: var(--venture);
+    box-shadow: 0 0 0 4px color-mix(in srgb, var(--venture) 22%, transparent);
+  }
+  .lbl {
+    font-family: var(--font-mono);
+    font-size: 0.58rem;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+  .now .lbl {
+    color: var(--text);
+    font-weight: 600;
+  }
+  .links {
+    margin: var(--space-3) 0 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px 14px;
+    font-family: var(--font-mono);
+    font-size: 0.72rem;
+  }
+  .links a {
+    color: var(--text);
+  }
+
+  .sm .row {
+    padding-top: var(--space-4);
+    padding-bottom: var(--space-4);
+    gap: var(--space-4);
+  }
+  .sm .row {
+    grid-template-columns: 28px minmax(0, 1.1fr) minmax(0, 1.4fr) minmax(0, 1fr);
+  }
+  .sm .bar {
+    width: 28px;
+  }
+  .sm .name {
+    font-family: var(--font-ui);
+    font-size: var(--text-lg);
+    font-weight: 650;
+    letter-spacing: 0;
+  }
+  .sm .line {
+    font-size: 0.95rem;
+  }
+
+  @media (max-width: 900px) {
+    .row,
+    .sm .row {
+      grid-template-columns: auto minmax(0, 1fr);
+      gap: var(--space-3) var(--space-4);
+    }
+    .row > :nth-child(n + 3) {
+      grid-column: 2;
+    }
+  }
+</style>

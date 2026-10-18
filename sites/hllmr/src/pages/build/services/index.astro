@@ -1,0 +1,166 @@
+---
+/** Services: the two offers and the shape of an engagement. No prices, no invented clients. */
+import BaseLayout from "../../../layouts/BaseLayout.astro";
+import PageHead from "../../../components/PageHead.astro";
+import { CONTACT_EMAIL } from "../../../lib/site";
+---
+
+<BaseLayout
+  title="Services · HLLMR Build"
+  description="Two ways to work with HLLMR Ventures: we build and run software and automation for your business with AI agents, or we help your engineering team use AI coding agents with discipline."
+  sheet="Build: services"
+  skin="build"
+>
+  <PageHead
+    dwg="HLLMR Build · DWG B-002 · Services"
+    title="Two ways to work with us"
+    lede="Either we build it, or we help your team build it. Both rest on the same rule: nothing is done until it has been seen working."
+  />
+
+  <section class="section" id="build" aria-labelledby="build-h">
+    <div class="wrap offer">
+      <div class="label">
+        <p class="anno anno-red">Detail A</p>
+        <h2 id="build-h">Build it for us</h2>
+        <p class="for">For a business that needs software, an internal tool or an automation, and wants it to keep working after launch.</p>
+      </div>
+      <div class="body prose">
+        <p>
+          AI agents make it practical for a very small team to build what used to take a department. They also make it easy
+          to ship something that looks finished and isn't. We use the agents for speed and keep a person accountable for
+          every claim that the work is done.
+        </p>
+        <h3>What you get</h3>
+        <ul>
+          <li>A written statement of what the system is for, agreed with you before anything is built.</li>
+          <li>The software, built in small reviewed pieces, in a repository you own.</li>
+          <li>Tests that show it does what was agreed, and a release you can roll back.</li>
+          <li>A record of the decisions and the options that were turned down, so the next developer can work on it.</li>
+          <li>Hosting on infrastructure you control, if you want it, with backups that have been restored, not just taken.</li>
+        </ul>
+        <h3>Good fits</h3>
+        <ul>
+          <li>Internal tools and dashboards that replace spreadsheets and manual steps.</li>
+          <li>Automations between systems your business already uses.</li>
+          <li>Moving off rented, per-seat software onto services you run yourself.</li>
+          <li>Small products: a desktop app, an API, a site, the release pipeline behind them.</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="teams" aria-labelledby="teams-h">
+    <div class="wrap offer">
+      <div class="label">
+        <p class="anno anno-red">Detail B</p>
+        <h2 id="teams-h">Help our team do it</h2>
+        <p class="for">For an engineering team already using AI coding agents, and finding that the output is fast but hard to trust.</p>
+      </div>
+      <div class="body prose">
+        <p>
+          Most teams try to fix agent drift with longer prompts and stricter rules files. The failure is structural, so the
+          fix is too: who authorizes a change, what an agent may touch, who checks the result, and where the record lives.
+        </p>
+        <h3>What we set up with you</h3>
+        <ul>
+          <li>Roles and approvals: who may merge, release and change production, written down and enforced where the tools allow.</li>
+          <li>Bounded work: tasks small enough to review, each with an explicit list of what the agent may change.</li>
+          <li>Controls tested before they are trusted: try the forbidden action and confirm it is refused.</li>
+          <li>Release discipline: rollback exercised before approval, health checks kept separate from functional tests.</li>
+          <li>A decision record your team keeps writing after we leave.</li>
+        </ul>
+        <p>
+          The method is published as <a href="/writwall/">Writwall</a> and argued in long form in
+          <a href="/writing/document-control-for-ai-agents/">Document control for AI-assisted development</a>. We adapt it
+          to your tools rather than install a framework.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" aria-labelledby="eng-h">
+    <div class="wrap">
+      <div class="section-head">
+        <p class="anno">Sequence</p>
+        <h2 id="eng-h">How an engagement runs</h2>
+      </div>
+      <table class="schedule">
+        <thead>
+          <tr><th scope="col">Step</th><th scope="col">What happens</th><th scope="col">You get</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="tag">01</td>
+            <td><p><strong>Conversation.</strong> What you need, what exists today, and what "done" means to you.</p></td>
+            <td><p>A plain answer on whether we are the right fit.</p></td>
+          </tr>
+          <tr>
+            <td class="tag">02</td>
+            <td><p><strong>Written scope.</strong> Intent, limits, acceptance tests and the rollback plan, agreed before work starts.</p></td>
+            <td><p>A scope you approve, and can hold us to.</p></td>
+          </tr>
+          <tr>
+            <td class="tag">03</td>
+            <td><p><strong>Bounded work.</strong> Small reviewed pieces, each shown working before the next begins.</p></td>
+            <td><p>Progress you can check yourself, at any point.</p></td>
+          </tr>
+          <tr>
+            <td class="tag">04</td>
+            <td><p><strong>Handover.</strong> Code, records, runbooks and a release you have seen roll back.</p></td>
+            <td><p>Something you own and can run without us.</p></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section class="section" aria-labelledby="cta-h">
+    <div class="wrap">
+      <h2 id="cta-h" class="cta-h">Tell us what you're trying to do.</h2>
+      <p><a class="btn btn-primary" href={`mailto:${CONTACT_EMAIL}`}>{CONTACT_EMAIL}</a></p>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .offer {
+    display: grid;
+    grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.4fr);
+    gap: clamp(24px, 5vw, 80px);
+  }
+  .label h2 {
+    font-size: var(--text-3xl);
+    margin: var(--space-2) 0 var(--space-4);
+  }
+  .for {
+    color: var(--muted);
+    font-size: var(--text-lg);
+    max-width: 34ch;
+  }
+  .body h3:first-of-type {
+    margin-top: var(--space-5);
+  }
+  .body ul {
+    padding-left: 1.1em;
+  }
+  .body li::marker {
+    color: var(--accent);
+  }
+  .label {
+    position: sticky;
+    top: 96px;
+    align-self: start;
+  }
+  .cta-h {
+    font-size: var(--text-2xl);
+    margin-bottom: var(--space-5);
+  }
+  @media (max-width: 900px) {
+    .offer {
+      grid-template-columns: 1fr;
+    }
+    .label {
+      position: static;
+    }
+  }
+</style>

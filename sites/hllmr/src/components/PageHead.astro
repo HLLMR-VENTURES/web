@@ -1,0 +1,18 @@
+---
+/** Inner-page header: drawing number and sheet name as an annotation, the title, an optional lede. */
+interface Props {
+  dwg: string;
+  title: string;
+  lede?: string;
+}
+const { dwg, title, lede } = Astro.props;
+---
+
+<header class="page-head">
+  <div class="wrap">
+    <p class="anno">{dwg}</p>
+    <h1>{title}</h1>
+    {lede && <p class="lede">{lede}</p>}
+    <slot />
+  </div>
+</header>

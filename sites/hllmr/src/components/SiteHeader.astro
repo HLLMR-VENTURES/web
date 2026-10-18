@@ -1,0 +1,192 @@
+---
+/**
+ * Site header: the house arms and HLLMR Ventures wordmark, hub navigation (current section marked at
+ * build time), theme toggle. On a venture skin a second band carries the venture's arms, name and
+ * its own navigation.
+ */
+import ThemeToggle from "@hllmr/design/components/ThemeToggle.astro";
+import Arms from "./Arms.astro";
+import Wordmark from "./Wordmark.astro";
+import { BUILD, NAV, THEME_STORAGE_KEY } from "../lib/site";
+
+interface Props {
+  skin?: "hub" | "build";
+}
+const { skin = "hub" } = Astro.props;
+
+const path = Astro.url.pathname;
+const current = (href: string) =>
+  skin === "hub" && (path.startsWith(href) || (href === "/projects/" && path.startsWith("/writwall")));
+const vcurrent = (href: string) => (href === "/build/" ? path === "/build/" || path === "/build/index.html" : path.startsWith(href));
+---
+
+<header class="hd">
+  <div class="in wrap">
+    <a class="brand" href="/" aria-label="HLLMR Ventures, home"><Arms coat="house" size={22} decorative /><Wordmark height={17} suffix="Ventures" /></a>
+    <span class="sp"></span>
+    <nav class="nav" aria-label="Site">
+      {
+        NAV.map((l) => (
+          <a href={l.href} aria-current={current(l.href) ? "page" : undefined}>
+            {l.label}
+          </a>
+        ))
+      }
+    </nav>
+    <ThemeToggle storageKey={THEME_STORAGE_KEY} class="tog" />
+  </div>
+  {
+    skin === "build" && (
+      <div class="venture">
+        <div class="wrap vin">
+          <a class="vname" href="/build/">
+            <Arms coat="build" size={18} decorative />
+            {BUILD.name}
+            <span class="vlabel">{BUILD.label}</span>
+          </a>
+          <nav class="vnav" aria-label={BUILD.name}>
+            {BUILD.nav.map((l) => (
+              <a href={l.href} aria-current={vcurrent(l.href) ? "page" : undefined}>
+                {l.label}
+              </a>
+            ))}
+          </nav>
+        </div>
+      </div>
+    )
+  }
+</header>
+
+<style>
+  .hd {
+    position: sticky;
+    top: 0;
+    z-index: var(--z-header);
+    background: color-mix(in srgb, var(--bg) 90%, transparent);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    border-bottom: 1px solid var(--rule);
+  }
+  .in {
+    display: flex;
+    align-items: center;
+    gap: var(--space-4);
+    padding-top: 14px;
+    padding-bottom: 14px;
+    flex-wrap: wrap;
+  }
+  .brand {
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+    text-decoration: none;
+    color: var(--text);
+  }
+  .sp {
+    flex: 1;
+  }
+  .nav {
+    display: flex;
+    gap: 22px;
+    flex-wrap: wrap;
+  }
+  .nav a {
+    font-family: var(--font-ui);
+    font-stretch: 118%;
+    font-weight: 600;
+    font-size: 0.72rem;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--muted);
+    text-decoration: none;
+    padding: 6px 0;
+    border-bottom: 2px solid transparent;
+  }
+  .nav a:hover {
+    color: var(--text);
+  }
+  .nav a[aria-current="page"] {
+    color: var(--text);
+    border-bottom-color: var(--text);
+  }
+  .venture {
+    border-top: 1px solid var(--rule);
+    background: color-mix(in srgb, var(--surface) 80%, transparent);
+  }
+  .vin {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-4);
+    padding-top: 8px;
+    padding-bottom: 8px;
+    flex-wrap: wrap;
+  }
+  .vname {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    font-family: var(--font-ui);
+    font-weight: 650;
+    font-size: 0.95rem;
+    color: var(--text);
+    text-decoration: none;
+  }
+  .vlabel {
+    font-family: var(--font-ui);
+    font-weight: 600;
+    font-stretch: 118%;
+    font-size: 0.62rem;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+  .vnav {
+    display: flex;
+    gap: 14px;
+  }
+  .vnav a {
+    font-size: 0.86rem;
+    color: var(--muted);
+    text-decoration: none;
+  }
+  .vnav a:hover,
+  .vnav a[aria-current="page"] {
+    color: var(--venture);
+    text-decoration: underline;
+  }
+  :global(.theme-toggle) {
+    width: 34px;
+    height: 34px;
+    border: 1px solid var(--rule);
+    background: transparent;
+    color: var(--text);
+    border-radius: 0;
+    cursor: pointer;
+    font-size: 1rem;
+  }
+  :global(.theme-toggle:hover) {
+    border-color: var(--text);
+  }
+  @media (max-width: 720px) {
+    .in {
+      gap: var(--space-2);
+    }
+    .nav {
+      order: 3;
+      width: calc(100% + 10px);
+      margin: 0 -5px;
+      flex-wrap: nowrap;
+      justify-content: space-between;
+      overflow-x: auto;
+      scrollbar-width: none;
+    }
+    .nav {
+      gap: 8px;
+    }
+    .nav a {
+      font-size: 0.6rem;
+      letter-spacing: 0.1em;
+    }
+  }
+</style>

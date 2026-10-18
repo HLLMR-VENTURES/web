@@ -1,0 +1,100 @@
+---
+/**
+ * Shared document shell for every hllmr.com page: head metadata from props, the static header
+ * and title-block footer, a skip link and a single <main> landmark.
+ */
+import "@hllmr/design/hllmr.css";
+import "../styles/site.css";
+import SkipLink from "@hllmr/design/components/SkipLink.astro";
+import ArmsDefs from "../components/ArmsDefs.astro";
+import SiteHeader from "../components/SiteHeader.astro";
+import SiteFooter from "../components/SiteFooter.astro";
+import { OWNER, SITE_NAME, abs } from "../lib/site";
+
+interface Props {
+  /** Full <title>. */
+  title: string;
+  description: string;
+  /** Short name for the footer title block's "Sheet" cell. */
+  sheet: string;
+  ogTitle?: string;
+  ogDescription?: string;
+  /** Path of the share image, relative to the site root. */
+  ogImage?: string;
+  ogImageAlt?: string;
+  ogType?: "website" | "article";
+  noindex?: boolean;
+  /** Schema.org graph, serialized into one application/ld+json block. */
+  jsonLd?: Record<string, unknown>;
+  /** "hub" for HLLMR Ventures pages; a venture skin for venture pages (packages/design/skins/hllmr.css). */
+  skin?: "hub" | "build";
+}
+
+const {
+  title,
+  description,
+  sheet,
+  ogTitle = title,
+  ogDescription = description,
+  ogImage = "/og.png",
+  ogImageAlt = "HLLMR Ventures. Projects start here.",
+  ogType = "website",
+  noindex = false,
+  jsonLd,
+  skin = "hub",
+} = Astro.props;
+
+const canonical = abs(Astro.url.pathname, Astro.site);
+const image = abs(ogImage, Astro.site);
+---
+
+<!doctype html>
+<html lang="en" data-skin={skin}>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{title}</title>
+    <script is:inline src="/js/theme.js"></script>
+    <meta name="description" content={description} />
+    {
+      noindex ? (
+        <meta name="robots" content="noindex, follow" />
+      ) : (
+        <>
+          <link rel="canonical" href={canonical} />
+          <meta name="robots" content="index, follow, max-image-preview:large" />
+        </>
+      )
+    }
+    <meta property="og:title" content={ogTitle} />
+    <meta property="og:description" content={ogDescription} />
+    <meta property="og:type" content={ogType} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:site_name" content={SITE_NAME} />
+    <meta property="og:locale" content="en_US" />
+    <meta property="og:image" content={image} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content={ogImageAlt} />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={ogTitle} />
+    <meta name="twitter:description" content={ogDescription} />
+    <meta name="twitter:image" content={image} />
+    <meta name="author" content={OWNER} />
+    <meta name="theme-color" content="#e9ecef" media="(prefers-color-scheme: light)" />
+    <meta name="theme-color" content="#0e1013" media="(prefers-color-scheme: dark)" />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="icon" href="/favicon.png" type="image/png" sizes="32x32" />
+    <link rel="alternate" type="application/rss+xml" title="HLLMR writing" href="/feed.xml" />
+    {jsonLd && <script is:inline type="application/ld+json" set:html={JSON.stringify(jsonLd).replace(/</g, "\\u003c")} />}
+  </head>
+  <body>
+    <SkipLink target="main" />
+    <ArmsDefs />
+    <SiteHeader skin={skin} />
+    <main id="main" tabindex="-1">
+      <slot />
+    </main>
+    <SiteFooter sheet={sheet} skin={skin} />
+  </body>
+</html>

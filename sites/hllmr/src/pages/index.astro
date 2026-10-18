@@ -1,0 +1,327 @@
+---
+/**
+ * Home: HLLMR Ventures, the incubator. Industry-neutral on purpose (owner decision 2026-10-18):
+ * ventures in any field start here, each under its own arms (heraldry direction), with its own
+ * front door once it is ready.
+ */
+import BaseLayout from "../layouts/BaseLayout.astro";
+import Arms from "../components/Arms.astro";
+import { ARMS, type ArmsKey } from "../lib/arms";
+import VentureRegister, { type RegisterRow } from "../components/VentureRegister.astro";
+import { PROJECTS, PROJECT_STAGE, VENTURES } from "../lib/projects";
+import { WRITING } from "../lib/writing";
+import { CONTACT_EMAIL, FOUNDER, LINKS, LOCALITY, OWNER, abs } from "../lib/site";
+
+const site = Astro.site;
+const jsonLd = {
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "Organization",
+      "@id": abs("/#organization", site),
+      name: OWNER,
+      alternateName: "HLLMR",
+      url: abs("/", site),
+      logo: abs("/favicon.png", site),
+      email: CONTACT_EMAIL,
+      founder: { "@type": "Person", name: FOUNDER },
+      sameAs: [LINKS.github],
+    },
+    {
+      "@type": "WebSite",
+      "@id": abs("/#website", site),
+      name: "HLLMR Ventures",
+      url: abs("/", site),
+      publisher: { "@id": abs("/#organization", site) },
+    },
+  ],
+};
+
+const ventures: RegisterRow[] = VENTURES.map((v) => ({
+  ...v,
+  links: v.slug === "silo" ? [{ label: "case study", href: "/projects/silo/" }, { label: "source", href: LINKS.siloSource }] : undefined,
+}));
+const projects: RegisterRow[] = PROJECTS.filter((p) => p.slug !== "silo").map((p) => ({
+  slug: p.slug,
+  name: p.name,
+  field: p.kind,
+  line: p.what,
+  stage: PROJECT_STAGE[p.slug] ?? "Building",
+  href: p.page ?? `/projects/#${p.slug}`,
+  links: p.links,
+}));
+const essay = WRITING[0]!;
+const cycle: ArmsKey[] = ["house", "build", "silo", "live", "next"];
+const roll: ArmsKey[] = [...cycle, ...cycle, ...cycle, ...cycle];
+---
+
+<BaseLayout
+  title="HLLMR Ventures · Projects start here"
+  description="HLLMR Ventures LLC is where new ventures begin: software, services, entertainment and whatever comes next. Each starts here, proves itself, and gets its own front door when it is ready."
+  sheet="Home"
+  jsonLd={jsonLd}
+>
+  <section class="hero">
+    <div class="wrap hero-in">
+      <div class="copy">
+        <p class="meta anno">
+          <span>{OWNER}</span><span>{LOCALITY}</span><span>Est. 2026</span>
+        </p>
+        <h1>Projects start <em>here.</em></h1>
+        <p class="lede">
+          HLLMR Ventures is where new things begin: software, services, entertainment and whatever comes next. Each venture
+          bears its own arms, proves itself in the open, and gets its own name and front door when it is ready.
+        </p>
+      </div>
+      <figure class="house">
+        <Arms coat="house" size={220} />
+        <figcaption>{ARMS.house.blazon}</figcaption>
+      </figure>
+    </div>
+    <div class="roll" aria-hidden="true">
+      {roll.map((k) => <Arms coat={k} size={72} form="banner" decorative />)}
+    </div>
+    <div class="wrap roll-cap">
+      <span class="anno">The roll of arms</span><span class="anno">House · Build · Silo · DJ &amp; events · reserved</span>
+    </div>
+  </section>
+
+  <section class="section" aria-labelledby="ventures-h">
+    <div class="wrap">
+      <div class="head">
+        <h2 id="ventures-h">Ventures</h2>
+        <p class="count anno">{VENTURES.length} in the register</p>
+      </div>
+      <VentureRegister rows={ventures} label="Ventures" />
+    </div>
+  </section>
+
+  <section class="section" aria-labelledby="path-h">
+    <div class="wrap">
+      <div class="head">
+        <h2 id="path-h">How a venture grows</h2>
+      </div>
+      <ol class="path">
+        <li>
+          <span class="n anno">01 · Idea</span>
+          <h3>Start here</h3>
+          <p>An idea gets a line in the register and a page on this site. Nothing more until it earns it.</p>
+        </li>
+        <li>
+          <span class="n anno">02 · Building</span>
+          <h3>Prove it</h3>
+          <p>It is built and tested in the open, with its limits written down next to its claims.</p>
+        </li>
+        <li>
+          <span class="n anno">03 · Launched</span>
+          <h3>Its own front door</h3>
+          <p>A launched venture gets its own name, look and address, like silo.hllmr.com.</p>
+        </li>
+        <li>
+          <span class="n anno">04 · Spun out</span>
+          <h3>Its own company</h3>
+          <p>When it outgrows the house, it moves to its own domain or company. The register keeps the link.</p>
+        </li>
+      </ol>
+    </div>
+  </section>
+
+  <section class="section" aria-labelledby="projects-h">
+    <div class="wrap">
+      <div class="head">
+        <h2 id="projects-h">Projects and tools</h2>
+        <p class="count anno"><a href="/projects/">Full schedule →</a></p>
+      </div>
+      <VentureRegister rows={projects} label="Projects and tools" size="sm" />
+    </div>
+  </section>
+
+  <section class="section" aria-labelledby="writing-h">
+    <div class="wrap two">
+      <div>
+        <p class="anno">Writing · {essay.kind}</p>
+        <h2 id="writing-h"><a href={essay.path}>{essay.title}</a></h2>
+      </div>
+      <p class="muted">{essay.description} <a href="/writing/">All writing →</a></p>
+    </div>
+  </section>
+
+  <section class="section contact" aria-labelledby="contact-h">
+    <div class="wrap two">
+      <h2 id="contact-h">Have something that should start here?</h2>
+      <div>
+        <p class="muted">A partnership, a project, a booking or a question. One address reaches a person.</p>
+        <p><a class="btn btn-primary" href={`mailto:${CONTACT_EMAIL}`}>{CONTACT_EMAIL}</a></p>
+      </div>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .hero {
+    padding: var(--space-8) 0 0;
+  }
+  .hero-in {
+    display: grid;
+    grid-template-columns: minmax(0, 1.5fr) minmax(0, 1fr);
+    gap: clamp(28px, 5vw, 72px);
+    align-items: end;
+    padding-bottom: var(--space-7);
+  }
+  .meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px 22px;
+    margin: 0 0 var(--space-5);
+  }
+  .hero h1 {
+    font-size: clamp(3rem, 1.4rem + 6.4vw, 6.8rem);
+    line-height: 0.95;
+    letter-spacing: -0.02em;
+    font-weight: 400;
+  }
+  .hero h1 em {
+    font-style: italic;
+  }
+  .lede {
+    margin: var(--space-5) 0 0;
+    font-size: var(--text-lg);
+    color: var(--muted);
+    max-width: 46ch;
+  }
+  .house {
+    margin: 0;
+    justify-self: end;
+    display: grid;
+    justify-items: center;
+    gap: 14px;
+  }
+  .house :global(.arms) {
+    width: min(220px, 48vw);
+    height: auto;
+  }
+  .house figcaption {
+    font-family: var(--font-display);
+    font-style: italic;
+    font-size: 1.15rem;
+  }
+  .roll {
+    display: flex;
+    overflow: hidden;
+    border-block: 1px solid var(--rule);
+  }
+  .roll :global(.arms) {
+    flex: 0 0 auto;
+  }
+  .roll-cap {
+    display: flex;
+    justify-content: space-between;
+    gap: 16px;
+    flex-wrap: wrap;
+    padding-top: 10px;
+  }
+  @media (max-width: 760px) {
+    .hero-in {
+      grid-template-columns: 1fr;
+    }
+    .house {
+      justify-self: start;
+    }
+  }
+
+  .head {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: var(--space-4);
+    margin-bottom: var(--space-4);
+  }
+  .head h2 {
+    font-size: var(--text-3xl);
+  }
+  .count a {
+    color: var(--text);
+  }
+
+  .path {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    border-top: 2px solid var(--text);
+  }
+  .path h3 {
+    font-family: var(--font-display);
+    font-weight: 450;
+    font-size: var(--text-2xl);
+  }
+  .path li {
+    padding: var(--space-5) var(--space-5) var(--space-5) 0;
+  }
+  .path li + li {
+    padding-left: var(--space-5);
+    border-left: 1px solid var(--rule);
+  }
+  .path h3 {
+    font-size: var(--text-xl);
+    margin: var(--space-3) 0 var(--space-2);
+  }
+  .path p {
+    margin: 0;
+    color: var(--muted);
+    font-size: 0.97rem;
+  }
+  .n {
+    color: var(--accent);
+  }
+  @media (max-width: 900px) {
+    .path {
+      grid-template-columns: 1fr 1fr;
+    }
+    .path li:nth-child(3) {
+      padding-left: 0;
+      border-left: 0;
+    }
+    .path li:nth-child(n + 3) {
+      border-top: 1px solid var(--rule);
+    }
+  }
+  @media (max-width: 560px) {
+    .path {
+      grid-template-columns: 1fr;
+    }
+    .path li + li {
+      padding-left: 0;
+      border-left: 0;
+      border-top: 1px solid var(--rule);
+    }
+  }
+
+  .two {
+    display: grid;
+    grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr);
+    gap: clamp(20px, 5vw, 72px);
+    align-items: end;
+  }
+  .two h2 {
+    font-size: var(--text-2xl);
+    margin-top: var(--space-2);
+  }
+  .two h2 a {
+    color: var(--text);
+    text-decoration-color: var(--rule);
+  }
+  .muted {
+    color: var(--muted);
+  }
+  .contact h2 {
+    font-size: var(--text-3xl);
+    line-height: 1;
+  }
+  @media (max-width: 760px) {
+    .two {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

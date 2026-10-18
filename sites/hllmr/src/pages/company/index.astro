@@ -1,0 +1,110 @@
+---
+/** Company: what HLLMR Ventures is, how it operates, and a short founder note (the 2026-08 home-page bio, moved here). */
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import PageHead from "../../components/PageHead.astro";
+import { CONTACT_EMAIL, FOUNDER, LINKS, LOCALITY, OWNER } from "../../lib/site";
+---
+
+<BaseLayout
+  title="About · HLLMR Ventures"
+  description="HLLMR Ventures LLC is a Texas company where new ventures start: software, services, entertainment and more, each grown until it can stand on its own."
+  sheet="About"
+>
+  <PageHead
+    dwg="About"
+    title="HLLMR Ventures"
+    lede="A small Texas company that starts ventures in whatever field the opportunity is in, and grows each one until it can stand on its own."
+  />
+
+  <section class="section">
+    <div class="wrap co">
+      <dl class="spec ident">
+        <dt>Entity</dt><dd>{OWNER}, a Texas limited liability company</dd>
+        <dt>Based</dt><dd>{LOCALITY}</dd>
+        <dt>Founder</dt><dd>{FOUNDER}</dd>
+        <dt>Contact</dt><dd><a href={`mailto:${CONTACT_EMAIL}`}>{CONTACT_EMAIL}</a></dd>
+        <dt>Code</dt><dd><a href={LINKS.github} rel="noopener">github.com/HLLMR</a></dd>
+      </dl>
+
+      <div class="prose">
+        <h2>How HLLMR Ventures works</h2>
+        <p>
+          HLLMR is the house name. Ventures start here under it, in any field: a software product, a service practice, a
+          music and events business. Each one has to prove itself, and when it does it gets its own name, look and address.
+          Some will stay in the house; some will leave for their own domain or company.
+        </p>
+        <h2>Principles, in every field</h2>
+        <ol class="principles">
+          <li><strong>See it work.</strong> A claim that something works is checked, not assumed, whether it is software, a sound system or a booking.</li>
+          <li><strong>Keep the record.</strong> Decisions are written down with the options that were turned down.</li>
+          <li><strong>A person decides.</strong> Tools and AI agents do a lot of the work. A named person is accountable for what ships.</li>
+          <li><strong>Prove the way back.</strong> Every change has a tested way to undo it before it goes live.</li>
+          <li><strong>Own what matters.</strong> The house runs its own infrastructure and keeps its own data.</li>
+          <li><strong>Say the limits.</strong> Every case study ends with what it does not prove.</li>
+        </ol>
+
+        <h2>From the founder</h2>
+        <p>
+          HLLMR Ventures is run by its founder, {FOUNDER}. In his words:
+        </p>
+        <p>I build control systems, and lately I build software the way I was trained to build control systems.</p>
+        <p>
+          Twenty years in building automation and integrated building systems: the controls, physical security, fire, and
+          networks that run a building, and the commissioning discipline that proves they do what the drawings say. Before
+          that, the Navy's nuclear program, where you assume nothing works until you have watched it work.
+        </p>
+        <p>
+          Now I build software with AI coding agents every day, and the same discipline turns out to be the missing piece.
+          An agent will report a task complete when it is not. A control nobody has watched deny anything is an assumption.
+          A plan regenerated from the code launders drift into the record. None of that is new. It is the failure mode
+          every commissioning engineer already knows, arriving in an industry that has not learned to distrust a status
+          point yet.
+        </p>
+        <p class="sig anno">{FOUNDER}, founder</p>
+      </div>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .co {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1.8fr);
+    gap: clamp(24px, 5vw, 72px);
+    align-items: start;
+  }
+  .ident {
+    border: 1px solid var(--border);
+    border-top: 2px solid var(--text);
+    background: var(--surface);
+    padding: 4px 16px;
+  }
+  .ident > :nth-last-child(-n + 2) {
+    border-bottom: 0;
+  }
+  .ident {
+    border-top: 2px solid var(--text);
+  }
+  .prose h2:first-child {
+    margin-top: 0;
+  }
+  .principles {
+    padding-left: 1.3em;
+  }
+  .principles li {
+    margin-bottom: var(--space-3);
+  }
+  .principles li::marker {
+    font-family: var(--font-mono);
+    font-size: 0.8rem;
+    color: var(--accent);
+  }
+  .sig {
+    margin-top: var(--space-5);
+  }
+  @media (max-width: 900px) {
+    .co {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

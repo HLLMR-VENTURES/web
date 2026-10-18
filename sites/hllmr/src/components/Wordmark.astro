@@ -1,0 +1,54 @@
+---
+/**
+ * The HLLMR wordmark: five capitals drawn on the arms' 24-unit grid (stems 4, horizontals 3.2).
+ * The H's bar sits on the fess point; the M's centre is a chevron. Nothing hangs off any letter.
+ * `suffix` names the entity or venture ("Ventures", "Build"), set beside the mark after a rule.
+ * Geometry from the heraldry mood board; a type designer's optical pass is still to come.
+ */
+interface Props {
+  /** Rendered cap height in CSS px. */
+  height?: number;
+  suffix?: string;
+  class?: string;
+}
+const { height = 18, suffix, class: cls = "" } = Astro.props;
+const width = Math.round((height * 106.5) / 24 * 100) / 100;
+---
+
+<span class:list={["wm", cls]}
+  ><svg class="wm-svg" viewBox="0 0 106.5 24" width={width} height={height} role="img" aria-label="HLLMR" focusable="false"
+    ><g fill="currentColor"
+      ><path d="M0 0h4v10.4h10V0h4v24h-4V13.6H4V24H0z"></path><path transform="translate(24 0)" d="M0 0h4v20.8h10V24H0z"
+      ></path><path transform="translate(41 0)" d="M0 0h4v20.8h10V24H0z"></path><path
+        transform="translate(58.5 0)"
+        d="M0 24V0h5l7 17 7-17h5v24h-4V8.46L13.6 24h-3.2L4 8.46V24z"></path><g transform="translate(88.5 0)"
+        ><path d="M0 0h4v24H0z"></path><path fill-rule="evenodd" d="M4 0h6.5a7 7 0 0 1 0 14H4zM4 3.2h6.5a3 3.8 0 0 1 0 7.6H4z"
+        ></path><path d="M8.2 13h4.4L18 24h-4.4z"></path></g
+      ></g
+    ></svg
+  >{suffix && <span class="wm-sfx">{suffix}</span>}</span
+>
+
+<style>
+  .wm {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.7em;
+    color: var(--text);
+    line-height: 1;
+    white-space: nowrap;
+  }
+  .wm-svg {
+    display: block;
+  }
+  .wm-sfx {
+    font-family: var(--font-ui);
+    font-stretch: 125%;
+    font-weight: 500;
+    font-size: 0.74rem;
+    letter-spacing: 0.24em;
+    text-transform: uppercase;
+    padding-left: 0.7em;
+    border-left: 1px solid var(--rule);
+  }
+</style>

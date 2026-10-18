@@ -1,0 +1,71 @@
+---
+/** The essay, at its published URL, text unchanged (body in src/content/essay-document-control.html). */
+import BaseLayout from "../../../layouts/BaseLayout.astro";
+import body from "../../../content/essay-document-control.html?raw";
+import { WRITING } from "../../../lib/writing";
+import { OWNER, abs } from "../../../lib/site";
+
+const piece = WRITING.find((w) => w.slug === "document-control-for-ai-agents")!;
+const site = Astro.site;
+const jsonLd = {
+  "@context": "https://schema.org",
+  "@type": "Article",
+  headline: piece.title,
+  description: piece.description,
+  datePublished: piece.published,
+  url: abs(piece.path, site),
+  image: abs(`${piece.path}og.png`, site),
+  author: { "@type": "Person", name: piece.author },
+  publisher: { "@type": "Organization", "@id": abs("/#organization", site), name: OWNER },
+};
+---
+
+<BaseLayout
+  title="Document control for AI-assisted development"
+  description={piece.description}
+  sheet="Essay"
+  ogType="article"
+  ogDescription="What construction solved a century ago, moved into software: witness the behavior, keep plan and as-built apart, record the rejected alternatives, and shed superseded revisions."
+  ogImage={`${piece.path}og.png`}
+  ogImageAlt="Document control for AI-assisted development"
+  jsonLd={jsonLd}
+>
+  <article class="essay">
+    <header class="page-head">
+      <div class="wrap">
+        <p class="anno">Essay · <time datetime={piece.published}>{piece.published}</time> · {piece.author}</p>
+        <h1>{piece.title}</h1>
+      </div>
+    </header>
+    <div class="wrap">
+      <div class="prose essay-body" set:html={body} />
+      <p class="byline anno">{piece.author} · hllmr.com/writing</p>
+    </div>
+  </article>
+</BaseLayout>
+
+<style>
+  .essay .page-head h1 {
+    max-width: 22ch;
+  }
+  .essay-body {
+    padding-top: var(--space-7);
+  }
+  .essay-body :global(p:first-of-type) {
+    font-size: 1.2rem;
+    line-height: 1.6;
+  }
+  .essay-body :global(strong) {
+    font-family: var(--font-ui);
+    font-weight: 650;
+    font-size: 1.06rem;
+  }
+  .essay-body :global(p:has(> strong:only-child)) {
+    margin-top: var(--space-6);
+    padding-left: var(--space-3);
+    border-left: 3px solid var(--accent);
+  }
+  .byline {
+    margin-top: var(--space-6);
+  }
+</style>

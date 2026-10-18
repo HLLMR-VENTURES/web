@@ -1,0 +1,188 @@
+{
+  "$comment": "hllmr.com public URL contract. Every path the 2026-08 site served (HLLMR/hllmr-site 3b8930d, live until the cutover) keeps resolving, plus the 2026-10 additions. Statuses are what deploy/hllmr/nginx.conf answers; 'location' is the exact Location header (absolute_redirect off keeps directory redirects relative). Change: directory paths without a trailing slash (/projects) now 301 to the slash form instead of serving 200 directly, so each page has one canonical URL. www.hllmr.com -> apex stays an NPM redirection host and is not tested here.",
+  "site": "hllmr",
+  "entries": [
+    {
+      "path": "/",
+      "status": 200,
+      "contains": "Projects start here</title>",
+      "why": "home; canonical"
+    },
+    {
+      "path": "/index.html",
+      "status": 200,
+      "contains": "Projects start here</title>"
+    },
+    {
+      "path": "/projects/",
+      "status": 200,
+      "contains": "Ventures and projects",
+      "why": "2026-08 page, linked from the old home"
+    },
+    {
+      "path": "/projects",
+      "status": 301,
+      "location": "/projects/",
+      "why": "was 200 on the old site"
+    },
+    {
+      "path": "/projects/index.html",
+      "status": 200
+    },
+    {
+      "path": "/projects/silo/",
+      "status": 200,
+      "contains": "Farming Simulator 25"
+    },
+    {
+      "path": "/projects/self-hosted-stack/",
+      "status": 200,
+      "contains": "Recovery is proven"
+    },
+    {
+      "path": "/build/",
+      "status": 200,
+      "contains": "commissioned.",
+      "why": "HLLMR Build venture (AI-assisted development)"
+    },
+    {
+      "path": "/build",
+      "status": 301,
+      "location": "/build/"
+    },
+    {
+      "path": "/build/services/",
+      "status": 200,
+      "contains": "Two ways to work with us"
+    },
+    {
+      "path": "/build/og.png",
+      "status": 200
+    },
+    {
+      "path": "/writwall/",
+      "status": 200,
+      "contains": "Governance for AI-assisted development.",
+      "why": "2026-08 page, Writwall README and essay link here"
+    },
+    {
+      "path": "/writwall",
+      "status": 301,
+      "location": "/writwall/"
+    },
+    {
+      "path": "/writwall/index.html",
+      "status": 200
+    },
+    {
+      "path": "/writwall/og.png",
+      "status": 200,
+      "why": "Open Graph cards already scraped"
+    },
+    {
+      "path": "/writwall/og.svg",
+      "status": 200
+    },
+    {
+      "path": "/plumbline",
+      "status": 301,
+      "location": "https://hllmr.com/writwall/",
+      "why": "DR-002 rename, absolute target as on the old site"
+    },
+    {
+      "path": "/plumbline/",
+      "status": 301,
+      "location": "https://hllmr.com/writwall/"
+    },
+    {
+      "path": "/plumbline/og.png",
+      "status": 200,
+      "why": "OG cards scraped under the old name"
+    },
+    {
+      "path": "/writing/",
+      "status": 200,
+      "contains": "Document control for AI-assisted development",
+      "why": "new; was 404"
+    },
+    {
+      "path": "/writing/document-control-for-ai-agents/",
+      "status": 200,
+      "contains": "Put it in alarm. Watch it close.",
+      "why": "the essay; Hacker News and Writwall link here"
+    },
+    {
+      "path": "/writing/document-control-for-ai-agents",
+      "status": 301,
+      "location": "/writing/document-control-for-ai-agents/"
+    },
+    {
+      "path": "/writing/document-control-for-ai-agents/og.png",
+      "status": 200
+    },
+    {
+      "path": "/company/",
+      "status": 200,
+      "contains": "Principles, in every field"
+    },
+    {
+      "path": "/contact/",
+      "status": 200,
+      "contains": "mailto:d@hllmr.com"
+    },
+    {
+      "path": "/privacy/",
+      "status": 200,
+      "contains": "No cookies"
+    },
+    {
+      "path": "/og.png",
+      "status": 200
+    },
+    {
+      "path": "/favicon.png",
+      "status": 200
+    },
+    {
+      "path": "/favicon.svg",
+      "status": 200
+    },
+    {
+      "path": "/assets/avatar.svg",
+      "status": 200,
+      "why": "2026-08 asset path"
+    },
+    {
+      "path": "/assets/favicon-32.svg",
+      "status": 200
+    },
+    {
+      "path": "/assets/wordmark.svg",
+      "status": 200
+    },
+    {
+      "path": "/robots.txt",
+      "status": 200,
+      "contains": "Sitemap: https://hllmr.com/sitemap.xml"
+    },
+    {
+      "path": "/sitemap.xml",
+      "status": 200,
+      "contains": "https://hllmr.com/writing/document-control-for-ai-agents/"
+    },
+    {
+      "path": "/feed.xml",
+      "status": 200,
+      "contains": "<rss"
+    },
+    {
+      "path": "/no-such-page/",
+      "status": 404,
+      "contains": "Not in the register."
+    },
+    {
+      "path": "/.git/config",
+      "status": 403
+    }
+  ]
+}

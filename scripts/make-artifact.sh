@@ -11,10 +11,12 @@
 #   site-<id>.tar.gz   servable files only, deterministic (sorted, root-owned, fixed mtime, gzip -n)
 #   SHA256SUMS         one "<sha256>  <path>" line per file, paths relative to the site root
 #   ARTIFACT.json      id, commit, both checksums and sizes (for the release notes and approval line)
-# Usage: scripts/make-artifact.sh <dist-dir> <40-hex-commit-sha> <out-dir>   (GNU tar; CI only)
+# Usage: scripts/make-artifact.sh <dist-dir> <40-hex-commit-sha> <out-dir> [site]   (GNU tar; CI only)
+#   site: the "site" field of ARTIFACT.json, [a-z0-9-]+ (default silo)
 set -euo pipefail
 
-dist="$1" commit="$2" out="$3"
+dist="$1" commit="$2" out="$3" site="${4:-silo}"
+[[ "$site" =~ ^[a-z0-9-]+$ ]] || { echo "site must be [a-z0-9-]+" >&2; exit 1; }
 [[ "$commit" =~ ^[0-9a-f]{40}$ ]] || { echo "commit must be 40 lowercase hex" >&2; exit 1; }
 [ -f "$dist/index.html" ] || { echo "no index.html in $dist" >&2; exit 1; }
 mkdir -p "$out"
@@ -41,7 +43,7 @@ files="$(wc -l <"$out/SHA256SUMS" | tr -d ' ')"
 bytes="$(du -sb "$dist" | cut -f1)"
 cat >"$out/ARTIFACT.json" <<EOF
 {
-  "site": "silo",
+  "site": "${site}",
   "id": "${id}",
   "commit": "${commit}",
   "tarball": "site-${id}.tar.gz",

@@ -1,0 +1,100 @@
+---
+/** Writwall landing page, at its published URL (/plumbline/ 301s here in nginx). Body in src/content. */
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import body from "../../content/writwall-page.html?raw";
+---
+
+<BaseLayout
+  title="Writwall: governance for AI-assisted development"
+  description="Writwall is a governance methodology for building software with AI agents: ratified intent, bounded work orders with capability grants, independent review, and controls birth-tested before they are trusted."
+  sheet="Writwall"
+  ogImage="/writwall/og.png"
+  ogImageAlt="Writwall: governance for AI-assisted development"
+>
+  <header class="page-head">
+    <div class="wrap">
+      <p class="anno">Project P-03 · Method · <span class="ww">writwall</span></p>
+      <h1>Governance for AI-assisted development.</h1>
+    </div>
+  </header>
+  <div class="wrap">
+    <div class="prose ww-body" set:html={body} />
+  </div>
+</BaseLayout>
+
+<style>
+  .ww {
+    text-transform: none;
+    letter-spacing: 0.02em;
+    color: var(--text);
+  }
+  .ww-body {
+    padding-top: var(--space-7);
+  }
+  .ww-body :global(.lead) {
+    font-size: 1.2rem;
+    line-height: 1.6;
+  }
+  .ww-body :global(.repo) {
+    font-family: var(--font-mono);
+    font-size: 0.8rem;
+    line-height: 2;
+    border: 1px solid var(--border);
+    border-top: 2px solid var(--text);
+    background: var(--surface);
+    padding: 12px 16px;
+  }
+  .ww-body :global(.num) {
+    font-family: var(--font-mono);
+    font-weight: 600;
+    color: var(--accent);
+  }
+  .ww-body :global(.epigraph) {
+    font-family: var(--font-display);
+    font-style: italic;
+    font-weight: 400;
+    font-size: var(--text-2xl);
+    line-height: 1.25;
+    border-left: 3px solid var(--accent);
+    padding-left: var(--space-4);
+    margin: var(--space-6) 0;
+  }
+  .ww-body :global(.src) {
+    display: block;
+    font-family: var(--font-mono);
+    font-size: 0.7rem;
+    font-weight: 400;
+    letter-spacing: 0.06em;
+    color: var(--muted);
+    margin-top: var(--space-2);
+  }
+  .ww-body :global(table.metrics) {
+    border-collapse: collapse;
+    border: 1px solid var(--border);
+    border-top: 2px solid var(--text);
+    background: var(--surface);
+    width: 100%;
+  }
+  .ww-body :global(table.metrics td) {
+    border: 1px solid var(--rule);
+    padding: 10px 12px;
+    vertical-align: top;
+    font-size: 0.95rem;
+  }
+  .ww-body :global(table.metrics td:first-child) {
+    font-family: var(--font-mono);
+    font-size: 0.68rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--muted);
+    white-space: nowrap;
+    background: var(--raised);
+  }
+  .ww-body :global(.ww-foot) {
+    margin-top: var(--space-7);
+    padding-top: var(--space-4);
+    border-top: 1px solid var(--rule);
+    color: var(--muted);
+    font-size: 0.9rem;
+  }
+</style>

@@ -1,0 +1,68 @@
+---
+/** Contact: a mailto link only (owner decision 2026-10-18). The site has no form and sends nothing. */
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import PageHead from "../../components/PageHead.astro";
+import { CONTACT_EMAIL, LINKS } from "../../lib/site";
+---
+
+<BaseLayout
+  title="Contact · HLLMR Ventures"
+  description="Contact HLLMR Ventures by email: partnerships, projects, bookings and questions."
+  sheet="Contact"
+>
+  <PageHead dwg="Contact" title="Start with an email" />
+  <section class="section">
+    <div class="wrap grid">
+      <div class="prose">
+        <p class="big"><a href={`mailto:${CONTACT_EMAIL}`}>{CONTACT_EMAIL}</a></p>
+        <p>A few lines are enough. It helps to know:</p>
+        <ul>
+          <li>which venture it is about, if you know (or none yet);</li>
+          <li>what you have in mind, and any dates that matter;</li>
+          <li>what a good outcome would look like for you.</li>
+        </ul>
+        <p>A person reads every message and replies from the same address.</p>
+      </div>
+      <aside class="note">
+        <p class="anno">Note</p>
+        <p>
+          This site has no form and sends nothing. The link above opens your own mail program. For open-source projects,
+          issues and discussions on <a href={LINKS.github} rel="noopener">GitHub</a> are welcome too.
+        </p>
+      </aside>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1.6fr) minmax(0, 1fr);
+    gap: clamp(24px, 5vw, 72px);
+    align-items: start;
+  }
+  .big {
+    font-family: var(--font-mono);
+    font-size: clamp(1.2rem, 0.9rem + 1.6vw, 2rem) !important;
+    margin-top: 0;
+  }
+  .prose li::marker {
+    color: var(--accent);
+  }
+  .note {
+    border: 1px solid var(--border);
+    border-top: 2px solid var(--text);
+    background: var(--surface);
+    padding: 14px 18px;
+  }
+  .note p:last-child {
+    margin: var(--space-2) 0 0;
+    color: var(--muted);
+    font-size: 0.95rem;
+  }
+  @media (max-width: 720px) {
+    .grid {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>
