@@ -8,6 +8,7 @@
   "exports": {
     "./silo.css": "./silo.css",
     "./hllmr.css": "./hllmr.css",
+    "./dhellmer.css": "./dhellmer.css",
     "./tokens/*": "./tokens/*",
     "./skins/*": "./skins/*",
     "./components/*": "./components/*"
@@ -15,6 +16,7 @@
   "files": [
     "silo.css",
     "hllmr.css",
+    "dhellmer.css",
     "tokens",
     "skins",
     "components"

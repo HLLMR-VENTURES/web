@@ -1,0 +1,108 @@
+# Builds dhellmer.com and publishes a versioned static artifact as a GitHub Release:
+#   tag  dhellmer-site/<yyyymmdd>-<id12>   assets  site-<id>.tar.gz, SHA256SUMS, ARTIFACT.json
+# <id> is content-addressed (scripts/make-artifact.sh), so a rebuild that changes nothing is not
+# republished. Nothing here touches the host: infra's release tool PULLS these assets (public repo,
+# no credential) and switches www/current atomically under its own approvals (ADR-0011: one owner
+# approval line per release until the site has a qualifying release).
+#
+# Test mode (manual run with prerelease=true): tag dhellmer-site-test/…, marked pre-release, so infra
+# can exercise release A -> B -> A and the failure path off production before asking for any
+# approval. Never point production at a dhellmer-site-test tag.
+#
+# Owner-supplied content (CV detail, portrait, profile URLs) is previewable as Pending blocks marked
+# TODO(v1-copy). While any remain, a push to main builds and tests but publishes nothing (a notice,
+# not a failure); a test-mode run may publish them, since test artifacts never reach production.
+# The site also reads hllmr.com's ventures and writing data, hence those two paths below.
+#
+# Release tags never use the bare `v*` pattern and are prefixed per site, so a site release can
+# never become another product's "latest".
+name: release-dhellmer
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "sites/dhellmer/**"
+      - "sites/hllmr/src/lib/projects.ts"
+      - "sites/hllmr/src/lib/writing.ts"
+      - "packages/design/**"
+      - "deploy/dhellmer/**"
+      - "tests/url-contract/dhellmer*"
+      - "package-lock.json"
+  workflow_dispatch:
+    inputs:
+      prerelease:
+        description: "Test artifact for infra exercises (dhellmer-site-test/ tag, pre-release)"
+        type: boolean
+        default: false
+
+permissions:
+  contents: write # create the release and upload assets; nothing else
+
+concurrency:
+  group: release-dhellmer
+  cancel-in-progress: false
+
+jobs:
+  release:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+    env:
+      SITE_URL: https://dhellmer.com
+      PRERELEASE: ${{ inputs.prerelease && '1' || '0' }}
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
+        with:
+          node-version-file: .nvmrc
+          cache: npm
+      - run: npm ci
+      - name: Build and check
+        run: npm run test:dhellmer
+      - name: Releasable? (no owner-content placeholders left)
+        id: ready
+        # test:dhellmer already ran every other check-built-html rule, so --release can only fail
+        # here on TODO(v1-copy) placeholders.
+        run: |
+          if node scripts/check-built-html.mjs sites/dhellmer/dist --release; then
+            echo "ready=1" >>"$GITHUB_OUTPUT"
+          elif [ "$PRERELEASE" = "1" ]; then
+            echo "::notice::placeholders present; allowed in a test artifact only"
+            echo "ready=1" >>"$GITHUB_OUTPUT"
+          else
+            echo "::notice::owner-content placeholders (TODO(v1-copy)) remain; built and tested, nothing published"
+            echo "ready=0" >>"$GITHUB_OUTPUT"
+          fi
+      - name: URL contract against real nginx
+        run: bash tests/url-contract/run-nginx-dhellmer.sh
+      - name: Pack artifact
+        if: steps.ready.outputs.ready == '1'
+        id: pack
+        run: bash scripts/make-artifact.sh sites/dhellmer/dist "$GITHUB_SHA" out dhellmer
+      - name: Publish release unless identical content is already released
+        if: steps.ready.outputs.ready == '1'
+        env:
+          GH_TOKEN: ${{ github.token }}
+          ID: ${{ steps.pack.outputs.id }}
+        run: |
+          prefix="dhellmer-site"; flags=(--latest=false)
+          if [ "$PRERELEASE" = "1" ]; then prefix="dhellmer-site-test"; flags+=(--prerelease); fi
+          if gh release list --limit 100 --json tagName --jq '.[].tagName' | grep -q -- "^${prefix}/.*-${ID:0:12}$"; then
+            echo "content ${ID} already released under ${prefix}/; nothing to do"
+            exit 0
+          fi
+          tag="${prefix}/$(date -u +%Y%m%d)-${ID:0:12}"
+          {
+            echo "dhellmer.com static release$([ "$PRERELEASE" = "1" ] && echo ' (TEST ARTIFACT, not for production)')."
+            echo
+            echo '```json'
+            cat out/ARTIFACT.json
+            echo '```'
+            echo
+            echo "Release tool arguments: \`release <id> <tarballSha256> <manifestSha256>\` from ARTIFACT.json."
+            echo "Built from ${GITHUB_SHA} by ${GITHUB_WORKFLOW} run ${GITHUB_RUN_ID} (${GITHUB_EVENT_NAME})."
+          } > out/notes.md
+          gh release create "$tag" "${flags[@]}" --target "$GITHUB_SHA" --title "$tag" \
+            --notes-file out/notes.md "out/site-${ID}.tar.gz" out/SHA256SUMS out/ARTIFACT.json

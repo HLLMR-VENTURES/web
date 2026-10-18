@@ -1,0 +1,53 @@
+---
+/**
+ * Elsewhere: the contact route. Owner decision 2026-10-18: no email address on this site and no
+ * form; only confirmed profile links, and business enquiries through hllmr.com. Nothing is sent.
+ */
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import PageHead from "../../components/PageHead.astro";
+import Entry from "../../components/Entry.astro";
+import Pending from "../../components/Pending.astro";
+import { LINKS, NAME, PROFILES } from "../../lib/site";
+---
+
+<BaseLayout title={`Elsewhere · ${NAME}`} description="Where to find David Hellmer online, and how to reach HLLMR Ventures.">
+  <PageHead k="Elsewhere" title="Elsewhere" lede="This site has no inbox. These are the places I do read." />
+
+  <div class="log wrap">
+    <Entry no="01" label="Profiles" id="profiles">
+      <h2 id="profiles">Profiles</h2>
+      <ul class="rows">
+        {
+          PROFILES.filter((p) => !p.pending).map((p) => (
+            <li class="row">
+              <div>
+                <span class="f">{p.label}</span>
+                <a class="t" href={p.href}>
+                  {p.handle}
+                </a>
+                <p class="d">{p.note}</p>
+              </div>
+            </li>
+          ))
+        }
+      </ul>
+      {
+        PROFILES.filter((p) => p.pending).map((p) => (
+          <Pending what={p.label}>
+            <p>{p.note}</p>
+          </Pending>
+        ))
+      }
+    </Entry>
+
+    <Entry no="02" label="Business" id="business">
+      <h2 id="business">Working together</h2>
+      <div class="prose">
+        <p>
+          Projects, speaking and press go through HLLMR Ventures, which answers its own mail.
+        </p>
+      </div>
+      <a class="more ext" href={LINKS.hubContact}>hllmr.com/contact</a>
+    </Entry>
+  </div>
+</BaseLayout>

@@ -1,0 +1,10 @@
+---
+/** A venture's or project's incubator stage, as a small mono tag (stages from hllmr.com's register). */
+interface Props {
+  stage: string;
+}
+const { stage } = Astro.props;
+const cls = stage.toLowerCase().replace(/\s+/g, "-");
+---
+
+<span class:list={["stage", `stage-${cls}`]}>{stage}</span>

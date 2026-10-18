@@ -1,7 +1,7 @@
 {
   "name": "hllmr-web",
   "private": true,
-  "description": "HLLMR static websites: shared design package and per-site Astro builds (silo.hllmr.com, hllmr.com).",
+  "description": "HLLMR static websites: shared design package and per-site Astro builds (silo.hllmr.com, hllmr.com, dhellmer.com).",
   "license": "MIT",
   "type": "module",
   "workspaces": [
@@ -28,7 +28,13 @@
     "check:hllmr": "node scripts/check-built-html.mjs sites/hllmr/dist && html-validate \"sites/hllmr/dist/**/*.html\" && node scripts/check-internal-links.mjs sites/hllmr/dist",
     "test:hllmr": "npm run build:hllmr && npm run check:hllmr && node --test tests/url-contract/hllmr.contract.mjs",
     "test:contract:nginx:hllmr": "bash tests/url-contract/run-nginx-hllmr.sh",
-    "artifact:hllmr": "bash scripts/make-artifact.sh sites/hllmr/dist"
+    "artifact:hllmr": "bash scripts/make-artifact.sh sites/hllmr/dist",
+    "dev:dhellmer": "npm run dev -w @hllmr/site-dhellmer",
+    "build:dhellmer": "npm run build -w @hllmr/site-dhellmer",
+    "check:dhellmer": "node scripts/check-built-html.mjs sites/dhellmer/dist && html-validate \"sites/dhellmer/dist/**/*.html\" && node scripts/check-internal-links.mjs sites/dhellmer/dist",
+    "test:dhellmer": "npm run build:dhellmer && npm run check:dhellmer && node --test tests/url-contract/dhellmer.contract.mjs",
+    "test:contract:nginx:dhellmer": "bash tests/url-contract/run-nginx-dhellmer.sh",
+    "artifact:dhellmer": "bash scripts/make-artifact.sh sites/dhellmer/dist"
   },
   "devDependencies": {
     "html-validate": "11.16.3"

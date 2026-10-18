@@ -1,0 +1,6 @@
+{
+  "$comment": "dhellmer.com redirect layer, mirrored by hand in deploy/dhellmer/nginx.conf (tests/url-contract/dhellmer.contract.mjs checks the two agree). Empty: the only earlier site on this domain was a hosting placeholder at / (Wayback, 2025-07), so no legacy path needs a redirect. www -> apex and HTTP -> HTTPS stay in Nginx Proxy Manager.",
+  "go": {},
+  "vanity": {},
+  "permanent": {}
+}

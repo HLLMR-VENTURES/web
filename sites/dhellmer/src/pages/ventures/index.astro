@@ -1,0 +1,92 @@
+---
+/**
+ * Ventures and projects: every HLLMR venture, each linked to its own front door, then the projects
+ * from the hllmr.com register. Both lists come from hllmr.com's data (src/lib/hllmr.ts).
+ */
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import PageHead from "../../components/PageHead.astro";
+import Entry from "../../components/Entry.astro";
+import StageTag from "../../components/StageTag.astro";
+import { PROJECT_LINKS, VENTURE_LINKS } from "../../lib/hllmr";
+import { HUB, NAME } from "../../lib/site";
+---
+
+<BaseLayout
+  title={`Ventures · ${NAME}`}
+  description="The ventures and projects David Hellmer is building under HLLMR Ventures, each linked to its own site."
+>
+  <PageHead
+    k="Ventures"
+    title="Ventures"
+    lede="Each one starts inside HLLMR Ventures and gets its own front door when it can stand on its own."
+  />
+
+  <div class="log wrap">
+    <Entry no="01" label="The house" id="house">
+      <h2 id="house">HLLMR Ventures</h2>
+      <div class="prose">
+        <p>
+          The company the ventures start in, and where the essays and case studies are published.
+        </p>
+      </div>
+      <a class="more ext" href={HUB}>hllmr.com</a>
+    </Entry>
+
+    <Entry no="02" label="Ventures" id="ventures">
+      <h2 id="ventures">Ventures</h2>
+      <ul class="rows">
+        {
+          VENTURE_LINKS.map((v) => (
+            <li class="row">
+              <div>
+                <span class="f">{v.field}</span>
+                {v.href ? (
+                  <a class="t" href={v.href}>
+                    {v.name}
+                  </a>
+                ) : (
+                  <span class="t">{v.name}</span>
+                )}
+                <p class="d">{v.line}</p>
+              </div>
+              <div class="meta">
+                <StageTag stage={v.stage} />
+                {v.href ? (
+                  <a class="ext" href={v.href}>
+                    {v.host}
+                  </a>
+                ) : (
+                  <span>site to come</span>
+                )}
+              </div>
+            </li>
+          ))
+        }
+      </ul>
+    </Entry>
+
+    <Entry no="03" label="Projects" id="projects">
+      <h2 id="projects">Projects</h2>
+      <ul class="rows">
+        {
+          PROJECT_LINKS.map((p) => (
+            <li class="row">
+              <div>
+                <a class="t" href={p.href}>
+                  {p.name}
+                </a>
+                <p class="d">{p.what}</p>
+              </div>
+              <div class="meta">
+                <StageTag stage={p.stage} />
+                <a class="ext" href={p.href}>
+                  {p.host}
+                </a>
+              </div>
+            </li>
+          ))
+        }
+      </ul>
+    </Entry>
+  </div>
+</BaseLayout>

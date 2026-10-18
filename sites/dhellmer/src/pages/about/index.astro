@@ -1,0 +1,143 @@
+---
+/**
+ * About: the public biography. Facts come from copy the owner has published: the 2026-08 founder
+ * note on hllmr.com and the owner's LinkedIn profile (supplied 2026-10-18 as starting content, with
+ * leave to expand). A typographic plate stands in for the portrait until the owner's photo arrives
+ * (owner decision 2026-10-18).
+ */
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import PageHead from "../../components/PageHead.astro";
+import Entry from "../../components/Entry.astro";
+import Plate from "../../components/Plate.astro";
+import { ENVIRONMENTS } from "../../lib/cv";
+import { HUB, LINKS, LOCALITY, NAME, PROFILES } from "../../lib/site";
+
+const linkedin = PROFILES.find((p) => p.label === "LinkedIn");
+---
+
+<BaseLayout
+  title={`About · ${NAME}`}
+  description="David Hellmer builds engineering capability for physical systems: twenty years in building automation and low-voltage systems, businesses built and run, and now applied AI and software."
+  ogType="profile"
+>
+  <PageHead k="About" title="About" lede="I build control systems, and lately I build software the way I was trained to build control systems." />
+
+  <div class="log wrap">
+    <Entry no="01" label="At a glance">
+      <div class="split">
+        <Plate caption="David Hellmer · Dallas–Fort Worth" />
+        <dl class="facts">
+          <dt>Name</dt>
+          <dd>{NAME}</dd>
+          <dt>Based</dt>
+          <dd>{LOCALITY}</dd>
+          <dt>Work</dt>
+          <dd>
+            Founder &amp; Principal Engineer, <a href={HUB}>HLLMR Ventures</a>; Senior Applications Engineer, Building
+            Automation Systems, Enviromatic Systems
+          </dd>
+          <dt>Trained</dt>
+          <dd>U.S. Navy Nuclear Power Training Command</dd>
+          <dt>Field</dt>
+          <dd>Building automation, low-voltage and OT systems; applied AI and software</dd>
+          <dt>Off hours</dt>
+          <dd>DJ, for thirty years</dd>
+          <dt>Elsewhere</dt>
+          <dd>{linkedin?.href ? <a href={linkedin.href}>{linkedin.handle}</a> : null} · <a href="/elsewhere/">more</a></dd>
+        </dl>
+      </div>
+    </Entry>
+
+    <Entry no="02" label="The short version" id="bio">
+      <h2 id="bio">I build engineering capability.</h2>
+      <div class="prose">
+        <p>
+          The people, standards, software and delivery practices that help teams solve hard problems in physical systems.
+          My career spans more than twenty years across building automation, low-voltage systems, mission-critical
+          facilities and business ownership. I have worked every part of it: field installation and programming, project
+          management, engineering, estimating, sales support and department leadership.
+        </p>
+        <p>
+          It started in the Navy's nuclear power program, where you assume nothing works until you have watched it work.
+          Then security and fire systems, then building automation, commissioning and the engineering behind it. I have
+          established and led a building automation division, and built a manufacturing business to national distribution,
+          more than $1M a year and a team of twelve.
+        </p>
+      </div>
+    </Entry>
+
+    <Entry no="03" label="Where" id="where">
+      <h2 id="where">Buildings where failure is not an option.</h2>
+      <ul class="env">{ENVIRONMENTS.map((e) => <li>{e}</li>)}</ul>
+      <div class="prose">
+        <p>
+          Those environments taught me to define the expected behaviour, verify the actual system and keep the evidence of
+          what happened: the commissioning discipline that proves a building does what the drawings say.
+        </p>
+      </div>
+    </Entry>
+
+    <Entry no="04" label="Now" id="now">
+      <h2 id="now">Applied AI, with a commissioning engineer's distrust.</h2>
+      <div class="prose">
+        <p>
+          I build software with AI coding agents every day, and the same discipline turns out to be the missing piece. An
+          agent will report a task complete when it is not. A control nobody has watched deny anything is an assumption. A
+          plan regenerated from the code launders drift into the record. None of that is new. It is the failure mode every
+          commissioning engineer already knows, arriving in an industry that has not learned to distrust a status point yet.
+        </p>
+        <p>
+          At Enviromatic Systems I combine controls engineering with internal software: tools that went from one manager's
+          request to department-wide use, an operations platform, and the department's Applications Engineer curriculum.
+          Through <a href={HUB}>HLLMR Ventures</a> I build products of my own (Writwall, stratum-dsp and Silo among them),
+          owning the engineering decisions, integration, verification and delivery.
+        </p>
+      </div>
+      <a class="more" href="/cv/">The full CV</a>
+    </Entry>
+
+    <Entry no="05" label="Next" id="next">
+      <h2 id="next">What I want to do next</h2>
+      <div class="prose">
+        <p>
+          Lead engineering and applied-AI work where building-systems expertise shapes better products and better
+          operations: BAS and OT engineering leadership, and forward-deployed work with real ownership of customer outcomes
+          and product direction. The people who design, deliver and operate buildings deserve better information, better
+          tools and more reliable processes.
+        </p>
+      </div>
+      <a class="more" href="/elsewhere/">Get in touch</a>
+    </Entry>
+  </div>
+</BaseLayout>
+
+<style>
+  .split {
+    display: grid;
+    grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
+    gap: var(--space-6);
+    align-items: start;
+  }
+  .env {
+    list-style: none;
+    margin: 0 0 var(--space-5);
+    padding: 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+  .env li {
+    font-family: var(--font-mono);
+    font-size: 0.68rem;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    padding: 5px 10px;
+    border: 1px solid var(--rule);
+    background: var(--surface);
+  }
+  @media (max-width: 900px) {
+    .split {
+      grid-template-columns: minmax(0, 1fr);
+    }
+  }
+</style>

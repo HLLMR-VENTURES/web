@@ -1,0 +1,18 @@
+{
+  "name": "@hllmr/site-dhellmer",
+  "version": "0.1.0",
+  "private": true,
+  "description": "dhellmer.com: David Hellmer's personal site (bio, CV, writing index, ventures).",
+  "license": "MIT",
+  "type": "module",
+  "scripts": {
+    "dev": "astro dev --port 4323",
+    "build": "astro build",
+    "preview": "astro preview --port 4323"
+  },
+  "dependencies": {
+    "@hllmr/design": "0.1.0",
+    "astro": "7.3.8",
+    "typescript": "6.0.3"
+  }
+}
