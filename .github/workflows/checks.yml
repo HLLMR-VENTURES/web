@@ -32,13 +32,18 @@ jobs:
         run: npm test
       - name: URL contract against real nginx with deploy/silo/nginx.conf
         run: bash tests/url-contract/run-nginx.sh
-      - name: Skip links to pages the contract still marks pending
-        run: node scripts/lychee-ignore-pending.mjs
+      - name: Exclude only pages the URL contract still marks pending
+        run: node scripts/gen-lychee-config.mjs
+      # Same semantics as scripts/check-internal-links.mjs (which `npm test` runs locally).
+      # --index-files makes directory links (/, /go/x/) resolve to index.html, so fragments such
+      # as /#download are checked against the real page.
       - name: Internal links and anchors (offline)
         uses: lycheeverse/lychee-action@e7477775783ea5526144ba13e8db5eec57747ce8 # v2.9.0
         with:
           args: >-
             --offline --no-progress --include-fragments
+            --index-files index.html
+            --config lychee.pending.toml
             --root-dir ${{ github.workspace }}/sites/silo/dist
             "sites/silo/dist/**/*.html"
           fail: true
