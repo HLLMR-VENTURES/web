@@ -1,0 +1,10 @@
+{
+  "id": "fedcba9876543210fedcba9876543210",
+  "files": {
+    "silo-collection.json": {
+      "filename": "silo-collection.json",
+      "truncated": false,
+      "content": "{\"schema\": \"something.else/1\", \"name\": \"x\", \"mods\": []}"
+    }
+  }
+}

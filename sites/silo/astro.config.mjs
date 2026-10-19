@@ -20,6 +20,12 @@ if (new URL(SILO_API).origin !== SILO_API) {
   throw new Error(`PUBLIC_SILO_API must be a bare origin (got ${SILO_API})`);
 }
 
+/** GitHub API origin for /c/ (shared sets). Overridable only to point tests at the fixture server. */
+const GITHUB_API = process.env.PUBLIC_GITHUB_API ?? "https://api.github.com";
+if (new URL(GITHUB_API).origin !== GITHUB_API) {
+  throw new Error(`PUBLIC_GITHUB_API must be a bare origin (got ${GITHUB_API})`);
+}
+
 export default defineConfig({
   site: SITE_URL,
   output: "static",
@@ -50,7 +56,9 @@ export default defineConfig({
     csp: {
       directives: [
         "default-src 'self'",
-        `connect-src 'self' ${SILO_API} https://api.github.com`,
+        // api.github.com: /c/ reads a shared set (gist or repo); gist.githubusercontent.com: a
+        // gist file too large to be inlined in the API response.
+        `connect-src 'self' ${SILO_API} ${GITHUB_API} https://gist.githubusercontent.com`,
         `img-src 'self' data: ${SILO_API} https://avatars.githubusercontent.com https://*.githubusercontent.com`,
         "font-src 'self'",
         "media-src 'self'",

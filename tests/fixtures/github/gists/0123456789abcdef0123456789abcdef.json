@@ -1,0 +1,10 @@
+{
+  "id": "0123456789abcdef0123456789abcdef",
+  "files": {
+    "silo-collection.json": {
+      "filename": "silo-collection.json",
+      "truncated": false,
+      "content": "{\n  \"schema\": \"silo.collection/1\",\n  \"name\": \"Hof Bergmann server pack\",\n  \"description\": \"Our Friday server. Load the Hof Bergmann save first.\",\n  \"author\": \"example-farmer\",\n  \"createdAt\": \"2026-10-18T12:00:00Z\",\n  \"savegame\": { \"name\": \"Friday server\", \"mapTitle\": \"Hof Bergmann\" },\n  \"mods\": [\n    { \"techName\": \"FS25_ExampleTrailer\", \"version\": \"1.2.0.0\", \"source\": \"github\" },\n    { \"techName\": \"FS25_ExampleSilo\", \"version\": \"v1.0.0.1\", \"source\": \"modhub\" },\n    { \"techName\": \"FS25_<script>alert(1)</script>\" }\n  ]\n}\n"
+    }
+  }
+}
