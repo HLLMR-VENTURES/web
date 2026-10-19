@@ -67,6 +67,12 @@ export function abs(path: string, site: URL | undefined): string {
   return new URL(path, site).toString();
 }
 
+// Design files that only silo.hllmr.com imports are named *silo*.css (silo.css, skins/silo.css,
+// tokens/fonts-silo.css). The footer revision ignores them, so a Silo-only design commit leaves
+// this site's content id unchanged. Same glob as the "!packages/design/**/*silo*.css" exclude in
+// this site's release workflow. (Line comments: the glob would end a block comment.)
+const SILO_ONLY_DESIGN = [":(exclude,glob)../../packages/design/**/*silo*.css"];
+
 /**
  * The log's revision line in the footer: date and short hash of the last commit that touched this
  * site, the shared design package, or the hllmr.com data it reads (ventures and writing). Derived
@@ -76,7 +82,17 @@ export const REVISION: { date: string; hash: string } = (() => {
   try {
     const out = execFileSync(
       "git",
-      ["log", "-1", "--format=%cs %h", "--", ".", "../../packages/design", "../hllmr/src/lib/projects.ts", "../hllmr/src/lib/writing.ts"],
+      [
+        "log",
+        "-1",
+        "--format=%cs %h",
+        "--",
+        ".",
+        "../../packages/design",
+        ...SILO_ONLY_DESIGN,
+        "../hllmr/src/lib/projects.ts",
+        "../hllmr/src/lib/writing.ts",
+      ],
       { cwd: process.cwd(), encoding: "utf8", stdio: ["ignore", "pipe", "ignore"] },
     ).trim();
     const [date, hash] = out.split(" ");

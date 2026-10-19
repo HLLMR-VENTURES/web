@@ -1,5 +1,10 @@
-/* Entry point for silo.hllmr.com: fonts, core tokens, Silo skin, shared base. */
-@import "./tokens/fonts.css";
+/* Entry point for silo.hllmr.com: fonts, core tokens, Silo skin, shared base.
+ *
+ * Naming rule: a design file that only silo.hllmr.com uses is named *silo*.css (this file,
+ * skins/silo.css, tokens/fonts-silo.css). hllmr.com and dhellmer.com ignore that pattern in their
+ * release triggers and footer revision, so changing such a file never republishes them. A file
+ * any other site imports must not match *silo*.css. */
+@import "./tokens/fonts-silo.css";
 @import "./tokens/core.css";
 @import "./skins/silo.css";
 @import "./tokens/base.css";
