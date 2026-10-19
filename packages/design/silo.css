@@ -1,5 +1,5 @@
 /* Entry point for silo.hllmr.com: fonts, core tokens, Silo skin, shared base. */
-@import "./tokens/fonts.css";
+@import "./tokens/fonts-silo.css";
 @import "./tokens/core.css";
 @import "./skins/silo.css";
 @import "./tokens/base.css";

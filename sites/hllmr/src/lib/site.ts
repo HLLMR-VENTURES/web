@@ -50,14 +50,11 @@ export function abs(path: string, site: URL | undefined): string {
   return new URL(path, site).toString();
 }
 
-/**
- * Design files that only silo.hllmr.com imports (through packages/design/silo.css). The footer
- * revision ignores them, so a Silo-only design commit leaves this site's content id unchanged.
- * Keep in step with the "!packages/design/..." excludes in this site's release workflow.
- */
-const SILO_ONLY_DESIGN = ["silo.css", "skins/silo.css", "tokens/fonts.css"].map(
-  (f) => `:(exclude)../../packages/design/${f}`,
-);
+// Design files that only silo.hllmr.com imports are named *silo*.css (silo.css, skins/silo.css,
+// tokens/fonts-silo.css). The footer revision ignores them, so a Silo-only design commit leaves
+// this site's content id unchanged. Same glob as the "!packages/design/**/*silo*.css" exclude in
+// this site's release workflow. (Line comments: the glob would end a block comment.)
+const SILO_ONLY_DESIGN = [":(exclude,glob)../../packages/design/**/*silo*.css"];
 
 /**
  * The drawing revision shown in the footer title block: date and short hash of the last commit
