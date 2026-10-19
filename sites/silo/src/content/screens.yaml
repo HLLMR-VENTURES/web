@@ -1,6 +1,6 @@
 # Screenshot manifest. Masters are the Silo 1.0 (P2) showcase captures from HLLMR/silo
 # showcase/screens-v1 at 672d938 (kit: HLLMR/silo#267, docs/SHOWCASE.md): dark theme, a 1600x1000
-# window, fictional demo data only. Resized to 2400x1500 and stripped of metadata on import. They
+# window, fictional demo data only. Kept at the captured 3200x2000 (2x), no metadata chunks. They
 # are re-encoded to AVIF/WebP at build time and also copied to /screenshots/<file>, which keeps the
 # old site's screenshot URLs alive (library, browse, verified, conflicts, triage, savegames,
 # loadouts, mp, bindings, bridge). alt text is the Silo developer's, from the kit's alt.json.

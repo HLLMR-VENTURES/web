@@ -6,6 +6,7 @@
  */
 import { render } from "astro:content";
 import HelpLayout from "../../../layouts/HelpLayout.astro";
+import ShotViewer from "../../../components/ShotViewer.astro";
 import { topics } from "../../../lib/help";
 
 export async function getStaticPaths() {
@@ -28,6 +29,7 @@ const { Content } = await render(topic);
     {prev ? <a class="prev" href={`/help/${prev.id}/`}><span>Previous</span>{prev.data.label}</a> : <span />}
     {next && <a class="next" href={`/help/${next.id}/`}><span>Next</span>{next.data.label}</a>}
   </nav>
+  <ShotViewer />
 </HelpLayout>
 
 <style>
@@ -59,6 +61,23 @@ const { Content } = await render(topic);
   }
   .prose :global(li) {
     margin: 4px 0;
+  }
+  /* A screenshot's paragraph uses the whole column, not the 70ch text measure. */
+  .prose :global(p:has(> a.zoom)) {
+    max-width: none;
+    margin: 24px 0;
+  }
+  .prose :global(a.zoom) {
+    border-radius: var(--radius);
+    overflow: hidden;
+    box-shadow:
+      0 0 0 1px var(--border),
+      var(--shadow-1, 0 1px 3px rgb(0 0 0 / 0.12));
+  }
+  .prose :global(a.zoom img) {
+    display: block;
+    width: 100%;
+    height: auto;
   }
   .prose :global(a) {
     color: var(--primary-text);
