@@ -2,7 +2,7 @@
 // Generates deploy/silo/redirects.conf (nginx `location =` blocks) from sites/silo/redirects.json.
 //   node scripts/gen-nginx-redirects.mjs          write the file
 //   node scripts/gen-nginx-redirects.mjs --check  exit 1 if the committed file is stale (CI)
-// The output is reviewed and vendored by infra into hllmr-infra deploy/apps/silo-www/.
+// The output is reviewed and vendored by infra into hllmr-infra deploy/apps/silo-site/.
 import { readFileSync, writeFileSync } from "node:fs";
 import { fileURLToPath } from "node:url";
 
