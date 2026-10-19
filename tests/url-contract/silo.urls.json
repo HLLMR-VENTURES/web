@@ -13,9 +13,9 @@
     { "path": "/help", "status": 301, "location": "/help/", "pending": "P1-07" },
     { "path": "/help/index.html", "status": 200, "pending": "P1-07" },
 
-    { "path": "/trust/", "status": 200, "pending": "P1-06", "why": "README.md:57, privacy policy" },
-    { "path": "/trust", "status": 301, "location": "/trust/", "pending": "P1-06" },
-    { "path": "/trust/index.html", "status": 200, "pending": "P1-06" },
+    { "path": "/trust/", "status": 200, "why": "README.md:57, privacy policy" },
+    { "path": "/trust", "status": 301, "location": "/trust/" },
+    { "path": "/trust/index.html", "status": 200 },
 
     { "path": "/c/", "status": 200, "noindex": true, "why": "collection.rs PAGE_BASE, compiled into every shipped build" },
     { "path": "/c/?g=0123456789abcdef0123456789abcdef", "status": 200, "noindex": true, "why": "gist_page_url(): permanent in gists, chat, Discord" },
