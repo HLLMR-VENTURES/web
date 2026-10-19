@@ -59,7 +59,8 @@ export default defineConfig({
         // api.github.com: /c/ reads a shared set (gist or repo); gist.githubusercontent.com: a
         // gist file too large to be inlined in the API response.
         `connect-src 'self' ${SILO_API} ${GITHUB_API} https://gist.githubusercontent.com`,
-        `img-src 'self' data: ${SILO_API} https://avatars.githubusercontent.com https://*.githubusercontent.com`,
+        // Catalog images are all served by SiloAPI (/img/:id); author profiles show GitHub avatars.
+        `img-src 'self' data: ${SILO_API} https://avatars.githubusercontent.com`,
         "font-src 'self'",
         "media-src 'self'",
         "object-src 'none'",
