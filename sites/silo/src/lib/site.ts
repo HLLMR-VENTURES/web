@@ -7,6 +7,9 @@ export const THEME_STORAGE_KEY = "silo-theme";
 /** SiloAPI origin, fixed at build time (see astro.config.mjs). */
 export const SILO_API: string = import.meta.env.PUBLIC_SILO_API ?? "https://silo-api.hllmr.com";
 
+/** GitHub API origin for the /c/ page, fixed at build time (fixture server in tests). */
+export const GITHUB_API: string = import.meta.env.PUBLIC_GITHUB_API ?? "https://api.github.com";
+
 export const LINKS = {
   source: "https://github.com/HLLMR/silo",
   releases: "https://github.com/HLLMR/silo/releases",
