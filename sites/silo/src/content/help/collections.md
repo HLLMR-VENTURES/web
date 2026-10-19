@@ -29,7 +29,9 @@ Once GitHub can hold links, **My sets** lists **Your shared links** with the dat
 
 - **Copy link** copies it again.
 - **Update link** points it at your current active mods. The link stays the same, so friends who have it see the new list.
-- **Stop sharing** removes it from your GitHub, and the link stops working. This can't be undone, but you can share the set again with a new link. A link kept in a GitHub repository instead shows **Stop sharing on GitHub**, because you remove those on GitHub itself.
+- **Stop sharing** removes it from your GitHub, and the link stops working. This can't be undone, but you can share the set again with a new link.
+
+Older versions of Silo shared links as public `silo-…` repositories on your GitHub. Those still appear here with **Copy link** and **Update link**, but with **Stop sharing on GitHub** instead: Silo won't delete a repository, so this opens it on GitHub, where you can delete it yourself. New links are always unlisted pages.
 
 ## The shared set page
 

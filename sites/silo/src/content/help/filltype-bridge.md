@@ -29,8 +29,8 @@ Silo writes the `.zip` into your mods folder and reads your library again, so th
 
 ## Undoing it
 
-The bridge only adds category membership. It doesn't change prices, capacities or realism. If two mods both define the fill type, load order still decides its properties. To undo it, park the bridge mod, or delete its `.zip` from your mods folder.
+The bridge only adds category membership. It doesn't change prices, capacities or realism. If two mods both define the fill type, load order still decides its properties. To undo it, park the bridge mod: it's a loose zip, so **Park** files it away, with **Undo**. Deleting its `.zip` from your mods folder works too.
 
 Silo never overwrites a file. If a mod with the same name is already in your mods folder, it stops and tells you, so pick another name or remove the old bridge first. While another change to your library is running, such as a mod set switch, Silo asks you to try again when it's done.
 
-A bridge mod only adds data, so it's fine in multiplayer as long as everyone in the session has the same bridge mod.
+A bridge mod declares multiplayer support. Multiplayer compares mod files, so everyone in the session needs the same bridge file: the host shares their `.zip`, rather than each player generating their own.

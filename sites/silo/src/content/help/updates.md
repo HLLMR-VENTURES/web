@@ -26,7 +26,7 @@ The first time you open **Updates**, Silo asks whether to check when it starts: 
 Results are grouped, and empty groups are hidden:
 
 - **Ready to install**: newer GitHub releases. **Update** installs one, and **Update all** installs them one after another.
-- **Download from ModHub**: newer versions on ModHub, with **Open on ModHub**. See below.
+- **Download from ModHub**: updates Silo can't install for you because there's no `.zip` for it to download. ModHub mods get **Open on ModHub** (see below). Others get **Open page**, including a GitHub release without a `.zip`, which opens the release's page.
 - **Check these yourself**: mods with a saved download page, oldest-checked first, with **Open page** and **I checked it**.
 - **Couldn't check**: each with the reason, **Try again** and **Copy details**.
 - **Up to date** and **Not tracked**, collapsed. Not tracked means Silo's catalog doesn't know the mod.
@@ -37,7 +37,7 @@ After a check, **Updates** in the rail shows how many are waiting, and those mod
 
 Silo downloads the new version beside the old one, checks that it's a complete archive of the same mod, then swaps it in. The previous version goes to the `backups` folder in your mods folder, which keeps the newest three per mod, and an active mod stays active. A toast confirms it, for example "Updated Courseplay to 8.0.1.0. The previous version is in backups."
 
-**Update all** shows its progress in the header and ends with one summary, such as "3 updated, 1 failed". A failed row says why, with **Try again**.
+**Update all** shows its progress under **Running now** in the **Activity** panel, for example "Updating 2 of 4: AutoDrive", and each row reads "Updating…" while its turn runs. The **Activity** bell in the header shows a ring meanwhile. It ends with one toast, such as "Updated 4 mods. The previous versions are in backups." or "3 updated, 1 failed". A failed row says why, with **Try again**.
 
 Silo won't update while Farming Simulator 25 is running: close the game first. If Silo stops partway through an update, it finishes or rolls back the swap the next time it reads your library, and tells you what it did.
 

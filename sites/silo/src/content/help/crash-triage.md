@@ -16,7 +16,7 @@ Reading the log changes nothing: not `log.txt`, not your mods, not the game. Onl
 You don't have to go looking. Silo checks the log when you come back to its window, and while a game it launched is running it keeps an eye out until the game closes. If the last game ended without a clean exit, a notice appears at the top of the window: *Your last game ended unexpectedly.*
 
 - When the log names an active mod, the notice gives the most likely cause and its error count, with a button to park it (for example **Park Hollow Creek Grain Dryer**). Parking shows a toast with **Undo**, and the notice then suggests playing again to check.
-- When the log names no mod, the notice offers **Find the problem mod** (see [Find the problem mod](/help/guided-bisection/)).
+- When the log names no mod, the notice reads *Your last game ended unexpectedly, and the log doesn't name a mod.* If you have at least two active mods that aren't maps, it offers **Find the problem mod** (see [Find the problem mod](/help/guided-bisection/)).
 - **See details** opens **Diagnose**, **Last run**. The **×** dismisses the notice.
 
 Until your next clean run, or until you dismiss it, the crash counts as one problem in the header status chip.
@@ -39,7 +39,7 @@ Below it, the mods the log named:
 - **Worth a look**: mods with real warnings but no errors.
 - **Mods with cosmetic warnings only, safe to ignore**, folded away. Notices like a missing translation never crash the game.
 
-Each row in the first two groups has **Park** (for an active mod), **Show in library** (opens its details) and **Copy details**, which copies the name, counts and log line for a bug report. A mod the log names that isn't in your library says so. A mod's details also show a **Logged N errors in your last game** banner with **See in Diagnose**.
+Each row in the first two groups has **Copy details**, which copies the name, counts and log line for a bug report. A mod in your library also gets **Show in library**, which opens its details, and an active one gets **Park**. A mod the log names that isn't in your library shows *Not in your library*. Rows with cosmetic warnings only have no buttons. A mod's details also show a **Logged N errors in your last game** banner with **See in Diagnose**.
 
 ![Diagnose, Last run, showing a crash with its most likely cause and two mods worth a look](../../assets/screens/triage.png)
 

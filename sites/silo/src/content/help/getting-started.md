@@ -27,7 +27,7 @@ A new library opens a short setup with three steps. **Skip setup** (top right) t
 2. **How Silo keeps them.** Active mods load in the game; parked mods are kept by Silo and not loaded. Choose where parked mods live: inside your mods folder (recommended), or **On another drive…**. You can also tick the box to file new mods automatically.
 3. **Organize.** Silo shows what organizing would do before anything moves: how many mods go into which categories, that your active mods stay active, and that nothing is deleted. Press **Organize N mods**, or **Not now, show my library**. If you change your mind later, **Settings**, then **Maintenance**, then **Undo organizing** puts every mod back.
 
-If you upgraded from an earlier Silo with an organized library, you get a one-time **What's new in Silo 1.0** card instead. **Help**, then **See what's new** shows it again.
+If you used an earlier Silo, you get a one-time **What's new in Silo 1.0** card instead of the setup. **Help**, then **See what's new** shows it again.
 
 ## Finding your way around
 

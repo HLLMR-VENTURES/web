@@ -34,7 +34,7 @@ If the folder you pick already holds loose `.zip` mods, the confirmation says so
 
 ## Active mods across drives
 
-On the same drive, active mods are linked into the mods folder with no extra disk. Across drives Silo uses a symbolic link where it can (Linux, macOS, and Windows with **Developer Mode** on) and a copy otherwise. Copies work the same but use extra disk for your active mods. On Windows without Developer Mode, the move's confirmation suggests turning it on. On a Mac App Store install, active mods are always copied.
+On the same drive, active mods are linked into the mods folder with no extra disk. Across drives Silo uses a symbolic link where it can (Linux, macOS, and Windows with **Developer Mode** on) and a copy otherwise. Copies work the same but use extra disk for your active mods. On Windows without Developer Mode, the move's confirmation suggests turning it on. On a Mac App Store install, active folder mods are always copied, and zips are linked when the archive is on the same drive and copied when it's on another.
 
 ## If the archive's drive is unplugged
 

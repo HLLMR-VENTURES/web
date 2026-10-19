@@ -16,7 +16,7 @@ appliesTo: "1.0"
 - **Search**: on Browse, the search box in the header reads "Search the catalog". Press Ctrl+K or / to jump to it.
 - **Category**: pick a category, then a subcategory where there is one.
 - **Sort**: Recently added / updated, Popular, Most downloaded, Top rated, or Name (A–Z).
-- **More filters**: when the catalog has them, menus such as Region, Era, Theme, Brand and Realism, and an **Available by year** filter. **Clear all** resets them.
+- **Other filters**: when the catalog has them, menus such as Region, Era, Theme, Brand and Realism, and an **Available by year** filter. **Clear all** resets them.
 
 The grid shows a page at a time, and the button at the bottom loads more. If nothing matches, Silo offers **Clear search** or **Clear filters**.
 
@@ -37,7 +37,7 @@ Click anywhere else on a card to open its details.
 
 Click **Install**. The button shows the download's progress, then Silo places the `.zip` in your mods folder and reads your library again. A toast says "Installed" with the mod's name and offers **Show in library**. When Silo's catalog has the published build on file, Silo checks the download against it and refuses a file that doesn't match. You don't need a GitHub account to install.
 
-One install runs at a time, and an install waits while another change to your library is running. Installing only adds a new file: it never replaces a file that's already there. The new mod is active, because it's in your mods folder. If **Auto-file new mods** is on in **Settings**, then **Library**, Silo files it into your library and keeps it active. To undo an install, park the mod, or delete its `.zip`.
+One install runs at a time. Installs don't queue behind other work: while another change to your library is running, such as a mod set switch, Silo refuses the install and says why, for example "Silo is moving mods. Try again when it's done." Installing only adds a new file: it never replaces a file that's already there. The new mod is active, because it's in your mods folder. If **Auto-file new mods** is on in **Settings**, then **Library**, Silo files it into your library and keeps it active. To undo an install, park the mod, or delete its `.zip`.
 
 ## Getting a mod from ModHub
 
