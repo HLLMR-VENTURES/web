@@ -1,0 +1,39 @@
+---
+/**
+ * /c/: the shared mod set page. Every shipped Silo build hands out /c/?g=<gist id> and
+ * /c/?r=<owner>/<repo>, so the path and both query keys are permanent (URL contract). noindex:
+ * each set is user content, read from GitHub in the visitor's browser. client:only: the island
+ * reads location.search, so there is nothing to prerender beyond the fallback line.
+ */
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import SharedSet from "../../islands/SharedSet.svelte";
+import { GITHUB_API } from "../../lib/site";
+---
+
+<BaseLayout
+  title="Open a shared mod set · Silo"
+  description="Someone shared a Farming Simulator 25 mod set with you. Open it in Silo to preview it against your library and import it, or get Silo first."
+  ogTitle="A shared FS25 mod set · Silo"
+  ogDescription="Open this Farming Simulator 25 mod set in Silo to preview it and import it."
+  noindex
+>
+  <div class="wrap">
+    <Fragment set:html="<!-- [html-validate-disable-block element-permitted-content: Astro places its island loader style here] -->" />
+    <SharedSet client:only="svelte" githubApi={GITHUB_API}>
+      <p slot="fallback" class="loading">Reading the shared mod set…</p>
+    </SharedSet>
+    <noscript>
+      <p>
+        This page needs JavaScript to read the shared set from GitHub. You can also paste the link into Silo: Mod sets,
+        then Open a shared set.
+      </p>
+    </noscript>
+  </div>
+</BaseLayout>
+
+<style>
+  .loading {
+    padding: 48px 0;
+    color: var(--muted);
+  }
+</style>

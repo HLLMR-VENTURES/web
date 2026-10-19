@@ -1,0 +1,13 @@
+{
+  "schema": "silo.collection/1",
+  "name": "Hof Bergmann server pack",
+  "description": "Our Friday server. Load the Hof Bergmann save first.",
+  "author": "example-farmer",
+  "createdAt": "2026-10-18T12:00:00Z",
+  "savegame": { "name": "Friday server", "mapTitle": "Hof Bergmann" },
+  "mods": [
+    { "techName": "FS25_ExampleTrailer", "version": "1.2.0.0", "source": "github" },
+    { "techName": "FS25_ExampleSilo", "version": "v1.0.0.1", "source": "modhub" },
+    { "techName": "FS25_<script>alert(1)</script>" }
+  ]
+}
