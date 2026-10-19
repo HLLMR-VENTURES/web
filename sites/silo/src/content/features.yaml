@@ -25,11 +25,11 @@
   kind: row
   kicker: "Prevent"
   title: "Checked before you launch."
-  body: "More than one active map, colliding filltypes, vehicle types or scripts, and the mods a friend's server needs: Silo shows them while they're still easy to fix."
+  body: "Colliding filltypes, vehicle types or scripts, and the mods a friend's server needs: Silo shows them while they're still easy to fix."
   screen: conflicts
   help: { href: "/help/#conflicts-h", label: "What Silo checks" }
-  ld: "Conflict detection across maps, filltypes, vehicle types and scripts"
-  llms: "Conflict detection: flags more than one active map before launch, plus colliding filltypes, vehicle types and scripts"
+  ld: "Conflict detection across filltypes, vehicle types and scripts"
+  llms: "Conflict detection: flags colliding filltypes, vehicle types and scripts before launch"
 - id: integrity
   order: 3
   kind: row
@@ -76,10 +76,10 @@
   order: 8
   kind: card
   title: "Organize, safely"
-  body: "Organize shows every move before it touches a file, and nothing is deleted. Silo never edits inside a mod, and you can undo organizing at any time with <strong>Restore vanilla layout</strong>."
+  body: "Organize shows every move before it touches a file, and nothing is deleted. Silo never edits inside a mod, and you can undo organizing at any time with <strong>Undo organizing</strong> in Settings."
   help: { href: "/help/#curation-h", label: "Organizing" }
-  ld: "Organize with a preview of every move; Restore vanilla layout puts every mod back"
-  llms: "Never edits inside a mod; Organize shows every move before it touches a file; Restore vanilla layout puts every mod back in the mods folder"
+  ld: "Organize with a preview of every move; Undo organizing puts every mod back"
+  llms: "Never edits inside a mod; Organize shows every move before it touches a file; Undo organizing puts every mod back in the mods folder"
 - id: filltype-bridge
   order: 9
   kind: card

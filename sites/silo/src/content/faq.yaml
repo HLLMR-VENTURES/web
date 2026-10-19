@@ -9,12 +9,12 @@
   order: 2
   question: "What does Silo actually do?"
   answer:
-    - "It manages your Farming Simulator 25 mods. Silo organizes the library and reads <code>log.txt</code> to name the likely culprit when the game crashes. It flags conflicts before launch, such as more than one active map and colliding filltypes, vehicle types or scripts. And it pulls ModHub and GitHub into one catalog that shows the latest version found across both."
+    - "It manages your Farming Simulator 25 mods. Silo organizes the library and reads <code>log.txt</code> to name the likely culprit when the game crashes. It flags conflicts before launch, such as colliding filltypes, vehicle types or scripts. And it pulls ModHub and GitHub into one catalog that shows the latest version found across both."
 - id: files
   order: 3
   question: "Does Silo move or modify my mod files?"
   answer:
-    - "It moves them, and it never edits inside a mod. Silo files your zips into a local archive. When you switch a mod on or off, Silo adds or removes its link in the game's mods folder right away, so the game loads exactly your active set. Organize shows you every move before it touches a file, and nothing is deleted. You can undo organizing at any time: <strong>Restore vanilla layout</strong> puts every mod back in your mods folder, after which the game loads all of them, including ones you had parked. Mod updates keep the previous version in <code>backups/</code>, and Silo backs up settings and savegames before editing them."
+    - "It moves them, and it never edits inside a mod. Silo files your zips into a local archive. When you switch a mod on or off, Silo adds or removes its link in the game's mods folder right away, so the game loads exactly your active set. Organize shows you every move before it touches a file, and nothing is deleted. You can undo organizing at any time: <strong>Undo organizing</strong> (Settings, Maintenance) puts every mod back in your mods folder, after which the game loads all of them, including ones you had parked. Mod updates keep the previous version in <code>backups/</code>, and Silo backs up settings and savegames before editing them."
 - id: platforms
   order: 4
   question: "Which platforms does Silo support?"

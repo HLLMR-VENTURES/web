@@ -42,7 +42,7 @@ const jsonLd = {
       applicationSubCategory: "Mod Manager",
       operatingSystem: "Windows, macOS, Linux",
       description:
-        "Silo is a free, open-source mod manager for Farming Simulator 25. It reads your mods and your game log, names the likely culprit when the game crashes, flags conflicts before launch, pulls ModHub and GitHub into one catalog, and checks an installed mod against the build its source published. Organize shows every move before it touches a file, and Restore vanilla layout puts every mod back in your mods folder.",
+        "Silo is a free, open-source mod manager for Farming Simulator 25. It reads your mods and your game log, names the likely culprit when the game crashes, flags conflicts before launch, pulls ModHub and GitHub into one catalog, and checks an installed mod against the build its source published. Organize shows every move before it touches a file, and Undo organizing puts every mod back in your mods folder.",
       downloadUrl: LINKS.releases,
       releaseNotes: release?.pageUrl ?? LINKS.releases,
       ...(release ? { softwareVersion: release.version } : {}),
@@ -120,7 +120,7 @@ const jsonLd = {
       </p>
       <ol class="probs">
         <li><h3>Mystery crashes</h3><p>The log scrolls a wall of red and the cause is buried somewhere in it.</p></li>
-        <li><h3>Silent conflicts</h3><p>Two mods claim the same map, filltype or vehicle type, and one quietly wins.</p></li>
+        <li><h3>Silent conflicts</h3><p>Two mods claim the same filltype, vehicle type or script, and one quietly wins.</p></li>
         <li><h3>Version roulette</h3><p>ModHub shows one version, GitHub another. Which one do you have?</p></li>
         <li>
           <h3>Scattered sources</h3><p>A mod lives on ModHub, its developer on GitHub. No one place tells the whole story.</p>
