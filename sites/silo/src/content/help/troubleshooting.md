@@ -1,46 +1,55 @@
 ---
-title: "Troubleshooting & FAQ"
-label: "Troubleshooting & FAQ"
-summary: "Still stuck?"
-group: "Settings & FAQ"
+title: "Troubleshooting and FAQ"
+label: "Troubleshooting"
+summary: "What Silo's common messages mean, answers to frequent questions, and where to ask for help."
+group: "Settings and help"
 order: 21
 legacyAnchor: "troubleshooting-h"
-appliesTo: "0.11"
+appliesTo: "1.0"
 ---
-**Still stuck?** Ask in [Silo Discussions](https://github.com/HLLMR/silo/discussions/categories/help) or on the [Silo Discord](https://discord.gg/NpxcYdGHrW). Include your Silo version (bottom of Settings), the file from **Settings → Export report**, and for a crash your FS25 `log.txt`. Confirmed bugs go to [GitHub issues](https://github.com/HLLMR/silo/issues/new/choose).
+When something goes wrong, Silo says what happened and what to do, and every error has **Copy details** for a bug report. Recent errors are also listed under the **Activity** bell in the header.
 
-## Windows SmartScreen (or macOS Gatekeeper) warns on first launch
+## Common messages
 
-Silo's **Windows** installers are digitally signed by Silo's developer, **David Hellmer**, so Windows can identify who published them. SmartScreen builds reputation per release, so a brand-new build may still prompt. When it does, it shows that publisher instead of "unknown". macOS and Linux builds are open source and not signed with an OS certificate, so Gatekeeper blocks the first launch on a Mac.
+- **"Silo couldn't move … because another program is using it."** Close Farming Simulator 25 or the program that has the file open, then **Try again**.
+- **"Close Farming Simulator 25 first, then try again."** Silo doesn't change mod files while the game is using them.
+- **"Silo is finishing another change to your library. Try again in a moment."** One change runs at a time. The **Activity** bell shows what's running.
+- **"Finish or cancel the library move first."** A library archive move is running or paused. Resume or cancel it from the notice at the top. See [Moving your library archive](/help/library-archive/).
+- **"Your library archive isn't available. Connect the drive, or choose another folder."** The drive holding your parked mods isn't connected. Nothing is deleted.
+- **"Windows didn't let Silo change this file."** The file is in a protected folder. Choose a mods folder in your Documents.
+- **"There isn't enough space on the drive for this."** Free some space, then try again.
+- **"Silo can't reach the internet right now."** or **"The download stopped responding."** Browse and Updates need the internet. Your library still works.
+- **"GitHub is limiting requests for a while."** Connecting your GitHub account in **Settings**, then **Accounts** raises the limit.
+- **"GitHub needs you to sign in again."** Reconnect in **Settings**, then **Accounts**.
+- **"That file isn't a Farming Simulator mod."** The file isn't a mod the game can load.
+- **"This library was used by a newer Silo."** Install the latest Silo to open it.
 
-- **Windows:** click **More info**, then **Run anyway**.
-- **macOS:** open Silo once, then go to **System Settings → Privacy &amp; Security** and click **Open Anyway**.
+For crashes and mods that won't load, start with [Last run](/help/crash-triage/) and [Problems](/help/health/) in Diagnose.
 
-You don't have to take our word for it — you can [verify the signature, checksum, and build provenance](https://github.com/HLLMR/silo/blob/main/docs/VERIFY_DOWNLOAD.md), or read and build the source yourself from the GitHub repository.
+## Windows SmartScreen or macOS warns on first launch
+
+Silo's Windows installers are signed by Silo's developer, **David Hellmer**, so the prompt names that publisher instead of "unknown". SmartScreen builds reputation per release, so a brand-new build may still prompt: click **More info**, then **Run anyway**. The macOS and Linux builds aren't signed with an OS certificate, so macOS blocks the first launch: open Silo once, then go to **System Settings**, then **Privacy & Security**, and click **Open Anyway**. You can [verify the signature, checksum and build provenance](https://github.com/HLLMR/silo/blob/main/docs/VERIFY_DOWNLOAD.md) yourself.
 
 ## Do I need Developer Mode or administrator rights?
 
-Almost never. When you organize your library, Silo tucks each mod into a `mods/archive/<Category>/` subfolder (the game only reads the flat root, so it ignores these) and projects the active set back into the root:
-
-- **Packed `.zip` mods project as hardlinks** — same volume, no admin, no Developer Mode, and no second copy on disk.
-- **Only unpacked folder-mods** use a directory link. On Windows that's a junction, which needs no admin rights. If no link is possible, Silo falls back to a plain copy.
-
-Since most mods are zips, most people never hit an elevation prompt. The one exception is a [library archive on another drive](/help/library-archive/): hardlinks can't cross drives, so Silo would need file symlinks, which on Windows require Developer Mode. Without it, active mods are copied instead — that works, it just uses more disk.
+Almost never. Packed `.zip` mods are linked into your mods folder on the same drive with no admin rights and no Developer Mode. The one exception is a [library archive on another drive](/help/library-archive/): links across drives need Developer Mode on Windows, so without it Silo copies active mods instead. That works, it just uses more disk.
 
 ## Is my library safe? Can I undo this?
 
-Yes. Organize shows you every move before it touches a file. To undo it all, open **Settings** and use **Restore vanilla layout** to move every mod back into a plain flat `mods/` folder and clear Silo's bookkeeping. The game then loads every mod in that folder, including the ones you had parked. Mod updates keep the previous version in `backups/`.
+Yes. Parking never deletes a mod, and switching mods on or off shows **Undo** right away. Organizing shows every move before anything happens, and **Settings**, then **Maintenance**, then **Undo organizing** puts every mod back into your mods folder. Mod updates keep the previous version in backups. Silo never deletes a file it doesn't recognize, never removes the only copy of a mod, and leaves alone a build you swapped into the mods folder yourself.
 
-> Silo never deletes a file it doesn't recognize and never removes the only copy of a mod. If you swap your own build into the mods folder, Silo detects that it isn't the file it projected and leaves it untouched. Config edits are backed up to a `.bak` first.
+## Where does Silo keep its data?
 
-## Where does Silo store its data?
+Your mods stay in your mods folder or your library archive. Silo's own database (`silo.db`: the library index and your notes, tags and ratings) lives in the app's data folder for your user. A GitHub token goes into your computer's credential store (Windows Credential Manager, macOS Keychain, Linux Secret Service). On Linux without a keyring, Silo keeps it in its own database and warns you first.
 
-Your mods stay in your game's mods folder — Silo only rearranges them — or in your library archive, if you moved it to another folder or drive. Silo's own database (`silo.db`: the library index and cache) lives in the app's per-user data directory. Any account tokens go into your OS credential store (Windows Credential Manager, macOS Keychain, Linux Secret Service). On a Linux system without a keyring, Silo stores the token in its own database instead.
+## Why does a mod show no Verified build badge?
 
-## Why does a mod show "Unverified"?
+Silo can only verify a build it has a published copy of to compare against. No badge isn't a warning about the mod. See [how Silo checks a build](/help/provenance/). This is a provenance check, not a virus scan.
 
-The **Integrity** check in a mod's detail drawer compares your file against the trusted build SiloAPI hashed from its source. **Unverified** means there's no hashed build to compare against: the mod isn't in the catalog, or the catalog hasn't hashed that version (new ModHub versions currently aren't hashed). It is not a warning about the mod. Folder mods can't be verified at all (there's no archive to hash). This is a provenance check, not a virus scan.
+## Where to ask
 
-## Connecting a GitHub account
+1. Copy your diagnostics: **Settings**, then **Diagnostics**, then **Copy diagnostics**. It's a summary of your library and Silo's recent log, with your user name removed.
+2. Ask on the [Silo Discord](/discord) or in [GitHub Discussions](https://github.com/HLLMR/silo/discussions). Include your Silo version (**Settings**, then **About**), the diagnostics, and for a crash the game's `log.txt`.
+3. For a bug, **Help**, then **Report a problem** copies the diagnostics and opens the bug report form on GitHub, ready to paste.
 
-Connecting GitHub is optional and lives in **Settings → GitHub account → Connect GitHub**: a browser opens to `github.com/login/device`; type in the code shown. This raises update-check limits to 5,000 requests per hour. Star/Watch and publishing [collections](/help/collections/) each need one more permission, which Silo asks for when you turn them on (see [Connecting GitHub](/help/settings-accounts/)). Silo never asks for access to private repositories. The token stays on your machine, and a **Disconnect** button removes it at any time.
+![Settings, Diagnostics, with Copy diagnostics and Export report](../../assets/screens/help-copy-diagnostics.png)

@@ -1,43 +1,52 @@
 ---
-title: "Browsing & installing mods"
-label: "Browsing & installing mods"
-summary: "The Browse tab is where you find new mods without leaving Silo."
-group: "Finding & verifying mods"
-order: 9
+title: "Browsing and installing mods"
+label: "Browse"
+summary: "Browse searches Silo's catalog of ModHub and GitHub mods, installs GitHub mods for you, and opens ModHub mods on ModHub."
+group: "Finding and updating mods"
+order: 10
 legacyAnchor: "browsing-installing-h"
-appliesTo: "0.11"
+appliesTo: "1.0"
 ---
-The **Browse** tab is where you find new mods without leaving Silo. It reads the SiloAPI catalog, a single index that merges the same mod across **GitHub** and **ModHub**, so you see one card per mod instead of scattered listings. The header shows how many mods the catalog holds and how many ModHub and GitHub listings they come from.
+**Browse** (Alt+2 in the left rail) is Silo's catalog. Each mod gets one card, with its ModHub and GitHub listings merged, so the same mod doesn't show up twice. The line at the top says how many mods the catalog holds right now.
+
+![Browse: a grid of mod cards from Silo's catalog](../../assets/screens/browse.png)
 
 ## Finding a mod
 
-- **Search** — type in the *Search the catalog…* box. Results refresh as you type (after a short pause).
-- **Category** — the *All categories* dropdown filters by mod category, with a count next to each.
-- **Sort** — order by Popular, Most downloaded, Top rated, Newest, or Name (A–Z).
-- **More results** — the grid loads 60 at a time; use *Load more* at the bottom to page through.
+- **Search**: on Browse, the search box in the header reads "Search the catalog". Press Ctrl+K or / to jump to it.
+- **Category**: pick a category, then a subcategory where there is one.
+- **Sort**: Recently added / updated, Popular, Most downloaded, Top rated, or Name (A–Z).
+- **Other filters**: when the catalog has them, menus such as Region, Era, Theme, Brand and Realism, and an **Available by year** filter. **Clear all** resets them.
 
-Any mod you already have shows an **In library** badge, so you can tell at a glance what is new.
+The grid shows a page at a time, and the button at the bottom loads more. If nothing matches, Silo offers **Clear search** or **Clear filters**.
 
-## Source buttons and versions
+## Reading a card
 
-Each card carries one button per source the mod lives on — `GH`, `MH` — each labelled with *that source's own version*, because those versions drift apart. A download arrow (⬇) means Silo can install it for you; an up-right arrow (↗) means the button opens the source's page instead.
+Each card shows the cover, title, author, rating and downloads, and one chip per source with that source's own version, such as "GitHub 1.0.6.0" and "ModHub 1.0.6.0". Versions on different sources can drift apart, so each is shown. A mod you already have carries an **In your library** badge. **Verified build** means Silo's catalog hashed the published build, so Silo can check your copy against it (see [Checking a mod's integrity](/help/provenance/)).
 
-## Installing from GitHub, in-app
+The button on a card says what it will do:
 
-GitHub release mods are directly installable. Click the GitHub button (or **Install ⬇** in the detail drawer) and Silo downloads the `.zip` straight into your mods folder, showing a live progress bar with the megabytes transferred. When it finishes you'll see *Installed …* and the library rescans automatically. When the catalog has the published build on file, Silo checks the download against it and refuses a file that doesn't match. You don't need to connect a GitHub account to install.
+- **Install**: Silo can download it for you. These are GitHub releases.
+- **Open on ModHub**: ModHub mods download from GIANTS' website, so Silo opens the mod's page there in your browser.
+- **Show in library**: you already have it.
+- **See update**: you have it and a newer version is out. This opens **Updates**.
 
-> Installing only adds a new `.zip` to your mods folder. It never edits or removes anything you already have, and it won't replace a file that's already there. To undo an install, delete the `.zip` from your mods folder (or from its archive folder if Silo filed it), then rescan.
+Click anywhere else on a card to open its details.
 
-## ModHub is index-only
+## Installing from GitHub
 
-Silo can list ModHub mods but doesn't download them for you. ModHub mods download from GIANTS' website, so the button reads **Open page ↗** and takes you to the source. Grab the `.zip` there, drop it in your mods folder, and Silo files a new mod automatically on the next scan. If you're *updating* a mod you already manage — dropping the newer `.zip` over Silo's copy — Silo notices the newer build and offers to adopt it; see [Applying an update](/help/updates/).
+Click **Install**. The button shows the download's progress, then Silo places the `.zip` in your mods folder and reads your library again. A toast says "Installed" with the mod's name and offers **Show in library**. When Silo's catalog has the published build on file, Silo checks the download against it and refuses a file that doesn't match. You don't need a GitHub account to install.
 
-## The detail drawer
+One install runs at a time. Installs don't queue behind other work: while another change to your library is running, such as a mod set switch, Silo refuses the install and says why, for example "Silo is moving mods. Try again when it's done." Installing only adds a new file: it never replaces a file that's already there. The new mod is active, because it's in your mods folder. If **Auto-file new mods** is on in **Settings**, then **Library**, Silo files it into your library and keeps it active. To undo an install, park the mod, or delete its `.zip`.
 
-Click **anywhere on a card** to open a side drawer with the cover image, author, version, category, tech name, rating and downloads, and the full *Available from* source list. For a GitHub source it also shows live repo stats (stars, forks, watchers, issues) and, once you connect GitHub and turn on **Enable actions**, Star and Watch buttons. Use *Read more →* to expand the full description.
+## Getting a mod from ModHub
 
-The drawer is **non-modal**: the grid behind it stays live, so you can click another card to switch the drawer straight to that mod without closing it first. Close with the `✕` or the **Escape** key. If a mod is already in your library, its card and drawer offer **⌕ Find in Library**, which jumps to it on the Library tab (with its drawer open) — the mirror of the library's **Find in Browse** link, which goes the other way.
+Click **Open on ModHub**, download the `.zip` from the mod's page and save it into your mods folder. When you come back to Silo, it reads the folder again and finds the new mod. If auto-filing is off, the **Library** status strip says how many new mods aren't filed, with **Review**. To update a mod you already have, see [Keeping mods updated](/help/updates/).
+
+## The details drawer
+
+The drawer shows the cover, author and version, the Mod ID, category, rating, downloads and description, with **Read more →** for the full text. **Available from** lists each source with its version and its own **Install**, **Open on ModHub** or **Show in library** button. For a GitHub source it also shows the repository's stars, watchers and open issues; with GitHub connected and the permission switched on, you can star and watch it from here. Close the drawer with its close button or Esc.
 
 ## Browsing without the app
 
-You can also explore the same catalog in any web browser at [silo.hllmr.com/browse](/browse/). It reads the public SiloAPI directly; in-app installing still happens inside Silo.
+The same catalog is on the web at [silo.hllmr.com/browse](/browse/). Installing still happens in Silo.

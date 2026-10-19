@@ -1,44 +1,64 @@
 ---
-title: "Getting started"
+title: "Getting started with Silo"
 label: "Getting started"
-summary: "Silo is a desktop app for managing your Farming Simulator 25 mods."
+summary: "Install Silo, go through the three-step setup, and find your way around the sidebar and the header."
 group: "Getting started"
 order: 1
 legacyAnchor: "getting-started-h"
-appliesTo: "0.11"
+appliesTo: "1.0"
 ---
-Silo is a desktop app for managing your Farming Simulator 25 mods. It is **not an in-game mod** and you don't install it into the game — it's a standalone program that runs on your computer alongside FS25. It scans your existing mod library, organizes it, catches conflicts before you launch, triages crashes, and tracks updates.
+Silo is a desktop app for your Farming Simulator 25 mods. It isn't an in-game mod: it runs on your computer next to the game and works with the files FS25 already keeps in `Documents\My Games\FarmingSimulator2025\`. Silo never edits the game itself.
 
-Silo never edits the game itself. It works with the files FS25 already keeps in `Documents\My Games\FarmingSimulator2025\`. Organize shows you every move before it touches a file. Restore vanilla layout puts every mod back in your mods folder.
+## Install
 
-## Installing on Windows
+Get Silo from the [download page](/download/) or the [Releases page](https://github.com/HLLMR/silo/releases).
 
-1. Download the latest installer from the [Releases page](https://github.com/HLLMR/silo/releases) (also linked from [silo.hllmr.com](/)). You'll find a setup `.exe` and an `.msi`. We recommend the setup `.exe`.
-2. Run it. The setup `.exe` installs Silo for your user account and doesn't need administrator rights. The `.msi` installs it for all users of the PC and asks for administrator rights.
+- **Windows:** the setup `.exe` (recommended) installs Silo for your user account and needs no administrator rights. The `.msi` installs it for everyone on the PC and asks for administrator rights. The installers are signed by Silo's developer, **David Hellmer**. A brand-new release can still show a blue "Windows protected your PC" prompt while it builds reputation: click **More info**, then **Run anyway**.
+- **macOS (preview):** open the `.dmg` and drag Silo to Applications. The Mac build isn't signed by Apple, so macOS blocks the first launch. Open Silo once, then go to **System Settings**, then **Privacy & Security**, and click **Open Anyway**.
+- **Linux (preview):** an `.AppImage` (make it executable with `chmod +x`), a `.deb` or an `.rpm`.
 
-> **A blue "Windows protected your PC" prompt can still appear on a brand-new release.** Silo's Windows installers are digitally signed by Silo's developer, **David Hellmer** , so the prompt names that publisher instead of "unknown". SmartScreen builds reputation per release, so a very fresh build may still prompt. If it does, click **More info** , then **Run anyway** . You can [verify the signature yourself](https://github.com/HLLMR/silo/blob/main/docs/VERIFY_DOWNLOAD.md) first.
+Windows is the tested platform. Silo runs natively on macOS and Linux, but it hasn't been tried on many real machines there yet.
 
-## Installing on macOS (preview)
+## First run
 
-1. Download the `.dmg` for your Mac (Apple Silicon or Intel) from the [Releases page](https://github.com/HLLMR/silo/releases), open it and drag Silo to Applications.
-2. The macOS build isn't signed by Apple, so the first launch is blocked. Open Silo once, then go to **System Settings → Privacy &amp; Security**, scroll down and click **Open Anyway**.
+A new library opens a short setup with three steps. **Skip setup** (top right) takes you straight to the Library with nothing moved.
 
-## Installing on Linux (preview)
+1. **Your mods.** Silo finds the folder FS25 reads, including a custom folder set in the game, and starts reading your mods in the background. Press **This is right**, or **Choose another folder…**. If the game hasn't made its mods folder yet, **Create it** makes it for you.
+2. **How Silo keeps them.** Active mods load in the game; parked mods are kept by Silo and not loaded. Choose where parked mods live: inside your mods folder (recommended), or **On another drive…**. You can also tick the box to file new mods automatically.
+3. **Organize.** Silo shows what organizing would do before anything moves: how many mods go into which categories, that your active mods stay active, and that nothing is deleted. Press **Organize N mods**, or **Not now, show my library**. If you change your mind later, **Settings**, then **Maintenance**, then **Undo organizing** puts every mod back.
 
-- **AppImage:** make it executable (`chmod +x Silo_*.AppImage`) and run it.
-- **Debian / Ubuntu:** `sudo apt install ./Silo_*.deb`
-- **Fedora / openSUSE:** install the `.rpm` with your package manager, for example `sudo dnf install ./Silo-*.rpm`.
+If you used an earlier Silo, you get a one-time **What's new in Silo 1.0** card instead of the setup. **Help**, then **See what's new** shows it again.
 
-## What happens on first run
+## Finding your way around
 
-When Silo opens it lands on the **Library** view and looks for your FS25 mods folder automatically — on Windows that's `Documents\My Games\FarmingSimulator2025\mods`, unless FS25 has been set to use another folder, in which case Silo follows the game's setting. If it finds one, it starts scanning right away; a progress bar shows how many mods it has read. The first scan of a large library takes a little while, and later scans are much quicker.
+The sidebar on the left holds the five main places: **Library** (your mods), **Browse** (find new ones), **Mod sets** (saved sets, sharing and savegames), **Diagnose** (crashes, conflicts and problems) and **Updates**. **Tools**, **Settings** and **Help** sit at the bottom.
 
-When the scan finishes you'll see your whole library, with counts for mods, maps, and scripts. You can confirm which folder Silo found under **Settings** (the gear icon), in the **Mods folder** section, and pick a different one with **Change…** (see [Choosing your mods folder](/help/mods-folder/)). If nothing was found, the list reads *"No mods found yet. Point Silo at your mods folder and rescan"* — check that the folder exists, then use the **Rescan** button.
+The header across the top has:
 
-## Your files stay safe
+- **Search**: your mods, or Silo's catalog while you're in Browse.
+- The **status chip**: "All good", "N problems" or "N to review". Click it to open Diagnose.
+- The **Activity** bell: what Silo is doing right now, and recent errors with **Copy details**.
+- **Play**: starts the game with your active mods. Its menu shows which mod set you're on.
 
-Silo is built so it never changes your original mod files destructively. On first run it only reads and catalogs. It moves nothing until you ask. When you organize or activate mods, Silo links them into the game's `mods/` folder (hardlinks for `.zip` mods, junctions or symlinks for folder mods), so there's no duplication and your originals are untouched. The **Restore vanilla layout** button in Settings puts every mod back in your mods folder at any time. Your mods are never deleted, but after a restore the game loads all of them again, including the ones you had parked.
+![The Silo Library, with the sidebar on the left and the header with search, status chip, bell and Play across the top](../../assets/screens/library.png)
 
-> **If your `Documents` folder is synced by a cloud service** — OneDrive, Google Drive, or Proton Drive — that service presents files as on-demand placeholders and won't allow hardlinks. Silo detects this on first run and shows a one-time notice: it will project your active mods as **file copies** instead of links. Everything still works and nothing is lost, but the active set uses extra disk and bulk activate/deactivate is slower. Excluding `…\My Games\FarmingSimulator2025` from your cloud sync lets Silo use hardlinks again — see [Library layout &amp; maintenance](/help/settings-accounts/) .
+## Keyboard shortcuts
 
-> **macOS and Linux are a preview.** Silo is built and tested Windows-first. It runs natively on macOS and Linux: on Linux it finds FS25's folder inside the Steam Proton prefix (native or Flatpak Steam), and on macOS it handles Steam, GIANTS and Mac App Store installs. This hasn't been tested on many real machines yet, so expect rough edges — and reports are very welcome.
+| Keys | What it does |
+|---|---|
+| Ctrl+K or / | Search |
+| F5 or Ctrl+R | Rescan your library |
+| Alt+1 to Alt+5 | Library, Browse, Mod sets, Diagnose, Updates |
+| Ctrl+, | Settings |
+| Alt+← | Back to the previous page |
+| F6 or Shift+F6 | Move between the sidebar, header, notices, page and details |
+| Esc | Close the mod details, a menu or a dialog |
+| ↑ ↓ Home End | Library: move between mods |
+| Enter | Library: open the mod's details |
+| Space | Library: turn the mod on or off |
+| Shift+F10 | Library: the mod's actions menu |
+| ? | Show every shortcut |
+
+Search, Rescan, Settings and F6 work while you're typing in a field. The others wait until you leave it.
+
+Next: [Your library: active and parked mods](/help/library/).

@@ -1,34 +1,44 @@
 ---
-title: "Conflict detection"
-label: "Conflict detection"
-summary: "Some mods can't coexist."
+title: "Conflicts between active mods"
+label: "Conflicts"
+summary: "Diagnose, Conflicts shows which of your active mods clash with each other, how much it matters, and lets you park one of them."
 group: "When something breaks"
-order: 12
+order: 14
 legacyAnchor: "conflicts-h"
-appliesTo: "0.11"
+appliesTo: "1.0"
 ---
-Some mods can't coexist. Two of them may claim the same slot, or one may silently overwrite another's settings — and you won't find out until the game crashes on load or an item behaves oddly. Silo re-parses the `modDesc.xml` of every mod in your **active set** and flags these collisions before you launch, so you can fix them while it's still a two-second edit.
+Some mods can't work side by side. Two of them may claim the same slot, or one may quietly replace another's settings, and you often don't find out until the game misbehaves. Silo reads the `modDesc.xml` of every **active** mod and flags these clashes before you play. It checks again by itself whenever you change which mods are active, so there is nothing to rescan.
 
-## What Silo checks for
+## Opening it
 
-- **Duplicate active map** (critical) — more than one map enabled at once. FS loads a second map's scripts even when it isn't the one you're playing, which can cause errors when the game loads. Keep exactly one map active.
-- **uniqueType collisions** (critical) — two mods share a `uniqueType`. FS loads only one, so the others never take effect.
-- **Specialization / type / registration collisions** (critical) — multiple mods register the same specialization, vehicle type, placeable type, input action, brand, or store category. Only one registration wins; the others may break.
-- **Script collisions** (warning) — two mods inject a global Lua script with the same filename; they can override each other by load order. If the file is byte-identical in each mod, Silo downgrades it to *info* — it's a shared library, not a real fight.
-- **Cross-mod fillType override** (warning) — two mods define the same-named `fillType`. Whichever loads last silently overrides the other's capacity, price, and other settings.
+Click **Diagnose** in the left rail (or press Alt+4) and choose the **Conflicts** tab. The number on the tab, and the header status chip, count only the clashes that are a Problem or worth a Review. You can also start from a mod: its details show a **Conflicts with N active mods** banner with **See conflicts**, its row in the Library carries a **Conflict** badge, and the **In conflict** option under **Filters** narrows the Library to the mods involved.
 
-When every mod in a clash shares the same author, Silo treats it as likely intentional and softens the severity, so the critical list stays trustworthy.
+![Diagnose, Conflicts, showing one Problem: two mods claim the same exclusive slot, with Park one…](../../assets/screens/conflicts.png)
 
-## Reading the conflicts panel
+## Problem, Review and Note
 
-The stat bar shows a **conflicts** button with a live count; it turns red when any conflict is critical. Click it to open **Conflicts in the active set**. The header shows how many are critical. Each row lists its **severity** (critical, warning, or info), the **kind** of collision, the offending **name**, the **mods involved**, and a plain-language explanation of what breaks. Rows are ordered critical first.
+The headline reads like *1 problem · 0 to review*. Each clash has one of three labels:
 
-To see the culprits in your library, use the **⚠ In conflict** filter in the stat bar — it narrows the list to just the mods named in a conflict.
+- **Problem**: the game will load only one of these mods' versions of something, so at least one of them won't work as intended. Fix these.
+- **Review**: something that can go wrong depending on load order. Worth a look.
+- **Note**: for your information only. Notes are hidden until you turn on **Show notes**.
 
-## Resolving a conflict
+## What Silo checks
 
-1. Decide which mod in the clash you want to keep.
-2. In the library, click the status toggle on the other mod's row to **park** it (an active mod reads `● Active — click to park`).
-3. Silo re-checks the active set automatically after any change, so the count updates on its own — no rescan needed.
+Each row has a plain title:
 
-> Parking never deletes a mod. It removes the mod's link from the game's `mods/` folder right away. The mod stays in your library, and one click reactivates it.
+- **Two mods claim the same exclusive slot**: the game loads only one mod per slot (shown as **Exclusive slot** in a mod's details). A Problem.
+- **Two mods add the same feature name**, and the same check for a vehicle type, building type, hand tool type, control action, brand or shop category: only one of them takes effect. A Problem.
+- **Two mods ship a script with the same file name**: depending on which loads last, one may replace the other. A Review. If the file is identical in each mod, it's shared code, so it becomes a Note.
+- **Two mods define the same fill type**: whichever loads last replaces the others' settings, such as capacity and price. A Review.
+- **More than one map is active**: a Note, not a conflict. Only the map your savegame uses loads, and the others wait until you start a save on them.
+
+When every mod in a clash has the same author, it's most likely deliberate, so Silo lowers it one step (a Problem becomes a Review, a Review becomes a Note) and says so in the explanation.
+
+## Fixing a clash
+
+1. Read the explanation and decide which mod to keep. Click a mod's name to open its details in the Library.
+2. Click **Park one…** and choose the mod to park.
+3. Silo parks it and shows a toast with **Undo**. The conflict list updates on its own.
+
+Parking never deletes a mod. It stays in your library, and you can switch it back on any time. While another change to your library is running, **Park one…** is off and says why. For two mods by different authors that you want to keep together, the clash is worth reporting to their authors.
