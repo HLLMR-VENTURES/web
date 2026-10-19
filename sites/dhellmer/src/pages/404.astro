@@ -8,7 +8,7 @@ import { NAME } from "../lib/site";
   <section class="nf wrap">
     <p class="k">404</p>
     <div>
-      <h1>No entry in the log.</h1>
+      <h1>Nothing here.</h1>
       <p>The page you asked for isn't here. The essays live on hllmr.com; everything else is one of these.</p>
       <p class="links">
         <a class="btn btn-primary" href="/">Home</a>
@@ -21,26 +21,25 @@ import { NAME } from "../lib/site";
 
 <style>
   .nf {
-    display: grid;
-    grid-template-columns: var(--margin-col) minmax(0, 1fr);
     padding-top: var(--space-9);
+    border-bottom: 1px solid var(--text);
+    padding-bottom: var(--space-7);
   }
   .k {
     font-family: var(--font-mono);
-    font-size: 0.7rem;
+    font-size: 0.72rem;
     letter-spacing: 0.14em;
     color: var(--accent);
-    text-align: right;
-    padding: 1.2em var(--space-5) 0 0;
-    margin: 0;
+    margin: 0 0 var(--space-4);
   }
   h1 {
-    font-variation-settings: "opsz" 144;
-    font-weight: 360;
-    font-style: italic;
-    font-size: var(--text-3xl);
-    letter-spacing: -0.02em;
-    margin-bottom: var(--space-4);
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-stretch: 75%;
+    text-transform: uppercase;
+    font-size: clamp(3rem, 1.8rem + 5vw, 6.5rem);
+    line-height: 0.88;
+    margin-bottom: var(--space-5);
   }
   p {
     color: var(--muted);
@@ -52,13 +51,7 @@ import { NAME } from "../lib/site";
     flex-wrap: wrap;
     margin-top: var(--space-5);
   }
-  @media (max-width: 720px) {
-    .nf {
-      grid-template-columns: minmax(0, 1fr);
-    }
-    .k {
-      text-align: left;
-      padding: 0;
-    }
+  .links :global(.btn) {
+    border-radius: 0;
   }
 </style>

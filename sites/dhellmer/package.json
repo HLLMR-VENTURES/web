@@ -2,7 +2,7 @@
   "name": "@hllmr/site-dhellmer",
   "version": "0.1.0",
   "private": true,
-  "description": "dhellmer.com: David Hellmer's personal site (bio, CV, writing index, ventures).",
+  "description": "dhellmer.com: David Hellmer's personal site (bio, experience, projects, writing).",
   "license": "MIT",
   "type": "module",
   "scripts": {
@@ -11,6 +11,9 @@
     "preview": "astro preview --port 4323"
   },
   "dependencies": {
+    "@fontsource-variable/ibm-plex-sans": "5.3.0",
+    "@fontsource-variable/instrument-sans": "5.3.0",
+    "@fontsource/ibm-plex-mono": "5.3.0",
     "@hllmr/design": "0.1.0",
     "astro": "7.3.8",
     "typescript": "6.0.3"

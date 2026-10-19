@@ -3,7 +3,12 @@
  * Shared document shell for every dhellmer.com page: head metadata from props, the header, the
  * colophon footer, a skip link and a single <main> landmark.
  */
-import "@hllmr/design/dhellmer.css";
+// Shared core (spacing, type scale, motion) and base element styles from @hllmr/design; the theme
+// and fonts are site-local (src/styles), so a dhellmer design change never touches packages/design.
+import "../styles/fonts.css";
+import "@hllmr/design/tokens/core.css";
+import "../styles/tokens.css";
+import "@hllmr/design/tokens/base.css";
 import "../styles/site.css";
 import SkipLink from "@hllmr/design/components/SkipLink.astro";
 import SiteHeader from "../components/SiteHeader.astro";
@@ -31,7 +36,7 @@ const {
   ogTitle = title,
   ogDescription = description,
   ogImage = "/og.png",
-  ogImageAlt = "David Hellmer. Founder, HLLMR Ventures.",
+  ogImageAlt = "David Hellmer. Engineer, DJ, builder of businesses.",
   ogType = "website",
   noindex = false,
   jsonLd,
@@ -74,8 +79,8 @@ const image = abs(ogImage, Astro.site);
     <meta name="twitter:description" content={ogDescription} />
     <meta name="twitter:image" content={image} />
     <meta name="author" content={NAME} />
-    <meta name="theme-color" content="#f1ede2" media="(prefers-color-scheme: light)" />
-    <meta name="theme-color" content="#0e1216" media="(prefers-color-scheme: dark)" />
+    <meta name="theme-color" content="#e9e7e2" media="(prefers-color-scheme: light)" />
+    <meta name="theme-color" content="#0f0f10" media="(prefers-color-scheme: dark)" />
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
     <link rel="icon" href="/favicon.png" type="image/png" sizes="32x32" />
     <!-- The writing lives on hllmr.com, so its feed is the one to follow from here. -->

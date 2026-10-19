@@ -1,22 +1,12 @@
-/* dhellmer.com page styles. Reads only the skin's semantic tokens (packages/design/skins/dhellmer.css).
- * The page is a log: ruled paper, a margin column of mono notes, and one margin rule in oxide that
- * every entry hangs from. */
-
-:root {
-  --line: 32px; /* the paper's ruling */
-  --margin-col: 9.5rem;
-}
+/* dhellmer.com page styles, direction B "Technical Noir" (owner's pick 2026-10-19).
+ * Industrial-modernist structure: a hard grid, 1px rules, mono indexes carrying real information
+ * (years, counts, states), and condensed uppercase display type used only for the name and section
+ * headings. Everything people read is IBM Plex Sans at a comfortable measure.
+ * Reads only the tokens in tokens.css; class names are shared by every page. */
 
 body {
-  background-color: var(--bg);
-  background-image: repeating-linear-gradient(
-    to bottom,
-    transparent 0,
-    transparent calc(var(--line) - 1px),
-    var(--ruled) calc(var(--line) - 1px),
-    var(--ruled) var(--line)
-  );
-  background-attachment: local;
+  font-size: 17px;
+  line-height: 1.65;
 }
 
 main:focus {
@@ -25,99 +15,118 @@ main:focus {
 
 a {
   text-decoration-thickness: 1px;
-  text-underline-offset: 0.2em;
+  text-underline-offset: 0.22em;
 }
 a:hover {
   color: var(--accent);
 }
 
+/* Display type: condensed, heavy, uppercase. Reserved for names and section headings. */
+.display {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-stretch: 75%;
+  text-transform: uppercase;
+  letter-spacing: -0.005em;
+  line-height: 0.86;
+}
+
+/* Mono index labels: real information only (years, counts, states, sections). */
+.idx {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+.idx b {
+  font-weight: 400;
+  color: var(--accent);
+}
+
 /* ---- Page head (inner pages) ---------------------------------------------------------------- */
 .ph {
-  display: grid;
-  grid-template-columns: var(--margin-col) minmax(0, 1fr);
   padding-top: var(--space-8);
   padding-bottom: var(--space-6);
+  border-bottom: 1px solid var(--text);
 }
 .ph .k {
   font-family: var(--font-mono);
-  font-size: 0.66rem;
+  font-size: 0.72rem;
   letter-spacing: 0.14em;
   text-transform: uppercase;
   color: var(--accent);
-  padding-top: 1.1em;
-  padding-right: var(--space-5);
-  text-align: right;
+  margin: 0 0 var(--space-4);
 }
 .ph h1 {
-  font-variation-settings: "opsz" 144;
-  font-weight: 380;
-  font-size: var(--text-3xl);
-  letter-spacing: -0.025em;
-  line-height: 1.02;
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-stretch: 75%;
+  text-transform: uppercase;
+  font-size: clamp(3.2rem, 1.8rem + 6vw, 7.5rem);
+  line-height: 0.86;
+  letter-spacing: -0.005em;
 }
 .ph .lede {
-  font-family: var(--font-display);
-  font-style: italic;
-  font-variation-settings: "opsz" 24;
-  font-weight: 380;
-  font-size: var(--text-xl);
+  font-size: clamp(1.1rem, 1rem + 0.4vw, 1.3rem);
+  line-height: 1.5;
   color: var(--muted);
-  max-width: 44ch;
-  margin: var(--space-4) 0 0;
-  line-height: 1.4;
+  max-width: 58ch;
+  margin: var(--space-5) 0 0;
 }
 
-/* ---- The log --------------------------------------------------------------------------------- */
+/* ---- Entries: a labelled row of the grid ---------------------------------------------------- */
 .log {
   position: relative;
 }
 .entry {
   display: grid;
-  grid-template-columns: var(--margin-col) minmax(0, 1fr);
+  grid-template-columns: 13rem minmax(0, 1fr);
+  gap: 0 var(--space-6);
+  border-bottom: 1px solid var(--rule);
 }
 .entry .mark {
   display: flex;
   flex-direction: column;
-  align-items: flex-end;
-  gap: 2px;
-  padding: var(--space-6) var(--space-5) 0 0;
+  gap: 4px;
+  padding-top: calc(var(--space-6) + 0.45rem);
   font-family: var(--font-mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.14em;
   text-transform: uppercase;
 }
 .entry .no {
-  font-size: 0.66rem;
-  letter-spacing: 0.1em;
   color: var(--accent);
 }
 .entry .lbl {
-  font-size: 0.66rem;
-  letter-spacing: 0.14em;
   color: var(--muted);
-  text-align: right;
 }
 .entry .body {
-  border-left: 1.5px solid var(--margin);
-  padding: var(--space-6) 0 var(--space-6) var(--space-6);
+  padding: var(--space-6) 0 var(--space-7);
   min-width: 0;
 }
 .entry h2 {
-  font-variation-settings: "opsz" 72;
-  font-weight: 460;
-  font-size: var(--text-2xl);
-  letter-spacing: -0.015em;
-  line-height: 1.1;
-  margin-bottom: var(--space-4);
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-stretch: 75%;
+  text-transform: uppercase;
+  font-size: clamp(1.9rem, 1.3rem + 2vw, 3rem);
+  line-height: 0.92;
+  letter-spacing: -0.005em;
+  margin-bottom: var(--space-5);
+  max-width: 22ch;
 }
 .entry h3 {
-  font-variation-settings: "opsz" 30;
-  font-weight: 560;
-  font-size: var(--text-lg);
-  line-height: 1.25;
+  font-family: var(--font-ui);
+  font-weight: 600;
+  font-size: 1.15rem;
+  line-height: 1.3;
+  text-transform: none;
 }
 
 /* Running text. */
 .prose {
-  max-width: 66ch;
+  max-width: var(--measure);
 }
 .prose p {
   margin: 0 0 var(--space-4);
@@ -125,11 +134,8 @@ a:hover {
 .prose p:last-child {
   margin-bottom: 0;
 }
-.prose h2 {
-  margin-top: var(--space-6);
-}
 .prose ul {
-  padding-left: 1.2em;
+  padding-left: 1.1em;
 }
 .prose li {
   margin-bottom: var(--space-2);
@@ -137,28 +143,20 @@ a:hover {
 .prose li::marker {
   color: var(--accent);
 }
-.quote {
-  font-family: var(--font-display);
-  font-style: italic;
-  font-variation-settings: "opsz" 48;
-  font-weight: 360;
-  font-size: var(--text-xl);
-  line-height: 1.35;
-  margin: 0;
-  max-width: 34ch;
-}
 
 .more {
   display: inline-flex;
   align-items: baseline;
-  gap: 6px;
-  margin-top: var(--space-4);
-  font-weight: 600;
-  font-size: 0.95rem;
+  gap: 8px;
+  margin-top: var(--space-5);
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
   color: var(--text);
   text-decoration: none;
   border-bottom: 1px solid var(--accent);
-  padding-bottom: 1px;
+  padding-bottom: 3px;
 }
 .more::after {
   content: "→";
@@ -172,26 +170,25 @@ a:hover {
   content: "↗";
 }
 
-/* ---- Rows: ventures, projects, essays, profiles, eras ---------------------------------------- */
+/* ---- Rows: projects, essays, profiles, roles ------------------------------------------------ */
 .rows {
   list-style: none;
   margin: 0;
   padding: 0;
-  border-top: 1px solid var(--rule);
+  border-top: 1px solid var(--text);
 }
 .row {
   display: grid;
   grid-template-columns: minmax(0, 1fr) auto;
-  gap: var(--space-2) var(--space-5);
-  padding: var(--space-4) 0;
+  gap: var(--space-2) var(--space-6);
+  padding: var(--space-4) 0 var(--space-5);
   border-bottom: 1px solid var(--rule);
 }
 .row .t {
-  font-family: var(--font-display);
-  font-variation-settings: "opsz" 36;
-  font-weight: 520;
-  font-size: 1.25rem;
-  line-height: 1.25;
+  font-family: var(--font-ui);
+  font-weight: 600;
+  font-size: 1.2rem;
+  line-height: 1.3;
 }
 .row a.t {
   text-decoration: none;
@@ -201,9 +198,9 @@ a:hover {
 }
 .row .d {
   color: var(--muted);
-  font-size: 0.95rem;
-  margin: 4px 0 0;
-  max-width: 62ch;
+  font-size: 0.97rem;
+  margin: 6px 0 0;
+  max-width: var(--measure);
 }
 .row .meta {
   display: flex;
@@ -211,7 +208,7 @@ a:hover {
   align-items: flex-end;
   gap: 6px;
   font-family: var(--font-mono);
-  font-size: 0.68rem;
+  font-size: 0.72rem;
   letter-spacing: 0.04em;
   color: var(--muted);
   text-align: right;
@@ -223,22 +220,22 @@ a:hover {
   color: var(--accent);
 }
 .row .f {
-  font-family: var(--font-mono);
-  font-size: 0.66rem;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-  color: var(--muted);
   display: block;
-  margin-bottom: 2px;
+  margin-bottom: 4px;
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--accent);
 }
 
 .stage {
   display: inline-block;
   font-family: var(--font-mono);
-  font-size: 0.62rem;
-  letter-spacing: 0.1em;
+  font-size: 0.66rem;
+  letter-spacing: 0.12em;
   text-transform: uppercase;
-  padding: 2px 7px;
+  padding: 2px 8px;
   border: 1px solid var(--rule);
   color: var(--muted);
   white-space: nowrap;
@@ -258,13 +255,12 @@ a:hover {
   flex-direction: column;
   gap: 4px;
   padding: var(--space-4) var(--space-5);
-  border: 1.5px dashed var(--accent);
-  background: color-mix(in srgb, var(--accent) 6%, transparent);
+  border: 1px dashed var(--accent);
   margin: var(--space-4) 0;
 }
 .pending .pl {
   font-family: var(--font-mono);
-  font-size: 0.64rem;
+  font-size: 0.68rem;
   letter-spacing: 0.12em;
   text-transform: uppercase;
   color: var(--accent);
@@ -278,95 +274,59 @@ a:hover {
   font-size: 0.92rem;
 }
 
-/* ---- Fact list (About) ----------------------------------------------------------------------- */
+/* ---- Fact list ------------------------------------------------------------------------------ */
 .facts {
   margin: 0;
   display: grid;
   grid-template-columns: max-content minmax(0, 1fr);
   gap: 0 var(--space-5);
-  border-top: 1px solid var(--rule);
+  border-top: 1px solid var(--text);
 }
 .facts dt,
 .facts dd {
-  padding: 10px 0;
+  padding: 11px 0;
   border-bottom: 1px solid var(--rule);
   margin: 0;
 }
 .facts dt {
   font-family: var(--font-mono);
-  font-size: 0.66rem;
-  letter-spacing: 0.12em;
+  font-size: 0.7rem;
+  letter-spacing: 0.14em;
   text-transform: uppercase;
   color: var(--muted);
-  padding-top: 14px;
+  padding-top: 15px;
 }
 
-/* ---- Motion: the rule draws, the entries settle ---------------------------------------------- */
+/* ---- Motion: one quiet fade; nothing on reduced motion --------------------------------------- */
 @media (prefers-reduced-motion: no-preference) {
-  .entry .body {
-    animation: settle 640ms var(--ease) both;
-  }
+  .entry .body,
   .entry .mark {
-    animation: fade 640ms var(--ease) both;
-  }
-  .log > .entry:nth-child(2) .body,
-  .log > .entry:nth-child(2) .mark {
-    animation-delay: 80ms;
-  }
-  .log > .entry:nth-child(3) .body,
-  .log > .entry:nth-child(3) .mark {
-    animation-delay: 160ms;
-  }
-  .log > .entry:nth-child(4) .body,
-  .log > .entry:nth-child(4) .mark {
-    animation-delay: 240ms;
-  }
-  .log > .entry:nth-child(n + 5) .body,
-  .log > .entry:nth-child(n + 5) .mark {
-    animation-delay: 320ms;
+    animation: fade 420ms var(--ease) both;
   }
 }
-@keyframes settle {
+@keyframes fade {
   from {
     opacity: 0;
-    transform: translateY(10px);
+    transform: translateY(6px);
   }
   to {
     opacity: 1;
     transform: none;
   }
 }
-@keyframes fade {
-  from {
-    opacity: 0;
-  }
-  to {
-    opacity: 1;
-  }
-}
 
-/* ---- Small screens: the margin notes move above each entry, the rule stays ------------------- */
-@media (max-width: 720px) {
-  .ph,
+/* ---- Small screens -------------------------------------------------------------------------- */
+@media (max-width: 760px) {
   .entry {
     grid-template-columns: minmax(0, 1fr);
   }
-  .ph {
-    padding-top: var(--space-7);
-  }
-  .ph .k {
-    text-align: left;
-    padding: 0 0 var(--space-2);
-  }
   .entry .mark {
     flex-direction: row;
-    align-items: baseline;
-    gap: 10px;
-    padding: var(--space-5) 0 0 var(--space-4);
-    border-left: 1.5px solid var(--margin);
+    gap: 12px;
+    padding-top: var(--space-5);
   }
   .entry .body {
-    padding: var(--space-3) 0 var(--space-5) var(--space-4);
+    padding: var(--space-3) 0 var(--space-6);
   }
   .row {
     grid-template-columns: minmax(0, 1fr);

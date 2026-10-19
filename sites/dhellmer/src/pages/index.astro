@@ -1,18 +1,42 @@
 ---
-/** Home: who, what now, what before, the ventures, the writing, and where else to find him. */
+/**
+ * Home: a person first. Name and a short human introduction with the portrait, a dated "Now"
+ * snapshot, paths into Story, Experience, Projects and Writing, the career at a glance, and a
+ * selection (not a feed) of ventures and essays. Redesign brief v0.1 (2026-10-19), direction B.
+ * Every fact here is already owner-approved (LinkedIn export, founder note); the positioning line,
+ * the introduction and the Now snapshot are new copy the owner approves at merge.
+ */
 import BaseLayout from "../layouts/BaseLayout.astro";
 import Entry from "../components/Entry.astro";
+import Portrait from "../components/Portrait.astro";
 import StageTag from "../components/StageTag.astro";
-import { ESSAYS, VENTURE_LINKS, shortDate } from "../lib/hllmr";
+import { ESSAYS, PROJECT_LINKS, VENTURE_LINKS, shortDate } from "../lib/hllmr";
 import { SKILLS } from "../lib/cv";
-import { HUB, LINKS, LOCALITY, NAME, PROFILES, ROLE, abs } from "../lib/site";
+import { HUB, LOCALITY, NAME, PROFILES, abs } from "../lib/site";
+
+/** The Now snapshot's date. Update it whenever the snapshot changes. */
+const NOW_DATE = { iso: "2026-10", label: "October 2026" };
+
+const NOW = [
+  { k: "Engineering", t: "Senior applications engineer, building automation", d: "Design-build and plan/spec BAS engineering, plus internal software and training for the engineering team." },
+  { k: "Building", t: "Software of my own, with AI agents", d: "Silo, stratum-dsp and Writwall under HLLMR Ventures, held to the rule that nothing is done until it has been seen working." },
+  { k: "Music", t: "Still DJing", d: "Thirty years on, and an events venture of its own is in the idea stage." },
+  { k: "This site", t: "Becoming a public record", d: "Story, projects and an archive, added chapter by chapter." },
+];
+
+const PATHS = [
+  { href: "/about/", k: "Story", n: "01", t: "About", d: "A short bio, and the longer story in chapters." },
+  { href: "/cv/", k: "Experience", n: "2004–", t: "Experience", d: "Twenty years from field technician to division head, and the businesses in between." },
+  { href: "/ventures/", k: "Projects", n: String(PROJECT_LINKS.length), t: "Projects", d: "What I've built and started, from my side of it." },
+  { href: "/writing/", k: "Writing", n: String(ESSAYS.length), t: "Writing", d: "Essays in my own voice." },
+];
 
 const ERAS = [
   { k: "1998–2000", t: "U.S. Navy nuclear power training", d: "Where you assume nothing works until you have watched it work." },
   {
     k: "2004–2017",
     t: "Building automation and low-voltage systems",
-    d: "From security and fire installs to leading a building automation division: SCIFs, government data centers, hospitals, airports and an FAA control center, and the commissioning that proves they do what the drawings say.",
+    d: "From security and fire installs to leading a building automation division: SCIFs, government data centers, hospitals, airports and an FAA control center.",
   },
   {
     k: "2007–2025",
@@ -41,37 +65,64 @@ const jsonLd = {
 ---
 
 <BaseLayout
-  title={`${NAME} · BAS & OT engineering leader`}
-  description="David Hellmer: BAS and OT engineering leader in Dallas–Fort Worth and founder of HLLMR Ventures. Navy nuclear power training, twenty years in building systems, now applied AI and software for physical systems."
+  title={`${NAME} · Engineer, DJ, builder of businesses`}
+  description="David Hellmer: engineer, DJ and builder of businesses in Dallas–Fort Worth. Navy nuclear power training, twenty years in building systems, businesses built and run, and now software built with AI agents."
   ogType="profile"
   jsonLd={jsonLd}
 >
   <section class="hero wrap" aria-labelledby="name">
-    <p class="k"><span>BAS &amp; OT engineering leader</span><span>{ROLE}</span><span>{LOCALITY}</span></p>
-    <h1 id="name"><span class="first">David</span> <span class="last">Hellmer</span></h1>
-    <figure class="epi">
-      <blockquote><p>Assume nothing works until you have watched it work.</p></blockquote>
-      <figcaption>Learned in the Navy's nuclear program. Still the rule.</figcaption>
-    </figure>
+    <div class="intro">
+      <p class="idx"><span><b>01</b> Introduction</span><span>{LOCALITY}</span><span>Now: {NOW_DATE.label}</span></p>
+      <h1 id="name" class="display">David<br />Hellmer</h1>
+      <p class="pos">Engineer. DJ. <span>Builder of businesses.</span></p>
+      <p class="lead">
+        For more than twenty years I've made systems behave: building controls in laboratories, data centers and an FAA
+        control center; a freeze-dried food company built to national distribution; and DJ booths for most of that time.
+        Now I build software with AI agents, held to the rule I learned in the Navy's nuclear program: nothing works until
+        you have watched it work.
+      </p>
+    </div>
+    <div class="photo">
+      <Portrait caption="Photographed November 2025" />
+    </div>
   </section>
 
+  <nav class="paths wrap" aria-label="Sections">
+    {
+      PATHS.map((p) => (
+        <a class="path" href={p.href}>
+          <span class="idx">
+            <b>{p.k}</b> · {p.n}
+          </span>
+          <span class="pt">{p.t}</span>
+          <span class="pd">{p.d}</span>
+        </a>
+      ))
+    }
+  </nav>
+
   <div class="log wrap">
-    <Entry no="01" label="Now" id="now">
-      <h2 id="now">I build software the way I was trained to build control systems.</h2>
-      <div class="prose">
-        <p>
-          I lead engineering for physical systems: building automation and the operational technology around it, and
-          lately the software and applied AI that help the people who design, deliver and operate buildings. I run
-          <a href={HUB}>HLLMR Ventures</a>, where my own products start, and I hold all of it to a commissioning standard:
-          nothing is called done until someone has seen it working.
-        </p>
-      </div>
-      <a class="more" href="/about/">About me</a>
+    <Entry no={NOW_DATE.label} label="Now" id="now">
+      <h2 id="now">What I'm doing now.</h2>
+      <ul class="rows">
+        {
+          NOW.map((n) => (
+            <li class="row">
+              <div>
+                <span class="f">{n.k}</span>
+                <span class="t">{n.t}</span>
+                <p class="d">{n.d}</p>
+              </div>
+            </li>
+          ))
+        }
+      </ul>
+      <p class="asof idx">As of <time datetime={NOW_DATE.iso}>{NOW_DATE.label}</time></p>
     </Entry>
 
-    <Entry no="02" label="Before" id="before">
+    <Entry no="1998–" label="So far" id="before">
       <h2 id="before">Navy, buildings, businesses, software.</h2>
-      <ol class="rows eras">
+      <ol class="rows">
         {
           ERAS.map((e) => (
             <li class="row">
@@ -84,10 +135,10 @@ const jsonLd = {
           ))
         }
       </ol>
-      <a class="more" href="/cv/">Curriculum vitae</a>
+      <a class="more" href="/cv/">The full experience</a>
     </Entry>
 
-    <Entry no="03" label="Ventures" id="ventures">
+    <Entry no={String(VENTURE_LINKS.length)} label="Ventures" id="ventures">
       <h2 id="ventures">What I'm building.</h2>
       <ul class="rows">
         {
@@ -118,10 +169,10 @@ const jsonLd = {
           ))
         }
       </ul>
-      <a class="more" href="/ventures/">All ventures and projects</a>
+      <a class="more" href="/ventures/">All projects</a>
     </Entry>
 
-    <Entry no="04" label="Writing" id="writing">
+    <Entry no={String(ESSAYS.length)} label="Writing" id="writing">
       <h2 id="writing">What I've written.</h2>
       <ul class="rows">
         {
@@ -142,18 +193,7 @@ const jsonLd = {
           ))
         }
       </ul>
-      <a class="more" href="/writing/">Everything I've written</a>
-    </Entry>
-
-    <Entry no="05" label="Elsewhere" id="elsewhere">
-      <h2 id="elsewhere">Where else to find me.</h2>
-      <div class="prose">
-        <p>
-          Code lives at <a href={LINKS.github}>github.com/HLLMR</a>. For business, write through
-          <a href={LINKS.hubContact}>hllmr.com</a>.
-        </p>
-      </div>
-      <a class="more" href="/elsewhere/">Profiles and links</a>
+      <a class="more" href="/writing/">All writing</a>
     </Entry>
   </div>
 </BaseLayout>
@@ -161,116 +201,109 @@ const jsonLd = {
 <style>
   .hero {
     display: grid;
-    grid-template-columns: var(--margin-col) minmax(0, 1fr);
-    grid-template-areas:
-      "k k"
-      ". name"
-      ". epi";
-    padding-top: var(--space-9);
+    grid-template-columns: minmax(0, 1.45fr) minmax(0, 1fr);
+    gap: var(--space-8);
+    align-items: end;
+    padding-top: var(--space-8);
     padding-bottom: var(--space-7);
   }
-  .k {
-    grid-area: k;
+  .intro .idx {
     display: flex;
-    gap: 6px 22px;
     flex-wrap: wrap;
-    margin: 0 0 var(--space-5) var(--margin-col);
-    font-family: var(--font-mono);
-    font-size: 0.68rem;
-    letter-spacing: 0.14em;
-    text-transform: uppercase;
-    color: var(--muted);
-  }
-  .k span:first-child {
-    color: var(--accent);
+    gap: 6px 24px;
+    margin: 0 0 var(--space-5);
   }
   h1 {
-    grid-area: name;
-    font-variation-settings: "opsz" 144;
-    font-weight: 340;
-    font-size: clamp(3.4rem, 1.2rem + 9.4vw, 9.6rem);
-    letter-spacing: -0.045em;
-    line-height: 0.88;
-    margin-left: -0.06em;
+    font-size: clamp(4.2rem, 1.6rem + 10vw, 10rem);
+    margin-left: -0.03em;
   }
-  .first,
-  .last {
-    display: inline-block;
+  .pos {
+    font-family: var(--font-display);
+    font-weight: 600;
+    font-stretch: 85%;
+    text-transform: uppercase;
+    font-size: clamp(1.4rem, 1.1rem + 1.2vw, 2rem);
+    line-height: 1.1;
+    margin: var(--space-6) 0 var(--space-5);
   }
-  .last {
-    font-style: italic;
-    font-weight: 300;
+  .pos span {
     color: var(--accent);
   }
-  .epi {
-    grid-area: epi;
-    margin: var(--space-7) 0 0;
+  .lead {
+    font-size: clamp(1.05rem, 1rem + 0.3vw, 1.2rem);
+    line-height: 1.65;
+    max-width: 60ch;
+    margin: 0;
+  }
+
+  .paths {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    border-top: 1px solid var(--text);
+    border-bottom: 1px solid var(--text);
+    margin-bottom: var(--space-4);
+  }
+  .path {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    padding: var(--space-5) var(--space-5) var(--space-6) 0;
+    text-decoration: none;
+    color: var(--text);
+    border-right: 1px solid var(--rule);
+    transition: background var(--dur-fast);
+  }
+  .path + .path {
     padding-left: var(--space-5);
-    border-left: 3px solid var(--accent);
-    max-width: 40rem;
   }
-  .epi blockquote {
-    margin: 0;
+  .path:last-child {
+    border-right: 0;
   }
-  .epi blockquote p {
+  .path:hover {
+    background: var(--surface);
+    color: var(--text);
+  }
+  .path:hover .pt {
+    color: var(--accent);
+  }
+  .pt {
     font-family: var(--font-display);
-    font-style: italic;
-    font-variation-settings: "opsz" 60;
-    font-weight: 360;
-    font-size: var(--text-2xl);
-    line-height: 1.2;
-    margin: 0;
+    font-weight: 700;
+    font-stretch: 75%;
+    text-transform: uppercase;
+    font-size: 1.9rem;
+    line-height: 0.95;
+    transition: color var(--dur-fast);
   }
-  .epi figcaption {
-    font-family: var(--font-mono);
-    font-size: 0.68rem;
-    letter-spacing: 0.06em;
+  .pd {
     color: var(--muted);
-    margin-top: var(--space-3);
+    font-size: 0.95rem;
+    line-height: 1.5;
   }
-  .eras .row {
-    grid-template-columns: minmax(0, 1fr);
+  .asof {
+    margin: var(--space-4) 0 0;
   }
-  @media (prefers-reduced-motion: no-preference) {
-    .first,
-    .last {
-      animation: ink 760ms var(--ease) both;
-    }
-    .last {
-      animation-delay: 140ms;
-    }
-    .epi {
-      animation: rule 900ms var(--ease) 320ms both;
-    }
-  }
-  @keyframes ink {
-    from {
-      opacity: 0;
-      transform: translateY(0.06em);
-      letter-spacing: -0.02em;
-    }
-    to {
-      opacity: 1;
-      transform: none;
-    }
-  }
-  @keyframes rule {
-    from {
-      opacity: 0;
-      border-left-color: transparent;
-    }
-    to {
-      opacity: 1;
-    }
-  }
-  @media (max-width: 720px) {
+
+  @media (max-width: 900px) {
     .hero {
       grid-template-columns: minmax(0, 1fr);
-      grid-template-areas: "k" "name" "epi";
-      padding-top: var(--space-7);
+      gap: var(--space-6);
+      padding-top: var(--space-6);
     }
-    .k {
-      margin-left: 0;
+    .photo {
+      max-width: 420px;
+    }
+    .paths {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+    .path:nth-child(2) {
+      border-right: 0;
+    }
+    .path:nth-child(-n + 2) {
+      border-bottom: 1px solid var(--rule);
+    }
+    .path:nth-child(3) {
+      padding-left: 0;
     }
   }
 </style>

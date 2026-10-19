@@ -1,23 +1,24 @@
-<!-- Source of public/og.png (1200x630), the dhellmer.com share card. Render from this directory after npm ci:
+<!-- Source of public/og.png (1200x630), the dhellmer.com share card, direction B "Technical Noir".
+     Render from this directory after npm ci:
      msedge --headless=new --hide-scrollbars --force-device-scale-factor=1 --window-size=1200,630 --screenshot=og.png og.html
      then copy og.png to ../public/og.png. Not part of the site build. -->
 <!doctype html><html><head><meta charset="utf-8"><style>
-@font-face{font-family:F;src:url(../../../node_modules/@fontsource-variable/fraunces/files/fraunces-latin-opsz-normal.woff2) format('woff2');font-weight:100 900}
-@font-face{font-family:F;font-style:italic;src:url(../../../node_modules/@fontsource-variable/fraunces/files/fraunces-latin-opsz-italic.woff2) format('woff2');font-weight:100 900}
+@font-face{font-family:D;src:url(../../../node_modules/@fontsource-variable/instrument-sans/files/instrument-sans-latin-wdth-normal.woff2) format('woff2');font-weight:400 700;font-stretch:75% 100%}
 @font-face{font-family:M;src:url(../../../node_modules/@fontsource/ibm-plex-mono/files/ibm-plex-mono-latin-400-normal.woff2) format('woff2');font-weight:400}
 html,body{margin:0;width:1200px;height:630px;overflow:hidden}
-body{background:#f1ede2 repeating-linear-gradient(to bottom,transparent 0,transparent 41px,rgba(20,32,43,.07) 41px,rgba(20,32,43,.07) 42px);font-family:F;color:#14202b}
-.m{position:absolute;left:200px;top:0;bottom:0;border-left:2px solid rgba(161,58,22,.6)}
-.k{position:absolute;left:0;width:176px;text-align:right;top:92px;font-family:M;font-size:15px;letter-spacing:.12em;color:#a13a16;text-transform:uppercase;line-height:1.7}
-.k span{display:block;color:#55606a}
-.n{position:absolute;left:236px;top:78px;font-variation-settings:"opsz" 144;font-weight:330;font-size:160px;letter-spacing:-.045em;line-height:.9}
-.n i{font-weight:290;color:#a13a16}
-.q{position:absolute;left:240px;bottom:96px;font-style:italic;font-variation-settings:"opsz" 60;font-weight:360;font-size:34px;line-height:1.2;max-width:900px}
-.u{position:absolute;right:64px;bottom:40px;font-family:M;font-size:16px;letter-spacing:.08em;color:#55606a}
-</style></head><body>
-<div class="m"></div>
-<div class="k">Founder<span>HLLMR</span><span>Ventures</span><span>DFW, TX</span></div>
-<div class="n">David<br><i>Hellmer</i></div>
-<div class="q">Assume nothing works until you have watched it work.</div>
-<div class="u">dhellmer.com</div>
-</body></html>
+body{background:#0f0f10;color:#ecebe6}
+.in{position:absolute;inset:0;padding:64px 72px}
+.k{font-family:M;font-size:17px;letter-spacing:.14em;text-transform:uppercase;color:#9c9a94;display:flex;gap:26px}
+.k b{color:#c97a46;font-weight:400}
+.n{font-family:D;font-weight:700;font-stretch:75%;text-transform:uppercase;font-size:196px;line-height:.84;margin:34px 0 0 -6px}
+.p{position:absolute;left:72px;bottom:96px;font-family:D;font-weight:600;font-stretch:85%;text-transform:uppercase;font-size:44px;letter-spacing:.01em}
+.p span{color:#c97a46}
+.r{position:absolute;left:72px;right:72px;bottom:72px;border-top:1px solid #ecebe6}
+.u{position:absolute;right:72px;bottom:34px;font-family:M;font-size:16px;letter-spacing:.12em;color:#9c9a94}
+.bar{position:absolute;left:0;top:0;bottom:0;width:10px;background:#c97a46}
+</style></head><body><div class="bar"></div><div class="in">
+<div class="k"><span><b>01</b> Introduction</span><span>Dallas–Fort Worth</span></div>
+<div class="n">David<br>Hellmer</div>
+<div class="p">Engineer. DJ. <span>Builder of businesses.</span></div>
+<div class="r"></div><div class="u">dhellmer.com</div>
+</div></body></html>

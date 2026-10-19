@@ -1,0 +1,75 @@
+/* dhellmer.com theme, direction B "Technical Noir" (owner's pick 2026-10-19): graphite and near-black,
+ * warm off-white, one muted copper accent. Industrial-modernist structure (grid, rules, mono indexes)
+ * carries the character; no textures, glows or gradients.
+ *
+ * Fills the semantic slots that @hllmr/design/tokens/core.css and base.css read. Light and dark
+ * follow the device; <html data-theme> (set by /js/theme.js) overrides.
+ *
+ * Contrast (WCAG, checked 2026-10-19), on --bg:
+ *   dark:  --text 16.1:1, --muted 6.8:1, --accent 5.8:1
+ *   light: --text 14.9:1, --muted 5.8:1, --accent 5.5:1
+ * --focus is the accent (>= 3:1 on --bg and --surface in both themes). */
+:root {
+  --font-display: "Instrument Sans Variable", "Instrument Sans", "Arial Narrow", system-ui, sans-serif;
+  --font-ui: "IBM Plex Sans Variable", "IBM Plex Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-mono: "IBM Plex Mono", ui-monospace, "Cascadia Code", Consolas, monospace;
+
+  --maxw: 1240px;
+  --gutter: 32px;
+  --measure: 66ch;
+
+  /* Light: warm off-white. */
+  --bg: #e9e7e2;
+  --surface: #dfdcd5;
+  --raised: #f2f0eb;
+  --border: #c8c4bb;
+  --rule: #c8c4bb;
+  --text: #141414;
+  --muted: #5a5852;
+  --primary: #141414;
+  --primary-hover: #92461e;
+  --on-primary: #e9e7e2;
+  --accent: #92461e; /* copper, 5.5:1 */
+  --focus: #92461e;
+  color-scheme: light;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #0f0f10;
+    --surface: #19191b;
+    --raised: #1f1f22;
+    --border: #2a2a2c;
+    --rule: #2a2a2c;
+    --text: #ecebe6;
+    --muted: #9c9a94;
+    --primary: #ecebe6;
+    --primary-hover: #c97a46;
+    --on-primary: #0f0f10;
+    --accent: #c97a46; /* copper, 5.8:1 */
+    --focus: #c97a46;
+    color-scheme: dark;
+  }
+}
+
+:root[data-theme="dark"] {
+  --bg: #0f0f10;
+  --surface: #19191b;
+  --raised: #1f1f22;
+  --border: #2a2a2c;
+  --rule: #2a2a2c;
+  --text: #ecebe6;
+  --muted: #9c9a94;
+  --primary: #ecebe6;
+  --primary-hover: #c97a46;
+  --on-primary: #0f0f10;
+  --accent: #c97a46;
+  --focus: #c97a46;
+  color-scheme: dark;
+}
+
+@media (max-width: 620px) {
+  :root {
+    --gutter: 20px;
+  }
+}
