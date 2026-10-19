@@ -26,6 +26,11 @@ on:
       - "sites/hllmr/src/lib/projects.ts"
       - "sites/hllmr/src/lib/writing.ts"
       - "packages/design/**"
+      # Silo-only design files (imported only by packages/design/silo.css): a Silo design change
+      # must not rebuild this site. Keep in step with SILO_ONLY_DESIGN in src/lib/site.ts.
+      - "!packages/design/silo.css"
+      - "!packages/design/skins/silo.css"
+      - "!packages/design/tokens/fonts.css"
       - "deploy/dhellmer/**"
       - "tests/url-contract/dhellmer*"
       - "package-lock.json"

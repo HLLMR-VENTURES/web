@@ -68,6 +68,15 @@ export function abs(path: string, site: URL | undefined): string {
 }
 
 /**
+ * Design files that only silo.hllmr.com imports (through packages/design/silo.css). The footer
+ * revision ignores them, so a Silo-only design commit leaves this site's content id unchanged.
+ * Keep in step with the "!packages/design/..." excludes in this site's release workflow.
+ */
+const SILO_ONLY_DESIGN = ["silo.css", "skins/silo.css", "tokens/fonts.css"].map(
+  (f) => `:(exclude)../../packages/design/${f}`,
+);
+
+/**
  * The log's revision line in the footer: date and short hash of the last commit that touched this
  * site, the shared design package, or the hllmr.com data it reads (ventures and writing). Derived
  * from git, not from the build clock, so an unchanged rebuild is byte-identical.
@@ -76,7 +85,17 @@ export const REVISION: { date: string; hash: string } = (() => {
   try {
     const out = execFileSync(
       "git",
-      ["log", "-1", "--format=%cs %h", "--", ".", "../../packages/design", "../hllmr/src/lib/projects.ts", "../hllmr/src/lib/writing.ts"],
+      [
+        "log",
+        "-1",
+        "--format=%cs %h",
+        "--",
+        ".",
+        "../../packages/design",
+        ...SILO_ONLY_DESIGN,
+        "../hllmr/src/lib/projects.ts",
+        "../hllmr/src/lib/writing.ts",
+      ],
       { cwd: process.cwd(), encoding: "utf8", stdio: ["ignore", "pipe", "ignore"] },
     ).trim();
     const [date, hash] = out.split(" ");
