@@ -2,14 +2,16 @@
 /**
  * About: the public biography. Facts come from copy the owner has published: the 2026-08 founder
  * note on hllmr.com and the owner's LinkedIn profile (supplied 2026-10-18 as starting content, with
- * leave to expand). The portrait is the owner's pick from the 2025-11-22 shoot (components/Portrait.astro).
+ * leave to expand). Redesign brief v0.1 (2026-10-19): a short third-person bio for reuse, the
+ * owner's own first-person account, and the life story as chapters (src/lib/story.ts), each shown
+ * in its real state. The portrait is on the home page.
  */
 import BaseLayout from "../../layouts/BaseLayout.astro";
 import PageHead from "../../components/PageHead.astro";
 import Entry from "../../components/Entry.astro";
-import Portrait from "../../components/Portrait.astro";
 import { ENVIRONMENTS } from "../../lib/cv";
-import { HUB, LINKS, LOCALITY, NAME, PROFILES } from "../../lib/site";
+import { CHAPTERS, SHORT_BIO } from "../../lib/story";
+import { HUB, LOCALITY, NAME, PROFILES } from "../../lib/site";
 
 const linkedin = PROFILES.find((p) => p.label === "LinkedIn");
 ---
@@ -22,9 +24,13 @@ const linkedin = PROFILES.find((p) => p.label === "LinkedIn");
   <PageHead k="About" title="About" lede="I build control systems, and lately I build software the way I was trained to build control systems." />
 
   <div class="log wrap">
-    <Entry no="01" label="At a glance">
+    <Entry no="01" label="Short bio" id="short">
+      <h2 id="short">Short bio</h2>
       <div class="split">
-        <Portrait caption="David Hellmer · November 2025" />
+        <div>
+          <p class="bio">{SHORT_BIO}</p>
+          <p class="idx use">For introductions and press · third person</p>
+        </div>
         <dl class="facts">
           <dt>Name</dt>
           <dd>{NAME}</dd>
@@ -48,7 +54,7 @@ const linkedin = PROFILES.find((p) => p.label === "LinkedIn");
     </Entry>
 
     <Entry no="02" label="The short version" id="bio">
-      <h2 id="bio">I build engineering capability.</h2>
+      <h2 id="bio">In my words: I build engineering capability.</h2>
       <div class="prose">
         <p>
           The people, standards, software and delivery practices that help teams solve hard problems in physical systems.
@@ -76,7 +82,7 @@ const linkedin = PROFILES.find((p) => p.label === "LinkedIn");
       </div>
     </Entry>
 
-    <Entry no="04" label="Now" id="now">
+    <Entry no="04" label="Lately" id="now">
       <h2 id="now">Applied AI, with a commissioning engineer's distrust.</h2>
       <div class="prose">
         <p>
@@ -92,7 +98,7 @@ const linkedin = PROFILES.find((p) => p.label === "LinkedIn");
           owning the engineering decisions, integration, verification and delivery.
         </p>
       </div>
-      <a class="more" href="/cv/">The full CV</a>
+      <a class="more" href="/cv/">The full experience</a>
     </Entry>
 
     <Entry no="05" label="Next" id="next">
@@ -107,15 +113,62 @@ const linkedin = PROFILES.find((p) => p.label === "LinkedIn");
       </div>
       <a class="more" href="/elsewhere/">Get in touch</a>
     </Entry>
+
+    <Entry no={String(CHAPTERS.length)} label="Chapters" id="chapters">
+      <h2 id="chapters">The longer story, in chapters.</h2>
+      <p class="chap-note">
+        Written one chapter at a time, from my own account, and published when it's right. Until then each one says
+        where it stands.
+      </p>
+      <ol class="rows chapters">
+        {
+          CHAPTERS.map((c, i) => (
+            <li class="row">
+              <div>
+                <span class="f">
+                  Chapter {String(i + 1).padStart(2, "0")}
+                  {c.years && ` · ${c.years}`}
+                </span>
+                {c.href ? (
+                  <a class="t" href={c.href}>
+                    {c.title}
+                  </a>
+                ) : (
+                  <span class="t">{c.title}</span>
+                )}
+                <p class="d">{c.line}</p>
+              </div>
+              <div class="meta">
+                <span class:list={["stage", c.state === "Written" ? "stage-launched" : "stage-idea"]}>{c.state}</span>
+              </div>
+            </li>
+          ))
+        }
+      </ol>
+    </Entry>
   </div>
 </BaseLayout>
 
 <style>
   .split {
     display: grid;
-    grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
+    grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr);
     gap: var(--space-6);
     align-items: start;
+  }
+  .bio {
+    font-size: 1.12rem;
+    line-height: 1.65;
+    max-width: 60ch;
+    margin: 0;
+  }
+  .use {
+    margin: var(--space-4) 0 0;
+  }
+  .chap-note {
+    color: var(--muted);
+    max-width: 60ch;
+    margin: calc(-1 * var(--space-2)) 0 var(--space-5);
   }
   .env {
     list-style: none;
