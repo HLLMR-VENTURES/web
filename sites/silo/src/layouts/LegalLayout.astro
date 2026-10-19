@@ -1,0 +1,150 @@
+---
+/**
+ * Shell for /legal/ and its documents: the draft banner (while any document is a draft), a
+ * sub-navigation between the documents, and prose styles for the rendered Markdown.
+ */
+import { getCollection } from "astro:content";
+import BaseLayout from "./BaseLayout.astro";
+
+interface Props {
+  title: string;
+  description: string;
+  /** Collection id of the current document; omitted on the index. */
+  current?: string;
+  draft: boolean;
+}
+const { title, description, current, draft } = Astro.props;
+const docs = (await getCollection("legal")).sort((a, b) => a.data.order - b.data.order);
+---
+
+<BaseLayout title={`${title} · Silo`} description={description}>
+  <div class="wrap legal">
+    {
+      draft && (
+        <p class="draft" role="note">
+          <strong>Draft, not reviewed.</strong> These terms are an early draft, published in good faith and not yet
+          reviewed by an attorney. They may change. Nothing here is legal advice. Questions:
+          <a href="mailto:legal@hllmr.com">legal@hllmr.com</a>.
+        </p>
+      )
+    }
+    <nav class="subnav" aria-label="Legal documents">
+      <a href="/legal/" aria-current={current ? undefined : "page"}>All</a>
+      {
+        docs.map((d) => (
+          <a href={`/legal/${d.id}.html`} aria-current={d.id === current ? "page" : undefined}>
+            {d.data.short}
+          </a>
+        ))
+      }
+    </nav>
+    <article class="prose">
+      <slot />
+    </article>
+  </div>
+</BaseLayout>
+
+<style>
+  .legal {
+    max-width: 820px;
+    padding-top: 40px;
+    padding-bottom: 72px;
+  }
+  .draft {
+    margin: 0 0 24px;
+    padding: 14px 18px;
+    border: 1px solid var(--warn);
+    border-left-width: 6px;
+    border-radius: var(--radius-sm);
+    background: color-mix(in srgb, var(--warn) 8%, var(--surface));
+    font-size: 0.95rem;
+  }
+  .draft a {
+    color: var(--primary-text);
+  }
+  .subnav {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px;
+    margin-bottom: 32px;
+    padding-bottom: 12px;
+    border-bottom: 1px solid var(--border);
+  }
+  .subnav a {
+    padding: 8px 12px;
+    border-radius: var(--radius-sm);
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 0.95rem;
+    color: var(--muted);
+  }
+  .subnav a:hover {
+    color: var(--text);
+    background: color-mix(in srgb, var(--primary) 10%, transparent);
+  }
+  .subnav a[aria-current="page"] {
+    color: var(--primary-text);
+    text-decoration: underline;
+    text-decoration-thickness: 2px;
+    text-underline-offset: 6px;
+  }
+  .prose :global(h1) {
+    font-size: var(--text-3xl);
+    line-height: var(--leading-tight);
+    margin-bottom: 8px;
+  }
+  .prose :global(.meta) {
+    color: var(--muted);
+    margin: 0 0 32px;
+  }
+  .prose :global(h2) {
+    font-size: 1.6rem;
+    margin: 40px 0 12px;
+  }
+  .prose :global(h3) {
+    font-size: 1.2rem;
+    margin: 28px 0 8px;
+  }
+  .prose :global(p),
+  .prose :global(li) {
+    max-width: 70ch;
+  }
+  .prose :global(a) {
+    color: var(--primary-text);
+    overflow-wrap: anywhere;
+  }
+  .prose :global(code) {
+    background: var(--sunken);
+    padding: 1px 5px;
+    border-radius: 4px;
+  }
+  .prose :global(hr) {
+    border: none;
+    border-top: 1px solid var(--border);
+    margin: 32px 0;
+  }
+  .prose :global(table) {
+    display: block;
+    overflow-x: auto;
+    border-collapse: collapse;
+    margin: 16px 0 24px;
+    font-size: 0.93rem;
+  }
+  .prose :global(th),
+  .prose :global(td) {
+    border: 1px solid var(--border);
+    padding: 8px 10px;
+    text-align: left;
+    vertical-align: top;
+    min-width: 140px;
+  }
+  .prose :global(th) {
+    background: var(--sunken);
+  }
+  .prose :global(blockquote) {
+    margin: 16px 0;
+    padding: 4px 18px;
+    border-left: 4px solid var(--border-strong);
+    color: var(--muted);
+  }
+</style>

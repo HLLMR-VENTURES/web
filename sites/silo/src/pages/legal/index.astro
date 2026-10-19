@@ -1,0 +1,62 @@
+---
+/** /legal/: the index of Silo's legal documents, from the legal collection. */
+import { getCollection } from "astro:content";
+import LegalLayout from "../../layouts/LegalLayout.astro";
+
+const docs = (await getCollection("legal")).sort((a, b) => a.data.order - b.data.order);
+const anyDraft = docs.some((d) => d.data.draft);
+---
+
+<LegalLayout
+  title="Legal"
+  description="Silo legal documents: Privacy, Terms, Disclaimer, and Copyright and Takedown, for HLLMR Ventures LLC."
+  draft={anyDraft}
+>
+  <h1>Legal</h1>
+  <p class="meta">HLLMR Ventures LLC (Texas, United States)</p>
+  <p>
+    The documents governing use of Silo and the Silo website.{
+      anyDraft && " These are early drafts, published in good faith and pending attorney review."
+    }
+  </p>
+  <ul class="docs">
+    {
+      docs.map((d) => (
+        <li>
+          <a href={`/legal/${d.id}.html`}>{d.data.title}</a>
+          <span>{d.data.description}</span>
+        </li>
+      ))
+    }
+  </ul>
+  <p>
+    For any legal question or notice, contact <a href="mailto:legal@hllmr.com">legal@hllmr.com</a>. Copyright notices go
+    to our registered DMCA agent; see <a href="/legal/copyright-takedown.html">Copyright &amp; Takedown</a>.
+  </p>
+</LegalLayout>
+
+<style>
+  .docs {
+    list-style: none;
+    padding: 0;
+    margin: 24px 0;
+    display: grid;
+    gap: 12px;
+  }
+  .docs li {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 16px 18px;
+    display: grid;
+    gap: 4px;
+  }
+  .docs a {
+    font-family: var(--font-display);
+    font-weight: 600;
+    font-size: 1.2rem;
+  }
+  .docs span {
+    color: var(--muted);
+  }
+</style>

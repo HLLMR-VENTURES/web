@@ -1,7 +1,7 @@
 // Content collections: each fact is written once and feeds every place that shows it
 // (visible rows and cards, JSON-LD, llms.txt). Schemas fail the build on bad or missing fields.
 import { defineCollection } from "astro:content";
-import { file } from "astro/loaders";
+import { file, glob } from "astro/loaders";
 import { z } from "astro/zod";
 
 const link = z.object({ href: z.string().startsWith("/"), label: z.string() });
@@ -59,4 +59,21 @@ const screens = defineCollection({
   }),
 });
 
-export const collections = { features, faq, screens };
+/**
+ * Legal documents: the single source (moved from HLLMR/silo docs/legal, 2026-10-18). Each renders
+ * at /legal/<id>.html; `draft: true` renders the "not reviewed" banner, so it cannot be forgotten.
+ */
+const legal = defineCollection({
+  loader: glob({ pattern: "*.md", base: "src/content/legal" }),
+  schema: z.object({
+    title: z.string(),
+    /** Label in the legal sub-navigation. */
+    short: z.string(),
+    description: z.string(),
+    effectiveDate: z.coerce.date(),
+    draft: z.boolean(),
+    order: z.number(),
+  }),
+});
+
+export const collections = { features, faq, screens, legal };

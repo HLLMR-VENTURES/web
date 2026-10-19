@@ -1,0 +1,28 @@
+---
+/**
+ * One legal document per Markdown file in src/content/legal/. With build.format "preserve" this
+ * emits /legal/<id>.html, the URLs the app, the Discord bot and the DMCA filing already use.
+ */
+import { getCollection, render } from "astro:content";
+import LegalLayout from "../../layouts/LegalLayout.astro";
+
+export async function getStaticPaths() {
+  const docs = await getCollection("legal");
+  return docs.map((doc) => ({ params: { slug: doc.id }, props: { doc } }));
+}
+
+const { doc } = Astro.props;
+const { Content } = await render(doc);
+const effective = doc.data.effectiveDate.toISOString().slice(0, 10);
+---
+
+<LegalLayout
+  title={doc.data.title}
+  description={`${doc.data.description}${doc.data.draft ? " Draft, pending attorney review." : ""}`}
+  current={doc.id}
+  draft={doc.data.draft}
+>
+  <h1>{doc.data.title}</h1>
+  <p class="meta">Effective date: <time datetime={effective}>{effective}</time> · HLLMR Ventures LLC</p>
+  <Content />
+</LegalLayout>
