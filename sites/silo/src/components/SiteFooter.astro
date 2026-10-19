@@ -1,8 +1,7 @@
 ---
 /**
  * Site footer: four link columns and the disclosure line. Discord goes through the /discord
- * redirect so an invite change is one line in redirects.json. Columns list only pages that exist
- * or are in the URL contract; Community and Changelog join when their pages ship.
+ * redirect so an invite change is one line in redirects.json. Columns list only pages that exist.
  */
 import glyph from "../assets/brand/silo-glyph.svg";
 import { LINKS, OWNER } from "../lib/site";
@@ -11,16 +10,17 @@ const columns = [
   {
     title: "Product",
     links: [
-      { href: "/#download", label: "Download" },
+      { href: "/download/", label: "Download" },
       { href: "/browse/", label: "Browse mods" },
       { href: "/trust/", label: "Trust" },
-      { href: LINKS.releases, label: "Releases", external: true },
+      { href: "/changelog/", label: "What's new" },
     ],
   },
   {
     title: "Help",
     links: [
       { href: "/help/", label: "Help" },
+      { href: "/community/", label: "Community" },
       { href: LINKS.discord, label: "Discord" },
       { href: LINKS.discussions, label: "Discussions", external: true },
       { href: LINKS.newIssue, label: "Report a bug", external: true },
@@ -28,7 +28,10 @@ const columns = [
   },
   {
     title: "Mod authors",
-    links: [{ href: "/legal/copyright-takedown.html", label: "Copyright and takedown" }],
+    links: [
+      { href: "/trust/#authors-h", label: "For mod authors" },
+      { href: "/legal/copyright-takedown.html", label: "Copyright and takedown" },
+    ],
   },
   {
     title: "Company",

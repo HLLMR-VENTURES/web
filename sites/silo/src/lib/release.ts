@@ -11,6 +11,8 @@ export interface AppAsset {
   name: string;
   url: string;
   size: number;
+  /** From the release's SHA256SUMS.txt, when it lists this file. */
+  sha256?: string;
 }
 
 export interface AppRelease {
@@ -22,6 +24,13 @@ export interface AppRelease {
   /** Recommended Windows installer (per-user setup .exe), when the release carries one. */
   windowsSetup: AppAsset | null;
   windowsMsi: AppAsset | null;
+  macArm: AppAsset | null;
+  macIntel: AppAsset | null;
+  linuxAppImage: AppAsset | null;
+  linuxDeb: AppAsset | null;
+  linuxRpm: AppAsset | null;
+  /** The checksum file itself, for people who verify with their own tools. */
+  sums: AppAsset | null;
 }
 
 const API = "https://api.github.com/repos/HLLMR/silo/releases/latest";
@@ -57,12 +66,32 @@ async function load(): Promise<AppRelease | null> {
       if (!a || !a.browser_download_url.startsWith("https://github.com/HLLMR/silo/releases/download/")) return null;
       return { name: a.name, url: a.browser_download_url, size: a.size };
     };
+    const sums = pick(/^SHA256SUMS\.txt$/);
+    const hashes = new Map<string, string>();
+    if (sums) {
+      try {
+        const t = await (await fetch(sums.url, { headers: { "User-Agent": "hllmr-web-build" }, signal: AbortSignal.timeout(10_000) })).text();
+        for (const line of t.split(/\r?\n/)) {
+          const m = line.match(/^([0-9a-f]{64})\s+\*?(\S+)$/);
+          if (m) hashes.set(m[2], m[1]);
+        }
+      } catch {
+        /* checksums are optional on the page; the file stays linked */
+      }
+    }
+    const withSum = (a: AppAsset | null): AppAsset | null => (a ? { ...a, sha256: hashes.get(a.name) } : null);
     return {
       version,
       date: r.published_at.slice(0, 10),
       pageUrl,
-      windowsSetup: pick(/_x64-setup\.exe$/i),
-      windowsMsi: pick(/_x64_en-US\.msi$/i),
+      windowsSetup: withSum(pick(/_x64-setup\.exe$/i)),
+      windowsMsi: withSum(pick(/_x64_en-US\.msi$/i)),
+      macArm: withSum(pick(/_aarch64\.dmg$/i)),
+      macIntel: withSum(pick(/_x64\.dmg$/i)),
+      linuxAppImage: withSum(pick(/\.AppImage$/i)),
+      linuxDeb: withSum(pick(/\.deb$/i)),
+      linuxRpm: withSum(pick(/\.rpm$/i)),
+      sums,
     };
   } catch (e) {
     console.warn(`[release] latest app release unavailable, using the Releases page: ${(e as Error).message}`);

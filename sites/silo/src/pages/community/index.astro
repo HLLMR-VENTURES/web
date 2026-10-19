@@ -1,0 +1,129 @@
+---
+/**
+ * /community/: where to ask, report, suggest and contribute. Every route is outside the site
+ * (Discord, GitHub) or a mailto: the site has no forms and sends nothing.
+ */
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import { LINKS } from "../../lib/site";
+
+const routes = [
+  {
+    title: "Ask a question",
+    body: "Chat with other players and the developer, get help with a crash or a conflict, or share your setup.",
+    href: LINKS.discord,
+    cta: "Join the Silo Discord",
+  },
+  {
+    title: "Questions and ideas, in the open",
+    body: "Longer questions and feature ideas go in GitHub Discussions, where answers stay findable for the next person.",
+    href: "/go/discussions",
+    cta: "Open Discussions",
+  },
+  {
+    title: "Report a bug",
+    body: "Something broken? Settings, Diagnostics, Copy diagnostics puts the details on your clipboard, with your user name removed, ready to paste.",
+    href: LINKS.newIssue,
+    cta: "Open an issue on GitHub",
+  },
+  {
+    title: "Test on macOS or Linux",
+    body: "Silo runs on Windows today. The macOS and Linux builds exist but are largely untested, and testers make the biggest difference there.",
+    href: "/download/#macos",
+    cta: "Get a preview build",
+  },
+  {
+    title: "Contribute",
+    body: "Silo is open source under the MIT license. Read the code, build it yourself, or send a pull request.",
+    href: LINKS.source,
+    cta: "Source on GitHub",
+  },
+  {
+    title: "Mod authors",
+    body: "Is your mod listed wrongly, or would you rather it wasn't listed? Tell us and we'll fix it.",
+    href: "/trust/#authors-h",
+    cta: "For mod authors",
+  },
+];
+---
+
+<BaseLayout
+  title="Community · Silo"
+  description="Where to ask about Silo, report a bug, suggest an idea, test the macOS and Linux builds, or contribute to the open-source Farming Simulator 25 mod manager."
+>
+  <div class="wrap community">
+    <h1>Community</h1>
+    <p class="lede">
+      Silo is made in the open. Here's where to ask, report and help. The site itself has no forms and collects nothing.
+    </p>
+    <ul class="routes">
+      {
+        routes.map((r) => (
+          <li>
+            <h2>{r.title}</h2>
+            <p>{r.body}</p>
+            <a class="btn btn-ghost" href={r.href} rel={r.href.startsWith("http") ? "noopener" : undefined}>
+              {r.cta}
+            </a>
+          </li>
+        ))
+      }
+    </ul>
+    <p class="contact">
+      Legal notices and listing questions: <a href="mailto:legal@hllmr.com">legal@hllmr.com</a>. Copyright notices go to our
+      registered agent; see <a href="/legal/copyright-takedown.html">Copyright &amp; Takedown</a>.
+    </p>
+  </div>
+</BaseLayout>
+
+<style>
+  .community {
+    padding-top: 48px;
+    padding-bottom: 72px;
+  }
+  h1 {
+    font-size: var(--text-3xl);
+    line-height: var(--leading-tight);
+  }
+  .lede {
+    color: var(--muted);
+    max-width: 60ch;
+    margin: 12px 0 32px;
+  }
+  .routes {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 16px;
+  }
+  .routes li {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    padding: 22px;
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    background: var(--surface);
+  }
+  .routes h2 {
+    font-size: 1.3rem;
+  }
+  .routes p {
+    margin: 0;
+    color: var(--muted);
+    flex: 1;
+  }
+  .routes .btn {
+    align-self: flex-start;
+    color: var(--text);
+    min-height: 44px;
+  }
+  .contact {
+    margin-top: 32px;
+    color: var(--muted);
+  }
+  .contact a {
+    color: var(--primary-text);
+  }
+</style>

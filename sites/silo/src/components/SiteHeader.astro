@@ -9,11 +9,11 @@ import Logo from "./Logo.astro";
 import { THEME_STORAGE_KEY } from "../lib/site";
 
 const path = Astro.url.pathname;
-const isHome = path === "/" || path === "/index.html";
 const nav = [
   { href: "/browse/", label: "Browse mods" },
   { href: "/help/", label: "Help" },
   { href: "/trust/", label: "Trust" },
+  { href: "/community/", label: "Community" },
 ];
 ---
 
@@ -29,7 +29,7 @@ const nav = [
           </a>
         ))
       }
-      <a class="cta" href={isHome ? "#download" : "/#download"}>Download</a>
+      <a class="cta" href="/download/" aria-current={path.startsWith("/download/") ? "page" : undefined}>Download</a>
       <ThemeToggle storageKey={THEME_STORAGE_KEY} class="tog" />
     </nav>
   </div>

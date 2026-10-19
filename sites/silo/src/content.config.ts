@@ -96,4 +96,62 @@ const help = defineCollection({
   }),
 });
 
-export const collections = { features, faq, screens, legal, help };
+/**
+ * App releases for /changelog/, read from GitHub at build time (newest first) with the notes
+ * rendered by Astro's own Markdown pipeline. Fails soft: no releases means the page links to
+ * GitHub instead. The notes' own "## What's new in x" heading is dropped (the page titles each
+ * release) and deeper headings move down one level.
+ */
+const releases = defineCollection({
+  loader: {
+    name: "silo-github-releases",
+    load: async ({ store, renderMarkdown, logger }) => {
+      store.clear();
+      if (process.env.SILO_OFFLINE === "1") return;
+      try {
+        const headers: Record<string, string> = { Accept: "application/vnd.github+json", "User-Agent": "hllmr-web-build" };
+        if (process.env.GITHUB_TOKEN) headers.Authorization = `Bearer ${process.env.GITHUB_TOKEN}`;
+        const res = await fetch("https://api.github.com/repos/HLLMR/silo/releases?per_page=30", {
+          headers,
+          signal: AbortSignal.timeout(10_000),
+        });
+        if (!res.ok) throw new Error(`GitHub ${res.status}`);
+        const list = (await res.json()) as {
+          tag_name: string;
+          name: string | null;
+          published_at: string;
+          html_url: string;
+          body: string | null;
+          draft: boolean;
+          prerelease: boolean;
+        }[];
+        for (const [i, r] of list.filter((x) => !x.draft && !x.prerelease).entries()) {
+          const body = (r.body ?? "")
+            .replace(/^\s*##\s+What's new in [^\n]*\n/i, "")
+            .replace(/^(#{2,5})\s/gm, "#$1 ");
+          // Every release has "Added", "Fixed" … headings; prefix their ids with the release so the
+          // page's ids stay unique (v0.11.0 + "fixed" -> "v0-11-0-fixed").
+          const rendered = await renderMarkdown(body);
+          const prefix = r.tag_name.toLowerCase().replace(/[^a-z0-9]+/g, "-");
+          rendered.html = rendered.html.replace(/ id="([^"]+)"/g, (_m, id: string) => ` id="${prefix}-${id}"`);
+          store.set({
+            id: r.tag_name,
+            data: { tag: r.tag_name, name: r.name || r.tag_name, date: r.published_at.slice(0, 10), url: r.html_url, order: i },
+            rendered,
+          });
+        }
+      } catch (e) {
+        logger.warn(`releases unavailable, /changelog/ links to GitHub: ${(e as Error).message}`);
+      }
+    },
+  },
+  schema: z.object({
+    tag: z.string(),
+    name: z.string(),
+    date: z.string(),
+    url: z.string().url(),
+    order: z.number(),
+  }),
+});
+
+export const collections = { features, faq, screens, legal, help, releases };

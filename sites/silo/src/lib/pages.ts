@@ -19,7 +19,10 @@ export const INDEXABLE: IndexablePage[] = [
   { path: "/browse/", source: "src/pages/browse/index.astro", changefreq: "daily", priority: 0.9 },
   { path: "/help/", source: "src/pages/help/index.astro", changefreq: "monthly", priority: 0.8 },
   { path: "/trust/", source: "src/pages/trust/index.astro", changefreq: "weekly", priority: 0.8 },
-  { path: "/authors/", source: "src/pages/authors/index.astro", changefreq: "monthly", priority: 0.6 },
+  { path: "/download/", source: "src/pages/download/index.astro", changefreq: "weekly", priority: 0.9 },
+  { path: "/changelog/", source: "src/pages/changelog/index.astro", changefreq: "weekly", priority: 0.6 },
+  { path: "/community/", source: "src/pages/community/index.astro", changefreq: "monthly", priority: 0.5 },
+  // /authors/ (the author program) joins when SiloAPI's author endpoints ship (owner, 2026-10-18).
   { path: "/legal/", source: "src/pages/legal/index.astro", changefreq: "monthly", priority: 0.4 },
   { path: "/legal/privacy-policy.html", source: "src/content/legal/privacy-policy.md", changefreq: "monthly", priority: 0.4 },
   { path: "/legal/terms-of-service.html", source: "src/content/legal/terms-of-service.md", changefreq: "monthly", priority: 0.4 },
