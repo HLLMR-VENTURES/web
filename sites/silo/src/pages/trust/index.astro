@@ -1,21 +1,15 @@
 ---
 /**
  * /trust/: the catalog, provenance and the public numbers (ported from Silo/landing/trust, P1-06).
- * Release download counts are read at BUILD time (src/lib/release.ts), so visitors' browsers no
- * longer call GitHub. Catalog counts and API traffic stay live and are never baked into the page
- * (Silo developer's rule: no fixed catalog counts): SiloAPI /stats and /categories, and the
- * same-origin /metrics.json the host's counts job writes.
+ * Every number on this page is live and none is baked into the build, so an unchanged rebuild is
+ * byte-identical (the release id is content-addressed). Catalog counts come from SiloAPI /stats
+ * and /categories (Silo developer's rule: no fixed catalog counts); API traffic and release
+ * download counts come from the same-origin /metrics.json the host's counts job writes. The
+ * visitor's browser never contacts GitHub on this page (owner's choice, 2026-10-18).
  */
 import BaseLayout from "../../layouts/BaseLayout.astro";
-import { releaseCounts } from "../../lib/release";
 import { SILO_API, LINKS } from "../../lib/site";
 
-const counts = await releaseCounts();
-const totalInstalls = counts?.reduce((n, r) => n + r.installs, 0) ?? null;
-const totalAll = counts?.reduce((n, r) => n + r.all, 0) ?? null;
-const maxInstalls = Math.max(1, ...(counts ?? []).map((r) => r.installs));
-const asOf = new Date().toISOString().slice(0, 10);
-const fmt = (n: number) => n.toLocaleString("en-US");
 const endpoints = [
   "GET /stats",
   "GET /categories",
@@ -151,52 +145,20 @@ const endpoints = [
       </p>
 
       <div class="grid2">
-        <div class="panel">
+        <div class="panel" data-live-downloads>
           <h3>Downloads by release</h3>
-          {
-            counts ? (
-              <>
-                <p class="big">
-                  {fmt(totalInstalls!)} <span>installer and app-package downloads, {counts.length} releases</span>
-                </p>
-                <table class="bars">
-                  <thead>
-                    <tr>
-                      <th scope="col">Release</th>
-                      <th scope="col">Downloads</th>
-                      <th scope="col" class="bar-col">
-                        <span class="visually-hidden">Share</span>
-                      </th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {counts.map((r) => (
-                      <tr>
-                        <td>
-                          <a href={`${LINKS.releases}/tag/${r.tag}`}>{r.tag}</a>
-                        </td>
-                        <td>{fmt(r.installs)}</td>
-                        <td class="bar-col" aria-hidden="true">
-                          <svg viewBox="0 0 100 8" preserveAspectRatio="none" focusable="false">
-                            <rect width={Math.max(2, Math.round((r.installs / maxInstalls) * 100))} height="8" rx="2" />
-                          </svg>
-                        </td>
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
-                <p class="small">
-                  Installer and app-package files only (.exe, .msi, .dmg, .AppImage, .deb, .rpm), from GitHub's public
-                  release data as of {asOf}. GitHub served {fmt(totalAll!)} files in total across these releases; the rest
-                  are auto-update checks and signature files, not installs.
-                </p>
-              </>
-            ) : (
-              <p class="small">
-                Release numbers were unavailable when this page was built. See the <a href={LINKS.releases}>Releases page</a>.
-              </p>
-            )
-          }
+          <p class="big"><span data-dl-total>…</span> <span>installer and app-package downloads<span data-dl-releases></span></span></p>
+          <table class="bars">
+            <thead>
+              <tr>
+                <th scope="col">Release</th>
+                <th scope="col">Downloads</th>
+                <th scope="col" class="bar-col"><span class="visually-hidden">Share</span></th>
+              </tr>
+            </thead>
+            <tbody data-dl-rows></tbody>
+          </table>
+          <p class="small" data-dl-note>Installer and app-package files only (.exe, .msi, .dmg, .AppImage, .deb, .rpm).</p>
         </div>
 
         <div class="panel" data-live-metrics>
@@ -260,6 +222,60 @@ const endpoints = [
       .then((c) => put('[data-stat="categories"]', Array.isArray(c?.categories) ? c.categories.length : null))
       .catch(() => put('[data-stat="categories"]', null));
   }
+  // Release downloads come from the same /metrics.json: the host's counts job reads GitHub's
+  // public release data server-side (owner's choice, 2026-10-18), so the visitor's browser never
+  // contacts GitHub for them and the build stays byte-identical. Keys agreed with Claude (infra):
+  // github.fetchedAt, github.releases[] = { tag, url, installs, all }, newest first, where
+  // installs counts installer and app-package files only (.exe .msi .dmg .AppImage .deb .rpm).
+  type Rel = { tag: string; url: string; installs: number; all: number };
+  const dl = document.querySelector<HTMLElement>("[data-live-downloads]");
+  function showDownloads(gh: { fetchedAt?: string; releases?: Rel[] } | undefined) {
+    if (!dl) return;
+    const rels = Array.isArray(gh?.releases) ? gh.releases.filter((r) => r && typeof r.tag === "string") : [];
+    const note = dl.querySelector("[data-dl-note]");
+    if (!rels.length) {
+      put("[data-dl-total]", null);
+      if (note) note.textContent = "Release numbers are unavailable right now. See the Releases page on GitHub.";
+      return;
+    }
+    const total = rels.reduce((n, r) => n + (Number(r.installs) || 0), 0);
+    const max = Math.max(1, ...rels.map((r) => Number(r.installs) || 0));
+    put("[data-dl-total]", total);
+    const sub = dl.querySelector("[data-dl-releases]");
+    if (sub) sub.textContent = `, ${rels.length} releases`;
+    const body = dl.querySelector("[data-dl-rows]");
+    const svgNs = "http://www.w3.org/2000/svg";
+    for (const r of rels) {
+      const tr = document.createElement("tr");
+      const tagCell = document.createElement("td");
+      const a = document.createElement("a");
+      a.href = String(r.url).startsWith("https://github.com/HLLMR/silo/") ? r.url : "https://github.com/HLLMR/silo/releases";
+      a.textContent = r.tag;
+      tagCell.append(a);
+      const n = document.createElement("td");
+      n.textContent = fmt(Number(r.installs) || 0);
+      const barCell = document.createElement("td");
+      barCell.className = "bar-col";
+      barCell.setAttribute("aria-hidden", "true");
+      const svg = document.createElementNS(svgNs, "svg");
+      svg.setAttribute("viewBox", "0 0 100 8");
+      svg.setAttribute("preserveAspectRatio", "none");
+      const rect = document.createElementNS(svgNs, "rect");
+      rect.setAttribute("width", String(Math.max(2, Math.round(((Number(r.installs) || 0) / max) * 100))));
+      rect.setAttribute("height", "8");
+      rect.setAttribute("rx", "2");
+      svg.append(rect);
+      barCell.append(svg);
+      tr.append(tagCell, n, barCell);
+      body?.append(tr);
+    }
+    const all = rels.reduce((n, r) => n + (Number(r.all) || 0), 0);
+    const asOf = gh?.fetchedAt ? ` as of ${new Date(gh.fetchedAt).toLocaleString()}` : "";
+    if (note) {
+      note.textContent = `Installer and app-package files only (.exe, .msi, .dmg, .AppImage, .deb, .rpm), from GitHub's public release data${asOf}. GitHub served ${fmt(all)} files in total across these releases; the rest are auto-update checks and signature files, not installs.`;
+    }
+  }
+
   const u30 = (o: { uniques?: Record<string, number> } | undefined) => o?.uniques?.["30d"];
   json("/metrics.json")
     .then((m) => {
@@ -275,6 +291,7 @@ const endpoints = [
       put('[data-r="site"]', u30(m?.site));
       const note = document.querySelector("[data-metrics-note]");
       if (note && m?.generatedAt) note.textContent += ` Updated ${new Date(m.generatedAt).toLocaleString()}.`;
+      showDownloads(m?.github);
     })
     .catch(() => {
       for (const el of document.querySelectorAll("[data-live-metrics] td, [data-live-metrics] dd")) {
@@ -282,6 +299,7 @@ const endpoints = [
       }
       const note = document.querySelector("[data-metrics-note]");
       if (note) note.textContent = "The traffic feed is unavailable right now.";
+      showDownloads(undefined);
     });
 </script>
 
@@ -468,7 +486,7 @@ const endpoints = [
     font-size: 0.93rem;
   }
   th,
-  td {
+  table :global(td) {
     text-align: left;
     padding: 6px 8px 6px 0;
     border-bottom: 1px solid var(--border);
@@ -477,18 +495,18 @@ const endpoints = [
     color: var(--muted);
     font-weight: 600;
   }
-  .bar-col {
+  table :global(.bar-col) {
     width: 45%;
   }
-  .bars svg {
+  .bars :global(svg) {
     display: block;
     width: 100%;
     height: 8px;
   }
-  .bars rect {
+  .bars :global(rect) {
     fill: var(--primary);
   }
-  .traffic .total td {
+  .traffic .total :global(td) {
     font-weight: 700;
   }
   .reach-h {
@@ -513,5 +531,8 @@ const endpoints = [
   .reach dt {
     color: var(--muted);
     font-size: 0.88rem;
+  }
+  .bars :global(a) {
+    color: var(--primary-text);
   }
 </style>
