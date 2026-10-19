@@ -174,7 +174,7 @@
         {#each set.mods as m}
           <li>
             <span class="name">{m.techName}</span>
-            {#if m.version}<span class="ver">v{String(m.version).replace(/^v/i, "")}</span>{/if}
+            {#if m.version}<span class="ver">{String(m.version).replace(/^v/i, "")}</span>{/if}
             {#if m.source}<span class="src">{sourceLabel(m.source)}</span>{/if}
           </li>
         {/each}
