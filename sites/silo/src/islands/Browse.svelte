@@ -68,7 +68,8 @@
   const fmt = (n: unknown) => num(n).toLocaleString("en-US");
   const label = (s: string) => SOURCE_LABEL[s] ?? s;
   const pretty = (v: string) => v.replace(/-/g, " ").replace(/\b\w/g, (c) => c.toUpperCase());
-  const version = (v?: string | null) => (v ? `v${String(v).replace(/^v/i, "")}` : "");
+  /** Versions read as the app shows them: "1.0.6.0", never "v1.0.6.0". */
+  const version = (v?: string | null) => (v ? String(v).replace(/^v/i, "") : "");
   const uniqueSources = (m: Mod) => [...new Set((m.sources ?? []).map((s) => s.source))];
 
   async function json<T>(path: string, signal?: AbortSignal): Promise<T> {
