@@ -2,6 +2,7 @@
 import { defineConfig } from "astro/config";
 import svelte from "@astrojs/svelte";
 import { copyLegacyScreenshots } from "./src/lib/legacy-assets.mjs";
+import { helpImages } from "./src/lib/help-images.mjs";
 
 /**
  * The one build-time origin. Every absolute URL the site emits (canonical, og:*, JSON-LD,
@@ -38,11 +39,20 @@ export default defineConfig({
   },
   trailingSlash: "ignore",
   compressHTML: true,
+  // Markdown images (the Help screenshots) get a srcset, so high-DPI screens load a sharper file
+  // and phones a smaller one. No injected styles: the prose CSS sizes them, and
+  // src/lib/help-images.mjs sets their real `sizes` and full-size link after the build.
+  image: {
+    layout: "constrained",
+    responsiveStyles: false,
+    // Phones to 3x screens for the ~820px column; 3200 is the capture itself (the full-size view).
+    breakpoints: [640, 1080, 1640, 2460, 3200],
+  },
   i18n: {
     locales: ["en"],
     defaultLocale: "en",
   },
-  integrations: [svelte(), copyLegacyScreenshots()],
+  integrations: [svelte(), copyLegacyScreenshots(), helpImages()],
   vite: {
     build: {
       // Never inline scripts or assets as data: URIs; everything is a hashed same-origin file.

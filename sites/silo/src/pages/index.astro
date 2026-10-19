@@ -3,10 +3,12 @@
  * Home page, direction A "Daybreak" with B's three-step crash story (owner's pick, 2026-10-18).
  * Rows, cards, FAQ and JSON-LD render from the content collections; the version and the Windows
  * installer link come from the latest app release at build time (src/lib/release.ts).
- * Screenshots are the pre-P2 masters until the Silo developer's showcase kit lands.
+ * Screenshots are the Silo 1.0 showcase captures. Each links to its full-size image, which the
+ * ShotViewer opens in place (the owner asked for readable screenshots on a 4K screen, 2026-10-19).
  */
-import { Picture } from "astro:assets";
+import { Picture, getImage } from "astro:assets";
 import BaseLayout from "../layouts/BaseLayout.astro";
+import ShotViewer from "../components/ShotViewer.astro";
 import { features, faq, screens, screenImage, plainText } from "../lib/content";
 import { latestRelease, formatSize } from "../lib/release";
 import { LINKS, OWNER, abs } from "../lib/site";
@@ -15,13 +17,18 @@ const featureList = await features();
 const faqList = await faq();
 const screenList = await screens();
 const screenById = new Map(screenList.map((s) => [s.data.id, s.data]));
-const screen = (id: string) => {
+const screen = async (id: string) => {
   const s = screenById.get(id);
   if (!s) throw new Error(`screens.yaml has no '${id}' entry`);
-  return { ...s, src: screenImage(s.file) };
+  const src = screenImage(s.file);
+  // The full-size view: the capture's own 3200x2000 pixels, as WebP.
+  const full = await getImage({ src, format: "webp", width: src.width });
+  return { ...s, src, full: full.src };
 };
-const hero = screen("library");
-const rows = featureList.filter((f) => f.data.kind === "row").map((f) => ({ ...f.data, shot: screen(f.data.screen!) }));
+const hero = await screen("library");
+const rows = await Promise.all(
+  featureList.filter((f) => f.data.kind === "row").map(async (f) => ({ ...f.data, shot: await screen(f.data.screen!) })),
+);
 const cards = featureList.filter((f) => f.data.kind === "card").map((f) => f.data);
 
 const release = await latestRelease();
@@ -97,16 +104,19 @@ const jsonLd = {
       </div>
       <figure class="window hero-shot">
         <div class="bar" aria-hidden="true"><span></span><span></span><span></span></div>
-        <Picture
-          src={hero.src}
-          formats={["avif"]}
-          fallbackFormat="webp"
-          widths={[640, 1080, 1600]}
-          sizes="(min-width: 1180px) 640px, (min-width: 900px) 52vw, 100vw"
-          alt={hero.alt}
-          loading="eager"
-          fetchpriority="high"
-        />
+        <a class="zoom" href={hero.full} data-zoom>
+          <Picture
+            src={hero.src}
+            formats={["avif"]}
+            fallbackFormat="webp"
+            widths={[640, 1080, 1600, 2400]}
+            sizes="(min-width: 1180px) 640px, (min-width: 900px) 52vw, 100vw"
+            alt={hero.alt}
+            loading="eager"
+            fetchpriority="high"
+          />
+          <span class="zoom-hint" aria-hidden="true">Full size</span>
+        </a>
       </figure>
     </div>
   </section>
@@ -175,15 +185,18 @@ const jsonLd = {
                 <span />
                 <span />
               </div>
-              <Picture
-                src={r.shot.src}
-                formats={["avif"]}
-                fallbackFormat="webp"
-                widths={[640, 1080, 1600]}
-                sizes="(min-width: 1180px) 620px, (min-width: 900px) 52vw, 100vw"
-                alt={r.shot.alt}
-                loading="lazy"
-              />
+              <a class="zoom" href={r.shot.full} data-zoom>
+                <Picture
+                  src={r.shot.src}
+                  formats={["avif"]}
+                  fallbackFormat="webp"
+                  widths={[640, 1080, 1600, 2400]}
+                  sizes="(min-width: 1180px) 620px, (min-width: 900px) 52vw, 100vw"
+                  alt={r.shot.alt}
+                  loading="lazy"
+                />
+                <span class="zoom-hint" aria-hidden="true">Full size</span>
+              </a>
             </figure>
           </article>
         ))
@@ -302,6 +315,7 @@ const jsonLd = {
       </div>
     </div>
   </section>
+  <ShotViewer />
 </BaseLayout>
 
 <style>
