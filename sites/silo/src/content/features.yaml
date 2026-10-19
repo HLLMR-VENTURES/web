@@ -12,7 +12,7 @@
   title: "Crashed? Start here."
   body: "Silo reads <code>log.txt</code> after every run and names the mod most likely behind the crash, ranked by the errors each one logged. When the log says nothing useful, <strong>Find the problem mod</strong> narrows it down for you, then puts your set back."
   screen: triage
-  help: { href: "/help/#crash-triage-h", label: "How crash help works" }
+  help: { href: "/help/crash-triage/", label: "How crash help works" }
   ld: "Crash and log triage: names the likely culprit from the errors each mod logged in log.txt"
   llms: "Crash & log triage: reads `log.txt`, separates real errors from noise, and ranks mods by the errors they logged"
 - id: bisection
@@ -27,7 +27,7 @@
   title: "Checked before you launch."
   body: "Colliding filltypes, vehicle types or scripts, and the mods a friend's server needs: Silo shows them while they're still easy to fix."
   screen: conflicts
-  help: { href: "/help/#conflicts-h", label: "What Silo checks" }
+  help: { href: "/help/conflicts/", label: "What Silo checks" }
   ld: "Conflict detection across filltypes, vehicle types and scripts"
   llms: "Conflict detection: flags colliding filltypes, vehicle types and scripts before launch"
 - id: integrity
@@ -45,7 +45,7 @@
   kind: card
   title: "Mod sets"
   body: "Keep a set per playthrough and switch between them. Switching a mod on or off changes its link in the game's mods folder right away, and switches can be undone."
-  help: { href: "/help/#loadouts-h", label: "Mod sets" }
+  help: { href: "/help/loadouts/", label: "Mod sets" }
   ld: "Mod sets: switch named sets of active mods per playthrough"
   llms: "Mod sets: zips are filed into a local archive; switching a mod on or off adds or removes its link in the game's flat mods folder right away (copies on cloud-synced folders); switches can be undone"
 - id: share
@@ -53,7 +53,7 @@
   kind: card
   title: "Share a set"
   body: "Send a set as a link or a file. Friends preview it against their own library, then import it. A Multiplayer check file lets everyone match a server's mods."
-  help: { href: "/help/#collections-h", label: "Sharing sets" }
+  help: { href: "/help/collections/", label: "Sharing sets" }
   ld: "Share a mod set as a link or a file that friends can preview and import"
   llms: "Sharing: share a mod set as a link (secret gist or public repo) or a file; others preview it against their library and import it; a Multiplayer check file matches a server's mods"
 - id: updates
@@ -61,7 +61,7 @@
   kind: card
   title: "Updates, when you ask"
   body: "Check GitHub and ModHub versions in one place. Checking sends the names of your installed mods to Silo's catalog; versions are compared on your computer. Updates keep the previous version in <code>backups/</code>."
-  help: { href: "/help/#updates-h", label: "Updates" }
+  help: { href: "/help/updates/", label: "Updates" }
   ld: "Opt-in update checks across GitHub and ModHub"
   llms: "Updates: opt-in checks across GitHub and ModHub; versions are compared on your computer and updates keep the previous version in `backups/`"
 - id: catalog
@@ -77,7 +77,7 @@
   kind: card
   title: "Organize, safely"
   body: "Organize shows every move before it touches a file, and nothing is deleted. Silo never edits inside a mod, and you can undo organizing at any time with <strong>Undo organizing</strong> in Settings."
-  help: { href: "/help/#curation-h", label: "Organizing" }
+  help: { href: "/help/curation/", label: "Organizing" }
   ld: "Organize with a preview of every move; Undo organizing puts every mod back"
   llms: "Never edits inside a mod; Organize shows every move before it touches a file; Undo organizing puts every mod back in the mods folder"
 - id: filltype-bridge
@@ -85,7 +85,7 @@
   kind: card
   title: "Filltype bridge"
   body: "Generates a small companion mod that teaches your equipment a map filltype it refuses to load. The sugar-beet fix, with no vehicle edits."
-  help: { href: "/help/#filltype-bridge-h", label: "Filltype bridge" }
+  help: { href: "/help/filltype-bridge/", label: "Filltype bridge" }
   ld: "Filltype bridge companion-mod generation"
   llms: "Filltype bridge: generates a companion mod that teaches equipment a stubborn map filltype"
 - id: any-folder

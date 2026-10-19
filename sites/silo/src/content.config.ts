@@ -76,4 +76,24 @@ const legal = defineCollection({
   }),
 });
 
-export const collections = { features, faq, screens, legal };
+/**
+ * Help topics: one Markdown file per topic, rendered at /help/<id>/. Split from the single-page
+ * help of HLLMR/silo landing/help (dcb9f65); `legacyAnchor` is the old h2 id ("crash-triage-h"),
+ * kept on the topic page and mapped by the /help/ hub so old links still land on the topic.
+ * `appliesTo` is the app version the text describes.
+ */
+const help = defineCollection({
+  loader: glob({ pattern: "*.md", base: "src/content/help" }),
+  schema: z.object({
+    title: z.string(),
+    /** Shorter label for navigation. */
+    label: z.string(),
+    summary: z.string(),
+    group: z.string(),
+    order: z.number(),
+    legacyAnchor: z.string().regex(/^[a-z-]+-h$/),
+    appliesTo: z.string(),
+  }),
+});
+
+export const collections = { features, faq, screens, legal, help };
