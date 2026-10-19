@@ -1,42 +1,50 @@
 ---
-title: "Crash & log triage"
-label: "Crash & log triage"
-summary: "When Farming Simulator 25 crashes or misbehaves, it leaves an explanation in a file called log.txt — but that file is thousands of lines of engine chatter, and most of it is harmless."
+title: "When the game crashes"
+label: "Crashes and Last run"
+summary: "Silo reads the game's log after each run, tells you when your last game ended unexpectedly, and names the mod that most likely caused it."
 group: "When something breaks"
-order: 13
+order: 15
 legacyAnchor: "crash-triage-h"
-appliesTo: "0.11"
+appliesTo: "1.0"
 ---
-When Farming Simulator 25 crashes or misbehaves, it leaves an explanation in a file called `log.txt` — but that file is thousands of lines of engine chatter, and most of it is harmless. Silo's **diagnose** feature reads that log for you, tells you whether the last run actually crashed, and ranks the mods by the errors they logged during that run, most errors first, so you can see the likely culprit. It separates the real breakage from the cosmetic noise that scares people for no reason.
+When Farming Simulator 25 crashes or misbehaves, the explanation is in its `log.txt`, buried in thousands of lines that are mostly harmless. Silo reads that log for you, tells you whether your last game crashed, and ranks the mods by the errors they logged during that run. It only blames a mod when the log names it, and it never guesses.
 
-The usual community advice is to manually disable half your mods and relaunch over and over. Silo starts by simply reading the name the engine already wrote next to each error.
+Reading the log changes nothing: not `log.txt`, not your mods, not the game. Only the buttons you press act, and parking has an **Undo**.
 
-## When to use it
+## The crash notice
 
-- Right after the game crashes to desktop, freezes on load, or quits unexpectedly.
-- When something in-game is clearly broken and you want to know which mod is complaining.
-- Any time you just want a quick health check on your last session.
+You don't have to go looking. Silo checks the log when you come back to its window, and while a game it launched is running it keeps an eye out until the game closes. If the last game ended without a clean exit, a notice appears at the top of the window: *Your last game ended unexpectedly.*
 
-## How to open it
+- When the log names an active mod, the notice gives the most likely cause and its error count, with a button to park it (for example **Park Hollow Creek Grain Dryer**). Parking shows a toast with **Undo**, and the notice then suggests playing again to check.
+- When the log names no mod, the notice offers **Find the problem mod** (see [Find the problem mod](/help/guided-bisection/)).
+- **See details** opens **Diagnose**, **Last run**. The **×** dismisses the notice.
 
-In the stat bar, click the **◆ diagnose** button. Silo reads `log.txt` from your FS25 user folder and shows a report. Use **↻ Re-read log** to refresh it after another launch.
+Until your next clean run, or until you dismiss it, the crash counts as one problem in the header status chip.
 
-> This feature only *reads* your log — it never edits `log.txt` , your mods, or any game file. There is nothing to undo. It is completely safe to run as often as you like.
+![The crash notice naming the most likely cause, with Park, See details and close](../../assets/screens/crash-notice.png)
 
-## How to read the result
+## Diagnose, Last run
 
-The headline verdict comes in one of three forms:
+Click **Diagnose** in the left rail (Alt+4). **Last run** is the first tab. Under the title, a line shows the game version, how many mods loaded and when the log was written. **Read the log again** refreshes it.
 
-- **Healthy** — the last run exited cleanly and no mod logged a real error. If anything appears, it is cosmetic only. Nothing to do.
-- **Exited cleanly, but…** — the game closed normally, yet one or more mods logged errors worth a look. Not necessarily a crash, but worth checking.
-- **The last run ended abnormally** — the log stops mid-session with no clean-exit marker. That is what a crash looks like.
+The verdict comes in one of three forms:
 
-Below the verdict, mods are grouped by severity:
+- **Your last game ended unexpectedly.** The log stops without a clean exit.
+- **Your last game closed normally,** but some mods logged errors worth a look.
+- **Healthy.** Your last game closed normally and no mod logged a real error.
 
-- **Likely culprits** — mods that logged genuine errors (for example Lua script failures). Each row shows the mod's name, its error and warning counts, and a sample log line.
-- **Worth a look** — mods with real warnings but no errors.
-- A collapsed **cosmetic warnings only — safe to ignore** group, tucked away because missing-translation notices and the like never cause a crash.
+Below it, the mods the log named:
 
-Silo only blames a mod when the log names it directly (via its `mods/` path or an `in mod '…'` clause) — it never guesses. Anything it can't attribute is counted as engine or base-game and reported separately, with an **Open log.txt** link so you can read the raw lines yourself.
+- **Most likely causes** (headed **Mods with errors** after a clean exit): mods that logged real errors, most first. Each row shows the counts and the first error line, which you can expand.
+- **Worth a look**: mods with real warnings but no errors.
+- **Mods with cosmetic warnings only, safe to ignore**, folded away. Notices like a missing translation never crash the game.
 
-If the run crashed but no mod is named, the log genuinely can't identify the cause — usually a mod interaction. In that case Silo offers **Run guided bisection** to isolate it automatically. See the guided bisection section for that workflow.
+Each row in the first two groups has **Park** (for an active mod), **Show in library** (opens its details) and **Copy details**, which copies the name, counts and log line for a bug report. A mod the log names that isn't in your library says so. A mod's details also show a **Logged N errors in your last game** banner with **See in Diagnose**.
+
+![Diagnose, Last run, showing a crash with its most likely cause and two mods worth a look](../../assets/screens/triage.png)
+
+## When the log names no mod
+
+Findings the log can't tie to any mod are counted at the bottom as engine or base game, with **Open log.txt** so you can read the lines yourself. If the game crashed and no mod logged an error, the log can't tell what caused it. Often it's mods that only break together. **Find the problem mod** tests half your mods at a time to find it, and a **Not named here?** link offers the same for any other run.
+
+If you have never played with this setup, there may be no log yet: launch the game once, then come back.

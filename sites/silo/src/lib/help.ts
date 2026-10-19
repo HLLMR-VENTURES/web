@@ -28,5 +28,5 @@ export const PROBLEMS: { text: string; topic: string }[] = [
   { text: "I don't know what's out of date", topic: "updates" },
   { text: "I can't match a friend's server", topic: "multiplayer" },
   { text: "The game doesn't see my mods", topic: "mods-folder" },
-  { text: "My mods folder is a mess", topic: "library" },
+  { text: "My mods folder is a mess", topic: "curation" },
 ];

@@ -1,49 +1,61 @@
 ---
-title: "Settings & accounts"
-label: "Settings & accounts"
-summary: "Open the Settings panel from the gear icon (⚙) in the top bar."
-group: "Settings & FAQ"
+title: "Settings and accounts"
+label: "Settings and accounts"
+summary: "What each part of the Settings page does, from theme and update checks to the GitHub account, diagnostics and maintenance."
+group: "Settings and help"
 order: 20
 legacyAnchor: "settings-accounts-h"
-appliesTo: "0.11"
+appliesTo: "1.0"
 ---
-Open the **Settings** panel from the gear icon (`⚙`) in the top bar. It slides out on the right and covers appearance, your detected folders, account connections, diagnostics, and library layout. Nothing here changes your game files until you press a specific button. Organize shows a preview first, and Restore vanilla layout asks you to confirm.
+Open **Settings** from the bottom of the sidebar, or press Ctrl+,. The page has seven sections: **General**, **Mods folder**, **Library**, **Accounts**, **Diagnostics**, **Maintenance** and **About**. Nothing here changes your mod files until you press a specific button, and the ones that move files ask first.
 
-## Appearance
+## General
 
-Under **Appearance**, pick **system**, **light**, or **dark**. *System* follows your OS theme; the other two force that look. Your choice is saved and reapplied on the next launch.
+- **Theme:** **System**, **Light** or **Dark**. System follows your computer's light or dark setting.
+- **UI size:** 90%, 100%, 110% or 125%. It makes text and icons smaller or larger everywhere in Silo.
+- **List density:** **Comfortable** or **Compact**. Compact fits more mods on screen in the Library list.
+- **Check for mod updates when Silo starts:** off unless you turn it on. Checking sends the names of your installed mods to Silo's catalog. Versions are compared on your computer. Silo only checks: you choose what to install in [Updates](/help/updates/).
+- **Graphics settings:** **Edit game.xml** tunes Farming Simulator 25's graphics without starting the game. It's also in **Tools**, then **Graphics settings**.
 
-## Folders
+## Mods folder
 
-**Mods folder**, **Library archive** and **Game** show the paths Silo is using, each with an **Open ↗** link to reveal it in your file manager. **Mods folder → Change…** picks another mods folder (see [Choosing your mods folder](/help/mods-folder/)), and **Library archive → Change…** moves your parked mods to another folder or drive (see [Moving your library archive](/help/library-archive/)). If the game install isn't found, the Launch button is hidden. When your user directory is known, **Graphics &amp; performance** offers **Edit game.xml ↗** to tune presets (Performance / Balanced / Quality) without starting the game.
+The folder Silo manages and the game loads mods from, where that choice came from, **Change…**, other folders Silo knows, and where the game is installed. See [Choosing your mods folder](/help/mods-folder/).
 
-## Diagnostics — Export report
+## Library
 
-**Export report ↗** writes a shareable Markdown file (`silo-report.md`) summarizing your environment, library counts by category, active set, detected conflicts, and health issues. Reach for it when asking for help or comparing setups. It only reads your library and saves a text file — it changes nothing.
+- **Library layout:** **Organize** files loose mods into category folders. See [Organizing and curating](/help/curation/).
+- **Auto-file new mods:** files new zips as they appear, without asking. Off unless you turn it on.
+- **Library archive:** where Silo keeps parked mods, with **Change…** to move it and **Use default** to bring it back. See [Moving your library archive](/help/library-archive/).
 
-## Auto-file new mods
+## Accounts
 
-This toggle is **off** by default. When on, Silo moves newly-downloaded `.zip` mods into your library after each scan and keeps them active, so you skip the manual Organize step. It files them without a preview. Leave it off if you prefer to review new downloads first. The setting is remembered between sessions.
+A GitHub account is optional. Click **Connect GitHub**: a browser opens to `github.com/login/device`, and you enter the code Silo shows. Silo keeps working while it waits, and **Cancel sign-in** stops it. Connecting asks GitHub only for `read:user` (your user name), which gives faster update checks (5,000 requests per hour).
 
-## Library layout &amp; maintenance
+Two more permissions are separate, optional steps once you're connected:
 
-Under **Library layout**:
+- **Enable actions** adds `public_repo`, so **Star** and **Watch** on a mod's GitHub page land on your account.
+- **Enable sharing links** adds `gist`, so you can [share a mod set](/help/collections/) as an unlisted link on your GitHub.
 
-- **Organize** sorts your `.zip` mods into `mods/archive/<Category>/` subfolders (which the game ignores), or into your library archive if you moved it, and projects the active set back via hardlinks — no duplication, with a preview first.
-- **↻ Rebuild categories** re-scans every mod from scratch. Use it after a Silo update improves categorization so existing mods pick up the better categories.
-- **⛓ Optimize links** appears when mods are organized on a normal (non-cloud) drive. It collapses any active mod that ended up projected as a full copy back into a hardlink — reclaiming the duplicated disk and making activate/deactivate faster. It only touches files byte-identical to the archived copy, never a build you swapped in. On a cloud-synced folder this is replaced by a short note explaining that copies are used because the drive can't do hardlinks. If your library archive is on another drive and Windows can't link across drives (no Developer Mode), it says so and changes nothing.
-- **Restore vanilla layout** appears only when mods are organized. It moves every mod back out of `archive/` and removes all links, returning you to a plain flat `mods/` folder. You'll confirm first. Afterwards the game loads every mod in that folder, including the ones you had parked.
+**Disconnect** removes the connection at any time. **Use a Personal Access Token instead…** is there if you'd rather give Silo a token you made yourself. The token is kept in your computer's keychain. If there isn't one, Silo warns you before you connect that the token would be stored unencrypted in its own database.
 
-> Restore vanilla does **not** delete any mods. It only undoes Silo's organization. A copied folder mod you edited is moved to `backups/` instead of being deleted. If some files can't be moved, Silo reports the errors rather than leaving things half-done.
+![Settings, Accounts, with the GitHub account card](../../assets/screens/help-accounts.png)
 
-## Connecting GitHub
+## Diagnostics
 
-Under **GitHub account**, press **Connect GitHub**. A browser opens to **github.com/login/device**; enter the code Silo shows and authorize. Silo asks GitHub only for the permissions a feature needs:
+A summary of your library, conflicts and health issues, plus Silo's recent log, with your user name removed:
 
-- **Connect GitHub** grants `read:user` (your username). That gives faster update checks (5,000 requests per hour instead of 60).
-- **Enable actions** adds `public_repo`, so *Star* and *Watch* land on your account and you can publish a public collection.
-- **Enable collection sharing** adds `gist`, so you can publish a private (secret gist) [collection](/help/collections/).
+- **Copy diagnostics** puts it on the clipboard for a bug report. If the clipboard isn't available, Silo saves it to a file instead.
+- **Export report** saves it as `silo-report.md`.
+- **Open log folder** shows Silo's own log files.
 
-In-app GitHub installs from the Browse tab work without connecting. You can **Disconnect** anytime, or use a Personal Access Token instead via the token option.
+## Maintenance
 
-The panel footer shows your installed Silo version.
+- **Re-read every mod** scans every mod again from scratch. Use it after a Silo update improves categories, so existing mods pick them up.
+- **Reclaim disk space** turns any active mod that ended up as a full copy back into a link, freeing the duplicated space. It only touches files identical to the copy in your library, never a build you swapped in. On a cloud-synced folder it explains why copies are used instead.
+- **Undo organizing** puts every mod back in your mods folder and removes Silo's links. Nothing is deleted. It's the only undo for organizing.
+
+![Settings, Maintenance, with the Undo organizing confirmation](../../assets/screens/help-undo-organizing.png)
+
+## About
+
+Your Silo version and the last library scan, plus links to the website, the source code, the changelog, Discord and GitHub Discussions. When a new Silo is ready, a notice says so, and **Restart to update** here (or on the notice) installs it and restarts Silo. Silo's license and the third-party licenses are in **Help**, under **About Silo**.

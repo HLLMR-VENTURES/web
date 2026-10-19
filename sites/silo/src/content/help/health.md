@@ -1,31 +1,31 @@
 ---
-title: "Library health"
-label: "Library health"
-summary: "The Health panel reports problems with your whole library — issues that exist no matter which mods you have switched on."
-group: "Your library"
-order: 8
+title: "Problems in your library"
+label: "Problems"
+summary: "Diagnose, Problems lists the mods that can't load as they are, whichever mods you have switched on, and what to do about each one."
+group: "When something breaks"
+order: 13
 legacyAnchor: "health-h"
-appliesTo: "0.11"
+appliesTo: "1.0"
 ---
-The **Health** panel reports problems with your *whole library* — issues that exist no matter which mods you have switched on. This is different from **Conflicts**, which only looks at the mods in your current active set and how they collide with each other. Reach for Health when you want to know whether the library itself is sound: are any mods broken, missing something they need, or quietly unloadable by the game?
+**Diagnose**, then **Problems** lists the mods in your library that can't load as they are. It looks at your whole library, active and parked, so it answers a different question from [Conflicts](/help/conflicts/), which only looks at how your active mods clash with each other. Reach for it when a mod you expected never shows up in the game, or after a batch of installs and updates.
 
 ## Opening it
 
-In the status bar along the bottom, find the **need attention** button. The number on it is the total count of health issues; the button is highlighted whenever that count is above zero. Click it to open the **Library health** panel. If nothing is wrong you will see *"Everything looks healthy — no problems found."* Click the backdrop to close the panel.
+Click **Diagnose** in the left rail (or press Alt+4) and choose the **Problems** tab. The number on the tab is how many mods need attention. The header status chip also counts them: an active mod with a problem counts as a **problem**, and a parked one, or a different build waiting in your mods folder, counts as **to review**. When nothing is wrong, the tab says every mod in your library can load.
 
-Opening and reading the panel changes nothing. The only buttons that touch files are the **Keep** choices in the *Foreign files* section, which move one build to `backups/` when you click them. Everything else it finds you fix yourself.
+Opening the tab changes nothing. Only the buttons on each row act, and each one says what it does.
 
 ## What it reports
 
-Issues are grouped into up to four sections, each with a count:
+Each kind of problem has its own group, with a count:
 
-- **Missing dependencies** — a mod's `modDesc.xml` declares another mod it depends on, and that mod is not present anywhere in your library. Each row names the mod and the dependency it *needs*, marked *not in your library*. To fix, add the required mod (for example via the **Browse** tab's in-app install, or by dropping it into your library) and rescan. Note this checks whether the dependency *exists* in the library, not whether it is currently active.
-- **Ignored by the game — name starts with a digit** — Farming Simulator silently refuses to load any mod whose folder or file name begins with a number, so the mod appears installed but never runs. Each row shows the offending name. To fix, rename the mod so it starts with a letter.
-- **Corrupt / unreadable** — Silo could not read or parse the mod (for example a damaged archive or malformed `modDesc.xml`). The row shows the underlying error. These usually mean an interrupted or corrupted download; re-download or reinstall the mod, then rescan.
-- **Foreign files in your mods folder** — a file sitting at a managed mod's name that isn't the one Silo projected. Almost always this is a manual update you dropped in yourself (the normal way to update a ModHub mod). The row shows both versions — *Mods folder: v… · Silo's copy: v…* — and offers two safe choices: **Keep the mods-folder file** (adopt your build as the managed version) or **Keep Silo's copy** (put its version back). Either way the other build is moved to `backups/`, so nothing is lost. You can also adopt straight from the mod's detail drawer — see [Applying an update](/help/updates/).
+- **Missing a required mod**: the mod's `modDesc.xml` says it needs another mod that isn't in your library, so the game won't load it. **Find it in Browse** searches for the missing mod. This checks whether the required mod is in your library at all, not whether it's active. A mod's details also list what it needs, with **Missing** next to anything you don't have.
+- **Can't be read**: Silo couldn't open the file, so the game probably can't either. The row shows the reason. This usually means a damaged or interrupted download. **Show file** opens its folder, and **Park** (for an active mod) stops the game trying to load it. Download the mod again to fix it for good.
+- **Ignored by the game: the name starts with a digit**: Farming Simulator skips any mod whose file name starts with a number, so it looks installed but never runs. Renaming the file would change its Mod ID, so the better fix is to ask its author for a corrected build. **Show file** opens its folder.
+- **A different build is in your mods folder**: the file in your mods folder isn't the one Silo keeps for that mod. Almost always this is a newer version you saved there yourself, which is how ModHub updates arrive. The row shows both versions. **Use this version** makes the file in your mods folder the one Silo keeps. **Keep Silo's** puts Silo's copy back. Either way the other build is moved to `backups/`, so nothing is lost. The same choice appears as a banner in the mod's details, and in **Updates** (see [Keeping mods updated](/help/updates/)).
 
-## When to check it
+Library writes are switched off while something else is changing your library, such as a mod set switch or a library archive move. The affected buttons then say why.
 
-Check Health after a batch of installs or updates, before building a loadout for a play session, or whenever a mod you expected to work simply is not appearing in-game. Because the list is derived live from the last scan, it refreshes on its own as your library changes — resolve an issue and rescan, and the corresponding row disappears.
+## Keeping it current
 
-> Health flags library-wide soundness. For clashes *between* the mods you have enabled, use the Conflicts panel instead.
+The list comes from Silo's last reading of your library. Silo reads it again when you come back to the window, and F5 rescans on demand, so a fixed problem drops off the list on its own.

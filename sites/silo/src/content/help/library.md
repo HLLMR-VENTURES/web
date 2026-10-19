@@ -1,30 +1,50 @@
 ---
-title: "The library: active vs. parked"
-label: "The library: active vs. parked"
-summary: "Farming Simulator loads mods from one flat folder: Documents/My Games/FarmingSimulator2025/mods/."
+title: "Your library: active and parked mods"
+label: "Active and parked"
+summary: "Every mod in your library is either active, so the game loads it, or parked, kept by Silo and not loaded."
 group: "Your library"
 order: 2
 legacyAnchor: "library-h"
-appliesTo: "0.11"
+appliesTo: "1.0"
 ---
-Farming Simulator loads mods from one flat folder: `Documents/My Games/FarmingSimulator2025/mods/`. Every `.zip` in there is read at startup, with no subfolders and no notion of "installed but off." Silo's core idea is to separate that dumping ground into two things: your whole **curated source library** — everything you own, browsable on the **Library** tab — and the flat `mods/` folder the game actually reads, which Silo fills with only the set you want loaded.
+Farming Simulator 25 loads every mod it finds in one flat folder, `Documents\My Games\FarmingSimulator2025\mods`. It has no idea of "installed but off". Silo splits that folder into two things: your whole library, which you see in **Library**, and the mods folder the game reads, which Silo keeps holding only the mods you want loaded.
 
-## Active vs. parked
+## Active and parked
 
-Every mod in your library is either **active** (loaded by the game) or **parked** (kept in the library, filed away, not loaded). The library shows either as widescreen **tiles** (the default — an active mod gets a bright-green border and a green on/off switch) or as a compact **list** with a dot on the left; toggle the view from the button by the count. Either way, click the switch/dot to activate or park. Parked mods carry a small `parked` badge and dim slightly, and the detail drawer shows `● Active` or `○ Parked`.
+- **Active** mods are in the game's mods folder, so the game loads them.
+- **Parked** mods are kept by Silo in your [library archive](/help/library-archive/) and aren't loaded.
 
-The checkbox in the toolbar activates or parks everything *in the current view* at once — most useful with a filter applied. Sweeping your **whole unfiltered library** asks for confirmation first, since that's a lot of files to move (and on a cloud-synced folder each one is copied or removed individually). Parking never deletes anything — it just leaves the mod out of the game's folder. Parking a **loose, unorganized** mod (one you dropped straight into `mods/`) files it into your library as it parks it, so it leaves the live folder but stays available; activating it again re-projects it.
+Parking a mod never deletes it. Each row has a switch with the word **Active** or **Parked** beside it: click it, or select the row and press Space. Parked rows show a greyed-out icon.
 
-## Organize
+Every switch shows a short message with **Undo**, so you can put the previous set of active mods straight back.
 
-Reach for **Organize** when your `mods/` folder is a flat pile and you want it sorted. It moves each loose `.zip` into `mods/archive/<Category>/` — subfolders the game deliberately ignores, since it only reads the flat root. (If you've [moved your library archive](/help/library-archive/), they go into the category folders there instead.) Your active mods stay loaded; nothing is duplicated. You'll find the button in the top bar (*Organize N*, showing how many loose mods it found) and under **Settings → Library layout**.
+Parking a loose mod (a `.zip` you dropped into the mods folder that Silo hasn't filed yet) also files it into your library archive, in its category folder. The first time, Silo explains this and asks first. Tick **Don't explain this again** if you don't need the reminder.
 
-Before it touches a file, Organize shows a read-only **dry run**: a preview grouped by destination category (for example "12 into Vehicles, 3 into Maps"), each file with its exact `archive/<Category>/…` target. Nothing has moved yet — you confirm with the *Organize N mods* button or **Cancel**. Power users can tick *Don't preview next time*, or turn on **Auto-file new mods** in Settings to file new downloads automatically. Only Organize shows a preview. Auto-file (once you turn it on), activating or parking a mod, and adopting an update act straight away.
+## List and cards
+
+The list is the default. The two buttons at the right of the toolbar switch between **List view** and **Card view**, and Silo remembers your choice. For more rows on screen, set **List density** to **Compact** in **Settings**, then **General**.
+
+Each row shows the mod's icon, title, author, version, category and size, plus up to three badges. Problems come first (**Modified**, **Can't load**, **Ignored name**, **Conflict**, **Flagged**), then status (**Verified build**, **Update**, **Folder mod**), then info (**Map**, **Has settings**). Click a row or press Enter to open the mod's details. The **⋯** button, a right-click or Shift+F10 opens the same menu: **Activate** or **Park**, **Open details**, **Find in Browse**, **Change category…**, **Edit settings…** (when the mod has settings), **Favorite**, **Hide** and **Flag**.
+
+![The Library list with switches, badges and the status strip above it](../../assets/screens/library.png)
+
+## The status strip
+
+The line above the list sums things up, for example "Ready to play · 142 of 737 active", followed by the name of your mod set when the active mods match one. "Ready to play" only shows when Play would work. The strip also points to the most important thing to do, with a link: your last game ended unexpectedly (**See details**), conflicts need fixing (**See why**), new mods aren't filed (**Review**) or updates are waiting (**See updates**).
+
+## Filters
+
+- **All / Active / Parked** narrows the list to one side. Silo remembers it.
+- **Favorites** shows your favorites. **Needs attention** shows mods with a problem (can't load, conflict, modified, flagged) or an update.
+- **Filters** opens the rest: **Hidden** (show hidden mods too), **Flagged**, **In conflict**, **Has settings**, **Needs update**, **Maps**, **Script mods**, and a **Tag** picker once you've tagged something.
+- The category and sort menus sit above the toolbar. Sort by **Recently added**, **Name**, **Category**, **Size**, **Version** or **My rating**; the arrow flips the order.
+
+Filters in effect show as chips under the toolbar. Each chip's ✕ removes it, and **Clear filters** removes them all.
+
+## Changing many mods at once
+
+A checkbox appears when you point at a row. Once anything is selected, a bar replaces the toolbar: **Turn on**, **Park**, **Favorite**, **Hide** and **Select all N shown**, then **Clear**. Shift-click selects a range. Turning on or parking more than 25 mods asks first, and you can undo it right after.
 
 ## How active mods reach the game
 
-Silo keeps the flat `mods/` folder holding exactly your active set by **projecting** the archived originals back into it: `.zip` mods as same-volume **hardlinks**, unpacked mod folders as directory links (a symlink, or on Windows without Developer Mode an NTFS **junction**). Hardlinks and junctions use no extra disk and need no admin rights or Developer Mode. (If your library archive is on another drive, Silo uses symlinks or copies instead. See [Active mods across drives](/help/library-archive/).) The link changes the moment you switch a mod on or off. **▶ Launch** just starts the game, which reads that folder and loads the mods you marked active, however you start it.
-
-Where links aren't permitted — most commonly a **cloud-synced** `Documents` folder (OneDrive, Google Drive, Proton Drive), which blocks hardlinks — Silo falls back to **copies**. It works exactly the same, but each active mod's bytes are duplicated into the live folder, so activating a large set is slower and uses more disk. Silo records what it projected so it can still tell its own copy from a build you swapped in, and it warns you once when it detects a cloud folder. To get fast, no-duplication hardlink projection back, exclude the FS25 folder from your cloud sync.
-
-> **It never destroys your originals.** Moves are instant same-volume renames, or a safe copy-then-swap across volumes, so the original is never lost mid-operation. **Restore vanilla layout** (Settings, shown once anything is organized) puts every mod back in your mods folder: it drops Silo's projections, moves the archived files back into a plain flat `mods/` , and removes only empty archive folders. Every mod you had parked loads again after that. It never deletes a file it doesn't recognize, never removes the only copy of a mod, and won't touch a file you swapped in yourself. A copied folder mod you edited is moved to `backups/` instead of being deleted. The `backups/` folder itself stays where it is.
+Silo links each active mod from your library into the mods folder, so there is no second copy on disk. Where links aren't possible, most often in a cloud-synced `Documents` folder, Silo copies active mods instead. That works the same, but uses more disk and makes big switches slower. Unzipped folder mods are left where they are. Play just starts the game, which loads whatever is in the mods folder.

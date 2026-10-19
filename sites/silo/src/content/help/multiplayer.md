@@ -1,33 +1,48 @@
 ---
-title: "Multiplayer mod-set sync"
-label: "Multiplayer mod-set sync"
-summary: "Everyone in an FS25 session needs the same mods, at the same versions, with the same files."
-group: "Tools"
-order: 17
+title: "Playing multiplayer"
+label: "Multiplayer"
+summary: "The host shares a Multiplayer check file, and each player checks their active mods against it before joining."
+group: "Mod sets"
+order: 9
 legacyAnchor: "multiplayer-h"
-appliesTo: "0.11"
+appliesTo: "1.0"
 ---
-Everyone in an FS25 session needs the same mods, at the same versions, with the same files. A mismatch is a common reason a join fails, and it can take a while to work out *which* mod is wrong. Silo turns that guessing game into a checklist: the host publishes a hashed list of their active set, and each joiner checks their own set against it.
+Everyone in a Farming Simulator 25 session needs the same mods, at the same versions, with the same files. A mismatch is a common reason a join fails, and finding the one mod that differs can take a while. Silo turns it into a checklist: the host shares a **Multiplayer check file**, and each player checks their active mods against it.
 
-Open it from the **Multiplayer** button in the top bar. The panel has two sides: **Host — share your set** and **Joiner — check you match**. Both act only on your current *active set* (the mods Silo has switched on).
+Making or checking the file never changes your mods. Only the buttons in the fix list do, and each one says what it does.
 
-> This whole feature is read-only for your mods. It hashes files and writes one manifest file where you choose. It never changes your active set, your mods, or your game files — you make any fixes yourself.
+## Host: share the check file
 
-## Host: export your set
+1. Open **Mod sets**, then **My sets**.
+2. Click **Share my active mods**, or choose **Share…** from the **⋯** menu of the set your server runs.
+3. Choose **Multiplayer check file** and click **Save file…**. The file name ends in `.silomp`.
 
-Click **Export active set →**. Silo hashes each active zip mod (recording its name, version, content hash, and size), then prompts you to save a `.silomp` file (default `my-modset.silomp`). You'll see a note like "Saved a manifest of N mods." Send that file to everyone joining — over Discord, email, or a shared folder. Re-export whenever you change your loadout so the manifest stays current.
+Silo fingerprints each mod file and says how many it saved. Send the file to your players any way you like: Discord, email or a shared folder. Save a new one whenever the server's mods change.
 
-## Joiner: verify against the host's manifest
+![The Share dialog with Multiplayer check file chosen](../../assets/screens/mp.png)
 
-Click **Verify against a manifest…** and pick the `.silomp` file the host sent. Silo hashes your active set, compares it, and shows either **"Your set matches. You're clear to join."** or **"Your set doesn't match yet."** with a grouped fix-list:
+## Player: check your mods
 
-- **Get these** — the host has them, you don't. Add each mod.
-- **Wrong version** — shows "yours X → need Y". Update to the host's version.
-- **Same version, different file** — the version matches but the bytes differ. Re-download to be safe.
-- **Turn these off** — you have mods the host doesn't. Disable them for this session.
+1. Open **Mod sets**, then **Open a shared set**.
+2. Click **Choose a file…** and pick the host's `.silomp` file.
+3. Click **Check my mods**.
 
-Work through the list, then click **Verify against a manifest…** again to confirm you're clear.
+Silo compares the file with your active mods: names, versions and each file's fingerprint. Then it says either "You match. You're ready to join." or that your mods don't match yet, with a fix list:
 
-## What Silo can and can't check
+- **The server has these and your active mods don't**: **Turn on** for a mod you have parked, or **Find in Browse** for one you don't have.
+- **Different version or file than the server**: shows your version and the server's, or "a different file" when the versions agree but the files don't. Get the server's build; **Find in Browse** is a place to start.
+- **Active for you but not on the server**: **Park** it while you play on this server. Parking never deletes it.
 
-The comparison is byte-strict: a re-zip with identical contents still reads as different, so Silo errs toward "re-download to be sure" — the safe direction for multiplayer. Unpacked folder mods (dev mods) can't be byte-verified; if any are active you'll see a caveat, and they're marked unmatched in a manifest. For clean verification, use packed `.zip` mods on both sides.
+Work through the list, then click **Check again**.
+
+Once you match, it's worth saving your active mods as a set, so you can switch back to the server's mods next time in one step. See [Mod sets](/help/loadouts/).
+
+## What the check can and can't tell
+
+The comparison is byte for byte. A mod repacked with the same contents still reads as a different file, so Silo errs toward "get the server's copy", which is the safe direction for multiplayer.
+
+Mods in unpacked folders can't be fingerprinted. When the host's mods include any, the Share dialog says so, and players see them as not matching. For a clean check, use packed `.zip` mods on both sides.
+
+Only active mods are compared, so a player's parked mods never count against them.
+
+Both sides need Silo. The host's file holds names, versions and fingerprints, never the mods themselves.

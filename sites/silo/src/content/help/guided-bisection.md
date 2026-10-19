@@ -1,30 +1,44 @@
 ---
-title: "Guided bisection"
-label: "Guided bisection"
-summary: "Sometimes FS25 crashes or misbehaves and the log never names a mod."
+title: "Find the problem mod"
+label: "Find the problem mod"
+summary: "When the game crashes and the log doesn't name a mod, Find the problem mod tests half your mods at a time until it finds the one at fault, then puts your mods back."
 group: "When something breaks"
-order: 14
+order: 16
 legacyAnchor: "guided-bisection-h"
-appliesTo: "0.11"
+appliesTo: "1.0"
 ---
-Sometimes FS25 crashes or misbehaves and the log never names a mod. The cause is usually an *interaction* between mods that no single line can point to. Guided bisection automates the community ritual for these cases — disable half your mods, relaunch, see if the problem survives, and repeat — so Silo does the bookkeeping and you just play and report what happened.
+Sometimes the game crashes or misbehaves and the log never names a mod. The cause is often two mods that only break together, which no single log line can point to. **Find the problem mod** does the community's old routine for you: park half your mods, play, see whether the problem is still there, and repeat. Silo keeps track of the halves; you play and tell it what happened.
 
-Instead of testing mods one at a time, it halves the suspect list every round. A library of, say, 60 active mods is isolated in roughly six launches rather than sixty.
+Because each round halves the suspects, it's quick. Around 190 active mods take about eight launches, not 190.
 
-## When to reach for it
+## Starting it
 
-Open the **◆ diagnose** panel (Crash &amp; log triage) after a bad run. If Silo can tie the crash to a specific mod, it lists that mod directly and you don't need bisection. If the log shows an abnormal exit but *no* mod logged an error first, the panel says the cause is likely an interaction and offers **◆ Run guided bisection**. There's also a **Run guided bisection →** link for something misbehaving that the log doesn't explain even after a clean exit. You need at least two active non-map mods for the button to enable.
+You can start from three places:
 
-## The loop you'll follow
+- the crash notice's **Find the problem mod**, when the log named no mod (see [When the game crashes](/help/crash-triage/));
+- the **Find the problem mod** button in **Diagnose**, **Last run** after such a crash;
+- the **Not named here?** link under any Last run report, for a problem the log doesn't explain.
 
-1. Press **Start**. Silo tells you the mod count and roughly how many launches to expect.
-2. Each round it applies a test half (the rest are temporarily off) and shows **Round N** with how many launches remain at most.
-3. Press **▶ Launch FS25**, load the save that was breaking, try to reproduce the problem, then quit to desktop.
-4. Back in Silo, press **I've quit the game →**. Silo peeks at the log and hints whether it looks like another crash or a clean exit.
-5. Answer the verdict: **Still broken** or **It's fine now**. Silo narrows to the guilty half and sets up the next round.
+You need at least two active mods that aren't maps. The first screen says how many mods will be tested and about how many launches it will take. Press **Start**, or **Not now** to leave without changing anything. Before the first round, Silo saves the exact list of your active mods.
 
-It ends one of two ways. **Most likely culprit** names a single mod — disable or update it, or report the pairing to its author if it only breaks alongside another mod. **No single mod is at fault** means every half came back clean, so the problem is a combination (or isn't mod-related). Silo reports this honestly rather than blaming an innocent mod.
+## Each round
 
-## Safety and reversibility
+1. Silo parks part of your mods for this round and shows **Round 2 of about 8**, with how many mods are being tested and how many are parked for now. Your maps stay on every round, so your save still loads.
+2. Press **Launch test round**, load the save that was crashing, try to make the problem happen, then quit to the desktop.
+3. Back in Silo, press **I've quit the game**. Silo reads the log and, where it can tell, says whether the game crashed again or closed normally.
+4. Answer **It still happened** or **It's fine now**. Silo narrows the suspects and sets up the next round.
 
-> Bisection is crash-safe. Before it changes anything, Silo snapshots your exact active set. It's restored automatically when you reach a result, when you press **Restore my mods &amp; finish** , or when you cancel with the **✕** (Cancel &amp; restore). Only your maps stay on every round, so your save still loads. Silo doesn't keep a mod's dependencies switched on with it yet, so if a round fails because a required mod was off, treat that round's result with care. If the app closes mid-run, the next time you open Silo a banner offers **Restore my mod set** — your originals are never lost.
+While a search runs you can move around Silo freely. The header shows *Finding the problem mod · round 2* with **Open** to come back, **Play** turns into **Launch test round**, and **Diagnose** in the left rail carries a dot.
+
+![Find the problem mod, round 1 of about 8, with Launch test round and I've quit the game, and the round shown in the header](../../assets/screens/find-problem-mod.png)
+
+## The result
+
+- **Most likely:** names one mod that the crash followed in every round. **Put my mods back and park** it restores your saved list without that mod, so you can play straight away. **Put my mods back** restores everything as it was. If the mod only breaks together with another one, the pair is worth reporting to its author.
+- **No single mod is at fault.** The problem only shows up when certain mods are on together, or it isn't caused by a mod. Silo says so plainly rather than blaming an innocent mod. **Put my mods back** restores your list.
+
+## Getting your mods back
+
+Your own list of active mods is never lost. You can stop at any time with the **×** (*Stop and put my mods back*). If Silo closes during a search, the next time it opens a notice says *A guided diagnosis was interrupted* and offers **Restore my mod set**. **Discard** keeps your mods as they are now and forgets the saved list, after asking first, because that can't be undone. A new search can't start until the earlier one is restored or discarded.
+
+Only maps are kept on every round. A mod that needs another mod can land in a round without it and fail for that reason alone, so if a round's result looks odd, check the mods' requirements in their details.

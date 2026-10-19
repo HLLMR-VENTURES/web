@@ -1,40 +1,50 @@
 ---
-title: "Loadouts"
-label: "Loadouts"
-summary: "A loadout is a named set of active mods you can switch to in one click."
-group: "Your library"
+title: "Mod sets"
+label: "Mod sets"
+summary: "A mod set is a saved list of active mods you can switch back to later, with a preview of what changes and an Undo."
+group: "Mod sets"
 order: 6
 legacyAnchor: "loadouts-h"
-appliesTo: "0.11"
+appliesTo: "1.0"
 ---
-A **loadout** is a named set of active mods you can switch to in one click. If you run several playthroughs — a heavy-realism seasonal save, a lightweight co-op save, a clean vanilla-ish test — each wants a different mix of mods active. Instead of hand-toggling dozens of mods every time you change games, you save each mix once and apply it when you need it.
+A **mod set** is a saved list of active mods. If you run several farms, say a heavy seasonal save, a light co-op save and a near-vanilla test, each wants different mods switched on. Save each mix once as a set, then switch between them when you change games instead of turning dozens of mods on and off by hand.
 
-Loadouts store the *list* of active mods, not the mod files themselves. Deleting a loadout never touches your mods, and applying one never deletes anything from your library — it only changes which mods are projected into the game's `mods/` folder.
+A set holds the list only, never the mod files. Switching to a set turns mods on and parks the rest, and parking a mod never deletes it. Deleting a set leaves your mods exactly as they are.
 
-## Opening the panel
+Open **Mod sets** in the left rail (Alt+3). The **My sets** tab lists every set with how many mods it holds and how it compares with your active mods right now: **Same**, or a count such as `+31 / −77` (31 would turn on, 77 would be parked). A set that names mods you don't have also says how many aren't in your library. The set that matches your active mods carries an **Active** badge.
 
-Click **Loadouts** in the top bar to open the Loadouts panel. When your current active set exactly matches a saved loadout, that button shows the loadout's name with a dot (for example `● Seasons Co-op`) instead of the word "Loadouts". The panel header shows how many mods are currently active.
+![Mod sets, My sets: saved sets compared with the active mods](../../assets/screens/loadouts.png)
 
-## Saving a loadout
+## Saving your current mods as a set
 
-First activate the mods you want (toggle them in the library, or use the filter + select-all to build a set quickly). Then, in the Loadouts panel, click **+ Save current active set as a loadout** and give it a name. The set is saved as-is. This button is disabled while nothing is active.
+Turn on the mods you want in the **Library**, then click **Save current mods as a set** and type a name. If you already have a set with that name, Silo asks whether to replace it. The button is off while no mods are active.
 
-To update an existing loadout to match what you have active now, click its **overwrite** icon (⭯, "Overwrite with current active set").
+## Switching to a set
 
-## Applying a loadout
+Click **Switch to this set**. Before anything changes, Silo shows what will happen: how many mods turn on, how many are parked, and the list of changes. Mods the set names that aren't in your library stay off until you get them. Click **Switch** to go ahead.
 
-Click a loadout's name to apply it. Silo makes the game's active set *exactly* that loadout: it links in the mods that should be active and removes the links for mods that shouldn't be. The filled dot moves to the loadout you just applied.
+Before it switches, Silo saves the mods you had on as an automatic set named after the switch, such as "Before Forestry weekend". Automatic sets are marked **Automatic** with the date and have a **Switch back** button. Silo keeps the newest five. After the switch, a toast offers **Undo**, which puts your previous mods back.
 
-> Applying is reversible and safe. Silo only adds or removes its own projected entries (junction, symlink, hardlink, or marked copy) in the `mods/` folder — your archived source files are never moved or deleted. If it finds a file it didn't project (you swapped in your own build), or the archived copy behind a link is missing, it leaves that file alone and reports it rather than deleting it.
+## Changing or removing a set
 
-## Building a loadout from a savegame
+The **⋯** menu on each row has:
 
-In the Savegames panel, click **→ Loadout** next to a save to build a loadout from the mods that save actually used. Silo creates a loadout named after the save from the mods you have, notes any that are missing, and applies it — a fast way to bind the right mods to the right playthrough.
+- **Update from current mods**: replaces the set's list with the mods you have on now. Silo first says how many are added and removed, and your active mods don't change. A toast offers **Undo**.
+- **Share…**: sends the set as a link or a file. See [Sharing and opening mod sets](/help/collections/).
+- **Delete**: removes the set after you confirm. Your mods aren't affected, and a toast offers **Undo**.
 
-## Exporting and importing
+Automatic sets can be shared or deleted but not updated, because Silo prunes them later. Save your current mods as a new set instead.
 
-Click a loadout's **export** icon (⇪) to save it as a `.silo` file — a small JSON file listing the loadout's name and mod tech-names (no mod ZIPs are included). Share that file, and the recipient clicks **↧ Import a .silo file** to add it as a new loadout (`.silo` or `.json` accepted). Import only creates the loadout entry; the person still needs the actual mods in their library for every mod to activate.
+## When your mods drift from a set
 
-## Deleting
+Silo remembers the set you last switched to. If you turn a mod on or off afterwards, Silo shows how far you've moved from that set instead of forgetting it:
 
-The **✕** icon removes a loadout after a confirm. As the prompt says, your mods aren't affected — only the saved set is discarded.
+- The **Library** status strip shows, for example, "Custom (3 changes since Harvest 2026)".
+- The **Play** menu (the arrow beside **Play**) starts with "Custom: 3 changes since Harvest 2026", and offers **Update Harvest 2026 from current mods** and **Save current mods as a new set**. While nothing has changed it reads "Harvest 2026, unchanged".
+- **My sets** shows the same note with **Update the set** and **Save as new**.
+
+**Manage mod sets** in the **Play** menu opens this page.
+
+Saving, replacing and deleting sets wait while another change to your library is running, such as a library archive move. The buttons say why they're off.
+
+To start from the mods a savegame used, see [Savegames](/help/savegames/).

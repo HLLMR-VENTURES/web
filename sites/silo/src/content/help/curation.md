@@ -1,34 +1,56 @@
 ---
-title: "Curating your library: favorites, tags & flags"
-label: "Curating your library: favorites, tags & flags"
-summary: "Curation is your personal layer of judgment on top of the raw mod list: which mods you love, which are half-broken, which you never want to see, plus star ratings, tags, and notes."
+title: "Organizing and curating your library"
+label: "Organize and curate"
+summary: "Organize files loose mods into category folders, and favorites, tags, ratings, notes and flags help you find your way around a big library."
 group: "Your library"
 order: 5
 legacyAnchor: "curation-h"
-appliesTo: "0.11"
+appliesTo: "1.0"
 ---
-Curation is your personal layer of judgment on top of the raw mod list: which mods you love, which are half-broken, which you never want to see, plus star ratings, tags, and notes. It helps you find the right mods fast in a library of hundreds. Everything here is Silo-only metadata stored in Silo's own database and keyed to each mod's internal tech-name, so it survives version updates and file moves.
+## Organize
 
-> None of this touches your mod files or the game. Flags, ratings, tags, and notes are stored beside your library, never written into the mod archive or your `mods/` folder. Every marking is a toggle you can clear at any time, and hiding a mod never deactivates or deletes it.
+Organizing files your loose mod zips into category folders in your [library archive](/help/library-archive/), for example `archive\Scripts & Tools`. The game only reads the top of the mods folder, so it ignores those subfolders. Your active mods stay active: Silo links them back into the mods folder, or copies them when the folder is cloud-synced. Unzipped folder mods are left where they are, and nothing is deleted.
 
-## The three flags
+When new zips are waiting, the status strip above the Library list says "N new mods aren't filed" with **Review**. You can also start from **Settings**, then **Library**, with the **Organize** button on the **Library layout** card.
 
-Each mod carries three independent flags, toggled from the icon buttons on its row or from the actions in its detail drawer:
+Either way opens the **Organize new mods** dialog. Nothing has moved yet:
 
-- **Favorite** (`☆` / `★`) — marks the mods you reach for most.
-- **Hidden** (`⊘`) — dims the row and drops it from the list by default. Use it for clutter you keep installed but rarely want to look at.
-- **Broken** (`⚠`) — flags a mod as broken or unfinished so you remember not to trust it. This is your own note-to-self, separate from Silo's automatic conflict detection.
+- A summary says how many mods go into how many categories, and that active mods stay active and nothing is deleted.
+- **See every file** lists each mod and the category folder it goes to.
+- **File new mods automatically from now on** turns on auto-filing.
 
-## Ratings, tags, and notes
+Click **File N mods** to go ahead, or **Cancel**. Progress shows at the bottom of the dialog. If some mods can't be moved, the dialog stays open and lists them with the reason and **Copy details**; the rest are filed, and the ones that failed stay in your mods folder.
 
-Open a mod's detail drawer to reach the rest, in the **Rating**, **Tags**, and **Notes** sections:
+![The Organize dialog with the summary, See every file and the auto-file checkbox](../../assets/screens/help-organize-preview.png)
 
-- **Rating** — click a star (1–5) to set it; click the same star again to clear back to unrated.
-- **Tags** — type into the *add tag…* box and press Enter to attach a free-text label; duplicates are ignored. Click a tag's name to filter the whole library by it, or the `✕` to remove it.
-- **Notes** — a free-text box for anything you want to remember. It saves when you click away.
+**Auto-file new mods** (in **Settings**, then **Library**) files new zips as they appear in your mods folder and keeps them active, without the dialog. It's off until you turn it on.
 
-When you clear every flag, the rating, and the note on a mod, Silo drops its curation record entirely, keeping the database tidy.
+## Undo organizing
 
-## Filtering and sorting by curation
+**Undo organizing** is the only undo for organizing, and it undoes all of it: there is no undo for a single batch. Open **Settings**, then **Maintenance**, and click **Undo organizing**. Silo asks **Put every mod back in your mods folder?**, then moves every parked and active mod out of the library folder and removes its links. Nothing is deleted. Afterwards the game loads every mod in that folder again, including the ones you had parked. To organize again, use **Organize**.
 
-The toggles in the top bar filter the list: **Favorites** shows only favorites, **Hidden** reveals the mods you've hidden, and **Flagged** shows only mods you marked broken. Clicking a tag adds a `#tag` crumb above the list; use its `✕` to clear it. Ratings show as stars on each row, and the toolbar's **Sort** menu includes *My rating* (alongside Name, Category, Size, Recently added, and Version), with the arrow button flipping ascending/descending.
+![Settings, Maintenance, with the Undo organizing confirmation](../../assets/screens/help-undo-organizing.png)
+
+## Favorite, hide and flag
+
+These live in a mod's **⋯** menu in the Library (or right-click), in the **⋯** menu of its details, and, for several mods at once, in the selection bar.
+
+- **Favorite** marks the mods you reach for most. The **Favorites** chip shows only those.
+- **Hide** leaves a mod out of the list. Turn on **Hidden** in **Filters** to see hidden mods again. Hiding never parks or deletes a mod.
+- **Flag** is your own note that a mod is broken or not to be trusted. A flagged mod shows a **Flagged** badge, counts toward **Needs attention**, and has its own **Flagged** filter. It is separate from Silo's own checks.
+
+Each one is a toggle: the same menu says **Remove favorite**, **Unhide** or **Remove flag** to clear it.
+
+## Rating, tags and notes
+
+Open a mod's details and scroll to **My notes**:
+
+- **Rating:** click a star (1 to 5). Click the same star again to clear it. Sort the Library by **My rating** to use it.
+- **Tags:** type in the **add tag…** box and press Enter. Click a tag to show every mod with it, or its ✕ to remove it. The **Tag** picker in **Filters** does the same.
+- **Notes:** anything you want to remember. It saves when you click away.
+
+## Category
+
+If Silo filed a mod under the wrong category, open its details and use the **Category** section: pick a category and an optional subcategory, then **Save category**. The section then says **Set by you**, and **Reset to automatic** goes back to Silo's choice. In the Library, **Change category…** in a mod's menu opens a quick list of categories, with **Reset to auto** at the bottom.
+
+> None of this touches your mod files or the game. Favorites, flags, ratings, tags and notes are kept in Silo's own database, tied to each mod's Mod ID, so they survive updates and moves. Clear everything on a mod and Silo drops its record.
