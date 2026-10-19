@@ -23,6 +23,13 @@
     { "path": "/c/index.html", "status": 200 },
     { "path": "/c?g=0123456789abcdef0123456789abcdef", "status": 301, "location": "/c/?g=0123456789abcdef0123456789abcdef", "why": "hand-typed links: query must survive the slash redirect" },
 
+    { "path": "/download/", "status": 200, "contains": "Download Silo", "why": "new 2026-10-18; /go/download, header, footer" },
+    { "path": "/download", "status": 301, "location": "/download/" },
+    { "path": "/changelog/", "status": 200, "contains": "What's new", "why": "new 2026-10-18" },
+    { "path": "/changelog", "status": 301, "location": "/changelog/" },
+    { "path": "/community/", "status": 200, "contains": "Community", "why": "new 2026-10-18" },
+    { "path": "/community", "status": 301, "location": "/community/" },
+
     { "path": "/catalog/", "status": 301, "location": "/trust/", "why": "renamed page; was a meta refresh" },
     { "path": "/catalog", "status": 301, "location": "/trust/" },
     { "path": "/catalog/index.html", "status": 301, "location": "/trust/" },
@@ -65,8 +72,6 @@
 
     { "path": "/authors/jane-doe/", "status": 200, "contains": "astro-island", "why": "profileUrl format decided 2026-10-17 (not /authors/#/login)" },
     { "path": "/authors/jane-doe", "status": 200, "contains": "astro-island" },
-    { "path": "/authors/", "status": 200, "contains": "Claim your mods", "pending": "P1-10", "why": "authors pitch + dashboard (plan A7)" },
-    { "path": "/schema/silo.v1.json", "status": 200, "pending": "P1-11", "why": "authors commit this $schema URL into silo.json (permanent from A7)" },
 
     { "path": "/healthz", "status": 200, "why": "container health" },
     { "path": "/this-page-does-not-exist", "status": 404, "contains": "This field is fallow" },

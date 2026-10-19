@@ -1,0 +1,225 @@
+---
+/**
+ * /download/: every installer of the latest app release, with size and SHA-256, read at build time
+ * (src/lib/release.ts). Falls back to the Releases page when GitHub was unreachable at build time.
+ */
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import { latestRelease, formatSize, type AppAsset } from "../../lib/release";
+import { LINKS } from "../../lib/site";
+
+const r = await latestRelease();
+const when = r
+  ? new Date(r.date + "T00:00:00Z").toLocaleDateString("en-US", { month: "long", day: "numeric", year: "numeric", timeZone: "UTC" })
+  : "";
+const platforms: { id: string; name: string; note: string; files: { label: string; asset: AppAsset | null; hint: string }[] }[] = r
+  ? [
+      {
+        id: "windows",
+        name: "Windows",
+        note: "Tested and supported. Windows 10 and 11, 64-bit.",
+        files: [
+          { label: "Setup (.exe)", asset: r.windowsSetup, hint: "Recommended. Installs for your user account, no administrator rights." },
+          { label: "Installer (.msi)", asset: r.windowsMsi, hint: "Installs for all users; needs administrator rights." },
+        ],
+      },
+      {
+        id: "macos",
+        name: "macOS",
+        note: "Builds exist but are largely untested. Testers welcome.",
+        files: [
+          { label: "Apple Silicon (.dmg)", asset: r.macArm, hint: "M1 and later." },
+          { label: "Intel (.dmg)", asset: r.macIntel, hint: "Older Intel Macs." },
+        ],
+      },
+      {
+        id: "linux",
+        name: "Linux",
+        note: "Builds exist but are largely untested. Testers welcome.",
+        files: [
+          { label: "AppImage", asset: r.linuxAppImage, hint: "Runs on most distributions." },
+          { label: "Debian and Ubuntu (.deb)", asset: r.linuxDeb, hint: "" },
+          { label: "Fedora and openSUSE (.rpm)", asset: r.linuxRpm, hint: "" },
+        ],
+      },
+    ]
+  : [];
+---
+
+<BaseLayout
+  title="Download Silo · Farming Simulator 25 mod manager"
+  description="Download Silo for Windows, with macOS and Linux builds. Free and open source (MIT). Every installer is listed with its size and SHA-256 checksum."
+>
+  <div class="wrap dl">
+    <p class="kicker">Free · open source (MIT) · no account</p>
+    <h1>Download Silo</h1>
+    {
+      r ? (
+        <p class="lede">
+          Version {r.version}, released {when}. <a href={r.pageUrl}>Release notes</a> · <a href="/changelog/">What's new</a>
+        </p>
+      ) : (
+        <p class="lede">
+          The latest installers are on the <a href={LINKS.releases}>Releases page</a>.
+        </p>
+      )
+    }
+
+    {
+      platforms.map((p) => (
+        <section class="platform" id={p.id} aria-labelledby={`${p.id}-h`}>
+          <h2 id={`${p.id}-h`}>{p.name}</h2>
+          <p class="note">{p.note}</p>
+          <ul class="files">
+            {p.files
+              .filter((f) => f.asset)
+              .map((f, i) => (
+                <li>
+                  <a class:list={["btn", i === 0 && p.id === "windows" ? "btn-primary" : "btn-ghost"]} href={f.asset!.url}>
+                    {f.label}
+                  </a>
+                  <span class="meta">{f.hint ? `${formatSize(f.asset!.size)} · ${f.hint}` : formatSize(f.asset!.size)}</span>
+                  {f.asset!.sha256 && (
+                    <details>
+                      <summary>SHA-256</summary>
+                      <code>{f.asset!.sha256}</code>
+                    </details>
+                  )}
+                </li>
+              ))}
+          </ul>
+        </section>
+      ))
+    }
+
+    <section class="notes" aria-labelledby="notes-h">
+      <h2 id="notes-h">Before you install</h2>
+      <h3>Windows</h3>
+      <p>
+        Windows installers are <a href={LINKS.verifyDownload}>digitally signed</a> by David Hellmer, Silo's developer.
+        SmartScreen may still prompt on a brand-new release while its reputation builds, but it names the publisher instead
+        of "unknown". After that, Silo updates itself: it checks for a new version of the app at launch and installs it in
+        one click.
+      </p>
+      <h3>macOS</h3>
+      <p>
+        The macOS builds are unsigned. Open Silo once, then choose <strong>Open Anyway</strong> in System Settings, Privacy
+        &amp; Security.
+      </p>
+      <h3>Check a download</h3>
+      <p>
+        Compare a file's SHA-256 with the value above, or with the release's {
+          r?.sums ? <a href={r.sums.url}>SHA256SUMS.txt</a> : "SHA256SUMS.txt"
+        }. On Windows: <code>Get-FileHash .\file.exe</code>. On macOS and Linux: <code>shasum -a 256 file</code>. The
+        <code>.sig</code> files on the release page are for Silo's own updater. <a href={LINKS.verifyDownload}
+          >How to verify a download</a
+        >.
+      </p>
+      <h3>Build it yourself</h3>
+      <p>The source is on <a href={LINKS.source}>GitHub</a> under the MIT license.</p>
+    </section>
+  </div>
+</BaseLayout>
+
+<style>
+  .dl {
+    max-width: 900px;
+    padding-top: 48px;
+    padding-bottom: 72px;
+  }
+  .kicker {
+    margin: 0 0 10px;
+    font-size: 0.82rem;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--earth-text);
+  }
+  h1 {
+    font-size: var(--text-3xl);
+    line-height: var(--leading-tight);
+  }
+  h2 {
+    font-size: 1.6rem;
+    margin: 0 0 4px;
+  }
+  h3 {
+    font-size: 1.15rem;
+    margin: 24px 0 6px;
+  }
+  a {
+    color: var(--primary-text);
+  }
+  .lede {
+    color: var(--muted);
+    margin: 12px 0 32px;
+  }
+  .platform {
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    background: var(--surface);
+    padding: 24px 26px;
+    margin-bottom: 18px;
+    scroll-margin-top: 88px;
+  }
+  .note {
+    color: var(--muted);
+    margin: 0 0 16px;
+  }
+  .files {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    gap: 14px;
+  }
+  .files li {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 6px 14px;
+  }
+  .files .btn {
+    min-height: 44px;
+    min-width: 200px;
+  }
+  .btn-primary {
+    color: var(--on-primary);
+  }
+  .btn-ghost {
+    color: var(--text);
+  }
+  .meta {
+    color: var(--muted);
+    font-size: 0.92rem;
+    flex: 1 1 240px;
+  }
+  details {
+    flex: 1 1 100%;
+    font-size: 0.88rem;
+  }
+  summary {
+    cursor: pointer;
+    color: var(--muted);
+  }
+  details code {
+    display: block;
+    margin-top: 6px;
+    padding: 8px 10px;
+    background: var(--sunken);
+    border-radius: var(--radius-sm);
+    overflow-wrap: anywhere;
+  }
+  .notes {
+    margin-top: 40px;
+  }
+  .notes p {
+    max-width: 70ch;
+    color: var(--muted);
+    margin: 0;
+  }
+  .notes p code {
+    background: var(--sunken);
+    padding: 1px 5px;
+    border-radius: 4px;
+  }
+</style>

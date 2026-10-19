@@ -1,0 +1,105 @@
+---
+/**
+ * /changelog/: what changed in each Silo release, from GitHub Releases at build time (the
+ * `releases` collection). A new app release reaches this page with the next site build.
+ */
+import { getCollection, render } from "astro:content";
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import { LINKS } from "../../lib/site";
+
+const releases = (await getCollection("releases")).sort((a, b) => a.data.order - b.data.order);
+const rendered = await Promise.all(releases.map(async (r) => ({ r, Content: (await render(r)).Content })));
+const date = (d: string) =>
+  new Date(d + "T00:00:00Z").toLocaleDateString("en-US", { month: "long", day: "numeric", year: "numeric", timeZone: "UTC" });
+---
+
+<BaseLayout
+  title="What's new in Silo · Changelog"
+  description="What changed in each Silo release: new features, fixes and changes to the Farming Simulator 25 mod manager."
+>
+  <div class="wrap log">
+    <h1>What's new</h1>
+    <p class="lede">
+      Every Silo release, newest first. Silo checks for a new version of the app at launch and installs it in one click.
+      <a href="/download/">Download the latest</a> · <a href={LINKS.releases}>All releases on GitHub</a>
+    </p>
+    {
+      rendered.length === 0 && (
+        <p>
+          The release notes are on the <a href={LINKS.releases}>Releases page</a>.
+        </p>
+      )
+    }
+    {
+      rendered.map(({ r, Content }) => (
+        <article class="release" id={r.data.tag}>
+          <header>
+            <h2>{r.data.name}</h2>
+            <p class="meta">
+              <time datetime={r.data.date}>{date(r.data.date)}</time> · <a href={r.data.url}>On GitHub</a>
+            </p>
+          </header>
+          <div class="notes">
+            <Content />
+          </div>
+        </article>
+      ))
+    }
+  </div>
+</BaseLayout>
+
+<style>
+  .log {
+    max-width: 860px;
+    padding-top: 48px;
+    padding-bottom: 72px;
+  }
+  h1 {
+    font-size: var(--text-3xl);
+    line-height: var(--leading-tight);
+  }
+  a {
+    color: var(--primary-text);
+  }
+  .lede {
+    color: var(--muted);
+    margin: 12px 0 36px;
+  }
+  .release {
+    border-top: 1px solid var(--border);
+    padding: 28px 0 8px;
+    scroll-margin-top: 88px;
+  }
+  .release h2 {
+    font-size: 1.7rem;
+  }
+  .meta {
+    color: var(--muted);
+    margin: 4px 0 12px;
+  }
+  .notes :global(h3) {
+    font-size: 1.15rem;
+    margin: 20px 0 6px;
+  }
+  .notes :global(h4) {
+    font-size: 1rem;
+    margin: 16px 0 4px;
+  }
+  .notes :global(p),
+  .notes :global(li) {
+    max-width: 70ch;
+  }
+  .notes :global(li) {
+    margin: 6px 0;
+  }
+  .notes :global(code) {
+    background: var(--sunken);
+    padding: 1px 5px;
+    border-radius: 4px;
+    overflow-wrap: anywhere;
+  }
+  .notes :global(img) {
+    max-width: 100%;
+    height: auto;
+  }
+</style>
