@@ -1,0 +1,129 @@
+---
+/**
+ * Shell for /help/ and its topic pages: a grouped topic sidebar (a disclosure on narrow screens)
+ * beside the article. `current` is the topic id, omitted on the hub.
+ */
+import BaseLayout from "./BaseLayout.astro";
+import { groups } from "../lib/help";
+
+interface Props {
+  title: string;
+  description: string;
+  current?: string;
+}
+const { title, description, current } = Astro.props;
+const nav = await groups();
+---
+
+<BaseLayout title={title} description={description}>
+  <div class="wrap help">
+    <nav class="side" aria-label="Help topics">
+      <details data-topics>
+        <summary>All help topics</summary>
+        <a class="hub" href="/help/" aria-current={current ? undefined : "page"}>Help home</a>
+        {
+          nav.map((g) => (
+            <div class="group">
+              <p class="gname">{g.name}</p>
+              <ul>
+                {g.topics.map((t) => (
+                  <li>
+                    <a href={`/help/${t.id}/`} aria-current={t.id === current ? "page" : undefined}>
+                      {t.data.label}
+                    </a>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          ))
+        }
+      </details>
+    </nav>
+    <div class="main">
+      <slot />
+    </div>
+  </div>
+</BaseLayout>
+
+<script>
+  // The topic list starts closed (short on phones); wide screens open it beside the article.
+  const list = document.querySelector<HTMLDetailsElement>("details[data-topics]");
+  if (list && matchMedia("(min-width: 900px)").matches) list.open = true;
+</script>
+
+<style>
+  .help {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 32px 48px;
+    padding-top: 40px;
+    padding-bottom: 72px;
+    max-width: var(--maxw-docs);
+  }
+  .side {
+    flex: 1 1 240px;
+    max-width: 280px;
+    font-size: 0.95rem;
+  }
+  .main {
+    flex: 999 1 560px;
+    min-width: 0;
+  }
+  summary {
+    font-weight: 700;
+    cursor: pointer;
+    padding: 8px 0;
+  }
+  .hub {
+    display: inline-block;
+    margin: 6px 0 4px;
+    font-weight: 600;
+  }
+  .gname {
+    margin: 16px 0 4px;
+    font-size: 0.8rem;
+    font-weight: 700;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    color: var(--earth-text);
+  }
+  .side ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+  .side a {
+    display: block;
+    padding: 5px 8px;
+    margin-left: -8px;
+    border-radius: var(--radius-sm);
+    color: var(--text);
+    text-decoration: none;
+  }
+  .side a:hover {
+    background: color-mix(in srgb, var(--primary) 10%, transparent);
+  }
+  .side a[aria-current="page"] {
+    color: var(--primary-text);
+    font-weight: 700;
+    background: color-mix(in srgb, var(--primary) 10%, transparent);
+  }
+  @media (min-width: 900px) {
+    .side {
+      position: sticky;
+      top: 80px;
+      align-self: flex-start;
+      max-height: calc(100vh - 100px);
+      overflow: auto;
+    }
+  }
+  @media (max-width: 899.98px) {
+    .side {
+      max-width: none;
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 4px 16px 12px;
+      background: var(--surface);
+    }
+  }
+</style>

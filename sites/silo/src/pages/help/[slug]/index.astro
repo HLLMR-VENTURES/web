@@ -1,0 +1,117 @@
+---
+/**
+ * One help topic per Markdown file in src/content/help/, at /help/<id>/. The h1 carries the old
+ * single-page anchor id (for example id="crash-triage-h") so links that reach this page with the
+ * old fragment still land on the right heading.
+ */
+import { render } from "astro:content";
+import HelpLayout from "../../../layouts/HelpLayout.astro";
+import { topics } from "../../../lib/help";
+
+export async function getStaticPaths() {
+  const all = await topics();
+  return all.map((t, i) => ({ params: { slug: t.id }, props: { topic: t, prev: all[i - 1], next: all[i + 1] } }));
+}
+
+const { topic, prev, next } = Astro.props;
+const { Content } = await render(topic);
+---
+
+<HelpLayout title={`${topic.data.title} · Silo help`} description={topic.data.summary} current={topic.id}>
+  <article class="prose">
+    <p class="crumbs"><a href="/help/">Help</a> · {topic.data.group}</p>
+    <h1 id={topic.data.legacyAnchor}>{topic.data.title}</h1>
+    <Content />
+    <p class="applies">Written for Silo {topic.data.appliesTo}. Something out of date? <a href="/go/new-issue">Tell us</a>.</p>
+  </article>
+  <nav class="pager" aria-label="More help">
+    {prev ? <a class="prev" href={`/help/${prev.id}/`}><span>Previous</span>{prev.data.label}</a> : <span />}
+    {next && <a class="next" href={`/help/${next.id}/`}><span>Next</span>{next.data.label}</a>}
+  </nav>
+</HelpLayout>
+
+<style>
+  .crumbs {
+    margin: 0 0 8px;
+    color: var(--muted);
+    font-size: 0.92rem;
+  }
+  .crumbs a {
+    color: var(--primary-text);
+  }
+  h1 {
+    font-size: var(--text-3xl);
+    line-height: var(--leading-tight);
+    margin-bottom: 20px;
+  }
+  /* Old-anchor arrivals (#crash-triage-h) and in-page links clear the sticky header. */
+  h1,
+  .prose :global(h2) {
+    scroll-margin-top: 88px;
+  }
+  .prose :global(h2) {
+    font-size: 1.45rem;
+    margin: 36px 0 10px;
+  }
+  .prose :global(p),
+  .prose :global(li) {
+    max-width: 70ch;
+  }
+  .prose :global(li) {
+    margin: 4px 0;
+  }
+  .prose :global(a) {
+    color: var(--primary-text);
+  }
+  .prose :global(code) {
+    background: var(--sunken);
+    padding: 1px 5px;
+    border-radius: 4px;
+    overflow-wrap: anywhere;
+  }
+  .prose :global(blockquote) {
+    margin: 20px 0;
+    padding: 12px 18px;
+    border-left: 4px solid var(--primary);
+    background: var(--sunken);
+    border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+  }
+  .prose :global(blockquote p) {
+    margin: 0;
+  }
+  .applies {
+    margin-top: 40px;
+    color: var(--muted);
+    font-size: 0.9rem;
+  }
+  .pager {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 12px;
+    margin-top: 24px;
+    padding-top: 20px;
+    border-top: 1px solid var(--border);
+  }
+  .pager a {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    padding: 10px 14px;
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    text-decoration: none;
+    color: var(--text);
+    font-weight: 600;
+    max-width: 48%;
+  }
+  .pager a span {
+    font-size: 0.8rem;
+    font-weight: 400;
+    color: var(--muted);
+  }
+  .pager .next {
+    margin-left: auto;
+    text-align: right;
+  }
+</style>

@@ -9,9 +9,9 @@
     { "path": "/browse", "status": 301, "location": "/browse/", "pending": "P1-05", "why": "README.md:58 links without slash" },
     { "path": "/browse/index.html", "status": 200, "pending": "P1-05" },
 
-    { "path": "/help/", "status": 200, "pending": "P1-07", "why": "ISSUE_TEMPLATE config.yml, Discord autopilot corpus" },
-    { "path": "/help", "status": 301, "location": "/help/", "pending": "P1-07" },
-    { "path": "/help/index.html", "status": 200, "pending": "P1-07" },
+    { "path": "/help/", "status": 200, "why": "ISSUE_TEMPLATE config.yml, Discord autopilot corpus" },
+    { "path": "/help", "status": 301, "location": "/help/" },
+    { "path": "/help/index.html", "status": 200 },
 
     { "path": "/trust/", "status": 200, "why": "README.md:57, privacy policy" },
     { "path": "/trust", "status": 301, "location": "/trust/" },
@@ -60,7 +60,7 @@
     { "path": "/discord/", "status": 302, "location": "https://discord.gg/NpxcYdGHrW" },
     { "path": "/go/discord", "status": 302, "location": "https://discord.gg/NpxcYdGHrW" },
     { "path": "/go/privacy", "status": 302, "location": "/legal/privacy-policy.html", "why": "app and bot link through /go/ keys only" },
-    { "path": "/go/help-crash-triage", "status": 302, "location": "/help/#crash-triage-h" },
+    { "path": "/go/help-crash-triage", "status": 302, "location": "/help/crash-triage/" },
     { "path": "/go/not-a-key", "status": 404 },
 
     { "path": "/authors/jane-doe/", "status": 200, "contains": "astro-island", "why": "profileUrl format decided 2026-10-17 (not /authors/#/login)" },
@@ -75,7 +75,6 @@
   "anchors": {
     "$comment": "The old one-page help used these h2 ids; they are in Discord answers, the bot corpus and bookmarks. Fragments never reach the server, so /help/ carries a shim that maps each to its topic page, and each topic page keeps an element with the legacy id.",
     "page": "/help/",
-    "pending": "P1-07",
     "map": {
       "getting-started-h": "/help/getting-started/",
       "library-h": "/help/library/",

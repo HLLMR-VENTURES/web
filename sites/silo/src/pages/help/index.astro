@@ -1,0 +1,194 @@
+---
+/**
+ * /help/: the help hub. "What's going wrong tonight?" (direction C's problem grid, owner's pick
+ * 2026-10-18), a topic filter, and every topic by group. Each topic link carries its old
+ * single-page anchors (data-legacy="crash-triage-h", data-legacy-section="crash-triage"), and the
+ * small script below sends an old /help/#crash-triage-h link on to /help/crash-triage/.
+ */
+import HelpLayout from "../../layouts/HelpLayout.astro";
+import { groups, topics, PROBLEMS } from "../../lib/help";
+
+const nav = await groups();
+/** What the topic filter searches: title, label and the topic's whole text, lowercased. */
+const searchText = (t: (typeof nav)[number]["topics"][number]) =>
+  `${t.data.title} ${t.data.label} ${(t.body ?? "").replace(/[`*#>\[\]()_-]/g, " ")}`.replace(/\s+/g, " ").toLowerCase();
+const all = await topics();
+const byId = new Map(all.map((t) => [t.id, t]));
+const problems = PROBLEMS.map((p) => {
+  const t = byId.get(p.topic);
+  if (!t) throw new Error(`help PROBLEMS names a missing topic: ${p.topic}`);
+  return { ...p, label: t.data.label };
+});
+---
+
+<HelpLayout
+  title="Silo help · Silo"
+  description="How to use Silo, the Farming Simulator 25 mod manager: crash help, conflicts, updates, mod sets, multiplayer, savegames and settings, one topic per page."
+>
+  <h1>Help</h1>
+  <p class="lede">
+    How to use Silo, one topic per page. Start with what's going wrong, or browse every topic below. Still stuck? Ask in <a
+      href="/discord">Discord</a
+    > or <a href="/go/discussions">GitHub Discussions</a>.
+  </p>
+
+  <section aria-labelledby="problems-h">
+    <h2 id="problems-h">What's going wrong tonight?</h2>
+    <ul class="problems">
+      {
+        problems.map((p) => (
+          <li>
+            <a href={`/help/${p.topic}/`}>
+              <strong>{p.text}</strong>
+              <span>{p.label}</span>
+            </a>
+          </li>
+        ))
+      }
+    </ul>
+  </section>
+
+  <section aria-labelledby="topics-h">
+    <h2 id="topics-h">All topics</h2>
+    <label class="filter">
+      Filter topics
+      <input id="topic-filter" type="search" autocomplete="off" placeholder="for example: log, conflict, backup" />
+    </label>
+    <p class="none" hidden data-none>No topic matches. Try another word, or ask in <a href="/discord">Discord</a>.</p>
+    {
+      nav.map((g) => (
+        <div class="group" data-group>
+          <h3>{g.name}</h3>
+          <ul class="topics">
+            {g.topics.map((t) => (
+              <li data-topic data-text={searchText(t)}>
+                <a href={`/help/${t.id}/`} data-legacy={t.data.legacyAnchor} data-legacy-section={t.id}>
+                  {t.data.label}
+                </a>
+                <span>{t.data.summary}</span>
+              </li>
+            ))}
+          </ul>
+        </div>
+      ))
+    }
+  </section>
+</HelpLayout>
+
+<script>
+  // Old single-page links (/help/#crash-triage-h, /help/#crash-triage) open the topic page.
+  function followLegacyAnchor() {
+    const id = decodeURIComponent(location.hash.slice(1));
+    if (!/^[a-z-]+$/.test(id)) return;
+    const link = document.querySelector<HTMLAnchorElement>(`a[data-legacy="${id}"], a[data-legacy-section="${id}"]`);
+    if (link) location.replace(`${link.pathname}#${link.dataset.legacy}`);
+  }
+  followLegacyAnchor();
+  addEventListener("hashchange", followLegacyAnchor);
+
+  // Topic filter: every word must appear in the topic's title, label or summary.
+  const input = document.querySelector<HTMLInputElement>("#topic-filter");
+  const none = document.querySelector<HTMLElement>("[data-none]");
+  input?.addEventListener("input", () => {
+    const words = input.value.toLowerCase().split(/\s+/).filter(Boolean);
+    let shown = 0;
+    for (const li of document.querySelectorAll<HTMLElement>("[data-topic]")) {
+      const hit = words.every((w) => (li.dataset.text ?? "").includes(w));
+      li.hidden = !hit;
+      if (hit) shown++;
+    }
+    for (const g of document.querySelectorAll<HTMLElement>("[data-group]")) {
+      g.hidden = !g.querySelector("[data-topic]:not([hidden])");
+    }
+    if (none) none.hidden = shown > 0;
+  });
+</script>
+
+<style>
+  h1 {
+    font-size: var(--text-3xl);
+    line-height: var(--leading-tight);
+  }
+  h2 {
+    font-size: 1.6rem;
+    margin: 40px 0 14px;
+  }
+  h3 {
+    font-size: 1.15rem;
+    margin: 28px 0 8px;
+  }
+  .lede {
+    color: var(--muted);
+    font-size: 1.1rem;
+    max-width: 60ch;
+  }
+  a {
+    color: var(--primary-text);
+  }
+  .problems {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+    gap: 10px;
+  }
+  .problems a {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    height: 100%;
+    padding: 14px 16px;
+    border: 2px solid var(--text);
+    border-radius: var(--radius-sm);
+    color: var(--text);
+    text-decoration: none;
+  }
+  .problems a:hover {
+    border-color: var(--primary);
+    background: color-mix(in srgb, var(--primary) 8%, transparent);
+  }
+  .problems span {
+    color: var(--muted);
+    font-size: 0.9rem;
+  }
+  .filter {
+    display: grid;
+    gap: 6px;
+    font-weight: 600;
+    max-width: 420px;
+  }
+  .filter input {
+    font: inherit;
+    font-weight: 400;
+    padding: 10px 12px;
+    min-height: 44px;
+    border: 1px solid var(--border-strong);
+    border-radius: var(--radius-sm);
+    background: var(--raised);
+    color: var(--text);
+  }
+  .none {
+    color: var(--muted);
+  }
+  .topics {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: grid;
+    gap: 2px;
+  }
+  .topics li {
+    display: grid;
+    gap: 2px;
+    padding: 8px 0;
+    border-bottom: 1px solid var(--border);
+  }
+  .topics a {
+    font-weight: 600;
+  }
+  .topics span {
+    color: var(--muted);
+    font-size: 0.93rem;
+  }
+</style>
