@@ -1,0 +1,517 @@
+---
+/**
+ * /trust/: the catalog, provenance and the public numbers (ported from Silo/landing/trust, P1-06).
+ * Release download counts are read at BUILD time (src/lib/release.ts), so visitors' browsers no
+ * longer call GitHub. Catalog counts and API traffic stay live and are never baked into the page
+ * (Silo developer's rule: no fixed catalog counts): SiloAPI /stats and /categories, and the
+ * same-origin /metrics.json the host's counts job writes.
+ */
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import { releaseCounts } from "../../lib/release";
+import { SILO_API, LINKS } from "../../lib/site";
+
+const counts = await releaseCounts();
+const totalInstalls = counts?.reduce((n, r) => n + r.installs, 0) ?? null;
+const totalAll = counts?.reduce((n, r) => n + r.all, 0) ?? null;
+const maxInstalls = Math.max(1, ...(counts ?? []).map((r) => r.installs));
+const asOf = new Date().toISOString().slice(0, 10);
+const fmt = (n: number) => n.toLocaleString("en-US");
+const endpoints = [
+  "GET /stats",
+  "GET /categories",
+  "GET /mods?q=&category=&sort=&limit=&offset=",
+  "GET /mods/:id",
+  "GET /mods/:id/manifest?version=",
+  "POST /mods/lookup",
+  "GET /facets",
+  "GET /img/:id",
+];
+---
+
+<BaseLayout
+  title="Trust and the Silo catalog · Silo"
+  description="How Silo's catalog works: one record per Farming Simulator 25 mod across ModHub and GitHub, published builds hashed so your copy can be checked, a public read API, and the public numbers."
+>
+  <section class="hero">
+    <div class="wrap">
+      <p class="kicker">The Silo catalog</p>
+      <h1>One record per mod. Two sources. Checked against the published build.</h1>
+      <p class="lede">
+        Silo brings ModHub and GitHub together into one record for each Farming Simulator 25 mod, with the latest version
+        found across both, and hashes each build from its source. So an installed mod can be checked against the build
+        its source published. That is what the <strong>Verified build</strong> badge means.
+      </p>
+      <div class="cta-row">
+        <a class="btn btn-primary" href="/browse/">Browse the catalog</a>
+        <a class="btn btn-ghost" href="/#download">Get Silo</a>
+      </div>
+      <dl class="tiles" data-live-stats data-api={SILO_API}>
+        <div><dt>mods indexed</dt><dd data-stat="mods">…</dd></div>
+        <div><dt>ModHub and GitHub listings</dt><dd data-stat="sources">…</dd></div>
+        <div><dt>categories</dt><dd data-stat="categories">…</dd></div>
+      </dl>
+      <p class="small">Live from the catalog when the page loads.</p>
+    </div>
+  </section>
+
+  <section class="why" aria-labelledby="why-h">
+    <div class="wrap">
+      <h2 id="why-h">Mods scatter. The truth gets fuzzy.</h2>
+      <p class="sub">
+        A mod lives on ModHub, and its author ships newer builds on GitHub. Which is the latest? Is the file you
+        downloaded the one the author actually published, or was it repacked with something extra? The catalog answers
+        both.
+      </p>
+      <div class="cols">
+        <div>
+          <h3>One record per mod</h3>
+          <p>A mod's ModHub and GitHub listings resolve to one record, so you see the latest version found across both.</p>
+        </div>
+        <div>
+          <h3>Provenance, not a virus scan</h3>
+          <p>
+            We hash published builds. Silo hashes your installed copy on your computer and compares: a clean match, or the
+            exact files that differ. It confirms what a mod is. It doesn't guess intent.
+          </p>
+        </div>
+        <div>
+          <h3>What's covered</h3>
+          <p>
+            An hourly job refreshes versions and metadata, most popular mods first. New hashed builds currently come from
+            GitHub releases. ModHub hashing is paused, so only ModHub versions we already hashed can be checked.
+          </p>
+        </div>
+      </div>
+      <h3 class="legend-h">What you'll see in Silo and on Browse</h3>
+      <ul class="legend">
+        <li><span class="badge ok">Verified build</span> Your copy matches the published build byte for byte.</li>
+        <li><span class="badge warn">Modified (2 files)</span> Your copy differs from the published build; Silo lists the files.</li>
+        <li><span class="badge none">No badge</span> The catalog has no published build on file to compare against.</li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="hosting" aria-labelledby="hosting-h">
+    <div class="wrap narrow">
+      <h2 id="hosting-h">Silo indexes. It doesn't host.</h2>
+      <p>
+        Silo indexes public mod information and links back to each source. It does not host, mirror or redistribute mod
+        files. Downloads always go to the original source, whose own terms apply.
+      </p>
+      <p>
+        Our catalog server keeps cover images and integrity hashes it cached earlier, ModHub ones included. We keep those
+        to show what the full platform can do, should GIANTS allow us an official feed. We've asked them. Until then, the
+        server fetches nothing new from GIANTS' CDN, and we'll remove the ModHub cache if GIANTS asks us to.
+      </p>
+    </div>
+  </section>
+
+  <section class="authors" aria-labelledby="authors-h">
+    <div class="wrap narrow">
+      <p class="kicker">For mod authors</p>
+      <h2 id="authors-h">Help us get your builds right.</h2>
+      <p>
+        Provenance is only as good as its source of truth, and no one knows a mod's real build better than the person who
+        made it. We'd like mod authors to be able to confirm their own builds. There's no way to do that yet. When Silo has
+        your published build on file, players can check whether their copy matches it.
+      </p>
+      <p>
+        If your mod is listed wrongly, or you'd rather it wasn't listed, tell us and we'll fix it: open an issue on <a
+          href={LINKS.newIssue}>GitHub</a
+        > or email <a href="mailto:legal@hllmr.com">legal@hllmr.com</a>. See also <a href="/legal/copyright-takedown.html"
+          >Copyright &amp; Takedown</a
+        >.
+      </p>
+    </div>
+  </section>
+
+  <section class="api" aria-labelledby="api-h">
+    <div class="wrap narrow">
+      <p class="kicker">For developers</p>
+      <h2 id="api-h">A public read API.</h2>
+      <p>
+        The catalog is served by SiloAPI, a public, read-only HTTP API. No key, no account. It's rate-limited, so please be
+        a good citizen. It aggregates public metadata and links back to sources.
+      </p>
+      <p>Base: <code>{SILO_API}</code></p>
+      <ul class="endpoints">{endpoints.map((e) => <li><code>{e}</code></li>)}</ul>
+      <p>The <a href="/browse/">Browse</a> page is built entirely on these endpoints.</p>
+    </div>
+  </section>
+
+  <section class="numbers" aria-labelledby="numbers-h">
+    <div class="wrap">
+      <p class="kicker">For nerds</p>
+      <h2 id="numbers-h">The whole system, by the numbers.</h2>
+      <p class="sub">
+        Aggregate counts only. There's no account and no telemetry, and the app contacts the catalog only when you search
+        Browse, open a mod's details, check for updates or verify a mod. Traffic numbers come from our server access logs,
+        which keep IP addresses for 30 days (see the <a href="/legal/privacy-policy.html">privacy policy</a>). Small numbers
+        are shown as they are.
+      </p>
+
+      <div class="grid2">
+        <div class="panel">
+          <h3>Downloads by release</h3>
+          {
+            counts ? (
+              <>
+                <p class="big">
+                  {fmt(totalInstalls!)} <span>installer and app-package downloads, {counts.length} releases</span>
+                </p>
+                <table class="bars">
+                  <thead>
+                    <tr>
+                      <th scope="col">Release</th>
+                      <th scope="col">Downloads</th>
+                      <th scope="col" class="bar-col">
+                        <span class="visually-hidden">Share</span>
+                      </th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {counts.map((r) => (
+                      <tr>
+                        <td>
+                          <a href={`${LINKS.releases}/tag/${r.tag}`}>{r.tag}</a>
+                        </td>
+                        <td>{fmt(r.installs)}</td>
+                        <td class="bar-col" aria-hidden="true">
+                          <svg viewBox="0 0 100 8" preserveAspectRatio="none" focusable="false">
+                            <rect width={Math.max(2, Math.round((r.installs / maxInstalls) * 100))} height="8" rx="2" />
+                          </svg>
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+                <p class="small">
+                  Installer and app-package files only (.exe, .msi, .dmg, .AppImage, .deb, .rpm), from GitHub's public
+                  release data as of {asOf}. GitHub served {fmt(totalAll!)} files in total across these releases; the rest
+                  are auto-update checks and signature files, not installs.
+                </p>
+              </>
+            ) : (
+              <p class="small">
+                Release numbers were unavailable when this page was built. See the <a href={LINKS.releases}>Releases page</a>.
+              </p>
+            )
+          }
+        </div>
+
+        <div class="panel" data-live-metrics>
+          <h3>SiloAPI traffic</h3>
+          <table class="traffic">
+            <thead>
+              <tr><th scope="col">Window</th><th scope="col">Queries</th><th scope="col">Unique clients</th></tr>
+            </thead>
+            <tbody>
+              {
+                ["1h", "24h", "5d", "30d"].map((w) => (
+                  <tr>
+                    <td>{w}</td>
+                    <td data-q={w}>…</td>
+                    <td data-u={w}>…</td>
+                  </tr>
+                ))
+              }
+              <tr class="total"><td>total</td><td data-q="total">…</td><td>–</td></tr>
+            </tbody>
+          </table>
+          <h3 class="reach-h">30-day reach</h3>
+          <dl class="reach">
+            <div><dt>Silo app clients</dt><dd data-r="app">…</dd></div>
+            <div><dt>Browse visitors</dt><dd data-r="web">…</dd></div>
+            <div><dt>Site visitors</dt><dd data-r="site">…</dd></div>
+          </dl>
+          <p class="small" data-metrics-note>Counted from our server access logs. We publish only the totals.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+</BaseLayout>
+
+<script>
+  // Live numbers. Every value starts as "…" in the HTML and becomes a number or "unavailable";
+  // nothing about the catalog is baked into the page.
+  // SiloAPI /stats sends its counts as strings ("7030"); accept numbers and numeric strings.
+  const fmt = (n: unknown) => {
+    const v = typeof n === "string" && n.trim() !== "" ? Number(n) : n;
+    return typeof v === "number" && Number.isFinite(v) ? v.toLocaleString("en-US") : "–";
+  };
+  const json = (u: string) => fetch(u, { credentials: "omit" }).then((r) => (r.ok ? r.json() : Promise.reject(r.status)));
+  const tiles = document.querySelector<HTMLElement>("[data-live-stats]");
+  const api = tiles?.dataset.api;
+  const put = (sel: string, v: unknown) => {
+    const el = document.querySelector(sel);
+    if (el) el.textContent = fmt(v);
+  };
+  if (api) {
+    json(`${api}/stats`)
+      .then((s) => {
+        put('[data-stat="mods"]', s?.mods);
+        put('[data-stat="sources"]', s?.sources);
+      })
+      .catch(() => {
+        put('[data-stat="mods"]', null);
+        put('[data-stat="sources"]', null);
+      });
+    json(`${api}/categories`)
+      .then((c) => put('[data-stat="categories"]', Array.isArray(c?.categories) ? c.categories.length : null))
+      .catch(() => put('[data-stat="categories"]', null));
+  }
+  const u30 = (o: { uniques?: Record<string, number> } | undefined) => o?.uniques?.["30d"];
+  json("/metrics.json")
+    .then((m) => {
+      const q = m?.api?.queries ?? {};
+      const u = m?.api?.uniques ?? {};
+      for (const w of ["1h", "24h", "5d", "30d"]) {
+        put(`[data-q="${w}"]`, q[w]);
+        put(`[data-u="${w}"]`, u[w]);
+      }
+      put('[data-q="total"]', q.total);
+      put('[data-r="app"]', u30(m?.api?.app));
+      put('[data-r="web"]', u30(m?.api?.web));
+      put('[data-r="site"]', u30(m?.site));
+      const note = document.querySelector("[data-metrics-note]");
+      if (note && m?.generatedAt) note.textContent += ` Updated ${new Date(m.generatedAt).toLocaleString()}.`;
+    })
+    .catch(() => {
+      for (const el of document.querySelectorAll("[data-live-metrics] td, [data-live-metrics] dd")) {
+        if (el.textContent === "…") el.textContent = "–";
+      }
+      const note = document.querySelector("[data-metrics-note]");
+      if (note) note.textContent = "The traffic feed is unavailable right now.";
+    });
+</script>
+
+<style>
+  section {
+    padding: 64px 0;
+  }
+  .narrow {
+    max-width: 820px;
+  }
+  .kicker {
+    margin: 0 0 12px;
+    font-size: 0.82rem;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--earth-text);
+  }
+  h1 {
+    font-size: var(--text-3xl);
+    line-height: var(--leading-tight);
+    max-width: 18em;
+  }
+  h2 {
+    font-size: var(--text-2xl);
+    line-height: var(--leading-tight);
+    margin-bottom: 12px;
+  }
+  h3 {
+    font-size: 1.2rem;
+    margin: 0 0 8px;
+  }
+  p {
+    max-width: 68ch;
+  }
+  a {
+    color: var(--primary-text);
+  }
+  .btn-primary {
+    color: var(--on-primary);
+  }
+  .btn-ghost {
+    color: var(--text);
+  }
+  .lede {
+    font-size: 1.15rem;
+    color: var(--muted);
+    margin: 20px 0 0;
+  }
+  .sub {
+    color: var(--muted);
+  }
+  .small {
+    font-size: 0.88rem;
+    color: var(--muted);
+  }
+  .cta-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin: 28px 0 36px;
+  }
+  .tiles {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 16px;
+    margin: 0;
+  }
+  .tiles div {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 18px 20px;
+    display: flex;
+    flex-direction: column-reverse;
+    gap: 2px;
+  }
+  .tiles dd {
+    margin: 0;
+    font-family: var(--font-display);
+    font-weight: 600;
+    font-size: 2.2rem;
+    line-height: 1.1;
+  }
+  .tiles dt {
+    color: var(--muted);
+  }
+  .why {
+    background: var(--sunken);
+    border-block: 1px solid var(--border);
+  }
+  .cols {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 28px;
+    margin-top: 28px;
+  }
+  .cols p {
+    margin: 0;
+    color: var(--muted);
+  }
+  .legend-h {
+    margin-top: 36px;
+  }
+  .legend {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: grid;
+    gap: 10px;
+  }
+  .legend li {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 6px 12px;
+  }
+  .badge {
+    display: inline-block;
+    font-size: 0.85rem;
+    font-weight: 600;
+    padding: 3px 10px;
+    border-radius: 999px;
+    border: 1px solid var(--border-strong);
+  }
+  .badge.ok {
+    color: var(--success);
+    border-color: var(--success);
+  }
+  .badge.warn {
+    color: var(--warn);
+    border-color: var(--warn);
+  }
+  .badge.none {
+    color: var(--muted);
+    border-style: dashed;
+  }
+  .endpoints {
+    list-style: none;
+    padding: 14px 18px;
+    margin: 12px 0;
+    background: var(--sunken);
+    border-radius: var(--radius);
+    display: grid;
+    gap: 4px;
+    overflow-x: auto;
+  }
+  code {
+    font-size: 0.9rem;
+  }
+  .numbers {
+    background: var(--surface);
+    border-top: 1px solid var(--border);
+  }
+  .grid2 {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: 24px;
+    margin-top: 28px;
+  }
+  .panel {
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    background: var(--bg);
+    padding: 20px 22px;
+    min-width: 0;
+  }
+  .big {
+    font-family: var(--font-display);
+    font-weight: 600;
+    font-size: 2rem;
+    margin: 4px 0 12px;
+  }
+  .big span {
+    display: block;
+    font-family: var(--font-ui);
+    font-weight: 400;
+    font-size: 0.95rem;
+    color: var(--muted);
+  }
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.93rem;
+  }
+  th,
+  td {
+    text-align: left;
+    padding: 6px 8px 6px 0;
+    border-bottom: 1px solid var(--border);
+  }
+  th {
+    color: var(--muted);
+    font-weight: 600;
+  }
+  .bar-col {
+    width: 45%;
+  }
+  .bars svg {
+    display: block;
+    width: 100%;
+    height: 8px;
+  }
+  .bars rect {
+    fill: var(--primary);
+  }
+  .traffic .total td {
+    font-weight: 700;
+  }
+  .reach-h {
+    margin-top: 24px;
+  }
+  .reach {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+    gap: 12px;
+    margin: 0;
+  }
+  .reach div {
+    display: flex;
+    flex-direction: column-reverse;
+  }
+  .reach dd {
+    margin: 0;
+    font-family: var(--font-display);
+    font-weight: 600;
+    font-size: 1.6rem;
+  }
+  .reach dt {
+    color: var(--muted);
+    font-size: 0.88rem;
+  }
+</style>
