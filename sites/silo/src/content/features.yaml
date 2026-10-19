@@ -11,7 +11,7 @@
   kicker: "Diagnose"
   title: "Crashed? Start here."
   body: "Silo reads <code>log.txt</code> after every run and names the mod most likely behind the crash, ranked by the errors each one logged. When the log says nothing useful, <strong>Find the problem mod</strong> narrows it down for you, then puts your set back."
-  screen: triage
+  screen: crash-notice
   help: { href: "/help/crash-triage/", label: "How crash help works" }
   ld: "Crash and log triage: names the likely culprit from the errors each mod logged in log.txt"
   llms: "Crash & log triage: reads `log.txt`, separates real errors from noise, and ranks mods by the errors they logged"
