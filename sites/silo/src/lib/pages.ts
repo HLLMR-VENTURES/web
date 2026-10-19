@@ -21,10 +21,10 @@ export const INDEXABLE: IndexablePage[] = [
   { path: "/trust/", source: "src/pages/trust/index.astro", changefreq: "weekly", priority: 0.8 },
   { path: "/authors/", source: "src/pages/authors/index.astro", changefreq: "monthly", priority: 0.6 },
   { path: "/legal/", source: "src/pages/legal/index.astro", changefreq: "monthly", priority: 0.4 },
-  { path: "/legal/privacy-policy.html", source: "src/pages/legal/privacy-policy.astro", changefreq: "monthly", priority: 0.4 },
-  { path: "/legal/terms-of-service.html", source: "src/pages/legal/terms-of-service.astro", changefreq: "monthly", priority: 0.4 },
-  { path: "/legal/disclaimer.html", source: "src/pages/legal/disclaimer.astro", changefreq: "monthly", priority: 0.3 },
-  { path: "/legal/copyright-takedown.html", source: "src/pages/legal/copyright-takedown.astro", changefreq: "monthly", priority: 0.3 },
+  { path: "/legal/privacy-policy.html", source: "src/content/legal/privacy-policy.md", changefreq: "monthly", priority: 0.4 },
+  { path: "/legal/terms-of-service.html", source: "src/content/legal/terms-of-service.md", changefreq: "monthly", priority: 0.4 },
+  { path: "/legal/disclaimer.html", source: "src/content/legal/disclaimer.md", changefreq: "monthly", priority: 0.3 },
+  { path: "/legal/copyright-takedown.html", source: "src/content/legal/copyright-takedown.md", changefreq: "monthly", priority: 0.3 },
 ];
 
 // Build code is bundled before it runs, so import.meta.url does not point at src/. The build

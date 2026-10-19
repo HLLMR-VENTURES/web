@@ -23,8 +23,8 @@ if (new URL(SILO_API).origin !== SILO_API) {
 export default defineConfig({
   site: SITE_URL,
   output: "static",
-  // `preserve` keeps legacy file URLs byte-for-byte: src/pages/legal/privacy-policy.astro is
-  // emitted as legal/privacy-policy.html, and folder index pages as <dir>/index.html.
+  // `preserve` keeps legacy file URLs byte-for-byte: src/pages/legal/[slug].astro is emitted as
+  // legal/privacy-policy.html (and so on), and folder index pages as <dir>/index.html.
   build: {
     format: "preserve",
     inlineStylesheets: "never",
