@@ -1,0 +1,34 @@
+---
+/**
+ * /browse/: the public catalog, a client-only island on the public SiloAPI (P1-05). client:only:
+ * the island reads the query string (?q=, ?category=, ?mod=, …), so only the fallback prerenders.
+ */
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import Browse from "../../islands/Browse.svelte";
+import { SILO_API } from "../../lib/site";
+---
+
+<BaseLayout
+  title="Browse the FS25 mod catalog · Silo"
+  description="Search Farming Simulator 25 mods from ModHub and GitHub in one catalog, one record per mod, with the latest version across both and every mod linked to its original source."
+>
+  <div class="wrap">
+    <Fragment set:html="<!-- [html-validate-disable-block element-permitted-content: Astro places its island loader style here] -->" />
+    <Browse client:only="svelte" api={SILO_API}>
+      <p slot="fallback" class="loading">Loading the catalog…</p>
+    </Browse>
+    <noscript>
+      <p>
+        The catalog needs JavaScript to search. Silo's app has the same catalog built in, and the data is also available
+        from the public API described on the <a href="/trust/">Trust page</a>.
+      </p>
+    </noscript>
+  </div>
+</BaseLayout>
+
+<style>
+  .loading {
+    padding: 48px 0;
+    color: var(--muted);
+  }
+</style>

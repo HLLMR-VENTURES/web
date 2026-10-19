@@ -5,9 +5,9 @@
     { "path": "/", "status": 200, "contains": "Less fixing.", "why": "home; canonical; JSON-LD url" },
     { "path": "/index.html", "status": 200, "contains": "Less fixing.", "why": "old nav.js treated it as home" },
 
-    { "path": "/browse/", "status": 200, "pending": "P1-05", "why": "README, llms.txt, app copy, Discord bot" },
-    { "path": "/browse", "status": 301, "location": "/browse/", "pending": "P1-05", "why": "README.md:58 links without slash" },
-    { "path": "/browse/index.html", "status": 200, "pending": "P1-05" },
+    { "path": "/browse/", "status": 200, "why": "README, llms.txt, app copy, Discord bot" },
+    { "path": "/browse", "status": 301, "location": "/browse/", "why": "README.md:58 links without slash" },
+    { "path": "/browse/index.html", "status": 200 },
 
     { "path": "/help/", "status": 200, "why": "ISSUE_TEMPLATE config.yml, Discord autopilot corpus" },
     { "path": "/help", "status": 301, "location": "/help/" },
