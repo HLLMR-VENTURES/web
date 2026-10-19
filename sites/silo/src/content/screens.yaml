@@ -1,62 +1,106 @@
-# Screenshot manifest. Masters (1416x939 PNG, captured before the UI overhaul) live in
-# src/assets/screens/ and are re-encoded to AVIF/WebP at build time; the originals are also copied
-# to /screenshots/<file> to keep the legacy URLs alive.
+# Screenshot manifest. Masters are the Silo 1.0 (P2) showcase captures from HLLMR/silo
+# showcase/screens-v1 at 672d938 (kit: HLLMR/silo#267, docs/SHOWCASE.md): dark theme, a 1600x1000
+# window, fictional demo data only. Resized to 2400x1500 and stripped of metadata on import. They
+# are re-encoded to AVIF/WebP at build time and also copied to /screenshots/<file>, which keeps the
+# old site's screenshot URLs alive (library, browse, verified, conflicts, triage, savegames,
+# loadouts, mp, bindings, bridge). alt text is the Silo developer's, from the kit's alt.json.
 - id: library
   order: 0
   file: library.png
-  alt: "The Silo library: 728 mods by category, each marked active or parked."
-  gallery: false
-- id: browse
+  alt: "Silo's Library: a list of about 700 Farming Simulator 25 mods with icons, authors, versions and categories, each switched Active or Parked. The status line reads Ready to play, 189 of 693 active, Harvest 2026."
+  appVersion: "1.0"
+- id: crash-notice
   order: 1
-  file: browse.png
-  alt: "Silo's cross-source catalog: thousands of mods with cover art, ratings and per-source versions."
-  caption: "One catalog · ModHub and GitHub"
-  dialogCaption: "One catalog — ModHub and GitHub"
-- id: verified
-  order: 2
-  file: verified.png
-  alt: "Integrity check showing a mod Verified against the published build."
-  caption: "Verify it's the real build"
-  dialogCaption: "Check a mod against its published build"
-- id: conflicts
-  order: 3
-  file: conflicts.png
-  alt: "Conflict detection naming colliding script mods before launch."
-  caption: "Conflicts caught before launch"
-  dialogCaption: "Conflicts caught before you launch"
+  file: crash-notice.png
+  alt: "Back from a crashed game, Silo's notice says the last game ended unexpectedly and names the most likely mod, with a Park button for it."
+  appVersion: "1.0"
 - id: triage
-  order: 4
+  order: 2
   file: triage.png
-  alt: "Crash and log triage separating real errors from cosmetic warnings and ranking the likely culprit."
-  caption: "Crash triage ranks the likely culprit"
-  dialogCaption: "Crash triage ranks the likely culprit"
-- id: savegames
+  alt: "Diagnose, Last run: the crashed run's mods ranked by the errors they logged, the likely culprit first, each with Park and Show in library."
+  appVersion: "1.0"
+- id: find-problem-mod
+  order: 3
+  file: find-problem-mod.png
+  alt: "Find the problem mod, mid-run: round 1 of about 8, testing half of the active mods while the other half are parked, with steps to launch the game and report back."
+  appVersion: "1.0"
+- id: conflicts
+  order: 4
+  file: conflicts.png
+  alt: "Diagnose, Conflicts: one problem. Two mods claim the same exclusive slot, so the game would load only one of them; a Park one button fixes it."
+  appVersion: "1.0"
+- id: verified
   order: 5
-  file: savegames.png
-  alt: "Editing a savegame's difficulty and world settings from within Silo."
-  caption: "Edit saves without launching"
-  dialogCaption: "Edit a save without launching the game"
-- id: loadouts
+  file: verified.png
+  alt: "The mod drawer for a tractor mod, with a Verified build badge: its files match the build Silo's catalog hashed from the mod's source."
+  appVersion: "1.0"
+- id: modified-build
   order: 6
-  file: loadouts.png
-  alt: "Loadouts — save and switch named sets of active mods per playthrough."
-  caption: "A loadout per playthrough"
-  dialogCaption: "A loadout for every playthrough"
-- id: mp
+  file: modified-build.png
+  alt: "The mod drawer for a baler mod flagged Modified: Silo lists the files that differ from the published build."
+  appVersion: "1.0"
+- id: loadouts
   order: 7
-  file: mp.png
-  alt: "Multiplayer mod-set sync: export a hashed manifest, joiners verify their set matches."
-  caption: "Match sets for multiplayer"
-  dialogCaption: "Match mod sets for multiplayer"
-- id: bindings
+  file: loadouts.png
+  alt: "My sets: three saved mod sets with their mod counts and how each differs from the mods active now. Harvest 2026 is marked Active; the others offer Switch to this set."
+  appVersion: "1.0"
+- id: share-set
   order: 8
-  file: bindings.png
-  alt: "The full control-binding map with inputs bound to more than one action highlighted."
-  caption: "Your whole control map"
-  dialogCaption: "Your whole control map, searchable"
-- id: bridge
+  file: share-set.png
+  alt: "The Share dialog for the Harvest 2026 mod set: a share link has just been created for its 189 mods, with a Copy link button."
+  appVersion: "1.0"
+- id: updates
   order: 9
+  file: updates.png
+  alt: "Updates after a check: mods ready to install from GitHub with an Update all button, and newer ModHub versions to download from their pages."
+  appVersion: "1.0"
+- id: browse
+  order: 10
+  file: browse.png
+  alt: "Browse: a grid of catalog mods with their ModHub and GitHub sources spelled out, ratings and downloads, and whether each is in your library, has an update, or can be installed."
+  appVersion: "1.0"
+- id: savegames
+  order: 11
+  file: savegames.png
+  alt: "Mod sets, Savegames: each savegame with its map, when it was last played, whether its mods are all in the library, and Use this save's mods."
+  appVersion: "1.0"
+- id: mp
+  order: 12
+  file: mp.png
+  alt: "The Share dialog with Multiplayer check file chosen: a file with each mod's exact fingerprint, so friends can check they match a server before joining."
+  appVersion: "1.0"
+- id: bindings
+  order: 13
+  file: bindings.png
+  alt: "Tools, Controls map: every key, mouse and gamepad binding from the game's control settings, grouped by device, with inputs used by more than one action highlighted."
+  appVersion: "1.0"
+- id: bridge
+  order: 14
   file: bridge.png
-  alt: "The filltype-compatibility bridge generating a small companion mod."
-  caption: "Generate a filltype fix"
-  dialogCaption: "Generate a filltype-compatibility fix"
+  alt: "Tools, Fill type bridge: Silo builds a small companion mod that adds a map's fill type to the categories your trailers, silos and sell points accept."
+  appVersion: "1.0"
+- id: help-mods-folder
+  order: 15
+  file: help-mods-folder.png
+  alt: "Settings, Mods folder: the folder Silo manages and Farming Simulator 25 loads mods from, with Open folder and Change, and where the game is installed."
+  appVersion: "1.0"
+- id: help-organize-preview
+  order: 16
+  file: help-organize-preview.png
+  alt: "The Organize dialog before anything moves: three new mods and the library category folder each will be filed into."
+  appVersion: "1.0"
+- id: help-undo-organizing
+  order: 17
+  file: help-undo-organizing.png
+  alt: "Settings, Maintenance: the Undo organizing confirmation, which puts every mod back in the mods folder and deletes nothing."
+  appVersion: "1.0"
+- id: help-accounts
+  order: 18
+  file: help-accounts.png
+  alt: "Settings, Accounts: a connected GitHub account with star, watch and sharing links turned on, and a Disconnect button."
+  appVersion: "1.0"
+- id: help-copy-diagnostics
+  order: 19
+  file: help-copy-diagnostics.png
+  alt: "Settings, Diagnostics: Copy diagnostics and Export report give a summary of the library, conflicts and Silo's recent log, with the user name removed."
+  appVersion: "1.0"

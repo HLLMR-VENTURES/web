@@ -77,8 +77,9 @@ const endpoints = [
         <div>
           <h3>What's covered</h3>
           <p>
-            An hourly job refreshes versions and metadata, most popular mods first. Silo can only check ModHub versions it hashed
-            before ModHub fetching was paused. GitHub versions are checked as usual.
+            An hourly job refreshes versions and metadata, most popular mods first. Silo can only verify ModHub builds it
+            hashed before it paused downloads from GIANTS' servers (mod files and new cover images). ModHub versions and
+            details still update, so update checks work as usual. GitHub builds are verified as usual.
           </p>
         </div>
       </div>
@@ -86,7 +87,7 @@ const endpoints = [
       <ul class="legend">
         <li><span class="badge ok">Verified build</span> Your copy matches the published build byte for byte.</li>
         <li><span class="badge warn">Modified (2 files)</span> Your copy differs from the published build; Silo lists the files.</li>
-        <li><span class="badge none">No badge</span> The catalog has no published build on file to compare against.</li>
+        <li><span class="badge none">Unverified</span> The catalog has no published build on file to compare against yet.</li>
       </ul>
     </div>
   </section>
