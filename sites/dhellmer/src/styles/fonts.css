@@ -1,0 +1,12 @@
+/* Self-hosted fonts for dhellmer.com (SIL OFL 1.1), bundled by the site build: no font CDN, no
+ * third-party request. Owner's pick 2026-10-19, direction B "Technical Noir":
+ *   Instrument Sans (width + weight axes): the name and section headings, condensed and heavy;
+ *   IBM Plex Sans: everything people read;
+ *   IBM Plex Mono: dates, indexes, labels.
+ * Site-local on purpose: a dhellmer type change must not touch packages/design, which would
+ * republish the other sites. */
+@import "@fontsource-variable/instrument-sans/wdth.css";
+@import "@fontsource-variable/ibm-plex-sans/wght.css";
+@import "@fontsource-variable/ibm-plex-sans/wght-italic.css";
+@import "@fontsource/ibm-plex-mono/latin-400.css";
+@import "@fontsource/ibm-plex-mono/latin-ext-400.css";
