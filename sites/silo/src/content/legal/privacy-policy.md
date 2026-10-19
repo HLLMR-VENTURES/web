@@ -59,7 +59,7 @@ Silo never uploads your saves, mod archives, notes, settings or personal files.
 
 - The website sets **no cookies** and runs **no analytics scripts**. The only thing it stores in your browser is your light/dark theme choice (in `localStorage`).
 - **/browse** loads catalog data from our API in your browser. Cover images load from our API's image cache, or for some mods directly from where the source hosts them (GitHub or ModHub).
-- **/trust** loads catalog counts and traffic totals from our servers and release statistics from the GitHub API, in your browser.
+- **/trust** loads catalog counts, traffic totals and release statistics from our servers, in your browser. Our server reads the release statistics from GitHub's public data, so your browser does not contact GitHub for them.
 - **/c/** (shared collections) reads the collection from the GitHub API in your browser.
 
 When your browser loads data from GitHub, GitHub sees your IP address under its own privacy policy.
