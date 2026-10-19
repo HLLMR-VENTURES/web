@@ -1,7 +1,12 @@
-/* Silo skin: "Golden Hour" values mirrored from the app (Silo/src/lib/styles/tokens.css and
- * docs/DESIGN.md) as shipped on silo.hllmr.com on 2026-10-17. After the UI overhaul this file is
- * regenerated from (or CI-verified against) the app's tokens. */
+/* Silo skin: "Golden Hour on the Farm", tokens v2, mirrored from the app
+ * (HLLMR/silo src/lib/styles/tokens.css at dcb9f65, P2 PR1). Light = Daybreak, dark = warm Dusk.
+ * Same semantic slots as the app, so a later CI check can compare the two files.
+ * Brand rules (Silo developer, 2026-10-18): gold (--accent) is the scarce attention colour and is
+ * never text on a light ground (use --accent-text); meaning is never carried by colour alone. */
 :root {
+  /* Ramps. Pages use the semantic slots below, never these directly. */
+  --green-50: #eef4e6;
+  --green-100: #d8e7c6;
   --green-300: #9cc06e;
   --green-500: #5c8a3a;
   --green-600: #4a7330;
@@ -9,34 +14,50 @@
   --green-900: #21361a;
   --gold-300: #f2d26b;
   --gold-500: #e3b23c;
+  --gold-600: #c9922a;
   --gold-700: #a5751f;
+  --sky-500: #4a90c2;
+  --squash-500: #d98a1f;
+  --barn-500: #b34a38;
   --soil-500: #8a6a45;
   --soil-700: #5e472e;
-  --barn-500: #b34a38;
-  --sky-500: #4a90c2;
 
   --font-display: "Fraunces Variable", "Fraunces", "Iowan Old Style", "Palatino Linotype", Georgia, serif;
   --font-ui: "Hanken Grotesk Variable", "Hanken Grotesk", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
-  --font-mono: "JetBrains Mono", ui-monospace, "SF Mono", "Cascadia Code", Consolas, monospace;
+  --font-mono: "JetBrains Mono", ui-monospace, "Cascadia Mono", Consolas, "SF Mono", Menlo, monospace;
 
-  /* Light theme (default). */
+  /* Light theme: Daybreak (default). */
   --bg: #f6f3ec;
   --surface: #fcfaf4;
   --raised: #ffffff;
+  --sunken: #efeadf;
   --border: #e4dece;
+  --border-strong: #8f8875;
   --text: #2a2a22;
-  --muted: #6b6a5c;
-  --primary: var(--green-600);
-  --primary-hover: var(--green-700);
+  --muted: #5e5d50;
+  --primary: #4a7330;
+  --primary-hover: #395a25;
+  --primary-text: #3f6529;
   --on-primary: #ffffff;
-  --accent: var(--gold-500);
-  --info: var(--sky-500);
-  --warn: var(--gold-700);
-  --danger: var(--barn-500);
-  --success: var(--green-600);
-  --focus: var(--green-700); /* 7.1:1 on --bg (the old gold ring was 1.8:1) */
-  --shadow-1: 0 1px 2px rgba(40, 30, 10, 0.06), 0 8px 24px rgba(40, 30, 10, 0.06);
-  --shadow-2: 0 12px 40px rgba(20, 15, 5, 0.16);
+  --accent: #e3b23c;
+  --accent-text: #8a5f12;
+  --on-accent: #2a2a22;
+  --info: #2f6893;
+  --success: #3f6529;
+  --warn: #94560a;
+  --danger: #a63d2c;
+  --earth: #8a6a45;
+  --earth-text: #5e472e;
+  /* A deep field-green band that stays dark in both themes. */
+  --band: #21361a;
+  --on-band: #edebe0;
+  --on-band-muted: #d8e7c6;
+  --focus: #2f5a1d;
+  --shadow-1: 0 1px 2px rgb(40 30 10 / 0.06), 0 8px 24px rgb(40 30 10 / 0.06);
+  --shadow-2: 0 16px 48px rgb(40 30 10 / 0.18);
+  /* Frame drawn around app screenshots (the captures carry no chrome). */
+  --frame: #1f231c;
+  --frame-dot: #39402f;
   color-scheme: light;
 }
 
@@ -45,15 +66,32 @@
     --bg: #171a14;
     --surface: #1f231c;
     --raised: #282d24;
+    --sunken: #13160f;
     --border: #39402f;
+    --border-strong: #767e66;
     --text: #edebe0;
-    --muted: #a8a897;
-    --primary: var(--green-500);
-    --primary-hover: var(--green-300);
+    --muted: #adac9c;
+    --primary: #7fae55;
+    --primary-hover: #9cc06e;
+    --primary-text: #9cc06e;
     --on-primary: #12180e;
-    --focus: var(--gold-300); /* 11.9:1 on --bg */
-    --shadow-1: 0 1px 2px rgba(0, 0, 0, 0.3), 0 8px 24px rgba(0, 0, 0, 0.28);
-    --shadow-2: 0 14px 44px rgba(0, 0, 0, 0.45);
+    --accent: #e3b23c;
+    --accent-text: #f2d26b;
+    --on-accent: #2a2a22;
+    --info: #8cbde0;
+    --success: #9cc06e;
+    --warn: #f0b45c;
+    --danger: #ee9481;
+    --earth: #8a6a45;
+    --earth-text: #d2b48c;
+    --band: #13160f;
+    --on-band: #edebe0;
+    --on-band-muted: #adac9c;
+    --focus: #f2d26b;
+    --shadow-1: 0 1px 2px rgb(0 0 0 / 0.3), 0 8px 24px rgb(0 0 0 / 0.28);
+    --shadow-2: 0 14px 44px rgb(0 0 0 / 0.45);
+    --frame: #13160f;
+    --frame-dot: #39402f;
     color-scheme: dark;
   }
 }
@@ -62,14 +100,37 @@
   --bg: #171a14;
   --surface: #1f231c;
   --raised: #282d24;
+  --sunken: #13160f;
   --border: #39402f;
+  --border-strong: #767e66;
   --text: #edebe0;
-  --muted: #a8a897;
-  --primary: var(--green-500);
-  --primary-hover: var(--green-300);
+  --muted: #adac9c;
+  --primary: #7fae55;
+  --primary-hover: #9cc06e;
+  --primary-text: #9cc06e;
   --on-primary: #12180e;
-  --focus: var(--gold-300);
-  --shadow-1: 0 1px 2px rgba(0, 0, 0, 0.3), 0 8px 24px rgba(0, 0, 0, 0.28);
-  --shadow-2: 0 14px 44px rgba(0, 0, 0, 0.45);
+  --accent: #e3b23c;
+  --accent-text: #f2d26b;
+  --on-accent: #2a2a22;
+  --info: #8cbde0;
+  --success: #9cc06e;
+  --warn: #f0b45c;
+  --danger: #ee9481;
+  --earth: #8a6a45;
+  --earth-text: #d2b48c;
+  --band: #13160f;
+  --on-band: #edebe0;
+  --on-band-muted: #adac9c;
+  --focus: #f2d26b;
+  --shadow-1: 0 1px 2px rgb(0 0 0 / 0.3), 0 8px 24px rgb(0 0 0 / 0.28);
+  --shadow-2: 0 14px 44px rgb(0 0 0 / 0.45);
+  --frame: #13160f;
+  --frame-dot: #39402f;
   color-scheme: dark;
+}
+
+@media (prefers-contrast: more) {
+  :root:root:root {
+    --border: var(--border-strong);
+  }
 }

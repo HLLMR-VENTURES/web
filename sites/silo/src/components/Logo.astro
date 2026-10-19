@@ -1,31 +1,37 @@
 ---
 /**
- * Brand lockup at parity with the current site: the "S" tile plus the wordmark. The real
- * grain-silo mark replaces the tile in Phase 3 (it exists in the app and on Discord).
+ * Brand lockup: the real Silo tile (HLLMR/silo src/assets/brand/silo-tile.svg at dcb9f65, never
+ * recoloured) beside the wordmark set as live text in Fraunces 600, SOFT 50. Clear space is the
+ * dome's height; the tile is never smaller than 24 px.
  */
+import tile from "../assets/brand/silo-tile.svg";
+
+// One size today (34 px tile). Sizes are classes, not inline styles: the page CSP blocks style="".
+const size = 34;
 ---
 
-<span class="logo" aria-hidden="true">S</span><span class="word">Silo</span>
+<span class="lockup">
+  <img class="tile" src={tile.src} width={size} height={size} alt="" />
+  <span class="word">Silo</span>
+</span>
 
 <style>
-  .logo {
-    width: 34px;
-    height: 34px;
-    border-radius: 9px;
-    display: grid;
-    place-items: center;
-    font-weight: 600;
-    font-size: 19px;
-    color: #fff;
-    font-family: var(--font-display);
-    background: linear-gradient(135deg, var(--green-500), var(--green-700));
-    box-shadow: var(--shadow-1);
-    margin-right: 10px;
+  .lockup {
+    --tile: 34px;
+    display: inline-flex;
+    align-items: center;
+    gap: calc(var(--tile) * 0.3);
+  }
+  .tile {
+    width: var(--tile);
+    height: var(--tile);
+    flex: none;
   }
   .word {
     font-family: var(--font-display);
     font-weight: 600;
-    font-size: 19px;
+    font-variation-settings: "SOFT" 50;
+    font-size: calc(var(--tile) * 0.72);
     color: var(--text);
     line-height: 1;
   }
