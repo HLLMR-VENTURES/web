@@ -2,16 +2,17 @@
  * The About page's short bio and the life-story chapters (redesign brief v0.1, 2026-10-19).
  *
  * SHORT_BIO is third person, reusable for introductions and press, built only from facts the owner
- * has already published (LinkedIn export, founder note). The owner approves it at merge.
+ * has already published (LinkedIn export, founder note). The owner approves it at merge. It uses no
+ * pronouns: the owner has not stated any, and none is assumed.
  *
  * CHAPTERS is a scaffold, not a chronology: themes from the brief, in no claimed order, each marked
  * with its real state. A chapter is written from an interview with the owner and published only
- * when he approves it. Unknown is shown as unknown; nothing is inferred. The private master
+ * when the owner approves it. Unknown is shown as unknown; nothing is inferred. The private master
  * chronology lives outside this public repository.
  */
 
 export const SHORT_BIO =
-  "David Hellmer is an engineer, DJ and entrepreneur in Dallas–Fort Worth. Trained at the U.S. Navy's Nuclear Power Training Command, he spent two decades in building automation and low-voltage systems, from field technician to building automation department head, and has founded businesses including a freeze-dried food manufacturer he grew to national distribution. In 2025 he founded HLLMR Ventures, where he builds software with AI coding agents. He has been DJing for thirty years.";
+  "David Hellmer is an engineer, DJ and entrepreneur in Dallas–Fort Worth. Trained at the U.S. Navy's Nuclear Power Training Command, David spent two decades in building automation and low-voltage systems, from field technician to building automation department head, and has founded businesses including a freeze-dried food manufacturer grown to national distribution. In 2025 David founded HLLMR Ventures, building software with AI coding agents, and has been DJing for thirty years.";
 
 export type ChapterState = "Written" | "In progress" | "Not yet written";
 
