@@ -1,27 +1,33 @@
 // Content collections: each fact is written once and feeds every place that shows it
-// (visible cards, JSON-LD, llms.txt). Schemas fail the build on bad or missing fields.
+// (visible rows and cards, JSON-LD, llms.txt). Schemas fail the build on bad or missing fields.
 import { defineCollection } from "astro:content";
 import { file } from "astro/loaders";
 import { z } from "astro/zod";
 
-/** Home feature cards; `ld` is the matching schema.org featureList line. */
+const link = z.object({ href: z.string().startsWith("/"), label: z.string() });
+
+/** Home features; `ld` is the matching schema.org featureList line. */
 const features = defineCollection({
   loader: file("src/content/features.yaml"),
-  schema: z.object({
-    id: z.string(),
-    order: z.number(),
-    /** Placeholder glyph at parity; Lucide icons with labels replace these in Phase 3. */
-    glyph: z.string().optional(),
-    title: z.string().optional(),
-    /** Trusted HTML authored in this repo. */
-    body: z.string().optional(),
-    wide: z.boolean().default(false),
-    /** false = JSON-LD / llms.txt only (no visible card). */
-    card: z.boolean().default(true),
-    ld: z.string().optional(),
-    /** One-line summary for llms.txt. */
-    llms: z.string().optional(),
-  }),
+  schema: z
+    .object({
+      id: z.string(),
+      order: z.number(),
+      /** row = large row with a screenshot, card = small card, data = JSON-LD / llms.txt only. */
+      kind: z.enum(["row", "card", "data"]),
+      kicker: z.string().optional(),
+      title: z.string().optional(),
+      /** Trusted HTML authored in this repo. */
+      body: z.string().optional(),
+      /** Screenshot id from screens.yaml (rows only). */
+      screen: z.string().optional(),
+      help: link.optional(),
+      ld: z.string().optional(),
+      /** One-line summary for llms.txt. */
+      llms: z.string().optional(),
+    })
+    .refine((f) => f.kind === "data" || (f.title && f.body), { message: "rows and cards need a title and body" })
+    .refine((f) => f.kind !== "row" || (f.screen && f.kicker), { message: "rows need a screen and a kicker" }),
 });
 
 /** FAQ: the visible <details> and the FAQPage JSON-LD both render from `answer`. */

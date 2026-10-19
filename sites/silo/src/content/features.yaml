@@ -1,87 +1,104 @@
-# Home feature cards, the JSON-LD featureList and the llms.txt feature list, written once.
-# card: false entries feed JSON-LD / llms.txt only. body is trusted HTML.
+# Home features, the JSON-LD featureList and the llms.txt feature list, written once.
+# kind: row  = a large alternating row with a screenshot (screen = an id in screens.yaml)
+#       card = a small card under "And the rest of the job"
+#       data = JSON-LD / llms.txt only
+# body is trusted HTML. Claims follow the Silo developer's list of 2026-10-18 (recorded in the
+# hllmr-infra request): no virus-scan, Nexus, in-app ModHub download, "verified author", default-on
+# update checks or per-batch organize undo claims.
 - id: crash-triage
   order: 1
-  glyph: "◆"
+  kind: row
+  kicker: "Diagnose"
   title: "Crashed? Start here."
-  body: "Silo reads <code>log.txt</code> and ranks the likely culprit. When the log is silent, it runs the disable-half-and-relaunch hunt for you."
-  ld: "Crash and log triage: ranks mods by the errors they logged in log.txt"
+  body: "Silo reads <code>log.txt</code> after every run and names the mod most likely behind the crash, ranked by the errors each one logged. When the log says nothing useful, <strong>Find the problem mod</strong> narrows it down for you, then puts your set back."
+  screen: triage
+  help: { href: "/help/#crash-triage-h", label: "How crash help works" }
+  ld: "Crash and log triage: names the likely culprit from the errors each mod logged in log.txt"
   llms: "Crash & log triage: reads `log.txt`, separates real errors from noise, and ranks mods by the errors they logged"
+- id: bisection
+  order: 1.5
+  kind: data
+  ld: "Find the problem mod: guided halving to isolate a bad mod"
+  llms: "Find the problem mod: guided \"switch half off, relaunch\" to isolate a bad mod, then restores your set"
 - id: conflicts
   order: 2
-  glyph: "⚠"
-  title: "Checked before launch."
-  body: "Duplicate maps, colliding fill types and a friend's missing mods show up in Silo while they're still easy to fix."
-  ld: "Conflict detection across maps, filltypes, vehicle types and scripts"
-  llms: "Conflict detection: flags more than one active map before launch, plus colliding filltypes, vehicle types and scripts"
-- id: hands-off
-  order: 3
-  glyph: "⊡"
-  title: "Hands off your mods."
-  body: "Silo never edits inside a mod and gives the game exactly the set you picked. Organize shows every move before it touches a file, and updates keep the previous version in <code>backups/</code>."
-- id: catalog
-  order: 4
-  glyph: "⌗"
-  title: "Cross-source catalog"
-  body: "One record per mod that pulls ModHub and GitHub together, so you see the latest version found across them. GitHub releases install in one click. ModHub mods download from ModHub, and Silo picks them up when you save them to your mods folder."
-  ld: "Cross-source catalog of ModHub and GitHub listings"
-  llms: "Cross-source catalog: one canonical record per mod across ModHub and GitHub, with the latest version across both"
-- id: one-click-install
-  order: 4.5
-  card: false
-  llms: "Installs GitHub releases in one click; ModHub mods are downloaded from ModHub"
+  kind: row
+  kicker: "Prevent"
+  title: "Checked before you launch."
+  body: "Colliding filltypes, vehicle types or scripts, and the mods a friend's server needs: Silo shows them while they're still easy to fix."
+  screen: conflicts
+  help: { href: "/help/#conflicts-h", label: "What Silo checks" }
+  ld: "Conflict detection across filltypes, vehicle types and scripts"
+  llms: "Conflict detection: flags colliding filltypes, vehicle types and scripts before launch"
 - id: integrity
+  order: 3
+  kind: row
+  kicker: "Verify"
+  title: "Is it the real build?"
+  body: "Silo hashes an installed mod on your computer and compares it with the build its source published. <strong>Verified build</strong> means a byte-for-byte match; <strong>Modified</strong> lists the files that changed. It's a provenance check, not a virus scan. It covers GitHub mods, and ModHub mods the catalog has already checked."
+  screen: verified
+  help: { href: "/trust/", label: "About the verified catalog" }
+  ld: "Mod integrity check against hashed published builds (provenance, not a virus scan)"
+  llms: "Integrity check: compares an installed mod with the build its source published (provenance, not a virus scan); covers GitHub mods and ModHub mods the catalog has already hashed"
+- id: mod-sets
+  order: 4
+  kind: card
+  title: "Mod sets"
+  body: "Keep a set per playthrough and switch between them. Switching a mod on or off changes its link in the game's mods folder right away, and switches can be undone."
+  help: { href: "/help/#loadouts-h", label: "Mod sets" }
+  ld: "Mod sets: switch named sets of active mods per playthrough"
+  llms: "Mod sets: zips are filed into a local archive; switching a mod on or off adds or removes its link in the game's flat mods folder right away (copies on cloud-synced folders); switches can be undone"
+- id: share
   order: 5
-  glyph: "✓"
-  title: "Integrity check"
-  body: "Silo hashes an installed mod on your computer and compares it with the build its source published: a clean match, or the exact files that changed. Provenance, not antivirus: it confirms what a mod is, it doesn't guess intent. It covers mods from GitHub, and ModHub mods Silo has already checked."
-  ld: "Mod integrity check against hashed published builds (provenance, not antivirus)"
-  llms: "Integrity check: compares an installed mod with the build its source published (provenance, not antivirus); covers GitHub mods and ModHub mods the catalog has already hashed"
-- id: bisection
-  order: 5.5
-  card: false
-  ld: "Guided bisection to isolate a bad mod"
-  llms: "Guided bisection: automates \"disable half, relaunch\" to isolate a bad mod, then restores your set"
-- id: loadouts
+  kind: card
+  title: "Share a set"
+  body: "Send a set as a link or a file. Friends preview it against their own library, then import it. A Multiplayer check file lets everyone match a server's mods."
+  help: { href: "/help/#collections-h", label: "Sharing sets" }
+  ld: "Share a mod set as a link or a file that friends can preview and import"
+  llms: "Sharing: share a mod set as a link (secret gist or public repo) or a file; others preview it against their library and import it; a Multiplayer check file matches a server's mods"
+- id: updates
   order: 6
-  glyph: "≋"
-  title: "Loadouts"
-  body: "Build a profile for each playthrough. When you switch a mod on or off, Silo adds or removes its link in the game's mods folder right away. Your zips live in a local archive. On a cloud-synced folder, Silo uses copies instead of links, which takes more disk."
-  ld: "Loadouts: switching a mod on or off links it into or out of the game's mods folder; zips are filed into a local archive, and Organize previews every move"
-  llms: "Loadouts: files zips into a local archive; switching a mod on or off adds or removes its link in the game's flat mods folder right away (copies on cloud-synced folders)"
-- id: collections
+  kind: card
+  title: "Updates, when you ask"
+  body: "Check GitHub and ModHub versions in one place. Checking sends the names of your installed mods to Silo's catalog; versions are compared on your computer. Updates keep the previous version in <code>backups/</code>."
+  help: { href: "/help/#updates-h", label: "Updates" }
+  ld: "Opt-in update checks across GitHub and ModHub"
+  llms: "Updates: opt-in checks across GitHub and ModHub; versions are compared on your computer and updates keep the previous version in `backups/`"
+- id: catalog
   order: 7
-  glyph: "⇪"
-  title: "Collections"
-  body: "Share a mod set as a link. Friends preview it against their own library, then import it: Silo downloads the GitHub mods, checks them against your build, and saves the set as a loadout."
-  ld: "Collections: share a mod set as a link that friends can preview and import"
-  llms: "Collections: share a mod set as a link (secret gist or public repo); others preview it against their library and import it as a loadout"
-- id: filltype-bridge
+  kind: card
+  title: "One catalog"
+  body: "One record per mod across ModHub and GitHub, with the latest version found across both. GitHub releases install in one click; ModHub mods open on ModHub, and Silo picks them up when you save them to your mods folder."
+  help: { href: "/browse/", label: "Browse the catalog" }
+  ld: "Cross-source catalog of ModHub and GitHub listings"
+  llms: "Cross-source catalog: one canonical record per mod across ModHub and GitHub, with the latest version across both; GitHub releases install in one click, ModHub pages open in your browser"
+- id: organize
   order: 8
-  glyph: "⛓"
+  kind: card
+  title: "Organize, safely"
+  body: "Organize shows every move before it touches a file, and nothing is deleted. Silo never edits inside a mod, and you can undo organizing at any time with <strong>Undo organizing</strong> in Settings."
+  help: { href: "/help/#curation-h", label: "Organizing" }
+  ld: "Organize with a preview of every move; Undo organizing puts every mod back"
+  llms: "Never edits inside a mod; Organize shows every move before it touches a file; Undo organizing puts every mod back in the mods folder"
+- id: filltype-bridge
+  order: 9
+  kind: card
   title: "Filltype bridge"
-  body: "Generates a small companion mod that teaches your equipment a map filltype it stubbornly refuses to load. The sugar-beet fix, with no vehicle edits."
+  body: "Generates a small companion mod that teaches your equipment a map filltype it refuses to load. The sugar-beet fix, with no vehicle edits."
+  help: { href: "/help/#filltype-bridge-h", label: "Filltype bridge" }
   ld: "Filltype bridge companion-mod generation"
   llms: "Filltype bridge: generates a companion mod that teaches equipment a stubborn map filltype"
 - id: any-folder
-  order: 9
-  glyph: "⇄"
-  title: "Any folder, any drive"
-  body: "Silo follows FS25's own mods-folder setting, or you pick any folder, and each keeps its own library. Move your parked mods to a bigger drive while the game's folder stays put. Every mod is verified before the original goes."
+  order: 10
+  kind: data
   ld: "Choose any mods folder; follows FS25's mods-folder override"
   llms: "Any mods folder: follows FS25's mods-folder override, or pick any folder (optionally pointing the game at it, with a backup)"
 - id: library-archive
-  order: 9.5
-  card: false
+  order: 10.5
+  kind: data
   ld: "Move the library archive to any drive with verified, pausable moves"
   llms: "Library archive on any drive: move parked mods to another drive with verified, pausable, cancellable moves"
-- id: drawer
-  order: 10
-  glyph: "☰"
-  title: "Act on ModHub and GitHub, from one drawer"
-  body: "Star the repo on GitHub through <em>your own</em> account, or open the ModHub page to rate a mod. Your GitHub token stays on your machine."
-  wide: true
 - id: no-telemetry
   order: 11
-  card: false
+  kind: data
   ld: "No account, no ads, no telemetry"

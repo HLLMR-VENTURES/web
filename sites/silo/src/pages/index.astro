@@ -1,29 +1,34 @@
 ---
 /**
- * Home page, ported at parity from Silo/landing/index.html (2026-10-17): same sections, copy and
- * links. Changes are structural only: static chrome, a <main> landmark, data-driven cards/FAQ/
- * JSON-LD, AVIF/WebP screenshots with dimensions, a native <dialog> lightbox (no inline handlers)
- * and a focus ring that passes 3:1.
+ * Home page, direction A "Daybreak" with B's three-step crash story (owner's pick, 2026-10-18).
+ * Rows, cards, FAQ and JSON-LD render from the content collections; the version and the Windows
+ * installer link come from the latest app release at build time (src/lib/release.ts).
+ * Screenshots are the pre-P2 masters until the Silo developer's showcase kit lands.
  */
-import { Picture, getImage } from "astro:assets";
+import { Picture } from "astro:assets";
 import BaseLayout from "../layouts/BaseLayout.astro";
 import { features, faq, screens, screenImage, plainText } from "../lib/content";
+import { latestRelease, formatSize } from "../lib/release";
 import { LINKS, OWNER, abs } from "../lib/site";
 
 const featureList = await features();
 const faqList = await faq();
 const screenList = await screens();
-const hero = screenList.find((s) => s.data.id === "library");
-if (!hero) throw new Error("screens.yaml needs a 'library' entry for the hero");
-const gallery = await Promise.all(
-  screenList
-    .filter((s) => s.data.gallery)
-    .map(async (s) => {
-      const src = screenImage(s.data.file);
-      const full = await getImage({ src, format: "webp", width: src.width });
-      return { ...s.data, src, full: full.src };
-    }),
-);
+const screenById = new Map(screenList.map((s) => [s.data.id, s.data]));
+const screen = (id: string) => {
+  const s = screenById.get(id);
+  if (!s) throw new Error(`screens.yaml has no '${id}' entry`);
+  return { ...s, src: screenImage(s.file) };
+};
+const hero = screen("library");
+const rows = featureList.filter((f) => f.data.kind === "row").map((f) => ({ ...f.data, shot: screen(f.data.screen!) }));
+const cards = featureList.filter((f) => f.data.kind === "card").map((f) => f.data);
+
+const release = await latestRelease();
+const winHref = release?.windowsSetup?.url ?? LINKS.releases;
+const versionLine = release
+  ? `Version ${release.version}, released ${new Date(release.date + "T00:00:00Z").toLocaleDateString("en-US", { month: "long", day: "numeric", year: "numeric", timeZone: "UTC" })}`
+  : "Latest release on GitHub";
 
 const site = Astro.site;
 const jsonLd = {
@@ -37,14 +42,15 @@ const jsonLd = {
       applicationSubCategory: "Mod Manager",
       operatingSystem: "Windows, macOS, Linux",
       description:
-        "Silo is a free, open-source mod manager for Farming Simulator 25. It reads your mods and your game log, ranks the likely culprit when the game crashes, flags conflicts before launch, pulls ModHub and GitHub into one catalog, and checks an installed mod against the build its source published. Organize shows every move before it touches a file, and Restore vanilla layout puts every mod back in your mods folder.",
+        "Silo is a free, open-source mod manager for Farming Simulator 25. It reads your mods and your game log, names the likely culprit when the game crashes, flags conflicts before launch, pulls ModHub and GitHub into one catalog, and checks an installed mod against the build its source published. Organize shows every move before it touches a file, and Undo organizing puts every mod back in your mods folder.",
       downloadUrl: LINKS.releases,
-      releaseNotes: LINKS.releases,
+      releaseNotes: release?.pageUrl ?? LINKS.releases,
+      ...(release ? { softwareVersion: release.version } : {}),
       isAccessibleForFree: true,
       offers: { "@type": "Offer", price: "0", priceCurrency: "USD" },
       author: { "@type": "Organization", name: OWNER, url: LINKS.orgGithub },
       image: abs("/og.png", site),
-      screenshot: abs(`/screenshots/${hero.data.file}`, site),
+      screenshot: abs(`/screenshots/${hero.file}`, site),
       featureList: featureList.map((f) => f.data.ld).filter(Boolean),
     },
     { "@type": "Organization", name: OWNER, url: LINKS.orgGithub, sameAs: [LINKS.source] },
@@ -61,44 +67,43 @@ const jsonLd = {
 ---
 
 <BaseLayout
-  title="Silo — More farming. Less fixing. | Farming Simulator 25 mod manager"
-  description="Silo is a free, open-source mod manager for Farming Simulator 25. It reads your mods and your game log, points to the likely culprit when you crash, and flags conflicts before launch."
-  ogTitle="Silo — More farming. Less fixing."
+  title="Silo · More farming. Less fixing. | Farming Simulator 25 mod manager"
+  description="Silo is a free, open-source mod manager for Farming Simulator 25. It reads your mods and your game log, names the likely culprit when you crash, and flags conflicts before launch."
+  ogTitle="Silo · More farming. Less fixing."
   ogDescription="Silo reads your mods and your game log, so you can see what broke, what clashes and what's missing before the evening is gone. Free and open source, no account, no telemetry."
   jsonLd={jsonLd}
   verification
 >
   <section class="hero">
-    <div class="hero-glow"></div>
-    <canvas class="furrows" aria-hidden="true"></canvas>
     <div class="wrap hero-in">
       <div class="hero-copy">
-        <p class="eyebrow reveal">For Farming Simulator 25 players with a lot of mods</p>
-        <h1 class="reveal d1">More <em>farming.</em> Less fixing.</h1>
-        <p class="lede reveal d2">
+        <p class="kicker">For Farming Simulator 25 players with a lot of mods</p>
+        <h1>More farming.<br /><span class="em">Less fixing.</span></h1>
+        <p class="lede">
           Silo reads your mods and your game log, so you can see what broke, what clashes and what's missing before the
           evening is gone.
         </p>
-        <div class="cta-row reveal d2">
-          <a class="btn btn-primary" href="#download">Download for Windows</a>
-          <a class="btn btn-ghost" href="#download">macOS and Linux preview</a>
+        <div class="cta-row">
+          <a class="btn btn-primary btn-lg" href="#download">Download for Windows</a>
+          <a class="text-link" href="#other-platforms">macOS and Linux</a>
         </div>
-        <ul class="trust-line reveal d3" aria-label="Principles">
-          <li><span class="dot"></span> No account</li>
-          <li><span class="dot"></span> No ads</li>
-          <li><span class="dot"></span> No telemetry</li>
-          <li><span class="dot"></span> Open source (MIT)</li>
+        <p class="version">{versionLine} · free · open source (MIT)</p>
+        <ul class="chips" aria-label="Principles">
+          <li>No account</li>
+          <li>No ads</li>
+          <li>No telemetry</li>
+          <li>Never edits inside a mod</li>
         </ul>
       </div>
-
-      <figure class="hero-shot reveal d3">
+      <figure class="window hero-shot">
+        <div class="bar" aria-hidden="true"><span></span><span></span><span></span></div>
         <Picture
-          src={screenImage(hero.data.file)}
+          src={hero.src}
           formats={["avif"]}
           fallbackFormat="webp"
           widths={[640, 1080, 1416]}
-          sizes="(min-width: 1128px) 1080px, 100vw"
-          alt={hero.data.alt}
+          sizes="(min-width: 1180px) 640px, (min-width: 900px) 52vw, 100vw"
+          alt={hero.alt}
           loading="eager"
           fetchpriority="high"
         />
@@ -106,214 +111,139 @@ const jsonLd = {
     </div>
   </section>
 
-  <section class="problem" id="problem">
+  <section class="problem" aria-labelledby="problem-h">
     <div class="wrap">
-      <div class="sec-head">
-        <p class="eyebrow">The problem</p>
-        <h2>Hundreds of mods, one evening.</h2>
-        <p>
-          Everything drops into one <code>mods/</code> folder and loads at once. With hundreds of mods installed, finding
-          the one that broke your game can eat the whole night. Silo helps with that part.
-        </p>
-      </div>
-      <div class="prob-grid">
-        <div class="prob">
-          <span class="mk">01</span><div
-            ><b>Mystery crashes.</b><p>
-              The log scrolls a wall of red and the cause is buried somewhere in it. You disable mods at random and hope.
-            </p></div
-          >
-        </div>
-        <div class="prob">
-          <span class="mk">02</span><div
-            ><b>Silent conflicts.</b><p>
-              Two mods claim the same map, filltype or vehicle type, and one of them quietly wins.
-            </p></div
-          >
-        </div>
-        <div class="prob">
-          <span class="mk">03</span><div
-            ><b>Version roulette.</b><p>
-              The same mod can show one version on ModHub and a newer one on GitHub, and it's hard to tell which one you
-              have.
-            </p></div
-          >
-        </div>
-        <div class="prob">
-          <span class="mk">04</span><div
-            ><b>Scattered sources.</b><p>A mod lives on ModHub, its dev on GitHub. No one place tells the whole story.</p></div
-          >
-        </div>
-      </div>
+      <h2 id="problem-h">Hundreds of mods, one evening.</h2>
+      <p class="sub">
+        Everything drops into one <code>mods/</code> folder and loads at once. With hundreds installed, finding the one that
+        broke your game can eat the whole night.
+      </p>
+      <ol class="probs">
+        <li><h3>Mystery crashes</h3><p>The log scrolls a wall of red and the cause is buried somewhere in it.</p></li>
+        <li><h3>Silent conflicts</h3><p>Two mods claim the same filltype, vehicle type or script, and one quietly wins.</p></li>
+        <li><h3>Version roulette</h3><p>ModHub shows one version, GitHub another. Which one do you have?</p></li>
+        <li>
+          <h3>Scattered sources</h3><p>A mod lives on ModHub, its developer on GitHub. No one place tells the whole story.</p>
+        </li>
+      </ol>
     </div>
   </section>
 
-  <section id="features">
+  <section class="story" aria-labelledby="story-h">
     <div class="wrap">
-      <div class="sec-head">
-        <p class="eyebrow">What Silo does</p>
-        <h2>A management layer, not another downloader.</h2>
-        <p>
-          Reading archives, decoding icons, hashing files: the slow work runs in Rust, off the UI thread. The app stays
-          quick even with 700+ mods installed.
-        </p>
-      </div>
-      <div class="feat-grid">
-        {
-          featureList
-            .filter((f) => f.data.card)
-            .map((f) =>
-              f.data.wide ? (
-                <div class="card wide">
-                  <div class="glyph" aria-hidden="true">{f.data.glyph}</div>
-                  <div>
-                    <h3>{f.data.title}</h3>
-                    <p set:html={f.data.body} />
-                  </div>
-                  <a class="btn btn-ghost" href="#download">Try it</a>
-                </div>
-              ) : (
-                <div class="card">
-                  <div class="glyph" aria-hidden="true">{f.data.glyph}</div>
-                  <h3>{f.data.title}</h3>
-                  <p set:html={f.data.body} />
-                </div>
-              ),
-            )
-        }
-      </div>
-    </div>
-  </section>
-
-  <section id="screens">
-    <div class="wrap">
-      <div class="sec-head">
-        <p class="eyebrow">See it</p>
-        <h2>One app for the whole job.</h2>
-        <p>Real screens — click any to enlarge.</p>
-      </div>
-      <div class="screens">
-        {
-          gallery.map((s) => (
-            <figure class="shot">
-              <button
-                type="button"
-                data-shot={s.full}
-                data-caption={s.dialogCaption ?? s.caption}
-                aria-label={`Enlarge: ${s.dialogCaption ?? s.caption}`}
-              >
-                <Picture
-                  src={s.src}
-                  formats={["avif"]}
-                  fallbackFormat="webp"
-                  widths={[480, 720, 1080]}
-                  sizes="(min-width: 900px) 360px, (min-width: 620px) 50vw, 100vw"
-                  alt={s.alt}
-                  loading="lazy"
-                />
-              </button>
-              <figcaption>{s.caption}</figcaption>
-            </figure>
-          ))
-        }
-      </div>
-      <dialog id="lightbox" class="lb" aria-label="Screenshot">
-        <button class="lb-x" type="button" aria-label="Close" data-close>✕</button>
-        <figure><figcaption id="lb-cap"></figcaption></figure>
-      </dialog>
-    </div>
-  </section>
-
-  <section id="ethos">
-    <div class="wrap">
-      <div class="ethos">
-        <p class="eyebrow">Why you can trust it</p>
-        <h2>Your machine, your files, your accounts.</h2>
-        <div class="ethos-grid">
-          <div>
-            <p class="m">// open</p>
-            <h3>Open source</h3>
-            <p>
-              The desktop app's source is on GitHub under the MIT license. Audit it, fork it, build it yourself. The catalog
-              it talks to is a separate hosted service.
-            </p>
-          </div>
-          <div>
-            <p class="m">// quiet</p>
-            <h3>No account, no ads, no telemetry</h3>
-            <p>
-              Silo contacts its catalog only when you search Browse, open a mod's details, check for updates or verify a
-              mod. It also checks GitHub for its own app updates at launch, which sends no library data. Your saves, mod
-              files and notes stay on your machine. The <a href="/legal/privacy-policy.html">privacy policy</a> lists every
-              connection.
-            </p>
-          </div>
-          <div>
-            <p class="m">// safe</p>
-            <h3>Undoable</h3>
-            <p>
-              Silo files your mods into a local archive and links the active set into the game. Organize shows you every
-              move before it touches a file. Restore vanilla layout puts every mod back in your mods folder. Updates keep
-              the previous version in <code>backups/</code>, and Silo backs up settings and savegames before editing them.
-              It only ever removes files it put there itself.
-            </p>
-          </div>
-          <div>
-            <p class="m">// everywhere</p>
-            <h3>Windows today · macOS and Linux preview</h3>
-            <p>
-              One native app, per-OS game discovery, no runtime. Windows is tested; macOS and Linux are a preview and
-              seeking testers.
-            </p>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <section id="how">
-    <div class="wrap">
-      <div class="sec-head">
-        <p class="eyebrow">How it works</p>
-        <h2>Point it at your mods. Play.</h2>
-      </div>
+      <h2 id="story-h">From crash to culprit</h2>
       <ol class="steps">
-        <li class="step">
-          <div class="n">Scan</div>
-          <h3>It reads your library</h3>
-          <p>
-            Silo finds your mods folder and reads each mod's <code>modDesc.xml</code> in the background without extracting
-            the zip, sorting each one by type. The result is cached, so later scans are quick.
-          </p>
+        <li>
+          <p class="n">1 · The game crashes</p>
+          <p>Come back to Silo. It has already read <code>log.txt</code>, and the crash notice names the mod most likely behind it.</p>
         </li>
-        <li class="step">
-          <div class="n">Curate</div>
-          <h3>Organize &amp; check</h3>
-          <p>
-            Sort, tag and rate your mods, then build loadouts. Conflicts and update status show up here, before you ever
-            launch the game.
-          </p>
+        <li>
+          <p class="n">2 · Park it</p>
+          <p>One click sets that mod aside and leaves the rest of your set as it was. The switch can be undone.</p>
         </li>
-        <li class="step">
-          <div class="n">Launch</div>
-          <h3>Switch &amp; play</h3>
+        <li>
+          <p class="n">3 · Log says nothing?</p>
           <p>
-            Switching a mod on or off, or applying a loadout, changes the links in the game's mods folder right away. Launch
-            just starts the game. Switch loadouts between sessions as often as you like; your archived zips stay put.
+            <strong>Find the problem mod</strong> switches half your mods off, you relaunch, and it narrows down from there.
+            Then it puts your set back.
           </p>
         </li>
       </ol>
     </div>
   </section>
 
-  <hr class="rule" />
-
-  <section id="faq">
+  <section class="rows" aria-label="What Silo does">
     <div class="wrap">
-      <div class="sec-head">
-        <p class="eyebrow">Questions</p>
-        <h2>Straight answers.</h2>
+      {
+        rows.map((r, i) => (
+          <article class:list={["row", { flip: i % 2 === 1 }]} id={r.id}>
+            <div class="row-copy">
+              <p class="kicker">{r.kicker}</p>
+              <h2>{r.title}</h2>
+              <p set:html={r.body} />
+              {r.help && (
+                <p>
+                  <a class="text-link" href={r.help.href}>
+                    {r.help.label}
+                  </a>
+                </p>
+              )}
+            </div>
+            <figure class="window row-shot">
+              <div class="bar" aria-hidden="true">
+                <span />
+                <span />
+                <span />
+              </div>
+              <Picture
+                src={r.shot.src}
+                formats={["avif"]}
+                fallbackFormat="webp"
+                widths={[640, 1080, 1416]}
+                sizes="(min-width: 1180px) 620px, (min-width: 900px) 52vw, 100vw"
+                alt={r.shot.alt}
+                loading="lazy"
+              />
+            </figure>
+          </article>
+        ))
+      }
+    </div>
+  </section>
+
+  <section class="rest" aria-labelledby="rest-h">
+    <div class="wrap">
+      <h2 id="rest-h">And the rest of the job</h2>
+      <ul class="cards">
+        {
+          cards.map((c) => (
+            <li class="card">
+              <h3>{c.title}</h3>
+              <p set:html={c.body} />
+              {c.help && <a href={c.help.href}>{c.help.label}</a>}
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+  </section>
+
+  <section class="band" aria-labelledby="trust-h">
+    <div class="wrap">
+      <h2 id="trust-h">Your machine, your files, your accounts.</h2>
+      <div class="pillars">
+        <div>
+          <h3>Open source</h3>
+          <p>
+            The app's source is on GitHub under the MIT license. Audit it, fork it, build it yourself. The catalog it talks to
+            is a separate hosted service.
+          </p>
+        </div>
+        <div>
+          <h3>Quiet</h3>
+          <p>
+            No account, no ads, no telemetry. Silo contacts its catalog only when you search, open a mod's details, check
+            for updates or verify a mod. The <a href="/legal/privacy-policy.html">privacy policy</a> lists every connection.
+          </p>
+        </div>
+        <div>
+          <h3>Careful with your files</h3>
+          <p>
+            Silo never edits inside a mod, and Organize shows every move first. Updates keep the previous version, and
+            settings and saves are backed up before Silo edits them.
+          </p>
+        </div>
+        <div>
+          <h3>Windows first</h3>
+          <p>One native app with no runtime to install. macOS and Linux builds exist and testers are welcome.</p>
+        </div>
       </div>
+    </div>
+  </section>
+
+  <section class="faq-sec" aria-labelledby="faq-h">
+    <div class="wrap">
+      <h2 id="faq-h">Straight answers</h2>
       <div class="faq">
         {
           faqList.map((q) => (
@@ -329,645 +259,404 @@ const jsonLd = {
     </div>
   </section>
 
-  <section class="dl" id="download">
-    <div class="wrap">
-      <div class="sec-head">
-        <p class="eyebrow">Download</p>
-        <h2>Get the beta.</h2>
-        <p>Free and open source. Grab the installer for your platform, or build it from source.</p>
+  <section class="dl" id="download" aria-labelledby="dl-h">
+    <div class="wrap dl-in">
+      <div class="dl-copy">
+        <h2 id="dl-h">Get Silo</h2>
+        <p>Free and open source. {versionLine}.</p>
+        <div class="cta-row">
+          <a class="btn btn-primary btn-lg" href={winHref}>Download for Windows</a>
+          {release?.windowsSetup && <span class="size">{formatSize(release.windowsSetup.size)} · setup .exe</span>}
+        </div>
+        <p class="small">
+          Recommended: the setup <code>.exe</code> installs for your user account without administrator rights.
+          {
+            release?.windowsMsi ? (
+              <>
+                The <a href={release.windowsMsi.url}>.msi</a> installs for all users and needs administrator rights.
+              </>
+            ) : (
+              <>The .msi on the <a href={LINKS.releases}>Releases page</a> installs for all users.</>
+            )
+          }
+        </p>
       </div>
-      <div class="dl-row">
-        <a class="dl-btn" href={LINKS.releases}
-          ><span class="os" aria-hidden="true">⊞</span><span class="l"><b>Windows</b><span>.msi / .exe</span></span></a
-        >
-        <a class="dl-btn" href={LINKS.releases}
-          ><span class="os" aria-hidden="true"></span><span class="l"
-            ><b>macOS</b><span>.dmg · preview</span></span
-          ></a
-        >
-        <a class="dl-btn" href={LINKS.releases}
-          ><span class="os" aria-hidden="true">🐧</span><span class="l"
-            ><b>Linux</b><span>.AppImage / .deb / .rpm · preview</span></span
-          ></a
-        >
+      <div class="dl-notes">
+        <h3>Signed for Windows</h3>
+        <p>
+          Windows installers are <a href={LINKS.verifyDownload}>digitally signed</a> by David Hellmer, Silo's developer.
+          SmartScreen may still prompt on a brand-new release, but it shows the publisher instead of "unknown". After that,
+          Silo updates itself: it checks for a new version of the app at launch and installs it in one click.
+        </p>
+        <h3 id="other-platforms">macOS and Linux</h3>
+        <p>
+          Builds for macOS (Intel and Apple Silicon) and Linux (AppImage, .deb, .rpm) are on the <a
+            href={release?.pageUrl ?? LINKS.releases}>Releases page</a
+          >. They are unsigned and largely untested, so testers are welcome. On a Mac, open Silo once, then choose <strong
+            >Open Anyway</strong
+          > in System Settings, Privacy &amp; Security.
+        </p>
+        <p>Or <a href={LINKS.source}>read and build the source</a>.</p>
       </div>
-      <p class="dl-note">
-        <strong
-          >Windows is the tested platform; macOS and Linux are a preview and largely untested, so testers are welcome.</strong
-        > Windows installers are <a href={LINKS.verifyDownload}>digitally signed</a> by David Hellmer, Silo's developer. SmartScreen
-        may still prompt on a brand-new release while reputation builds, but it shows the publisher instead of "unknown". We
-        recommend the setup <code>.exe</code>: it installs for your user account without administrator rights. The <code
-          >.msi</code
-        > installs for all users and needs administrator rights. macOS and Linux builds are open source and unsigned. On a Mac,
-        open Silo once, then click <strong>Open Anyway</strong> in System Settings → Privacy &amp; Security. You can <a
-          href={LINKS.source}>read or build the source</a
-        > to verify. After that, Silo updates itself: it checks on launch and installs the next version in one click.
-      </p>
     </div>
   </section>
 </BaseLayout>
 
-<script>
-  // Ambient golden-hour field furrows: perspective lines converging to a horizon.
-  const c = document.querySelector<HTMLCanvasElement>(".furrows");
-  if (c) {
-    if (matchMedia("(prefers-reduced-motion: reduce)").matches) {
-      c.remove();
-    } else {
-      const ctx = c.getContext("2d");
-      const resize = () => {
-        const r = c.getBoundingClientRect();
-        c.width = r.width * devicePixelRatio;
-        c.height = r.height * devicePixelRatio;
-        ctx?.setTransform(devicePixelRatio, 0, 0, devicePixelRatio, 0, 0);
-      };
-      const draw = () => {
-        if (!ctx) return;
-        const w = c.clientWidth;
-        const h = c.clientHeight;
-        ctx.clearRect(0, 0, w, h);
-        const vpx = w * 0.78;
-        const vpy = -30; // vanishing point up-right, matching the glow
-        const soil = getComputedStyle(document.documentElement).getPropertyValue("--soil-500").trim();
-        ctx.strokeStyle = soil || "#8a6a45";
-        ctx.globalAlpha = 0.22;
-        ctx.lineWidth = 1;
-        for (let i = -8; i <= 24; i++) {
-          const x = (i / 16) * w;
-          ctx.beginPath();
-          ctx.moveTo(x, h + 4);
-          ctx.lineTo(vpx, vpy);
-          ctx.stroke();
-        }
-        ctx.globalAlpha = 1;
-      };
-      resize();
-      draw();
-      addEventListener("resize", () => {
-        resize();
-        draw();
-      });
-      matchMedia("(prefers-color-scheme: dark)").addEventListener("change", draw);
-    }
-  }
-
-  // Screenshot lightbox on a native <dialog>: focus moves in, Esc closes, focus returns.
-  const lb = document.querySelector<HTMLDialogElement>("#lightbox");
-  const cap = document.querySelector<HTMLElement>("#lb-cap");
-  if (lb && cap) {
-    // The <img> is created here so the static markup never carries an <img> without a src.
-    const img = document.createElement("img");
-    cap.before(img);
-    for (const btn of document.querySelectorAll<HTMLButtonElement>("[data-shot]")) {
-      btn.addEventListener("click", () => {
-        img.src = btn.dataset.shot ?? "";
-        img.alt = btn.dataset.caption ?? "";
-        cap.textContent = btn.dataset.caption ?? "";
-        lb.showModal();
-      });
-    }
-    lb.querySelector("[data-close]")?.addEventListener("click", () => lb.close());
-    lb.addEventListener("click", (e) => {
-      if (e.target === lb) lb.close();
-    });
-    lb.addEventListener("close", () => {
-      img.removeAttribute("src");
-    });
-  }
-</script>
-
 <style>
-  .hero {
-    position: relative;
+  section {
+    padding: 80px 0;
+  }
+  h2 {
+    font-size: var(--text-2xl);
+    line-height: var(--leading-tight);
+  }
+  .kicker {
+    margin: 0 0 14px;
+    font-size: 0.82rem;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--earth-text);
+  }
+  .text-link {
+    color: var(--primary-text);
+    font-weight: 600;
+  }
+  .btn-lg {
+    font-size: 1.05rem;
+    padding: 14px 24px;
+    min-height: 48px;
+  }
+  .window {
+    margin: 0;
+    border-radius: var(--radius-lg);
     overflow: hidden;
-    padding: 84px 0 48px;
+    background: var(--frame);
+    box-shadow:
+      0 0 0 1px var(--border),
+      var(--shadow-2);
   }
-  .hero-glow {
-    position: absolute;
-    inset: 0;
-    z-index: 0;
-    pointer-events: none;
-    background:
-      radial-gradient(120% 80% at 78% -8%, color-mix(in srgb, var(--gold-500) 30%, transparent), transparent 55%),
-      radial-gradient(90% 70% at 12% 8%, color-mix(in srgb, var(--green-500) 16%, transparent), transparent 60%);
+  .window .bar {
+    display: flex;
+    gap: 7px;
+    padding: 11px 14px;
   }
-  .furrows {
-    position: absolute;
-    left: 0;
-    right: 0;
-    bottom: -2px;
+  .window .bar span {
+    width: 11px;
+    height: 11px;
+    border-radius: 50%;
+    background: var(--frame-dot);
+  }
+  .window :global(img) {
+    display: block;
     width: 100%;
-    height: 240px;
-    z-index: 0;
-    opacity: 0.5;
-    pointer-events: none;
+    height: auto;
+  }
+
+  /* Hero */
+  .hero {
+    padding: 72px 0 64px;
   }
   .hero-in {
-    position: relative;
-    z-index: 1;
     display: flex;
-    flex-direction: column;
+    flex-wrap: wrap;
+    gap: 48px;
     align-items: center;
-    text-align: center;
   }
   .hero-copy {
-    max-width: 62ch;
+    flex: 1 1 480px;
+    min-width: 0;
+  }
+  .hero-shot {
+    flex: 1 1 480px;
+    min-width: 0;
   }
   .hero h1 {
-    font-size: clamp(2.5rem, 4.6vw, 3.9rem);
-    line-height: 1.04;
-    letter-spacing: -0.015em;
+    font-size: clamp(2.9rem, 1.6rem + 4vw, 4.9rem);
+    line-height: 1;
+    letter-spacing: -0.012em;
+    font-variation-settings: "SOFT" 50;
   }
-  .hero h1 em {
-    font-style: italic;
-    color: var(--primary);
+  .hero h1 .em {
+    color: var(--primary-text);
   }
   .lede {
+    font-size: 1.2rem;
     color: var(--muted);
-    font-size: 1.12rem;
-    margin: 22px auto 26px;
-    max-width: 58ch;
+    margin: 24px 0 0;
+    max-width: 34em;
   }
   .cta-row {
     display: flex;
     flex-wrap: wrap;
-    gap: 12px;
+    gap: 12px 20px;
     align-items: center;
-    justify-content: center;
+    margin-top: 32px;
   }
-  .trust-line {
+  .version {
+    margin: 16px 0 0;
+    font-size: 0.9rem;
+    color: var(--muted);
+  }
+  .chips {
     list-style: none;
     padding: 0;
-    margin: 22px 0 0;
+    margin: 24px 0 0;
     display: flex;
     flex-wrap: wrap;
-    gap: 8px 18px;
-    justify-content: center;
-    font-family: var(--font-mono);
-    font-size: 0.75rem;
-    color: var(--muted);
+    gap: 8px;
   }
-  .trust-line li {
-    display: inline-flex;
-    align-items: center;
-    gap: 6px;
-  }
-  .trust-line .dot {
-    width: 5px;
-    height: 5px;
-    border-radius: 50%;
-    background: var(--green-500);
-  }
-  .hero-shot {
-    margin: 50px 0 0;
-    width: 100%;
-    max-width: 1080px;
-  }
-  .hero-shot :global(img) {
-    width: 100%;
-    height: auto;
-    display: block;
-    border-radius: 16px;
+  .chips li {
     border: 1px solid var(--border);
-    box-shadow: var(--shadow-2);
     background: var(--surface);
+    border-radius: 999px;
+    padding: 4px 14px;
+    font-size: 0.88rem;
   }
 
-  .reveal {
-    opacity: 0;
-    transform: translateY(14px);
-    animation: rise 0.7s var(--ease) forwards;
+  /* Problem band */
+  .problem {
+    background: var(--sunken);
+    border-block: 1px solid var(--border);
+    padding: 64px 0;
   }
-  .reveal.d1 {
-    animation-delay: 0.06s;
-  }
-  .reveal.d2 {
-    animation-delay: 0.14s;
-  }
-  .reveal.d3 {
-    animation-delay: 0.22s;
-  }
-  @keyframes rise {
-    to {
-      opacity: 1;
-      transform: none;
-    }
-  }
-  @media (prefers-reduced-motion: reduce) {
-    .reveal {
-      animation: none;
-      opacity: 1;
-      transform: none;
-    }
-  }
-
-  section {
-    padding: 68px 0;
-  }
-  .sec-head {
-    max-width: 40ch;
-    margin-bottom: 38px;
-  }
-  .sec-head h2 {
-    font-size: var(--text-2xl);
-    line-height: var(--leading-tight);
-  }
-  .sec-head p {
+  .sub {
     color: var(--muted);
+    max-width: 44em;
     margin: 12px 0 0;
   }
-  .rule {
-    border: none;
-    border-top: 1px solid var(--border);
-    margin: 0;
-  }
-
-  .problem {
-    background: var(--surface);
-    border-top: 1px solid var(--border);
-    border-bottom: 1px solid var(--border);
-  }
-  .prob-grid {
+  .probs {
+    list-style: none;
+    padding: 0;
+    margin: 36px 0 0;
     display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 30px 48px;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 28px;
+    counter-reset: prob;
   }
-  .prob {
-    display: grid;
-    grid-template-columns: auto 1fr;
-    gap: 14px;
-    align-items: start;
+  .probs li {
+    counter-increment: prob;
   }
-  .prob .mk {
+  .probs li::before {
+    content: "0" counter(prob);
+    display: block;
     font-family: var(--font-mono);
-    color: var(--barn-500);
-    font-size: 0.8rem;
-    padding-top: 3px;
+    font-size: 0.85rem;
+    color: var(--earth-text);
   }
-  .prob b {
-    font-family: var(--font-display);
-    font-weight: 600;
+  .probs h3 {
+    font-family: var(--font-ui);
+    font-size: 1.15rem;
+    font-weight: 700;
+    margin: 4px 0 6px;
   }
-  .prob p {
-    margin: 4px 0 0;
+  .probs p {
+    margin: 0;
     color: var(--muted);
-    font-size: 0.98rem;
   }
 
-  .feat-grid {
+  /* Crash story */
+  .story {
+    padding: 72px 0 24px;
+  }
+  .steps {
+    list-style: none;
+    padding: 0;
+    margin: 32px 0 0;
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 18px;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 24px 32px;
+  }
+  .steps li {
+    border-top: 3px solid var(--primary);
+    padding-top: 18px;
+  }
+  .steps li:first-child {
+    border-top-color: var(--accent);
+  }
+  .steps .n {
+    margin: 0;
+    font-family: var(--font-mono);
+    font-weight: 600;
+    font-size: 0.95rem;
+    color: var(--primary-text);
+  }
+  .steps p:not(.n) {
+    margin: 8px 0 0;
+    color: var(--muted);
+  }
+
+  /* Feature rows */
+  .rows {
+    padding: 56px 0 24px;
+  }
+  .rows .wrap {
+    display: flex;
+    flex-direction: column;
+    gap: 88px;
+  }
+  .row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 40px 56px;
+    align-items: center;
+  }
+  .row.flip {
+    flex-direction: row-reverse;
+  }
+  .row-copy {
+    flex: 1 1 340px;
+    min-width: 0;
+  }
+  .row-copy h2 {
+    font-size: clamp(1.9rem, 1.4rem + 1.6vw, 2.6rem);
+    margin-bottom: 14px;
+  }
+  .row-copy p {
+    color: var(--muted);
+    margin: 0 0 12px;
+  }
+  .row-copy p :global(strong) {
+    color: var(--text);
+  }
+  .row-shot {
+    flex: 1 1 520px;
+    min-width: 0;
+  }
+
+  /* Cards */
+  .cards {
+    list-style: none;
+    padding: 0;
+    margin: 28px 0 0;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 16px;
   }
   .card {
     background: var(--surface);
     border: 1px solid var(--border);
     border-radius: var(--radius);
     padding: 22px;
-    transition:
-      transform var(--dur-fast),
-      box-shadow var(--dur-fast),
-      border-color var(--dur-fast);
-  }
-  .card:hover {
-    transform: translateY(-3px);
-    box-shadow: var(--shadow-1);
-    border-color: color-mix(in srgb, var(--primary) 30%, var(--border));
-  }
-  .card .glyph {
-    width: 40px;
-    height: 40px;
-    border-radius: 10px;
-    display: grid;
-    place-items: center;
-    font-size: 20px;
-    margin-bottom: 14px;
-    background: color-mix(in srgb, var(--primary) 12%, transparent);
-    color: var(--primary);
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
   }
   .card h3 {
-    font-size: 1.16rem;
+    font-size: 1.2rem;
   }
   .card p {
+    margin: 0;
     color: var(--muted);
-    font-size: 0.96rem;
-    margin: 8px 0 0;
+    flex: 1;
   }
-  .card.wide {
-    grid-column: span 3;
-    display: grid;
-    grid-template-columns: auto 1fr auto;
-    gap: 22px;
-    align-items: center;
-    padding: 20px 24px;
-  }
-  .card.wide .glyph {
-    margin: 0;
-  }
-  .card.wide p {
-    margin: 6px 0 0;
+  .card a {
+    color: var(--primary-text);
+    font-weight: 600;
+    padding: 4px 0;
   }
 
-  .screens {
+  /* Trust band */
+  .band {
+    background: var(--band);
+    color: var(--on-band);
+  }
+  .band h2 {
+    max-width: 18em;
+  }
+  .pillars {
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 20px;
+    grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+    gap: 28px;
+    margin-top: 32px;
   }
-  .shot {
+  .pillars h3 {
+    font-size: 1.25rem;
+    margin-bottom: 8px;
+  }
+  .pillars p {
     margin: 0;
+    color: var(--on-band-muted);
   }
-  .shot button {
-    display: block;
-    width: 100%;
-    padding: 0;
-    border: none;
-    background: none;
-    cursor: zoom-in;
-    border-radius: var(--radius);
+  .band a {
+    color: var(--on-band);
   }
-  .shot :global(img) {
-    width: 100%;
-    height: auto;
-    display: block;
-    border-radius: var(--radius);
-    border: 1px solid var(--border);
-    box-shadow: var(--shadow-1);
-    background: var(--surface);
-    transition:
-      transform var(--dur-fast),
-      box-shadow var(--dur-fast),
-      border-color var(--dur-fast);
-  }
-  .shot button:hover :global(img),
-  .shot button:focus-visible :global(img) {
-    transform: translateY(-3px);
-    box-shadow: var(--shadow-2);
-    border-color: color-mix(in srgb, var(--primary) 35%, var(--border));
-  }
-  .shot figcaption {
-    margin-top: 10px;
-    color: var(--muted);
-    font-size: 0.9rem;
-  }
-
-  .lb {
-    border: none;
-    padding: 4vh 4vw;
-    background: transparent;
-    max-width: none;
-    max-height: none;
-    width: 100vw;
-    height: 100vh;
-    margin: 0;
-  }
-  .lb[open] {
-    display: grid;
-    place-items: center;
-  }
-  .lb::backdrop {
-    background: rgba(8, 12, 8, 0.86);
-  }
-  .lb figure {
-    margin: 0;
-    max-width: 1200px;
-    width: 100%;
-  }
-  .lb :global(img) {
-    width: 100%;
-    height: auto;
-    display: block;
-    border-radius: 12px;
-    border: 1px solid var(--border);
-    box-shadow: 0 24px 60px rgba(0, 0, 0, 0.5);
-  }
-  .lb figcaption {
-    margin-top: 12px;
-    text-align: center;
-    color: #dfe6d6;
-    font-size: 0.95rem;
-  }
-  .lb-x {
-    position: fixed;
-    top: 18px;
-    right: 22px;
-    width: 40px;
-    height: 40px;
-    border-radius: 50%;
-    border: 1px solid rgba(255, 255, 255, 0.2);
-    background: rgba(0, 0, 0, 0.4);
-    color: #fff;
-    font-size: 1.1rem;
-    cursor: pointer;
-  }
-  .lb-x:hover {
-    background: rgba(0, 0, 0, 0.7);
-  }
-
-  .ethos {
-    background: linear-gradient(135deg, var(--green-700), var(--green-900));
-    color: #f3f1e6;
-    border-radius: var(--radius-lg);
-    padding: 44px;
-  }
-  .ethos .eyebrow {
-    color: color-mix(in srgb, var(--gold-300) 90%, #fff);
-  }
-  .ethos h2 {
-    color: #fff;
-    font-size: clamp(1.6rem, 2.8vw, 2.2rem);
-    max-width: 20ch;
-  }
-  .ethos-grid {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 26px;
-    margin-top: 30px;
-  }
-  .ethos-grid h3 {
-    color: #fff;
-    font-size: 1.05rem;
-  }
-  .ethos-grid p {
-    color: rgba(243, 241, 230, 0.72);
-    font-size: 0.92rem;
-    margin: 6px 0 0;
-  }
-  .ethos-grid .m {
-    font-family: var(--font-mono);
-    color: var(--gold-300);
-    font-size: 0.75rem;
-  }
-  .ethos :focus-visible {
+  .band :focus-visible {
     outline-color: var(--gold-300);
   }
 
-  .steps {
-    list-style: none;
-    padding: 0;
-    margin: 0;
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 20px;
-    counter-reset: step;
-  }
-  .step {
-    padding-top: 24px;
-    border-top: 2px solid var(--primary);
-  }
-  .step .n {
-    counter-increment: step;
-    font-family: var(--font-mono);
-    color: var(--primary);
-    font-size: 0.85rem;
-    font-weight: 600;
-  }
-  .step .n::before {
-    content: "0" counter(step) " / ";
-    color: var(--muted);
-  }
-  .step h3 {
-    font-size: 1.2rem;
-    margin: 8px 0 6px;
-  }
-  .step p {
-    color: var(--muted);
-    font-size: 0.96rem;
-    margin: 0;
-  }
-
-  .dl {
-    text-align: center;
-  }
-  .dl .sec-head {
-    margin: 0 auto 34px;
-  }
-  .dl-row {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: 12px;
-  }
-  .dl-btn {
-    display: flex;
-    align-items: center;
-    gap: 11px;
-    text-decoration: none;
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: var(--radius);
-    padding: 15px 22px;
-    min-width: 190px;
-    transition:
-      transform 0.12s,
-      border-color var(--dur-fast);
-  }
-  .dl-btn:hover {
-    transform: translateY(-2px);
-    border-color: color-mix(in srgb, var(--primary) 45%, var(--border));
-  }
-  .dl-btn .os {
-    font-size: 22px;
-  }
-  .dl-btn .l {
-    text-align: left;
-    line-height: 1.25;
-  }
-  .dl-btn .l b {
-    font-family: var(--font-display);
-    font-weight: 600;
-  }
-  .dl-btn .l span {
-    display: block;
-    color: var(--muted);
-    font-size: 0.8rem;
-  }
-  .dl-note {
-    color: var(--muted);
-    font-size: 0.86rem;
-    margin-top: 20px;
-  }
-  .dl-note a {
-    color: var(--primary);
-  }
-
+  /* FAQ */
   .faq {
     display: grid;
     gap: 12px;
-    max-width: 760px;
+    max-width: 780px;
+    margin-top: 28px;
   }
   .faq details {
     background: var(--surface);
     border: 1px solid var(--border);
     border-radius: var(--radius);
     padding: 2px 20px;
-    transition: border-color var(--dur-fast);
-  }
-  .faq details[open] {
-    border-color: color-mix(in srgb, var(--primary) 30%, var(--border));
   }
   .faq summary {
     font-family: var(--font-display);
     font-weight: 600;
-    font-size: 1.06rem;
+    font-size: 1.1rem;
     cursor: pointer;
-    padding: 15px 28px 15px 0;
-    position: relative;
-    list-style: none;
-  }
-  .faq summary::-webkit-details-marker {
-    display: none;
-  }
-  .faq summary::after {
-    content: "+";
-    position: absolute;
-    right: 0;
-    top: 13px;
-    font-size: 1.3rem;
-    color: var(--primary);
-    line-height: 1;
-  }
-  .faq details[open] summary::after {
-    content: "\2013";
+    padding: 14px 0;
   }
   .faq p {
     color: var(--muted);
     margin: 0 0 16px;
-    font-size: 0.98rem;
   }
   .faq p :global(a) {
-    color: var(--primary);
+    color: var(--primary-text);
   }
 
-  @media (max-width: 900px) {
-    .hero-copy {
-      max-width: none;
-    }
-    .feat-grid,
-    .steps,
-    .ethos-grid,
-    .screens {
-      grid-template-columns: 1fr 1fr;
-    }
-    .card.wide {
-      grid-column: span 2;
-    }
-    .prob-grid {
-      grid-template-columns: 1fr;
-    }
+  /* Download */
+  .dl {
+    background: var(--surface);
+    border-top: 1px solid var(--border);
   }
-  @media (max-width: 620px) {
-    .feat-grid,
-    .steps,
-    .ethos-grid,
-    .screens {
-      grid-template-columns: 1fr;
-    }
-    .card.wide {
-      grid-column: span 1;
-      grid-template-columns: 1fr;
-    }
-    .ethos {
-      padding: 28px;
-    }
+  .dl-in {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 40px 64px;
+  }
+  .dl-copy {
+    flex: 1 1 360px;
+  }
+  .dl-copy > p {
+    color: var(--muted);
+    margin: 12px 0 0;
+  }
+  .dl-copy .cta-row {
+    margin-top: 24px;
+  }
+  .size {
+    color: var(--muted);
+    font-size: 0.9rem;
+  }
+  .small {
+    font-size: 0.92rem;
+    margin-top: 18px !important;
+  }
+  .dl-notes {
+    flex: 1 1 400px;
+    color: var(--muted);
+  }
+  .dl-notes h3 {
+    color: var(--text);
+    font-size: 1.15rem;
+    margin: 0 0 6px;
+  }
+  .dl-notes p {
+    margin: 0 0 20px;
+  }
+  .dl a {
+    color: var(--primary-text);
+  }
+  .dl .btn-primary {
+    color: var(--on-primary);
   }
 </style>

@@ -9,27 +9,27 @@
   order: 2
   question: "What does Silo actually do?"
   answer:
-    - "It manages your Farming Simulator 25 mods. Silo organizes the library and reads <code>log.txt</code> to rank the likely culprit when the game crashes. It flags conflicts before launch, such as more than one active map and colliding filltypes, vehicle types or scripts. And it pulls ModHub and GitHub into one catalog that shows the latest version found across both."
+    - "It manages your Farming Simulator 25 mods. Silo organizes the library and reads <code>log.txt</code> to name the likely culprit when the game crashes. It flags conflicts before launch, such as colliding filltypes, vehicle types or scripts. And it pulls ModHub and GitHub into one catalog that shows the latest version found across both."
 - id: files
   order: 3
   question: "Does Silo move or modify my mod files?"
   answer:
-    - "It moves them, and it never edits inside a mod. Silo files your ZIPs into a local archive. When you switch a mod on or off, Silo adds or removes its link in the game's mods folder right away, so the game loads exactly your active set. Organize shows you every move before it touches a file. <strong>Restore vanilla layout</strong> puts every mod back in your mods folder, after which the game loads all of them, including ones you had parked. Mod updates keep the previous version in <code>backups/</code>, and Silo backs up settings and savegames before editing them."
+    - "It moves them, and it never edits inside a mod. Silo files your zips into a local archive. When you switch a mod on or off, Silo adds or removes its link in the game's mods folder right away, so the game loads exactly your active set. Organize shows you every move before it touches a file, and nothing is deleted. You can undo organizing at any time: <strong>Undo organizing</strong> (Settings, Maintenance) puts every mod back in your mods folder, after which the game loads all of them, including ones you had parked. Mod updates keep the previous version in <code>backups/</code>, and Silo backs up settings and savegames before editing them."
 - id: platforms
   order: 4
   question: "Which platforms does Silo support?"
   answer:
-    - "<strong>Windows is the tested, supported platform today.</strong> macOS (Intel and Apple Silicon) and Linux builds are <strong>a preview and largely untested</strong>, and we're actively seeking testers on those platforms. It's one native app with per-OS game discovery and no runtime to install."
+    - "<strong>Windows is the tested, supported platform today.</strong> macOS (Intel and Apple Silicon) and Linux builds exist but are largely untested, and testers on those platforms are welcome. It's one native app with per-OS game discovery and no runtime to install."
 - id: sources
   order: 5
   question: "Does Silo work with ModHub and GitHub?"
   answer:
-    - "Yes. Silo keeps one record per mod that pulls both together, so you see the latest version found across them. GitHub releases install in one click. ModHub mods download from ModHub; save them to your mods folder and Silo picks them up on the next scan. You can star a repo on GitHub through <em>your own</em> account or open the ModHub page to rate a mod. Your GitHub token stays on your machine."
+    - "Yes. Silo keeps one record per mod that pulls both together, so you see the latest version found across them. GitHub releases install in one click. ModHub mods download from ModHub's own site; save them to your mods folder and Silo picks them up on the next scan. You can star a repo on GitHub through <em>your own</em> account or open the ModHub page to rate a mod. Your GitHub token stays on your machine."
 - id: data
   order: 6
   question: "Does Silo collect any data about me?"
   answer:
-    - "No account, no ads, no telemetry. Silo contacts its catalog only when you ask: searching Browse, opening a mod's details, checking for updates, or verifying a mod. Each request carries what it needs, such as your search terms or the tech names of the mods being checked. Separately, Silo checks GitHub for its own app updates at launch, and that check sends no library data. Silo never uploads your saves, mod archives, notes or personal files."
+    - "No account, no ads, no telemetry. Silo contacts its catalog only when you ask: searching Browse, opening a mod's details, checking for updates, or verifying a mod. Each request carries what it needs, such as your search terms or the names of the mods being checked; versions are compared on your computer. Separately, Silo checks GitHub for its own app updates at launch, and that check sends no library data. Silo never uploads your saves, mod archives, notes or personal files."
     - "Our servers keep standard access logs (IP address, time, page and browser or Silo version) for 30 days. We count unique visitors and app clients from them and publish only the totals."
   visibleOnly:
     - "The totals are on the <a href=\"/trust/\">Trust page</a>, and the <a href=\"/legal/privacy-policy.html\">privacy policy</a> lists every connection Silo makes."

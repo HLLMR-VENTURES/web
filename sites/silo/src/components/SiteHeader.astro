@@ -1,16 +1,17 @@
 ---
 /**
- * Site header, rendered statically (ported from the old runtime-injected nav.js). The current
- * section is marked at build time with aria-current, so it works without JavaScript.
+ * Site header, rendered statically. The current section is marked at build time with
+ * aria-current. Below 720 px the links fold behind a Menu button; without JavaScript they stay
+ * visible and simply wrap.
  */
 import ThemeToggle from "@hllmr/design/components/ThemeToggle.astro";
 import Logo from "./Logo.astro";
-import { LINKS, THEME_STORAGE_KEY } from "../lib/site";
+import { THEME_STORAGE_KEY } from "../lib/site";
 
 const path = Astro.url.pathname;
 const isHome = path === "/" || path === "/index.html";
 const nav = [
-  { href: "/browse/", label: "Browse" },
+  { href: "/browse/", label: "Browse mods" },
   { href: "/help/", label: "Help" },
   { href: "/trust/", label: "Trust" },
 ];
@@ -19,8 +20,8 @@ const nav = [
 <header class="hd">
   <div class="in">
     <a class="brand" href="/" aria-label="Silo home"><Logo /></a>
-    <span class="sp"></span>
-    <nav class="nav" aria-label="Site">
+    <button class="menu" type="button" aria-expanded="false" aria-controls="site-nav" hidden>Menu</button>
+    <nav class="nav" id="site-nav" aria-label="Site">
       {
         nav.map((l) => (
           <a href={l.href} aria-current={path.startsWith(l.href) ? "page" : undefined}>
@@ -28,19 +29,40 @@ const nav = [
           </a>
         ))
       }
-      <a href={LINKS.source} rel="noopener">Source</a>
-      <a class="cta" href={isHome ? "#download" : "/#download"}>Get Silo</a>
+      <a class="cta" href={isHome ? "#download" : "/#download"}>Download</a>
       <ThemeToggle storageKey={THEME_STORAGE_KEY} class="tog" />
     </nav>
   </div>
 </header>
+
+<script>
+  // Mobile disclosure: the button is revealed only when this script runs.
+  const btn = document.querySelector<HTMLButtonElement>(".hd .menu");
+  const nav = document.querySelector<HTMLElement>("#site-nav");
+  if (btn && nav) {
+    btn.hidden = false;
+    document.documentElement.classList.add("has-menu");
+    btn.addEventListener("click", () => {
+      const open = btn.getAttribute("aria-expanded") !== "true";
+      btn.setAttribute("aria-expanded", String(open));
+      nav.toggleAttribute("data-open", open);
+    });
+    nav.addEventListener("keydown", (e) => {
+      if (e.key === "Escape" && btn.getAttribute("aria-expanded") === "true") {
+        btn.setAttribute("aria-expanded", "false");
+        nav.removeAttribute("data-open");
+        btn.focus();
+      }
+    });
+  }
+</script>
 
 <style>
   .hd {
     position: sticky;
     top: 0;
     z-index: var(--z-header);
-    background: color-mix(in srgb, var(--surface) 90%, transparent);
+    background: color-mix(in srgb, var(--surface) 92%, transparent);
     backdrop-filter: saturate(1.4) blur(10px);
     -webkit-backdrop-filter: saturate(1.4) blur(10px);
     border-bottom: 1px solid var(--border);
@@ -48,10 +70,10 @@ const nav = [
   .in {
     display: flex;
     align-items: center;
-    gap: 14px;
+    gap: 12px 20px;
     max-width: var(--maxw-docs);
     margin: 0 auto;
-    padding: 11px 20px;
+    padding: 10px var(--gutter);
     flex-wrap: wrap;
   }
   .brand {
@@ -59,9 +81,8 @@ const nav = [
     align-items: center;
     text-decoration: none;
     color: var(--text);
-  }
-  .sp {
-    flex: 1 1 auto;
+    margin-right: auto;
+    padding: 4px 0;
   }
   .nav {
     display: flex;
@@ -70,41 +91,71 @@ const nav = [
     flex-wrap: wrap;
   }
   .nav a {
-    color: var(--muted);
+    color: var(--text);
     text-decoration: none;
-    font-size: 14px;
+    font-size: 15px;
     font-weight: 600;
-    padding: 7px 11px;
+    padding: 10px 12px;
     border-radius: var(--radius-sm);
   }
   .nav a:hover {
-    color: var(--text);
     background: color-mix(in srgb, var(--primary) 10%, transparent);
   }
   .nav a[aria-current="page"] {
-    color: var(--primary);
+    color: var(--primary-text);
+    text-decoration: underline;
+    text-decoration-thickness: 2px;
+    text-underline-offset: 6px;
   }
   .nav a.cta {
     color: var(--on-primary);
     background: var(--primary);
-    border: 1px solid var(--primary);
+    margin-left: 8px;
+    padding: 10px 18px;
   }
   .nav a.cta:hover {
     background: var(--primary-hover);
-    color: var(--on-primary);
   }
-  .nav :global(.tog) {
+  .nav :global(.tog),
+  .menu {
     border: 1px solid var(--border);
     background: var(--raised);
     color: var(--text);
-    width: 34px;
-    height: 34px;
+    min-width: 44px;
+    height: 44px;
     border-radius: var(--radius-sm);
-    font-size: 15px;
-    line-height: 1;
+    font: 600 15px var(--font-ui);
     cursor: pointer;
+    margin-left: 4px;
   }
-  .nav :global(.tog:hover) {
-    border-color: color-mix(in srgb, var(--primary) 45%, var(--border));
+  .menu {
+    padding: 0 14px;
+  }
+  .menu[hidden] {
+    display: none;
+  }
+  @media (min-width: 720px) {
+    .menu {
+      display: none;
+    }
+  }
+  @media (max-width: 719.98px) {
+    :global(.has-menu) .nav:not([data-open]) {
+      display: none;
+    }
+    .nav {
+      flex: 1 1 100%;
+      flex-direction: column;
+      align-items: stretch;
+      padding-bottom: 8px;
+    }
+    .nav a.cta {
+      margin: 6px 0 0;
+      text-align: center;
+    }
+    .nav :global(.tog) {
+      align-self: flex-start;
+      margin: 6px 0 0;
+    }
   }
 </style>

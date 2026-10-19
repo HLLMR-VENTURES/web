@@ -14,8 +14,8 @@ export const GET: APIRoute = async ({ site }) => {
 > Silo is a free, open-source mod manager for Farming Simulator 25 (FS25). More farming,
 > less fixing: it reads your mods and your game log, ranks mods by the errors they logged when
 > the game crashes, flags conflicts before launch, and unifies ModHub and GitHub into one
-> cross-source catalog. Organize shows every move before it touches a file, and Restore vanilla
-> layout puts every mod back in your mods folder.
+> cross-source catalog. Organize shows every move before it touches a file, and Undo organizing
+> puts every mod back in your mods folder.
 
 Silo is a native desktop app for Windows, with macOS and Linux builds in preview. No account,
 no ads, no telemetry, open source (MIT). Its catalog is served by a public read-only API
@@ -28,7 +28,7 @@ ${lines.join("\n")}
 ## Principles
 - Free and open source: the desktop app's source is on GitHub (MIT); the catalog server is a separate hosted service
 - No account, no ads, no telemetry. Silo contacts its catalog only when you search Browse, open a mod's details, check for updates or verify a mod; it also checks GitHub for its own app updates at launch, which sends no library data. Server access logs are kept 30 days; only aggregate counts are published
-- Never edits inside a mod; Organize shows every move before it touches a file; Restore vanilla layout puts every mod back in the mods folder; updates keep the previous version in backups/; backs up before writing settings or saves
+- Never edits inside a mod; Organize shows every move before it touches a file; Undo organizing puts every mod back in the mods folder; updates keep the previous version in backups/; backs up before writing settings or saves
 - Acts through your own GitHub account; ModHub pages open in your browser
 
 ## Links

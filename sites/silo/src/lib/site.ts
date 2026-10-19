@@ -12,6 +12,8 @@ export const LINKS = {
   releases: "https://github.com/HLLMR/silo/releases",
   discussions: "https://github.com/HLLMR/silo/discussions",
   issues: "https://github.com/HLLMR/silo/issues",
+  newIssue: "https://github.com/HLLMR/silo/issues/new/choose",
+  hllmr: "https://hllmr.com/",
   verifyDownload: "https://github.com/HLLMR/silo/blob/main/docs/VERIFY_DOWNLOAD.md",
   /** Vanity redirect served by this site (nginx 302, static stub fallback). */
   discord: "/discord",

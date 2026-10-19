@@ -18,7 +18,11 @@ on:
       - "sites/silo/**"
       - "packages/design/**"
       - "deploy/silo/**"
-      - "tests/url-contract/**"
+      # Only Silo's own contract files: hllmr*/dhellmer* contract changes never rebuild Silo.
+      - "tests/url-contract/silo*"
+      - "tests/url-contract/contract.test.mjs"
+      - "tests/url-contract/nginx-model.mjs"
+      - "tests/url-contract/run-nginx.sh"
       - "package-lock.json"
   workflow_dispatch:
     inputs:
@@ -29,9 +33,10 @@ on:
   # Sent by HLLMR/silo release.yml after an app release (download links and version data).
   repository_dispatch:
     types: [silo-app-release]
-  # Safety net for build-time data (releases, catalog snapshot).
-  schedule:
-    - cron: "17 5 * * *"
+  # Safety net for build-time data (releases, catalog snapshot). Paused until the site's first
+  # strict release (launch): until then every scheduled run fails by design on pending pages.
+  # schedule:
+  #   - cron: "17 5 * * *"
 
 permissions:
   contents: write # create the release and upload assets; nothing else
@@ -63,6 +68,10 @@ jobs:
           cache: npm
       - run: npm ci
       - name: Build and check
+        env:
+          # Read-only use: the latest Silo app release (src/lib/release.ts), to lift the
+          # anonymous API rate limit. The build fails soft without it.
+          GITHUB_TOKEN: ${{ github.token }}
         run: |
           npm test
           if [ "$PRERELEASE" = "1" ]; then
