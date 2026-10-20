@@ -1,9 +1,12 @@
 /**
- * The HLLMR armory: one coat of arms per venture, drawn from a fixed rulebook (heraldry direction,
- * owner decision 2026-10-18; geometry from the mood board).
+ * The HLLMR armory: the house (HLLMR Ventures, VNTRS), its four divisions and its products, drawn
+ * from a fixed rulebook (heraldry direction, owner decision 2026-10-18; division arms approved by the
+ * owner 2026-10-20, ADR-0015 D4; geometry from the mood board).
  *
  * Rules: one metal (Argent, Or) on one colour; every pair clears 3:1; one partition or ordinary per
- * coat; no two coats share a field tincture or a direction. The house bears the plainest arms.
+ * coat; no two divisions share a field tincture. A product may share its division's field, as a
+ * family likeness (Silo's green, under GAMING), but never its ordinary. The house bears the
+ * plainest arms.
  * Two forms on one 24-unit grid: the banner (24 x 24) below 48 px, the escutcheon (24 x 28.785)
  * from 48 px up. Clip paths live once per page in ArmsDefs.astro.
  */
@@ -17,13 +20,14 @@ export const TINCTURES = {
   purpure: { name: "Purpure", hex: "#5a3672" },
 } as const;
 export type Tincture = keyof typeof TINCTURES;
-export type Division = "perPale" | "chevron" | "bend" | "fessDancetty" | "quarterly";
+/** The partition or ordinary a coat bears (heraldic "division of the field" in the wider sense). */
+export type Partition = "perPale" | "chevron" | "bend" | "fessDancetty" | "quarterly" | "pale" | "saltire";
 export type Form = "banner" | "shield";
 
 export interface Coat {
   /** Who bears it. */
   bearer: string;
-  division: Division;
+  division: Partition;
   field: Tincture;
   charge: Tincture;
   /** The blazon, for captions and accessible names. */
@@ -41,6 +45,31 @@ export const ARMS = {
     blazon: "Per pale Sable and Argent",
     plain: "split down the middle, black and white",
   },
+  tools: {
+    bearer: "HLLMR TOOLS",
+    division: "pale",
+    field: "purpure",
+    charge: "argent",
+    blazon: "Purpure, a pale Argent",
+    plain: "purple with a white upright band",
+  },
+  upgrade: {
+    bearer: "HLLMR UPGRADE",
+    division: "chevron",
+    field: "azure",
+    charge: "argent",
+    blazon: "Azure, a chevron Argent",
+    plain: "blue with a white chevron",
+  },
+  gaming: {
+    bearer: "HLLMR GAMING",
+    division: "saltire",
+    field: "vert",
+    charge: "or",
+    blazon: "Vert, a saltire Or",
+    plain: "green with a gold diagonal cross",
+  },
+  /** Until hllmr.com is repositioned (ADR-0015 PR-D): the same arms as UPGRADE, under the old name. */
   build: {
     bearer: "HLLMR Build",
     division: "chevron",
@@ -65,6 +94,7 @@ export const ARMS = {
     blazon: "Gules, a fess dancetty Or",
     plain: "red with a gold zigzag band",
   },
+  /** Until hllmr.com is repositioned (ADR-0015 PR-D): its purple now belongs to TOOLS. */
   next: {
     bearer: "The next venture",
     division: "quarterly",
@@ -114,6 +144,14 @@ export function coatMarkup(key: ArmsKey, form: Form): string {
       }
       return field + `<polygon points="${[...up, ...dn].join(" ")}" fill="${C}"/>`;
     }
+    case "pale":
+      return field + `<rect x="8" y="-2" width="8" height="${H + 4}" fill="${C}"/>`;
+    case "saltire":
+      return (
+        field +
+        `<polygon points="-10,${-14.243 + d} 34,${29.757 + d} 34,${38.243 + d} -10,${-5.757 + d}" fill="${C}"/>` +
+        `<polygon points="34,${-14.243 + d} -10,${29.757 + d} -10,${38.243 + d} 34,${-5.757 + d}" fill="${C}"/>`
+      );
     case "quarterly": {
       const cy = form === "shield" ? 13 : 12;
       return (
@@ -122,4 +160,19 @@ export function coatMarkup(key: ArmsKey, form: Form): string {
       );
     }
   }
+}
+
+/**
+ * A coat as a standalone favicon (banner form), outlined in Sable on light and Argent on dark.
+ * Served by each family site as /favicon.svg, so the tab shows the site's own arms.
+ */
+export function faviconSvg(key: ArmsKey): string {
+  return (
+    `<svg xmlns="http://www.w3.org/2000/svg" viewBox="-1 -1 26 26">` +
+    `<style>.e{stroke:#14161a}@media (prefers-color-scheme:dark){.e{stroke:#e6e8eb}}</style>` +
+    `<defs><clipPath id="c"><path d="${BANNER_PATH}"/></clipPath></defs>` +
+    `<g clip-path="url(#c)">${coatMarkup(key, "banner")}</g>` +
+    `<path d="${BANNER_PATH}" fill="none" class="e" stroke-width="2"/></svg>
+`
+  );
 }

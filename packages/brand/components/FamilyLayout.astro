@@ -1,0 +1,108 @@
+---
+/**
+ * Document shell for every page of an HLLMR family site (ADR-0015 D4): head metadata from props,
+ * the family header and footer, a skip link and a single <main> landmark. The site supplies its
+ * record, navigation, revision and theme key; everything else is shared, so the family stays one
+ * system. Each site serves /js/theme.js, /favicon.svg and /og.png itself.
+ */
+import "@hllmr/design/hllmr.css";
+import "../family.css";
+import "../divisions.css";
+import SkipLink from "@hllmr/design/components/SkipLink.astro";
+import { COMPANY, type DivisionSite } from "@hllmr/portfolio";
+import ArmsDefs from "./ArmsDefs.astro";
+import FamilyFooter from "./FamilyFooter.astro";
+import FamilyHeader from "./FamilyHeader.astro";
+
+interface Props {
+  site: DivisionSite;
+  nav: readonly { href: string; label: string }[];
+  revision: { date: string; hash: string };
+  themeKey: string;
+  /** Full <title>. */
+  title: string;
+  description: string;
+  /** Short name for the footer colophon's "sheet". */
+  sheet: string;
+  ogTitle?: string;
+  ogDescription?: string;
+  /** Path of the share image, relative to the site root. */
+  ogImage?: string;
+  ogImageAlt?: string;
+  ogType?: "website" | "article";
+  noindex?: boolean;
+  /** Schema.org graph, serialized into one application/ld+json block. */
+  jsonLd?: Record<string, unknown>;
+}
+
+const {
+  site,
+  nav,
+  revision,
+  themeKey,
+  title,
+  description,
+  sheet,
+  ogTitle = title,
+  ogDescription = description,
+  ogImage = "/og.png",
+  ogImageAlt = `${site.name}. ${site.line}`,
+  ogType = "website",
+  noindex = false,
+  jsonLd,
+} = Astro.props;
+
+if (!Astro.site) throw new Error("Astro `site` is not configured");
+const canonical = new URL(Astro.url.pathname, Astro.site).toString();
+const image = new URL(ogImage, Astro.site).toString();
+const skin = site.key === "vntrs" ? "hub" : site.key;
+---
+
+<!doctype html>
+<html lang="en" data-skin={skin}>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{title}</title>
+    <script is:inline src="/js/theme.js"></script>
+    <meta name="description" content={description} />
+    {
+      noindex ? (
+        <meta name="robots" content="noindex, follow" />
+      ) : (
+        <>
+          <link rel="canonical" href={canonical} />
+          <meta name="robots" content="index, follow, max-image-preview:large" />
+        </>
+      )
+    }
+    <meta property="og:title" content={ogTitle} />
+    <meta property="og:description" content={ogDescription} />
+    <meta property="og:type" content={ogType} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:site_name" content={site.key === "vntrs" ? "HLLMR" : site.name} />
+    <meta property="og:locale" content="en_US" />
+    <meta property="og:image" content={image} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content={ogImageAlt} />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={ogTitle} />
+    <meta name="twitter:description" content={ogDescription} />
+    <meta name="twitter:image" content={image} />
+    <meta name="author" content={COMPANY.owner} />
+    <meta name="theme-color" content="#e9ecef" media="(prefers-color-scheme: light)" />
+    <meta name="theme-color" content="#0e1013" media="(prefers-color-scheme: dark)" />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    {jsonLd && <script is:inline type="application/ld+json" set:html={JSON.stringify(jsonLd).replace(/</g, "\\u003c")} />}
+  </head>
+  <body>
+    <SkipLink target="main" />
+    <ArmsDefs />
+    <FamilyHeader site={site} nav={nav} themeKey={themeKey} />
+    <main id="main" tabindex="-1">
+      <slot />
+    </main>
+    <FamilyFooter site={site} nav={nav} sheet={sheet} revision={revision} />
+  </body>
+</html>

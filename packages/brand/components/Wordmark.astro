@@ -2,16 +2,19 @@
 /**
  * The HLLMR wordmark: five capitals drawn on the arms' 24-unit grid (stems 4, horizontals 3.2).
  * The H's bar sits on the fess point; the M's centre is a chevron. Nothing hangs off any letter.
- * `suffix` names the entity or venture ("Ventures", "Build"), set beside the mark after a rule.
+ * `suffix` names the entity or division ("VNTRS", "TOOLS"), set beside the mark after a rule. When
+ * the suffix is a display style ("VNTRS"), `suffixLabel` gives the words a screen reader says.
  * Geometry from the heraldry mood board; a type designer's optical pass is still to come.
  */
 interface Props {
   /** Rendered cap height in CSS px. */
   height?: number;
   suffix?: string;
+  /** Accessible words for the suffix, when it differs from the text shown. */
+  suffixLabel?: string;
   class?: string;
 }
-const { height = 18, suffix, class: cls = "" } = Astro.props;
+const { height = 18, suffix, suffixLabel, class: cls = "" } = Astro.props;
 const width = Math.round((height * 106.5) / 24 * 100) / 100;
 ---
 
@@ -26,7 +29,14 @@ const width = Math.round((height * 106.5) / 24 * 100) / 100;
         ></path><path d="M8.2 13h4.4L18 24h-4.4z"></path></g
       ></g
     ></svg
-  >{suffix && <span class="wm-sfx">{suffix}</span>}</span
+  >{
+    suffix &&
+      (suffixLabel ? (
+        <span class="wm-sfx"><span aria-hidden="true">{suffix}</span><span class="visually-hidden">{suffixLabel}</span></span>
+      ) : (
+        <span class="wm-sfx">{suffix}</span>
+      ))
+  }</span
 >
 
 <style>

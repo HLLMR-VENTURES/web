@@ -1,0 +1,24 @@
+{
+  "name": "@hllmr/brand",
+  "version": "0.1.0",
+  "private": true,
+  "description": "The HLLMR family brand kit (ADR-0015 D4): the armory, the wordmark, the hallmark strip, the family layout, header and footer, and the division skins, shared by hllmr.com and the division sites.",
+  "license": "MIT",
+  "type": "module",
+  "exports": {
+    "./arms": "./src/arms.ts",
+    "./family.css": "./family.css",
+    "./divisions.css": "./divisions.css",
+    "./components/*": "./components/*"
+  },
+  "files": [
+    "src",
+    "components",
+    "family.css",
+    "divisions.css"
+  ],
+  "dependencies": {
+    "@hllmr/design": "0.1.0",
+    "@hllmr/portfolio": "0.1.0"
+  }
+}

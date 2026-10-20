@@ -1,0 +1,128 @@
+---
+/**
+ * Header for an HLLMR family site (ADR-0015 D4): the family bar, then the site's arms and the HLLMR
+ * wordmark with its descriptor, the site's own navigation (current section marked at build time)
+ * and the theme toggle.
+ */
+import ThemeToggle from "@hllmr/design/components/ThemeToggle.astro";
+import type { DivisionSite } from "@hllmr/portfolio";
+import Arms from "./Arms.astro";
+import DivisionBar from "./DivisionBar.astro";
+import Wordmark from "./Wordmark.astro";
+
+interface Props {
+  site: DivisionSite;
+  nav: readonly { href: string; label: string }[];
+  themeKey: string;
+}
+const { site, nav, themeKey } = Astro.props;
+const path = Astro.url.pathname;
+const current = (href: string) => href !== "/" && path.startsWith(href);
+---
+
+<header class="hd">
+  <DivisionBar current={site.key} />
+  <div class="in wrap">
+    <a class="brand" href="/" aria-label={`${site.key === "vntrs" ? "HLLMR Ventures" : site.name}, home`}>
+      <Arms coat={site.coat} size={22} decorative />
+      <Wordmark height={17} suffix={site.descriptor} suffixLabel={site.key === "vntrs" ? site.label : undefined} />
+    </a>
+    <span class="sp"></span>
+    <nav class="nav" aria-label="Site">
+      {
+        nav.map((l) => (
+          <a href={l.href} aria-current={current(l.href) ? "page" : undefined}>
+            {l.label}
+          </a>
+        ))
+      }
+    </nav>
+    <ThemeToggle storageKey={themeKey} class="tog" />
+  </div>
+</header>
+
+<style>
+  .hd {
+    position: sticky;
+    top: 0;
+    z-index: var(--z-header);
+    background: color-mix(in srgb, var(--bg) 90%, transparent);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    border-bottom: 1px solid var(--rule);
+  }
+  .in {
+    display: flex;
+    align-items: center;
+    gap: var(--space-4);
+    padding-top: 14px;
+    padding-bottom: 14px;
+    flex-wrap: wrap;
+  }
+  .brand {
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+    text-decoration: none;
+    color: var(--text);
+  }
+  .sp {
+    flex: 1;
+  }
+  .nav {
+    display: flex;
+    gap: 22px;
+    flex-wrap: wrap;
+  }
+  .nav a {
+    font-family: var(--font-ui);
+    font-stretch: 118%;
+    font-weight: 600;
+    font-size: 0.72rem;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--muted);
+    text-decoration: none;
+    padding: 6px 0;
+    border-bottom: 2px solid transparent;
+  }
+  .nav a:hover {
+    color: var(--text);
+  }
+  .nav a[aria-current="page"] {
+    color: var(--text);
+    border-bottom-color: var(--venture);
+  }
+  :global(.theme-toggle) {
+    width: 34px;
+    height: 34px;
+    border: 1px solid var(--rule);
+    background: transparent;
+    color: var(--text);
+    border-radius: 0;
+    cursor: pointer;
+    font-size: 1rem;
+  }
+  :global(.theme-toggle:hover) {
+    border-color: var(--text);
+  }
+  @media (max-width: 720px) {
+    .in {
+      gap: var(--space-2);
+    }
+    .nav {
+      order: 3;
+      width: calc(100% + 10px);
+      margin: 0 -5px;
+      flex-wrap: nowrap;
+      justify-content: space-between;
+      overflow-x: auto;
+      scrollbar-width: none;
+      gap: 8px;
+    }
+    .nav a {
+      font-size: 0.6rem;
+      letter-spacing: 0.1em;
+    }
+  }
+</style>

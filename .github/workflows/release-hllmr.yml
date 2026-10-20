@@ -20,6 +20,8 @@ on:
       - "sites/hllmr/**"
       # The shared portfolio record (ventures, projects, writing) this site shows (ADR-0015 D6).
       - "packages/portfolio/**"
+      # The HLLMR family brand kit (arms, wordmark, family styles; ADR-0015 D4).
+      - "packages/brand/**"
       - "packages/design/**"
       # Silo-only design files (*silo*.css, imported only by packages/design/silo.css): a Silo
       # design change must not rebuild this site. Same glob as SILO_ONLY_DESIGN in src/lib/site.ts.

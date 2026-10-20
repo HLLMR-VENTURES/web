@@ -1,4 +1,5 @@
-/* hllmr.com site styles on top of @hllmr/design (core tokens + HLLMR skin + base).
+/* HLLMR family page styles (hllmr.com and the division sites), on top of @hllmr/design (core
+ * tokens + HLLMR skin + base). Moved from sites/hllmr/src/styles/site.css (ADR-0015 D4).
  * Visual language: modern heraldry. Neutral page, square panels, the only saturated colour comes
  * from the arms. Bodoni Moda for display (28 px and up only), Archivo for everything else,
  * IBM Plex Mono for records. Components keep their own scoped styles; this file holds what every

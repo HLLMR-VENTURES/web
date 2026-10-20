@@ -1,0 +1,42 @@
+/* Division skins (ADR-0015 D4). One site, one family: each division site sets data-skin to its key,
+ * and the only thing a skin changes is --venture, the field tincture of the division's arms (in
+ * light) or a lighter tint of it (in dark). Text in --venture clears 4.5:1 on --bg in both themes.
+ * Gold is never used as text on a light ground (Silo brand rule). */
+:root[data-skin="tools"] {
+  --venture: #5a3672; /* Purpure */
+}
+:root[data-skin="upgrade"] {
+  --venture: #1a4480; /* Azure */
+}
+:root[data-skin="live"] {
+  --venture: #a3262a; /* Gules */
+}
+:root[data-skin="gaming"] {
+  --venture: #36602a; /* Vert */
+}
+@media (prefers-color-scheme: dark) {
+  :root[data-skin="tools"]:not([data-theme="light"]) {
+    --venture: #c7a6dc;
+  }
+  :root[data-skin="upgrade"]:not([data-theme="light"]) {
+    --venture: #8fb0e6;
+  }
+  :root[data-skin="live"]:not([data-theme="light"]) {
+    --venture: #e59a9c;
+  }
+  :root[data-skin="gaming"]:not([data-theme="light"]) {
+    --venture: #9ccb8c;
+  }
+}
+:root[data-skin="tools"][data-theme="dark"] {
+  --venture: #c7a6dc;
+}
+:root[data-skin="upgrade"][data-theme="dark"] {
+  --venture: #8fb0e6;
+}
+:root[data-skin="live"][data-theme="dark"] {
+  --venture: #e59a9c;
+}
+:root[data-skin="gaming"][data-theme="dark"] {
+  --venture: #9ccb8c;
+}

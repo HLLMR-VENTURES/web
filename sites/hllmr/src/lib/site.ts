@@ -67,7 +67,7 @@ const SILO_ONLY_DESIGN = [":(exclude,glob)../../packages/design/**/*silo*.css"];
  */
 export const REVISION: { date: string; hash: string } = (() => {
   try {
-    const out = execFileSync("git", ["log", "-1", "--format=%cs %h", "--", ".", "../../packages/design", ...SILO_ONLY_DESIGN, "../../packages/portfolio"], {
+    const out = execFileSync("git", ["log", "-1", "--format=%cs %h", "--", ".", "../../packages/design", ...SILO_ONLY_DESIGN, "../../packages/portfolio", "../../packages/brand"], {
       cwd: process.cwd(),
       encoding: "utf8",
       stdio: ["ignore", "pipe", "ignore"],
