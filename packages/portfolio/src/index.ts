@@ -6,3 +6,5 @@
 export * from "./projects.ts";
 export * from "./writing.ts";
 export * from "./urls.ts";
+export * from "./divisions.ts";
+export * from "./company.ts";

@@ -1,6 +1,10 @@
 /** Origins of the HLLMR sites. Portfolio URLs are absolute and built from these. */
 export const ORIGINS = {
   vntrs: "https://hllmr.com",
+  tools: "https://tools.hllmr.com",
+  upgrade: "https://upgrade.hllmr.com",
+  live: "https://live.hllmr.com",
+  gaming: "https://gaming.hllmr.com",
   silo: "https://silo.hllmr.com",
   dhellmer: "https://dhellmer.com",
 } as const;

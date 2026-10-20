@@ -206,13 +206,13 @@ export const PROJECT_STAGE: Record<string, Stage> = {
 
 /**
  * Ventures: lines of business that start inside HLLMR Ventures and may graduate to their own
- * subdomain, domain or company. Each bears its own arms (sites/hllmr/src/lib/arms.ts); its stage
+ * subdomain, domain or company. Each bears its own arms (@hllmr/brand, src/arms.ts); its stage
  * track takes its field tincture (VentureRegister.astro). Names marked "to come" are placeholders
  * the owner has not chosen; never invent a public name for one.
  */
 export interface Venture {
   slug: string;
-  /** Key into the armory (sites/hllmr/src/lib/arms.ts). */
+  /** Key into the armory (@hllmr/brand, src/arms.ts). */
   coat: "silo" | "build" | "live";
   name: string;
   /** Industry or field, in two or three words. */

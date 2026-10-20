@@ -1,0 +1,79 @@
+---
+/**
+ * The family bar: one slim row across the top of every HLLMR site, naming the parent and the four
+ * divisions with their arms (ADR-0015 D4). The current site is marked; the others link to their own
+ * hosts. HLLMR Ventures shows as "VNTRS", read as "Ventures".
+ */
+import { DIVISION_SITES, type Division } from "@hllmr/portfolio";
+import Arms from "./Arms.astro";
+
+interface Props {
+  current: Division;
+}
+const { current } = Astro.props;
+---
+
+<nav class="fam" aria-label="HLLMR sites">
+  <div class="wrap fam-in">
+    <ul>
+      {
+        DIVISION_SITES.map((d) => (
+          <li>
+            <a
+              href={d.key === current ? "/" : `${d.origin}/`}
+              aria-current={d.key === current ? "page" : undefined}
+              title={`${d.name}: ${d.line}`}
+            >
+              <Arms coat={d.coat} size={11} decorative />
+              <span aria-hidden="true">{d.descriptor}</span>
+              <span class="visually-hidden">{d.key === "vntrs" ? "HLLMR Ventures" : d.name}</span>
+            </a>
+          </li>
+        ))
+      }
+    </ul>
+  </div>
+</nav>
+
+<style>
+  .fam {
+    background: var(--text);
+    color: var(--bg);
+  }
+  .fam-in {
+    padding-top: 0;
+    padding-bottom: 0;
+  }
+  .fam ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    gap: 18px;
+    overflow-x: auto;
+    scrollbar-width: none;
+  }
+  .fam a {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 6px 0;
+    font-family: var(--font-mono);
+    font-size: 0.64rem;
+    letter-spacing: 0.14em;
+    color: color-mix(in srgb, var(--bg) 72%, transparent);
+    text-decoration: none;
+    white-space: nowrap;
+    border-bottom: 2px solid transparent;
+  }
+  .fam a:hover {
+    color: var(--bg);
+  }
+  .fam a[aria-current="page"] {
+    color: var(--bg);
+    border-bottom-color: var(--bg);
+  }
+  .fam :global(.arms-edge) {
+    stroke: var(--bg);
+  }
+</style>
