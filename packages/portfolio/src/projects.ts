@@ -4,7 +4,7 @@
  * company's own account. Do not add customers, ratings, usage counts or testimonials without the
  * owner's say-so. URLs are absolute (ADR-0015 D6); sites render their own with `local()`.
  */
-import { hub } from "./urls.ts";
+import { ORIGINS, hub } from "./urls.ts";
 
 /**
  * The HLLMR divisions (ADR-0015 D1): the parent, HLLMR Ventures (VNTRS), and the four divisions
@@ -205,49 +205,59 @@ export const PROJECT_STAGE: Record<string, Stage> = {
 };
 
 /**
- * Ventures: lines of business that start inside HLLMR Ventures and may graduate to their own
- * subdomain, domain or company. Each bears its own arms (@hllmr/brand, src/arms.ts); its stage
- * track takes its field tincture (VentureRegister.astro). Names marked "to come" are placeholders
- * the owner has not chosen; never invent a public name for one.
+ * Ventures: the four divisions of HLLMR Ventures (ADR-0015 D1), each with its own site and arms
+ * (@hllmr/brand, src/arms.ts). A division can graduate to its own company; until then it is a
+ * division, never a subsidiary (D5). Stages: Launched = it has something released or on offer;
+ * Building = its site exists and its first work is being made.
  */
 export interface Venture {
   slug: string;
   /** Key into the armory (@hllmr/brand, src/arms.ts). */
-  coat: "silo" | "build" | "live";
+  coat: "tools" | "upgrade" | "live" | "gaming";
   name: string;
-  /** Industry or field, in two or three words. */
+  /** The field it works in, in one or two words. */
   field: string;
   line: string;
   stage: Stage;
-  /** Its front door (absolute URL); absent while it has none. */
+  /** Its front door (absolute URL). */
   href?: string;
 }
 
 export const VENTURES: Venture[] = [
   {
-    slug: "silo",
-    coat: "silo",
-    name: "Silo",
-    field: "Software product",
-    line: "A free, open-source mod manager for Farming Simulator 25, with its own catalog API and community bot.",
+    slug: "tools",
+    coat: "tools",
+    name: "HLLMR TOOLS",
+    field: "Software",
+    line: "Useful software, built with purpose: released tools, projects in development and research.",
     stage: "Launched",
-    href: "https://silo.hllmr.com",
+    href: `${ORIGINS.tools}/`,
   },
   {
-    slug: "build",
-    coat: "build",
-    name: "HLLMR Build",
-    field: "AI-assisted development",
-    line: "Software and automation built with AI agents, and help for teams adopting them, with nothing called done until it is seen working.",
+    slug: "upgrade",
+    coat: "upgrade",
+    name: "HLLMR UPGRADE",
+    field: "Business systems",
+    line: "Connected websites and operational software for owner-run service businesses, kept running.",
     stage: "Launched",
-    href: hub("/build/"),
+    href: `${ORIGINS.upgrade}/`,
   },
   {
     slug: "live",
     coat: "live",
-    name: "DJ & events",
-    field: "Entertainment",
-    line: "Music, performance and events under the HLLMR name. Its own site is to come.",
-    stage: "Idea",
+    name: "HLLMR LIVE",
+    field: "Media",
+    line: "DJ sets, events, video and demos under the HLLMR name.",
+    stage: "Building",
+    href: `${ORIGINS.live}/`,
+  },
+  {
+    slug: "gaming",
+    coat: "gaming",
+    name: "HLLMR GAMING",
+    field: "Gaming",
+    line: "Silo, game mods, and games to come.",
+    stage: "Launched",
+    href: `${ORIGINS.gaming}/`,
   },
 ];

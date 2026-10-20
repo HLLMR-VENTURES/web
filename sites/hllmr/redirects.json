@@ -4,6 +4,10 @@
   "vanity": {},
   "permanent": {
     "/plumbline": "https://hllmr.com/writwall/",
-    "/plumbline/": "https://hllmr.com/writwall/"
+    "/plumbline/": "https://hllmr.com/writwall/",
+    "/build": "https://upgrade.hllmr.com/",
+    "/build/": "https://upgrade.hllmr.com/",
+    "/build/services": "https://upgrade.hllmr.com/",
+    "/build/services/": "https://upgrade.hllmr.com/"
   }
 }

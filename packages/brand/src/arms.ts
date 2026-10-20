@@ -69,15 +69,6 @@ export const ARMS = {
     blazon: "Vert, a saltire Or",
     plain: "green with a gold diagonal cross",
   },
-  /** Until hllmr.com is repositioned (ADR-0015 PR-D): the same arms as UPGRADE, under the old name. */
-  build: {
-    bearer: "HLLMR Build",
-    division: "chevron",
-    field: "azure",
-    charge: "argent",
-    blazon: "Azure, a chevron Argent",
-    plain: "blue with a white chevron",
-  },
   silo: {
     bearer: "Silo",
     division: "bend",
@@ -87,21 +78,12 @@ export const ARMS = {
     plain: "green with a gold diagonal band",
   },
   live: {
-    bearer: "DJ & events",
+    bearer: "HLLMR LIVE",
     division: "fessDancetty",
     field: "gules",
     charge: "or",
     blazon: "Gules, a fess dancetty Or",
     plain: "red with a gold zigzag band",
-  },
-  /** Until hllmr.com is repositioned (ADR-0015 PR-D): its purple now belongs to TOOLS. */
-  next: {
-    bearer: "The next venture",
-    division: "quarterly",
-    field: "purpure",
-    charge: "argent",
-    blazon: "Quarterly Purpure and Argent",
-    plain: "quartered purple and white (reserved)",
   },
 } as const satisfies Record<string, Coat>;
 export type ArmsKey = keyof typeof ARMS;
