@@ -7,7 +7,7 @@
 #
 # Test mode (manual run with prerelease=true): tag hllmr-site-test/…, marked pre-release, so infra
 # can exercise release A -> B -> A and the failure path off production before asking for any
-# approval. Never point production at an hllmr-site-test tag.
+# approval. Never point production at a hllmr-site-test tag.
 #
 # Release tags never use the bare `v*` pattern and are prefixed per site, so a site release can
 # never become another product's "latest".
