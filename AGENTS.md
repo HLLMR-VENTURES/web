@@ -20,7 +20,7 @@ Never delete through a junction recursively: that can reach the live target, suc
 
 ## Who works where
 
-Each site has its own domain agent: Claude (web dev) for `sites/hllmr`, the dhellmer.com site agent for `sites/dhellmer`, and Claude (Silo site) for `sites/silo`. Work in your own site's paths. A change to `packages/design`, `package-lock.json`, the shared scripts or another site's paths is coordinated with the agents it affects first.
+Each site has its own domain agent: Claude (web dev), the hllmr.com site agent, for `sites/hllmr`; Claude (web dev), the dhellmer.com site agent, for `sites/dhellmer`; and Claude (Silo site) for `sites/silo`. Work in your own site's paths. A change to `packages/design`, `package-lock.json`, the shared scripts or another site's paths is coordinated with the agents it affects first.
 
 ## Merging
 
@@ -43,3 +43,15 @@ Coming change: ADR-0015 ([hllmr-infra#85](https://github.com/HLLMR/hllmr-infra/p
 Silo-only design files must be named `*silo*.css`. Otherwise they republish hllmr.com and dhellmer.com, whose footer revision follows `packages/design`.
 
 A published release is not live. Installing it on the host needs the owner's line naming that release (or a standing grant for that site), carried out by Claude (infra).
+
+## Cross-site facts
+
+- **dhellmer.com reads hllmr.com's portfolio data.** `sites/hllmr/src/lib/projects.ts` and `writing.ts` are used in four places on the dhellmer side:
+  - `sites/dhellmer/src/lib/hllmr.ts`;
+  - the REVISION pathspec in `sites/dhellmer/src/lib/site.ts`;
+  - the `release-dhellmer` path filter;
+  - the dhellmer contract test.
+
+  An edit to either file releases both sites. The move to a shared `packages/portfolio` is under discussion (ADR-0015).
+- **dhellmer.com's theme and fonts are site-local** (`sites/dhellmer/src/styles`, since #22), so a dhellmer design change doesn't touch `packages/design`. The `dhellmer.css`, `skins/dhellmer.css` and `tokens/fonts-dhellmer.css` files left in `packages/design` are unused. Removing them republishes hllmr.com stamp-only, so they wait for a planned hllmr design change.
+- **Release records** live in hllmr-infra `docs/releases/<site>.md`, one row per installed release. A routine release's row goes in an auto-merging records PR. Rows never quote an approval line or name a release class; they link to the source PR here.
