@@ -1,0 +1,16 @@
+{
+  "name": "@hllmr/portfolio",
+  "version": "0.1.0",
+  "private": true,
+  "description": "The HLLMR portfolio record: divisions, ventures, projects and writing. One source for every site that shows them (ADR-0015 D6).",
+  "license": "MIT",
+  "type": "module",
+  "exports": {
+    ".": "./src/index.ts",
+    "./projects": "./src/projects.ts",
+    "./writing": "./src/writing.ts"
+  },
+  "files": [
+    "src"
+  ]
+}

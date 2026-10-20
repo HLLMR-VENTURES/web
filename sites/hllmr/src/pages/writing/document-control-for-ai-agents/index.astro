@@ -2,7 +2,7 @@
 /** The essay, at its published URL, text unchanged (body in src/content/essay-document-control.html). */
 import BaseLayout from "../../../layouts/BaseLayout.astro";
 import body from "../../../content/essay-document-control.html?raw";
-import { WRITING } from "../../../lib/writing";
+import { WRITING } from "@hllmr/portfolio";
 import { OWNER, abs } from "../../../lib/site";
 
 const piece = WRITING.find((w) => w.slug === "document-control-for-ai-agents")!;

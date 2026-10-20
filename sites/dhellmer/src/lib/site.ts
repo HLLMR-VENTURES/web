@@ -90,8 +90,7 @@ export const REVISION: { date: string; hash: string } = (() => {
         ".",
         "../../packages/design",
         ...SILO_ONLY_DESIGN,
-        "../hllmr/src/lib/projects.ts",
-        "../hllmr/src/lib/writing.ts",
+        "../../packages/portfolio",
       ],
       { cwd: process.cwd(), encoding: "utf8", stdio: ["ignore", "pipe", "ignore"] },
     ).trim();

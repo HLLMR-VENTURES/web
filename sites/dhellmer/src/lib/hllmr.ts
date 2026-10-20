@@ -1,11 +1,10 @@
 /**
  * What dhellmer.com shows from hllmr.com: the ventures and the writing. Read straight from the
- * hllmr.com site's own data at build time, so the personal site can never list a venture or an essay
+ * shared HLLMR portfolio record (@hllmr/portfolio, ADR-0015 D6) at build time, so the personal site can never list a venture or an essay
  * the company site does not (and never misses one). The essays are linked, never copied: their
  * canonical home is hllmr.com.
  */
-import { PROJECTS, PROJECT_STAGE, VENTURES, type Stage } from "../../../hllmr/src/lib/projects";
-import { WRITING } from "../../../hllmr/src/lib/writing";
+import { PROJECTS, PROJECT_STAGE, VENTURES, WRITING, type Stage } from "@hllmr/portfolio";
 import { HUB, NAME } from "./site";
 
 /** hllmr.com paths become absolute links; external links pass through. */

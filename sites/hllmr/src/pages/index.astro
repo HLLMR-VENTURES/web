@@ -8,9 +8,8 @@ import BaseLayout from "../layouts/BaseLayout.astro";
 import Arms from "../components/Arms.astro";
 import { ARMS, type ArmsKey } from "../lib/arms";
 import VentureRegister, { type RegisterRow } from "../components/VentureRegister.astro";
-import { PROJECTS, PROJECT_STAGE, VENTURES } from "../lib/projects";
-import { WRITING } from "../lib/writing";
-import { CONTACT_EMAIL, FOUNDER, LINKS, LOCALITY, OWNER, abs } from "../lib/site";
+import { PROJECTS, PROJECT_STAGE, VENTURES, WRITING } from "@hllmr/portfolio";
+import { CONTACT_EMAIL, FOUNDER, LINKS, LOCALITY, OWNER, abs, here } from "../lib/site";
 
 const site = Astro.site;
 const jsonLd = {
@@ -39,6 +38,7 @@ const jsonLd = {
 
 const ventures: RegisterRow[] = VENTURES.map((v) => ({
   ...v,
+  href: v.href && here(v.href),
   links: v.slug === "silo" ? [{ label: "case study", href: "/projects/silo/" }, { label: "source", href: LINKS.siloSource }] : undefined,
 }));
 const projects: RegisterRow[] = PROJECTS.filter((p) => p.slug !== "silo").map((p) => ({
@@ -47,7 +47,7 @@ const projects: RegisterRow[] = PROJECTS.filter((p) => p.slug !== "silo").map((p
   field: p.kind,
   line: p.what,
   stage: PROJECT_STAGE[p.slug] ?? "Building",
-  href: p.page ?? `/projects/#${p.slug}`,
+  href: p.page ? here(p.page) : `/projects/#${p.slug}`,
   links: p.links,
 }));
 const essay = WRITING[0]!;
@@ -140,7 +140,7 @@ const roll: ArmsKey[] = [...cycle, ...cycle, ...cycle, ...cycle];
     <div class="wrap two">
       <div>
         <p class="anno">Writing · {essay.kind}</p>
-        <h2 id="writing-h"><a href={essay.path}>{essay.title}</a></h2>
+        <h2 id="writing-h"><a href={here(essay.path)}>{essay.title}</a></h2>
       </div>
       <p class="muted">{essay.description} <a href="/writing/">All writing →</a></p>
     </div>

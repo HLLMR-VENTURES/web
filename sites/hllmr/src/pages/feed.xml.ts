@@ -1,7 +1,7 @@
-// /feed.xml: RSS 2.0 for the writing index. Dates come from src/lib/writing.ts, never the build
+// /feed.xml: RSS 2.0 for the writing index. Dates come from @hllmr/portfolio (writing.ts), never the build
 // clock, so an unchanged rebuild is byte-identical.
 import type { APIRoute } from "astro";
-import { WRITING } from "../lib/writing";
+import { WRITING } from "@hllmr/portfolio";
 import { OWNER } from "../lib/site";
 
 const esc = (s: string) => s.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");

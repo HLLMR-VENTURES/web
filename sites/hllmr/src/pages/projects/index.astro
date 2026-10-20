@@ -4,7 +4,8 @@ import BaseLayout from "../../layouts/BaseLayout.astro";
 import PageHead from "../../components/PageHead.astro";
 import ProjectSchedule from "../../components/ProjectSchedule.astro";
 import VentureRegister from "../../components/VentureRegister.astro";
-import { PROJECTS, VENTURES } from "../../lib/projects";
+import { PROJECTS, VENTURES } from "@hllmr/portfolio";
+import { here } from "../../lib/site";
 ---
 
 <BaseLayout
@@ -20,7 +21,7 @@ import { PROJECTS, VENTURES } from "../../lib/projects";
   <section class="section" aria-labelledby="v-h">
     <div class="wrap">
       <h2 id="v-h" class="sh">Ventures</h2>
-      <VentureRegister rows={VENTURES} label="Ventures" />
+      <VentureRegister rows={VENTURES.map((v) => ({ ...v, href: v.href && here(v.href) }))} label="Ventures" />
     </div>
   </section>
   <section class="section" aria-labelledby="p-h">

@@ -1,6 +1,7 @@
 ---
 /** The project schedule, drawn as an equipment schedule: tag, project, what it is, status, links. */
-import type { Project } from "../lib/projects";
+import type { Project } from "@hllmr/portfolio";
+import { here } from "../lib/site";
 
 interface Props {
   projects: Project[];
@@ -26,7 +27,7 @@ const { projects, caption } = Astro.props;
         <tr id={p.slug}>
           <td class="tag">{p.tag}</td>
           <td class="name">
-            {p.page ? <a href={p.page}>{p.name}</a> : <span>{p.name}</span>}
+            {p.page ? <a href={here(p.page)}>{p.name}</a> : <span>{p.name}</span>}
             <span class="kind anno">{p.kind}</span>
           </td>
           <td>
@@ -35,7 +36,7 @@ const { projects, caption } = Astro.props;
           </td>
           <td class="status">{p.status}</td>
           <td class="refs">
-            {p.page && <a href={p.page}>{p.page === "/writwall/" ? "page" : "case study"}</a>}
+            {p.page && <a href={here(p.page)}>{here(p.page) === "/writwall/" ? "page" : "case study"}</a>}
             {p.links.map((l) => (
               <a href={l.href} rel="noopener">
                 {l.label}
