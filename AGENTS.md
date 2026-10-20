@@ -10,6 +10,14 @@ From hllmr-infra AGENTS.md, verbatim (hllmr-infra#89, 2026-10-20):
 
 For this repository the root is `F:\Worktrees\web\<topic>`. Older worktrees under `F:\Projects\hllmr-web-wt\` stay until their current work finishes; start new ones under the new root.
 
+On Windows, `git worktree remove` leaves the npm-workspace junctions (`node_modules/@hllmr/*`) behind in the worktree folder. To clean up:
+1. Stop any preview or dev server first.
+2. Confirm each junction's target no longer exists.
+3. Delete the junctions one link at a time.
+4. Remove the now-empty folders.
+
+Never delete through a junction recursively: that can reach the live target, such as another checkout's `packages/` or `sites/`.
+
 ## Who works where
 
 Each site has its own domain agent: Claude (web dev) for `sites/hllmr`, the dhellmer.com site agent for `sites/dhellmer`, and Claude (Silo site) for `sites/silo`. Work in your own site's paths. A change to `packages/design`, `package-lock.json`, the shared scripts or another site's paths is coordinated with the agents it affects first.
