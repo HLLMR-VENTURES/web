@@ -30,6 +30,8 @@ Re-read the `on:` blocks in `.github/workflows/release-*.yml` before relying on 
 | `release-dhellmer` | `sites/dhellmer/**`, `sites/hllmr/src/lib/projects.ts`, `sites/hllmr/src/lib/writing.ts`, `packages/design/**` except `**/*silo*.css`, `deploy/dhellmer/**`, `tests/url-contract/dhellmer*`, `package-lock.json` |
 | `release-silo` | `sites/silo/**`, `packages/design/**`, `deploy/silo/**`, `tests/url-contract/silo*`, `tests/url-contract/contract.test.mjs`, `tests/url-contract/nginx-model.mjs`, `tests/url-contract/run-nginx.sh`, `package-lock.json` |
 
+Coming change: ADR-0015 ([hllmr-infra#85](https://github.com/HLLMR/hllmr-infra/pull/85), not yet merged) adds a shared `packages/portfolio` and four division sites (tools, upgrade, live, gaming). When those land, the workflows and this table change with them.
+
 Silo-only design files must be named `*silo*.css`. Otherwise they republish hllmr.com and dhellmer.com, whose footer revision follows `packages/design`.
 
 A published release is not live. Installing it on the host needs the owner's line naming that release (or a standing grant for that site), carried out by Claude (infra).
