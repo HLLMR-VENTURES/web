@@ -1,0 +1,20 @@
+{
+  "name": "@hllmr/site-gaming",
+  "version": "0.1.0",
+  "private": true,
+  "description": "gaming.hllmr.com: HLLMR GAMING, a division of HLLMR Ventures LLC (ADR-0015).",
+  "license": "MIT",
+  "type": "module",
+  "scripts": {
+    "dev": "astro dev --port 4327",
+    "build": "astro build",
+    "preview": "astro preview --port 4327"
+  },
+  "dependencies": {
+    "@hllmr/brand": "0.1.0",
+    "@hllmr/design": "0.1.0",
+    "@hllmr/portfolio": "0.1.0",
+    "astro": "7.3.8",
+    "typescript": "6.0.3"
+  }
+}

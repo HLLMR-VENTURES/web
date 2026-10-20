@@ -1,0 +1,41 @@
+# Publishes gaming.hllmr.com (HLLMR GAMING, ADR-0015) through the shared release-family-site.yml.
+# Fires only on what the site shows: its own directory, the family brand kit, the shared design
+# core (never Silo-only *silo*.css), the portfolio record, its deploy config, its contract and the
+# lockfile.
+name: release-gaming
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "sites/gaming/**"
+      - "packages/brand/**"
+      - "packages/portfolio/**"
+      - "packages/design/**"
+      - "!packages/design/**/*silo*.css"
+      - "deploy/gaming/**"
+      - "tests/url-contract/gaming*"
+      - "tests/url-contract/family-contract.mjs"
+      - "tests/url-contract/run-nginx-family.sh"
+      - "package-lock.json"
+  workflow_dispatch:
+    inputs:
+      prerelease:
+        description: "Test artifact for infra exercises (gaming-site-test/ tag, pre-release)"
+        type: boolean
+        default: false
+
+permissions:
+  contents: write
+
+concurrency:
+  group: release-gaming
+  cancel-in-progress: false
+
+jobs:
+  release:
+    uses: ./.github/workflows/release-family-site.yml
+    with:
+      site: gaming
+      origin: https://gaming.hllmr.com
+      prerelease: ${{ inputs.prerelease || false }}

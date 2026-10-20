@@ -1,0 +1,19 @@
+---
+/** 404 for gaming.hllmr.com (served by nginx `error_page 404 /404.html`). */
+import FamilyLayout from "@hllmr/brand/components/FamilyLayout.astro";
+import NotFoundBody from "@hllmr/brand/components/NotFoundBody.astro";
+import { NAV, REVISION, SITE, THEME_STORAGE_KEY } from "../lib/site";
+---
+
+<FamilyLayout
+  site={SITE}
+  nav={NAV}
+  revision={REVISION}
+  themeKey={THEME_STORAGE_KEY}
+  title={`Not found · ${SITE.name}`}
+  description="This page does not exist on gaming.hllmr.com."
+  sheet="404"
+  noindex
+>
+  <NotFoundBody />
+</FamilyLayout>

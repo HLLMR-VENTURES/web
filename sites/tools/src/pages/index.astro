@@ -1,0 +1,116 @@
+---
+/**
+ * tools.hllmr.com home: the HLLMR TOOLS catalog (ADR-0015 D1). Every card comes from the portfolio
+ * record (@hllmr/portfolio) and carries its evidence-based status; nothing here is listed as
+ * available unless a release or public source exists.
+ */
+import FamilyLayout from "@hllmr/brand/components/FamilyLayout.astro";
+import DivisionHero from "@hllmr/brand/components/DivisionHero.astro";
+import ProductCard from "@hllmr/brand/components/ProductCard.astro";
+import ContactBlock from "@hllmr/brand/components/ContactBlock.astro";
+import { COMPANY, ORIGINS, PROJECTS, hub } from "@hllmr/portfolio";
+import { NAV, REVISION, SITE, THEME_STORAGE_KEY } from "../lib/site";
+
+const mine = PROJECTS.filter((p) => p.division === "tools");
+const available = mine.filter((p) => p.availability === "Available");
+const development = mine.filter((p) => p.availability === "Development");
+const research = mine.filter((p) => p.availability === "Research");
+
+const jsonLd = {
+  "@context": "https://schema.org",
+  "@type": "WebSite",
+  name: SITE.name,
+  url: `${SITE.origin}/`,
+  publisher: { "@type": "Organization", name: COMPANY.owner, url: `${ORIGINS.vntrs}/` },
+};
+---
+
+<FamilyLayout
+  site={SITE}
+  nav={NAV}
+  revision={REVISION}
+  themeKey={THEME_STORAGE_KEY}
+  title="HLLMR TOOLS · Useful software, built with purpose"
+  description="Software from HLLMR: released tools, projects in development and research, each with an honest status and a link you can check."
+  sheet="Catalog"
+  jsonLd={jsonLd}
+>
+  <DivisionHero
+    site={SITE}
+    title="Useful software, built with purpose."
+    lede="Independent software and engineering projects from HLLMR. Each one says plainly whether you can use it today, whether it is still being built, or whether it is still being designed."
+  >
+    <a class="btn btn-primary" href="#available">See what is available</a>
+    <a class="btn btn-ghost" href="#approach">How we build</a>
+  </DivisionHero>
+
+  <section class="section" id="available">
+    <div class="wrap">
+      <div class="section-head">
+        <p class="anno">Available</p>
+        <h2>Released and usable today</h2>
+        <p>Each has a public release or public source, and its license is stated.</p>
+      </div>
+      <div class="grid">{available.map((p) => <ProductCard project={p} />)}</div>
+    </div>
+  </section>
+
+  <section class="section" id="development">
+    <div class="wrap">
+      <div class="section-head">
+        <p class="anno">In development</p>
+        <h2>Being built</h2>
+        <p>Usable in part or in preview, and still changing.</p>
+      </div>
+      <div class="grid">{development.map((p) => <ProductCard project={p} />)}</div>
+    </div>
+  </section>
+
+  <section class="section" id="research">
+    <div class="wrap">
+      <div class="section-head">
+        <p class="anno">Research</p>
+        <h2>Being designed</h2>
+        <p>Nothing released yet, and no dates promised.</p>
+      </div>
+      <div class="grid">{research.map((p) => <ProductCard project={p} />)}</div>
+      <p class="aside">
+        Looking for Silo? It lives under <a href={`${ORIGINS.gaming}/`}>HLLMR GAMING</a>.
+      </p>
+    </div>
+  </section>
+
+  <section class="section" id="approach">
+    <div class="wrap prose">
+      <p class="anno">Approach</p>
+      <h2>How we build</h2>
+      <p>
+        AI makes development faster. It doesn't excuse missing tests, unclear ownership or claims nobody checked. Every
+        release here is checked against its own evidence before it ships, and every one can be rolled back.
+      </p>
+      <p>
+        The method is public as <a href={hub("/writwall/")}>Writwall</a>, and the reasoning behind it is in the essay
+        <a href={hub("/writing/document-control-for-ai-agents/")}>Document control for AI-assisted development</a>.
+      </p>
+    </div>
+  </section>
+
+  <ContactBlock
+    site={SITE}
+    heading="A question about a tool?"
+    text="For the open-source projects, issues on GitHub are welcome too. For anything else, one address reaches a person."
+    button="Email a question"
+  />
+</FamilyLayout>
+
+<style>
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(min(100%, 320px), 1fr));
+    gap: var(--space-4);
+  }
+  .aside {
+    margin: var(--space-6) 0 0;
+    color: var(--muted);
+  }
+</style>

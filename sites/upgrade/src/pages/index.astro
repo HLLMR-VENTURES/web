@@ -1,0 +1,215 @@
+---
+/**
+ * upgrade.hllmr.com home: HLLMR UPGRADE, business systems for independent operators (ADR-0015 D1;
+ * successor to hllmr.com/build/). Owner direction: no public prices, no 24/7 or compliance
+ * promises, no client claims; proof is HLLMR's own work, labelled as such.
+ */
+import FamilyLayout from "@hllmr/brand/components/FamilyLayout.astro";
+import DivisionHero from "@hllmr/brand/components/DivisionHero.astro";
+import ContactBlock from "@hllmr/brand/components/ContactBlock.astro";
+import { COMPANY, ORIGINS, hub, mailto } from "@hllmr/portfolio";
+import { NAV, REVISION, SITE, THEME_STORAGE_KEY } from "../lib/site";
+
+const services = [
+  {
+    name: "Assess",
+    text: "A paid look at how work moves through your business today: the forms, the apps you pay for, where the hours go. You get a written, scoped recommendation.",
+  },
+  {
+    name: "Build",
+    text: "Websites, customer portals and the applications behind them, built around how you actually work, in pieces you can see working.",
+  },
+  {
+    name: "Connect",
+    text: "Intake, customers, appointments, jobs, documents and notifications joined into one system, so nothing is typed twice.",
+  },
+  {
+    name: "Operate",
+    text: "Hosting, monitoring, updates, fixes and backups that have been restored, not just taken. Scope and response times are written into the agreement.",
+  },
+];
+
+const steps = [
+  { name: "Discover", text: "What you need, what exists today, and what done means to you." },
+  { name: "Scope", text: "Intent, limits, acceptance tests and the rollback plan, agreed before work starts." },
+  { name: "Build", text: "Small pieces, each shown working before the next begins." },
+  { name: "Verify", text: "Tested against what was agreed, with the results written down." },
+  { name: "Deploy", text: "Released so it can be rolled back, and the rollback is tried first." },
+  { name: "Maintain", text: "Kept running and improved on the terms you chose." },
+];
+
+const jsonLd = {
+  "@context": "https://schema.org",
+  "@type": "Service",
+  name: SITE.name,
+  serviceType: "Business systems: websites, integrations and operational software",
+  url: `${SITE.origin}/`,
+  provider: { "@type": "Organization", name: COMPANY.owner, url: `${ORIGINS.vntrs}/` },
+  areaServed: "US",
+};
+---
+
+<FamilyLayout
+  site={SITE}
+  nav={NAV}
+  revision={REVISION}
+  themeKey={THEME_STORAGE_KEY}
+  title="HLLMR UPGRADE · Your business deserves more than a website"
+  description="Business systems for owner-run service businesses: connected websites, intake, scheduling, records and the software behind them, built to fit and kept running."
+  sheet="Business systems"
+  jsonLd={jsonLd}
+>
+  <DivisionHero
+    site={SITE}
+    title="Your business deserves more than a website."
+    lede="Connected websites and operational software for owner-run service businesses. The intake, scheduling, quoting, records and paperwork that now live in five apps and a filing cabinet, built into one system and kept running."
+  >
+    <a class="btn btn-primary" href={mailto(SITE.subject)}>Request an assessment</a>
+    <a class="btn btn-ghost" href="#process">How it works</a>
+  </DivisionHero>
+
+  <section class="section" id="who">
+    <div class="wrap prose">
+      <p class="anno">Who it's for</p>
+      <h2>Independent operators</h2>
+      <p>
+        Trades, shops and local service businesses run by their owners, where the work happens on paper forms, across
+        apps that don't talk to each other, and behind a website that doesn't bring work in. Nobody's job is
+        administration, so it takes the evenings.
+      </p>
+    </div>
+  </section>
+
+  <section class="section" id="services">
+    <div class="wrap">
+      <div class="section-head">
+        <p class="anno">Services</p>
+        <h2>Four kinds of work</h2>
+        <p>Most engagements start with an assessment. Prices are quoted per engagement, after it.</p>
+      </div>
+      <ol class="cards">
+        {
+          services.map((s) => (
+            <li class="card">
+              <h3>{s.name}</h3>
+              <p>{s.text}</p>
+            </li>
+          ))
+        }
+      </ol>
+    </div>
+  </section>
+
+  <section class="section" id="process">
+    <div class="wrap">
+      <div class="section-head">
+        <p class="anno">How it works</p>
+        <h2>Six steps, in order</h2>
+      </div>
+      <ol class="steps">
+        {
+          steps.map((s, i) => (
+            <li>
+              <span class="n">{String(i + 1).padStart(2, "0")}</span>
+              <h3>{s.name}</h3>
+              <p>{s.text}</p>
+            </li>
+          ))
+        }
+      </ol>
+    </div>
+  </section>
+
+  <section class="section" id="ownership">
+    <div class="wrap">
+      <div class="section-head">
+        <p class="anno">Ownership</p>
+        <h2>Who owns what we build</h2>
+        <p>Decided before work starts, and written into the agreement.</p>
+      </div>
+      <div class="two">
+        <div class="card">
+          <h3>You own it</h3>
+          <p>
+            The source code and the data are yours. Any components HLLMR brought with it are named in the agreement, along
+            with what you may do with them.
+          </p>
+        </div>
+        <div class="card">
+          <h3>We run it for you</h3>
+          <p>
+            You subscribe to a system HLLMR owns and operates. How you export your data, and how you leave, are written
+            down before you start.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="proof">
+    <div class="wrap prose">
+      <p class="anno">Our own work</p>
+      <h2>Judge us by what we run</h2>
+      <p>
+        Client work is just starting, so here is our own, labelled as ours. <a href={`${ORIGINS.silo}/`}>Silo</a> is a
+        released desktop app with its own API. The <a href={hub("/projects/self-hosted-stack/")}>self-hosted stack</a> runs the
+        company's mail, files and recovery, and every backup on it has been restored. This site is released the same way
+        we would release yours: checked file by file, with a rollback tried before it goes live.
+      </p>
+    </div>
+  </section>
+
+  <ContactBlock
+    site={SITE}
+    heading="Tell us how your business works today."
+    text="A few lines are enough: what the business does, where the time goes, and what you would change first. A person reads every message."
+    button="Request an assessment"
+  />
+</FamilyLayout>
+
+<style>
+  .cards,
+  .steps {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    gap: var(--space-4);
+  }
+  .cards {
+    grid-template-columns: repeat(auto-fill, minmax(min(100%, 240px), 1fr));
+  }
+  .card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-top: 2px solid var(--venture);
+    padding: var(--space-5);
+    min-width: 0;
+  }
+  .card h3,
+  .steps h3 {
+    margin: 0 0 var(--space-2);
+  }
+  .card p,
+  .steps p {
+    margin: 0;
+    color: var(--muted);
+  }
+  .steps {
+    grid-template-columns: repeat(auto-fill, minmax(min(100%, 280px), 1fr));
+  }
+  .steps li {
+    border-top: 1px solid var(--rule);
+    padding-top: var(--space-3);
+  }
+  .n {
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    color: var(--venture);
+  }
+  .two {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px), 1fr));
+    gap: var(--space-4);
+  }
+</style>

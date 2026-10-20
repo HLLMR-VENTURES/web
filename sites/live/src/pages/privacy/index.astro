@@ -1,0 +1,20 @@
+---
+/** Privacy notice for live.hllmr.com; the shared family text (@hllmr/brand PrivacyBody). */
+import FamilyLayout from "@hllmr/brand/components/FamilyLayout.astro";
+import PageHead from "@hllmr/brand/components/PageHead.astro";
+import PrivacyBody from "@hllmr/brand/components/PrivacyBody.astro";
+import { NAV, REVISION, SITE, THEME_STORAGE_KEY } from "../../lib/site";
+---
+
+<FamilyLayout
+  site={SITE}
+  nav={NAV}
+  revision={REVISION}
+  themeKey={THEME_STORAGE_KEY}
+  title={`Privacy · ${SITE.name}`}
+  description="What live.hllmr.com collects: no cookies, no trackers, no third-party requests; aggregate request counts from server logs, kept private."
+  sheet="Privacy"
+>
+  <PageHead dwg="Privacy" title="Privacy" lede="Short, because the site does very little." />
+  <PrivacyBody site={SITE} themeKey={THEME_STORAGE_KEY} />
+</FamilyLayout>

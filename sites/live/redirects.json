@@ -1,0 +1,6 @@
+{
+  "$comment": "live.hllmr.com redirect layer, mirrored by hand in deploy/live/nginx.conf (the contract test checks the two agree). None yet.",
+  "go": {},
+  "vanity": {},
+  "permanent": {}
+}

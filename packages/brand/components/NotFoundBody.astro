@@ -1,0 +1,46 @@
+---
+/** The 404 body shared by the HLLMR family sites (served by nginx `error_page 404 /404.html`). */
+interface Props {
+  links?: { href: string; label: string }[];
+}
+const { links = [] } = Astro.props;
+---
+
+<section class="nf">
+  <div class="wrap">
+    <p class="anno anno-red">404</p>
+    <h1>Not on this site.</h1>
+    <p>The page you asked for isn't here. It may never have existed, or it moved to another HLLMR site.</p>
+    <p class="links">
+      <a class="btn btn-primary" href="/">Home</a>
+      {
+        links.map((l) => (
+          <a class="btn btn-ghost" href={l.href}>
+            {l.label}
+          </a>
+        ))
+      }
+      <a class="btn btn-ghost" href="https://hllmr.com/">HLLMR Ventures</a>
+    </p>
+  </div>
+</section>
+
+<style>
+  .nf {
+    padding: var(--space-9) 0 var(--space-8);
+  }
+  .nf h1 {
+    font-size: var(--text-3xl);
+    margin: var(--space-3) 0 var(--space-4);
+  }
+  .nf p {
+    color: var(--muted);
+    max-width: 60ch;
+  }
+  .links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-3);
+    margin-top: var(--space-6);
+  }
+</style>
