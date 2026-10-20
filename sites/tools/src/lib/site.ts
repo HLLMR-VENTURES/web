@@ -1,4 +1,4 @@
-/** Site constants for tools.hllmr.com (HLLMR TOOLS, a division of HLLMR Ventures LLC; ADR-0015). */
+/** (Test pre-release branch for infra's switch-back exercise; never merged.) Site constants for tools.hllmr.com (HLLMR TOOLS, a division of HLLMR Ventures LLC; ADR-0015). */
 import { revision } from "@hllmr/brand/revision";
 import { divisionSite } from "@hllmr/portfolio";
 
