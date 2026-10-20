@@ -2,7 +2,8 @@
 /** Writing index (was a 404 on the 2026-08 site). */
 import BaseLayout from "../../layouts/BaseLayout.astro";
 import PageHead from "../../components/PageHead.astro";
-import { WRITING } from "../../lib/writing";
+import { WRITING } from "@hllmr/portfolio";
+import { here } from "../../lib/site";
 ---
 
 <BaseLayout
@@ -23,7 +24,7 @@ import { WRITING } from "../../lib/writing";
                 {w.kind} · <time datetime={w.published}>{w.published}</time> · {w.author}
               </p>
               <h2>
-                <a href={w.path}>{w.title}</a>
+                <a href={here(w.path)}>{w.title}</a>
               </h2>
               <p class="d">{w.description}</p>
             </li>

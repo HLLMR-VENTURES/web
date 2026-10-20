@@ -12,6 +12,7 @@
   },
   "dependencies": {
     "@hllmr/design": "0.1.0",
+    "@hllmr/portfolio": "0.1.0",
     "astro": "7.3.8",
     "typescript": "6.0.3"
   }

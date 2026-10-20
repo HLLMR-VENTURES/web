@@ -77,13 +77,12 @@ test("every built HTML page is in the contract or is the 404 page", () => {
 });
 
 
-// The personal site links out to every HLLMR venture and every essay, read from hllmr.com's own data
-// (sites/hllmr/src/lib/*.ts, loaded with Node's TypeScript type stripping). A venture or essay added
+// The personal site links out to every HLLMR venture and every essay, read from the shared portfolio
+// record (packages/portfolio/src/*.ts, loaded with Node's TypeScript type stripping). A venture or essay added
 // there without a rebuild here is caught by the next CI run.
 test("every HLLMR venture and essay is linked from dhellmer.com, essays to their canonical hllmr.com URL", async () => {
   if (!model) return;
-  const { VENTURES } = await import("../../sites/hllmr/src/lib/projects.ts");
-  const { WRITING } = await import("../../sites/hllmr/src/lib/writing.ts");
+  const { VENTURES, WRITING } = await import("../../packages/portfolio/src/index.ts");
   const abs = (h) => (h.startsWith("/") ? `https://hllmr.com${h}` : h);
   const ventures = readFileSync(dist + "ventures/index.html", "utf8");
   for (const v of VENTURES) {

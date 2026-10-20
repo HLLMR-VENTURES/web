@@ -23,8 +23,8 @@ on:
     branches: [main]
     paths:
       - "sites/dhellmer/**"
-      - "sites/hllmr/src/lib/projects.ts"
-      - "sites/hllmr/src/lib/writing.ts"
+      # The shared portfolio record (ventures, projects, writing) this site shows (ADR-0015 D6).
+      - "packages/portfolio/**"
       - "packages/design/**"
       # Silo-only design files (*silo*.css, imported only by packages/design/silo.css): a Silo
       # design change must not rebuild this site. Same glob as SILO_ONLY_DESIGN in src/lib/site.ts.

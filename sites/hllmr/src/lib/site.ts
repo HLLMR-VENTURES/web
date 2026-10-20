@@ -1,5 +1,6 @@
 /** Site-wide constants for hllmr.com. Absolute URLs derive from Astro's `site` (SITE_URL). */
 import { execFileSync } from "node:child_process";
+import { ORIGINS, local } from "@hllmr/portfolio";
 
 export const SITE_NAME = "HLLMR";
 export const OWNER = "HLLMR Ventures LLC";
@@ -20,6 +21,9 @@ export const LINKS = {
   /** The founder's personal site; it links back here (owner decision 2026-10-18: cross-link the two). */
   founder: "https://dhellmer.com",
 } as const;
+
+/** A portfolio URL as this site renders it: links to hllmr.com become paths, others stay absolute. */
+export const here = (href: string): string => local(href, ORIGINS.vntrs);
 
 export const NAV = [
   { href: "/projects/", label: "Ventures" },
@@ -63,7 +67,7 @@ const SILO_ONLY_DESIGN = [":(exclude,glob)../../packages/design/**/*silo*.css"];
  */
 export const REVISION: { date: string; hash: string } = (() => {
   try {
-    const out = execFileSync("git", ["log", "-1", "--format=%cs %h", "--", ".", "../../packages/design", ...SILO_ONLY_DESIGN], {
+    const out = execFileSync("git", ["log", "-1", "--format=%cs %h", "--", ".", "../../packages/design", ...SILO_ONLY_DESIGN, "../../packages/portfolio"], {
       cwd: process.cwd(),
       encoding: "utf8",
       stdio: ["ignore", "pipe", "ignore"],

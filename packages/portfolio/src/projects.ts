@@ -1,8 +1,22 @@
 /**
- * The project schedule. One record per project feeds the home page and /projects/.
- * Every fact here must be checkable from a public link or be phrased as the company's own account.
- * Do not add customers, ratings, usage counts or testimonials without the owner's say-so.
+ * The project schedule. One record per project feeds hllmr.com (home page and /projects/) and
+ * dhellmer.com. Every fact here must be checkable from a public link or be phrased as the
+ * company's own account. Do not add customers, ratings, usage counts or testimonials without the
+ * owner's say-so. URLs are absolute (ADR-0015 D6); sites render their own with `local()`.
  */
+import { hub } from "./urls.ts";
+
+/**
+ * The HLLMR divisions (ADR-0015 D1): the parent, HLLMR Ventures (VNTRS), and the four divisions
+ * under it. A division is not a separate company until an LLC exists (D5).
+ */
+export const DIVISIONS = ["vntrs", "tools", "upgrade", "live", "gaming"] as const;
+export type Division = (typeof DIVISIONS)[number];
+
+/** Public availability of a product, from evidence (a release, a license, a repository). */
+export const AVAILABILITY = ["Available", "Development", "Research", "Archived"] as const;
+export type Availability = (typeof AVAILABILITY)[number];
+
 export interface Project {
   tag: string;
   slug: string;
@@ -13,7 +27,13 @@ export interface Project {
   summary: string;
   status: string;
   kind: "Product" | "Infrastructure" | "Method" | "Library" | "Mod" | "Tooling";
-  /** Page on this site, if any. */
+  /** The division it belongs to. */
+  division: Division;
+  /** Availability, for products and libraries; absent for the company's own infrastructure. */
+  availability?: Availability;
+  /** True for an early release (v0.x or untagged): usable, not settled. */
+  early?: boolean;
+  /** Its page on hllmr.com, if any (absolute URL). */
   page?: string;
   links: { label: string; href: string }[];
 }
@@ -26,9 +46,11 @@ export const PROJECTS: Project[] = [
     what: "A free, open-source mod manager for Farming Simulator 25.",
     summary:
       "Silo reads a player's mods and game log, points to the likely culprit when the game crashes, and flags conflicts before launch. A desktop app, a public catalog API and a Discord bot, built and released by one developer working with AI agents.",
-    status: "Public beta, shipping",
+    status: "Released, 1.0",
     kind: "Product",
-    page: "/projects/silo/",
+    division: "gaming",
+    availability: "Available",
+    page: hub("/projects/silo/"),
     links: [
       { label: "silo.hllmr.com", href: "https://silo.hllmr.com" },
       { label: "source", href: "https://github.com/HLLMR/silo" },
@@ -43,7 +65,8 @@ export const PROJECTS: Project[] = [
       "HLLMR runs its business on infrastructure it operates instead of renting by the seat. AI agents do much of the operating work inside written roles. The owner approves every change, merge and release, and every backup is proven by restoring it.",
     status: "In production",
     kind: "Infrastructure",
-    page: "/projects/self-hosted-stack/",
+    division: "upgrade",
+    page: hub("/projects/self-hosted-stack/"),
     links: [],
   },
   {
@@ -53,9 +76,11 @@ export const PROJECTS: Project[] = [
     what: "A governance method for building software with AI agents.",
     summary:
       "A human ratifies intent, work is dispatched one bounded unit at a time with an explicit capability grant, a separate review checks the result against the record, and every enforcement layer is birth-tested before it is trusted. Public, with its full pilot log, including the measurements that went the wrong way.",
-    status: "Public",
+    status: "Public, CC BY 4.0",
     kind: "Method",
-    page: "/writwall/",
+    division: "tools",
+    availability: "Available",
+    page: hub("/writwall/"),
     links: [{ label: "source", href: "https://github.com/HLLMR/writwall" }],
   },
   {
@@ -67,17 +92,21 @@ export const PROJECTS: Project[] = [
       "It reads a drawing set and a spec book the same way every time, with no model in the loop, because a document-control pipeline cannot rest on a component that guesses.",
     status: "In development",
     kind: "Library",
+    division: "tools",
+    availability: "Development",
     links: [],
   },
   {
     tag: "P-05",
     slug: "stratum-dsp",
-    name: "stratum-dsp",
+    name: "Stratum DSP",
     what: "An audio analysis engine in Rust, published on crates.io.",
     summary:
-      "BPM detection, key detection and beat tracking for DJ applications. The same preference for tools that behave identically on every run, in a different domain.",
+      "BPM detection, key detection and beat tracking for DJ applications, and the engine behind Stratum. The same preference for tools that behave identically on every run, in a different domain.",
     status: "Published, 1.0",
     kind: "Library",
+    division: "tools",
+    availability: "Available",
     links: [
       { label: "crates.io", href: "https://crates.io/crates/stratum-dsp" },
       { label: "source", href: "https://github.com/HLLMR/stratum-dsp" },
@@ -89,9 +118,11 @@ export const PROJECTS: Project[] = [
     name: "Realistic Market Demand and Input Market",
     what: "Two economy mods for Farming Simulator 25.",
     summary:
-      "Selling prices that respond to demand, so flooding a market drops its price, and a buy-side companion in which fuel, fertilizer and seed prices drift by month. Single-player, PC.",
+      "Selling prices that respond to demand, so flooding a market drops its price, and a buy-side companion in which fuel, fertilizer and seed prices drift by month. Single-player, PC. Licensed CC BY-NC-SA 4.0.",
     status: "Public",
     kind: "Mod",
+    division: "gaming",
+    availability: "Available",
     links: [
       { label: "demand", href: "https://github.com/HLLMR/FS25_RealisticMarketDemand" },
       { label: "inputs", href: "https://github.com/HLLMR/FS25_RealisticInputMarket" },
@@ -103,13 +134,55 @@ export const PROJECTS: Project[] = [
     name: "Agent tooling",
     what: "Small open-source tools for teams running AI agents.",
     summary:
-      "openrouter-media, an MCP server that gives agents image and video generation as tools, and paperclip-spend-guard, a plugin that gives an agent workforce cost visibility and budget guardrails on metered models.",
-    status: "Public, MIT",
+      "openrouter-media, an MCP server that gives agents image and video generation as tools, and paperclip-spend-guard, a plugin that gives an agent workforce cost visibility and budget guardrails on metered models. Both early.",
+    status: "Public, MIT, early",
     kind: "Tooling",
+    division: "tools",
+    availability: "Available",
+    early: true,
     links: [
       { label: "openrouter-media", href: "https://github.com/HLLMR/openrouter-media" },
       { label: "spend-guard", href: "https://github.com/HLLMR/paperclip-spend-guard" },
     ],
+  },
+  {
+    tag: "P-08",
+    slug: "curia",
+    name: "Curia",
+    what: "A check on AI agents' claims that a change works.",
+    summary:
+      "Curia sends a reviewer whose job is to refute a change by running commands against the real system, not by reading the diff, and returns confirmed, refuted or unverified. An early public version is out under a noncommercial license; it is not yet packaged for other projects.",
+    status: "Preview, v0.1",
+    kind: "Tooling",
+    division: "tools",
+    availability: "Development",
+    early: true,
+    links: [{ label: "source", href: "https://github.com/HLLMR/curia" }],
+  },
+  {
+    tag: "P-09",
+    slug: "stratum",
+    name: "Stratum",
+    what: "A DJ software platform for library management and set preparation.",
+    summary:
+      "In design. A desktop library app exists in private development, paused since December 2025, and Stratum DSP is its published engine. No release date.",
+    status: "Research, paused",
+    kind: "Product",
+    division: "tools",
+    availability: "Research",
+    links: [],
+  },
+  {
+    tag: "P-10",
+    slug: "staqs",
+    name: "Staqs",
+    what: "Personal finance for people with a day job and a side business.",
+    summary: "In design, including a scenario engine for testing financial decisions before making them. Nothing released.",
+    status: "Research",
+    kind: "Product",
+    division: "tools",
+    availability: "Research",
+    links: [],
   },
 ];
 
@@ -126,23 +199,27 @@ export const PROJECT_STAGE: Record<string, Stage> = {
   "stratum-dsp": "Launched",
   "fs25-markets": "Launched",
   "agent-tooling": "Launched",
+  curia: "Building",
+  stratum: "Building",
+  staqs: "Idea",
 };
 
 /**
  * Ventures: lines of business that start inside HLLMR Ventures and may graduate to their own
- * subdomain, domain or company. Each bears its own arms
- * (src/lib/arms.ts); its stage track takes its field tincture (components/VentureRegister.astro). Names marked "to come" are placeholders
+ * subdomain, domain or company. Each bears its own arms (sites/hllmr/src/lib/arms.ts); its stage
+ * track takes its field tincture (VentureRegister.astro). Names marked "to come" are placeholders
  * the owner has not chosen; never invent a public name for one.
  */
 export interface Venture {
   slug: string;
-  /** Key into the armory (src/lib/arms.ts). */
+  /** Key into the armory (sites/hllmr/src/lib/arms.ts). */
   coat: "silo" | "build" | "live";
   name: string;
   /** Industry or field, in two or three words. */
   field: string;
   line: string;
   stage: Stage;
+  /** Its front door (absolute URL); absent while it has none. */
   href?: string;
 }
 
@@ -163,7 +240,7 @@ export const VENTURES: Venture[] = [
     field: "AI-assisted development",
     line: "Software and automation built with AI agents, and help for teams adopting them, with nothing called done until it is seen working.",
     stage: "Launched",
-    href: "/build/",
+    href: hub("/build/"),
   },
   {
     slug: "live",
