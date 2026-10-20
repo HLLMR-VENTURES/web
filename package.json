@@ -1,7 +1,7 @@
 {
   "name": "hllmr-web",
   "private": true,
-  "description": "HLLMR static websites: shared design package and per-site Astro builds (silo.hllmr.com, hllmr.com, dhellmer.com).",
+  "description": "HLLMR static websites: shared design, brand and portfolio packages and per-site Astro builds (silo.hllmr.com, hllmr.com, dhellmer.com and the HLLMR division sites).",
   "license": "MIT",
   "type": "module",
   "workspaces": [
@@ -34,7 +34,27 @@
     "check:dhellmer": "node scripts/check-built-html.mjs sites/dhellmer/dist && html-validate \"sites/dhellmer/dist/**/*.html\" && node scripts/check-internal-links.mjs sites/dhellmer/dist",
     "test:dhellmer": "npm run build:dhellmer && npm run check:dhellmer && node --test tests/url-contract/dhellmer.contract.mjs",
     "test:contract:nginx:dhellmer": "bash tests/url-contract/run-nginx-dhellmer.sh",
-    "artifact:dhellmer": "bash scripts/make-artifact.sh sites/dhellmer/dist"
+    "artifact:dhellmer": "bash scripts/make-artifact.sh sites/dhellmer/dist",
+    "dev:tools": "npm run dev -w @hllmr/site-tools",
+    "build:tools": "npm run build -w @hllmr/site-tools",
+    "check:tools": "node scripts/check-built-html.mjs sites/tools/dist && html-validate \"sites/tools/dist/**/*.html\" && node scripts/check-internal-links.mjs sites/tools/dist",
+    "test:tools": "npm run build:tools && npm run check:tools && node --test tests/url-contract/tools.contract.mjs",
+    "artifact:tools": "bash scripts/make-artifact.sh sites/tools/dist",
+    "dev:upgrade": "npm run dev -w @hllmr/site-upgrade",
+    "build:upgrade": "npm run build -w @hllmr/site-upgrade",
+    "check:upgrade": "node scripts/check-built-html.mjs sites/upgrade/dist && html-validate \"sites/upgrade/dist/**/*.html\" && node scripts/check-internal-links.mjs sites/upgrade/dist",
+    "test:upgrade": "npm run build:upgrade && npm run check:upgrade && node --test tests/url-contract/upgrade.contract.mjs",
+    "artifact:upgrade": "bash scripts/make-artifact.sh sites/upgrade/dist",
+    "dev:live": "npm run dev -w @hllmr/site-live",
+    "build:live": "npm run build -w @hllmr/site-live",
+    "check:live": "node scripts/check-built-html.mjs sites/live/dist && html-validate \"sites/live/dist/**/*.html\" && node scripts/check-internal-links.mjs sites/live/dist",
+    "test:live": "npm run build:live && npm run check:live && node --test tests/url-contract/live.contract.mjs",
+    "artifact:live": "bash scripts/make-artifact.sh sites/live/dist",
+    "dev:gaming": "npm run dev -w @hllmr/site-gaming",
+    "build:gaming": "npm run build -w @hllmr/site-gaming",
+    "check:gaming": "node scripts/check-built-html.mjs sites/gaming/dist && html-validate \"sites/gaming/dist/**/*.html\" && node scripts/check-internal-links.mjs sites/gaming/dist",
+    "test:gaming": "npm run build:gaming && npm run check:gaming && node --test tests/url-contract/gaming.contract.mjs",
+    "artifact:gaming": "bash scripts/make-artifact.sh sites/gaming/dist"
   },
   "devDependencies": {
     "html-validate": "11.16.3"

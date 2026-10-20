@@ -7,6 +7,7 @@
   "type": "module",
   "exports": {
     "./arms": "./src/arms.ts",
+    "./revision": "./src/revision.ts",
     "./family.css": "./family.css",
     "./divisions.css": "./divisions.css",
     "./components/*": "./components/*"

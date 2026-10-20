@@ -1,0 +1,41 @@
+# Publishes live.hllmr.com (HLLMR LIVE, ADR-0015) through the shared release-family-site.yml.
+# Fires only on what the site shows: its own directory, the family brand kit, the shared design
+# core (never Silo-only *silo*.css), the portfolio record, its deploy config, its contract and the
+# lockfile.
+name: release-live
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "sites/live/**"
+      - "packages/brand/**"
+      - "packages/portfolio/**"
+      - "packages/design/**"
+      - "!packages/design/**/*silo*.css"
+      - "deploy/live/**"
+      - "tests/url-contract/live*"
+      - "tests/url-contract/family-contract.mjs"
+      - "tests/url-contract/run-nginx-family.sh"
+      - "package-lock.json"
+  workflow_dispatch:
+    inputs:
+      prerelease:
+        description: "Test artifact for infra exercises (live-site-test/ tag, pre-release)"
+        type: boolean
+        default: false
+
+permissions:
+  contents: write
+
+concurrency:
+  group: release-live
+  cancel-in-progress: false
+
+jobs:
+  release:
+    uses: ./.github/workflows/release-family-site.yml
+    with:
+      site: live
+      origin: https://live.hllmr.com
+      prerelease: ${{ inputs.prerelease || false }}

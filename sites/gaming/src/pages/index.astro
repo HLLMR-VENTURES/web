@@ -1,0 +1,147 @@
+---
+/**
+ * gaming.hllmr.com home: HLLMR GAMING (ADR-0015 D1). Silo first (released, with its own product
+ * site), then the mods, then what is planned, marked as planned with no dates. Silo's own mark is
+ * never recoloured or locked up with HLLMR arms (D4); it is endorsed in text only.
+ */
+import FamilyLayout from "@hllmr/brand/components/FamilyLayout.astro";
+import DivisionHero from "@hllmr/brand/components/DivisionHero.astro";
+import ProductCard from "@hllmr/brand/components/ProductCard.astro";
+import ContactBlock from "@hllmr/brand/components/ContactBlock.astro";
+import { COMPANY, ORIGINS, PROJECTS } from "@hllmr/portfolio";
+import { NAV, REVISION, SITE, THEME_STORAGE_KEY } from "../lib/site";
+
+const silo = PROJECTS.find((p) => p.slug === "silo")!;
+const mods = PROJECTS.filter((p) => p.division === "gaming" && p.kind === "Mod");
+
+const planned = [
+  {
+    name: "A shared modding core",
+    text: "The approach behind Silo, made into a common engine, so the same care can reach more games.",
+  },
+  {
+    name: "More mod managers",
+    text: "Managers for Euro Truck Simulator 2 and American Truck Simulator, and for 7 Days to Die, built on that core.",
+  },
+  {
+    name: "Games of our own",
+    text: "Simulation games, starting on mobile, built on the same economic simulation engine as Staqs.",
+  },
+];
+
+const jsonLd = {
+  "@context": "https://schema.org",
+  "@type": "WebSite",
+  name: SITE.name,
+  url: `${SITE.origin}/`,
+  publisher: { "@type": "Organization", name: COMPANY.owner, url: `${ORIGINS.vntrs}/` },
+};
+---
+
+<FamilyLayout
+  site={SITE}
+  nav={NAV}
+  revision={REVISION}
+  themeKey={THEME_STORAGE_KEY}
+  title="HLLMR GAMING · More playing, less fixing"
+  description="HLLMR GAMING: Silo, the free mod manager for Farming Simulator 25, game mods, and what comes next."
+  sheet="Gaming"
+  jsonLd={jsonLd}
+>
+  <DivisionHero
+    site={SITE}
+    title="More playing, less fixing."
+    lede="Tools, mods and, in time, games of our own. It starts with Farming Simulator 25."
+  >
+    <a class="btn btn-primary" href={`${ORIGINS.silo}/`}>Get Silo</a>
+    <a class="btn btn-ghost" href="#planned">What's planned</a>
+  </DivisionHero>
+
+  <section class="section" id="featured">
+    <div class="wrap">
+      <div class="section-head">
+        <p class="anno">Silo · an HLLMR GAMING product</p>
+        <h2>Silo 1.0 is out</h2>
+        <p>Its own site, <a href={`${ORIGINS.silo}/`}>silo.hllmr.com</a>, has the download, the documentation and support.</p>
+      </div>
+      <div class="one"><ProductCard project={silo} /></div>
+    </div>
+  </section>
+
+  <section class="section" id="mods">
+    <div class="wrap">
+      <div class="section-head">
+        <p class="anno">Mods</p>
+        <h2>Game mods</h2>
+      </div>
+      <div class="one">{mods.map((p) => <ProductCard project={p} />)}</div>
+    </div>
+  </section>
+
+  <section class="section" id="planned">
+    <div class="wrap">
+      <div class="section-head">
+        <p class="anno">Planned</p>
+        <h2>What comes next</h2>
+        <p>Plans, not releases. No dates are promised.</p>
+      </div>
+      <ul class="cards">
+        {
+          planned.map((p) => (
+            <li class="card">
+              <p class="chip">Planned</p>
+              <h3>{p.name}</h3>
+              <p>{p.text}</p>
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+  </section>
+
+  <ContactBlock
+    site={SITE}
+    heading="A question about our games or mods?"
+    text="For help with Silo itself, start at silo.hllmr.com. For anything else, one address reaches a person."
+    button="Email a question"
+  />
+</FamilyLayout>
+
+<style>
+  .one {
+    display: grid;
+    gap: var(--space-4);
+    max-width: 760px;
+  }
+  .cards {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(min(100%, 260px), 1fr));
+    gap: var(--space-4);
+  }
+  .card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-top: 2px solid var(--venture);
+    padding: var(--space-5);
+    min-width: 0;
+  }
+  .card h3 {
+    margin: var(--space-2) 0;
+  }
+  .card p {
+    margin: 0;
+    color: var(--muted);
+  }
+  .chip {
+    display: inline-block;
+    font-family: var(--font-mono);
+    font-size: 0.66rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    padding: 2px 8px;
+    border: 1px solid var(--rule);
+  }
+</style>

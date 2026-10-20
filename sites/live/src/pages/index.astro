@@ -1,0 +1,133 @@
+---
+/**
+ * live.hllmr.com home: HLLMR LIVE, the media wing (ADR-0015 D1): DJ work, events, video and demos.
+ * Rules: links out only, never embedded players (the privacy promise and CSP allow no third-party
+ * requests); no audio hosted here; no venue, date, schedule or audience number that isn't confirmed.
+ * Media links are added to MEDIA as the owner supplies them.
+ */
+import FamilyLayout from "@hllmr/brand/components/FamilyLayout.astro";
+import DivisionHero from "@hllmr/brand/components/DivisionHero.astro";
+import ContactBlock from "@hllmr/brand/components/ContactBlock.astro";
+import { COMPANY, ORIGINS, mailto } from "@hllmr/portfolio";
+import { NAV, REVISION, SITE, THEME_STORAGE_KEY } from "../lib/site";
+
+/** Published mixes, sets, videos and demos: title, platform and an outbound link. None listed yet. */
+const MEDIA: { title: string; where: string; href: string }[] = [];
+
+const jsonLd = {
+  "@context": "https://schema.org",
+  "@type": "WebSite",
+  name: SITE.name,
+  url: `${SITE.origin}/`,
+  publisher: { "@type": "Organization", name: COMPANY.owner, url: `${ORIGINS.vntrs}/` },
+};
+---
+
+<FamilyLayout
+  site={SITE}
+  nav={NAV}
+  revision={REVISION}
+  themeKey={THEME_STORAGE_KEY}
+  title="HLLMR LIVE · HLLMR behind the decks"
+  description="HLLMR LIVE: DJ sets, events, video and demos under the name HLLMR, and bookings by email."
+  sheet="Live"
+  jsonLd={jsonLd}
+>
+  <DivisionHero
+    site={SITE}
+    title="HLLMR behind the decks."
+    lede="HLLMR was a DJ name long before it was a company. LIVE is its media wing: sets and events, video and demos, and bookings."
+  >
+    <a class="btn btn-primary" href={mailto(SITE.subject)}>Booking enquiry</a>
+    <a class="btn btn-ghost" href="#media">Media</a>
+  </DivisionHero>
+
+  <section class="section" id="bookings">
+    <div class="wrap prose">
+      <p class="anno">Bookings</p>
+      <h2>Book a set</h2>
+      <p>
+        Write with the date, the place and the kind of event, and roughly how many people you expect. Terms, equipment
+        and timings are agreed for each booking, in writing, before it is confirmed.
+      </p>
+    </div>
+  </section>
+
+  <section class="section" id="media">
+    <div class="wrap">
+      <div class="section-head">
+        <p class="anno">Media</p>
+        <h2>Mixes, video and demos</h2>
+        <p>
+          Each one links to where it is published. Nothing plays on this page, so nothing loads from anywhere else until
+          you choose to go there.
+        </p>
+      </div>
+      {
+        MEDIA.length > 0 ? (
+          <ul class="media">
+            {MEDIA.map((m) => (
+              <li>
+                <a href={m.href} rel="noopener">
+                  {m.title}
+                </a>
+                <span>{m.where}</span>
+              </li>
+            ))}
+          </ul>
+        ) : (
+          <p class="empty">The first mixes and videos will be listed here as they are published.</p>
+        )
+      }
+    </div>
+  </section>
+
+  <section class="section" id="planned">
+    <div class="wrap prose">
+      <p class="anno">Planned</p>
+      <h2>What comes next</h2>
+      <p>
+        A regular show and practical DJ education are planned. They will appear here once they have dates, and not
+        before. Demos of HLLMR software, from <a href={`${ORIGINS.tools}/`}>TOOLS</a> and
+        <a href={`${ORIGINS.gaming}/`}>GAMING</a>, will be published here too.
+      </p>
+    </div>
+  </section>
+
+  <ContactBlock
+    site={SITE}
+    heading="Have an event in mind?"
+    text="A few lines are enough to start: when, where, and what kind of night it is. A person reads every message."
+    button="Send a booking enquiry"
+  />
+</FamilyLayout>
+
+<style>
+  .media {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    gap: var(--space-2);
+  }
+  .media li {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 6px 16px;
+    border-bottom: 1px solid var(--rule);
+    padding: var(--space-3) 0;
+  }
+  .media span {
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    color: var(--muted);
+  }
+  .empty {
+    margin: 0;
+    color: var(--muted);
+    border-left: 2px solid var(--venture);
+    padding-left: var(--space-4);
+    max-width: 60ch;
+  }
+</style>

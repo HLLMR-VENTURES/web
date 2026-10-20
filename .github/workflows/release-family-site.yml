@@ -1,0 +1,79 @@
+# Reusable release for an HLLMR division site (ADR-0015): builds sites/<site>, checks it, runs its
+# URL contract against real nginx, and publishes a versioned static artifact as a GitHub Release:
+#   tag  <site>-site/<yyyymmdd>-<id12>   assets  site-<id>.tar.gz, SHA256SUMS, ARTIFACT.json
+# <id> is content-addressed (scripts/make-artifact.sh), so a rebuild that changes nothing is not
+# republished. Nothing here touches the host: infra's release tool pulls these assets and switches
+# www/current under its own approvals (ADR-0011, ADR-0015).
+#
+# Test mode (prerelease=true): tag <site>-site-test/..., marked pre-release, for infra's off-production
+# release/switch-back exercises. Never point production at a -site-test tag.
+name: release-family-site
+
+on:
+  workflow_call:
+    inputs:
+      site:
+        description: "Site key: tools, upgrade, live or gaming"
+        type: string
+        required: true
+      origin:
+        description: "Bare origin, e.g. https://tools.hllmr.com"
+        type: string
+        required: true
+      prerelease:
+        type: boolean
+        default: false
+
+permissions:
+  contents: write # create the release and upload assets; nothing else
+
+jobs:
+  release:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+    env:
+      SITE: ${{ inputs.site }}
+      SITE_URL: ${{ inputs.origin }}
+      PRERELEASE: ${{ inputs.prerelease && '1' || '0' }}
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
+        with:
+          node-version-file: .nvmrc
+          cache: npm
+      - run: npm ci
+      - name: Build and check
+        run: |
+          npm run "test:$SITE"
+          node scripts/check-built-html.mjs "sites/$SITE/dist" --release
+      - name: URL contract against real nginx
+        run: bash tests/url-contract/run-nginx-family.sh "$SITE"
+      - name: Pack artifact
+        id: pack
+        run: bash scripts/make-artifact.sh "sites/$SITE/dist" "$GITHUB_SHA" out "$SITE"
+      - name: Publish release unless identical content is already released
+        env:
+          GH_TOKEN: ${{ github.token }}
+          ID: ${{ steps.pack.outputs.id }}
+        run: |
+          prefix="$SITE-site"; flags=(--latest=false)
+          if [ "$PRERELEASE" = "1" ]; then prefix="$SITE-site-test"; flags+=(--prerelease); fi
+          if gh release list --limit 100 --json tagName --jq '.[].tagName' | grep -q -- "^${prefix}/.*-${ID:0:12}$"; then
+            echo "content ${ID} already released under ${prefix}/; nothing to do"
+            exit 0
+          fi
+          tag="${prefix}/$(date -u +%Y%m%d)-${ID:0:12}"
+          {
+            echo "${SITE_URL#https://} static release$([ "$PRERELEASE" = "1" ] && echo ' (TEST ARTIFACT, not for production)')."
+            echo
+            echo '```json'
+            cat out/ARTIFACT.json
+            echo '```'
+            echo
+            echo "Release tool arguments: \`release <id> <tarballSha256> <manifestSha256>\` from ARTIFACT.json."
+            echo "Built from ${GITHUB_SHA} by ${GITHUB_WORKFLOW} run ${GITHUB_RUN_ID} (${GITHUB_EVENT_NAME})."
+          } > out/notes.md
+          gh release create "$tag" "${flags[@]}" --target "$GITHUB_SHA" --title "$tag" \
+            --notes-file out/notes.md "out/site-${ID}.tar.gz" out/SHA256SUMS out/ARTIFACT.json

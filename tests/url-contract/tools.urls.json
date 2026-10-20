@@ -1,0 +1,55 @@
+{
+  "$comment": "tools.hllmr.com public URL contract (ADR-0015). Statuses are what deploy/tools/nginx.conf answers; 'location' is the exact Location header.",
+  "site": "tools",
+  "entries": [
+    {
+      "path": "/",
+      "status": 200,
+      "contains": "Useful software, built with purpose",
+      "why": "home; canonical"
+    },
+    {
+      "path": "/index.html",
+      "status": 200,
+      "contains": "Useful software, built with purpose"
+    },
+    {
+      "path": "/privacy/",
+      "status": 200,
+      "contains": "No cookies"
+    },
+    {
+      "path": "/privacy",
+      "status": 301,
+      "location": "/privacy/"
+    },
+    {
+      "path": "/og.png",
+      "status": 200
+    },
+    {
+      "path": "/favicon.svg",
+      "status": 200,
+      "contains": "<svg"
+    },
+    {
+      "path": "/js/theme.js",
+      "status": 200
+    },
+    {
+      "path": "/robots.txt",
+      "status": 200,
+      "contains": "Sitemap: https://tools.hllmr.com/sitemap.xml"
+    },
+    {
+      "path": "/sitemap.xml",
+      "status": 200,
+      "contains": "https://tools.hllmr.com/privacy/"
+    },
+    {
+      "path": "/no-such-page/",
+      "status": 404,
+      "contains": "Not on this site."
+    }
+  ]
+}

@@ -1,0 +1,92 @@
+---
+/**
+ * Opening of a division site's home page (ADR-0015): the division's arms with their blazon, an
+ * eyebrow naming the division and its parent, the headline, a lede and optional calls to action.
+ */
+import { COMPANY, type DivisionSite } from "@hllmr/portfolio";
+import { ARMS } from "../src/arms.ts";
+import Arms from "./Arms.astro";
+
+interface Props {
+  site: DivisionSite;
+  title: string;
+  lede: string;
+}
+const { site, title, lede } = Astro.props;
+---
+
+<section class="hero">
+  <div class="wrap hero-in">
+    <div class="copy">
+      <p class="eyebrow">{site.field} · a division of {COMPANY.owner}</p>
+      <h1>{title}</h1>
+      <p class="lede">{lede}</p>
+      <div class="cta"><slot /></div>
+    </div>
+    <figure class="arms-fig">
+      <Arms coat={site.coat} size={132} />
+      <figcaption>{ARMS[site.coat].blazon}</figcaption>
+    </figure>
+  </div>
+</section>
+
+<style>
+  .hero {
+    padding: var(--space-8) 0 var(--space-7);
+    border-bottom: 1px solid var(--rule);
+  }
+  .hero-in {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    gap: var(--space-7);
+    align-items: center;
+  }
+  .copy {
+    display: grid;
+    gap: var(--space-4);
+    min-width: 0;
+  }
+  .eyebrow {
+    margin: 0;
+  }
+  h1 {
+    margin: 0;
+    font-size: clamp(2.6rem, 1.4rem + 4vw, 4.8rem);
+    max-width: 16ch;
+  }
+  .lede {
+    margin: 0;
+    font-size: var(--text-lg);
+    max-width: 58ch;
+    color: var(--muted);
+  }
+  .cta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-3);
+  }
+  .cta:empty {
+    display: none;
+  }
+  .arms-fig {
+    margin: 0;
+    display: grid;
+    justify-items: center;
+    gap: var(--space-2);
+  }
+  figcaption {
+    font-family: var(--font-display);
+    font-style: italic;
+    font-size: 0.95rem;
+    color: var(--muted);
+  }
+  @media (max-width: 760px) {
+    .hero-in {
+      grid-template-columns: 1fr;
+    }
+    .arms-fig {
+      justify-items: start;
+      order: -1;
+    }
+  }
+</style>

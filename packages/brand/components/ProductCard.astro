@@ -1,0 +1,101 @@
+---
+/**
+ * One portfolio record as a card (ADR-0015, TOOLS and GAMING): what it is, its status in the
+ * evidence-based taxonomy (Available, Development, Research, Archived; "early" for v0.x), the
+ * summary and its public links. Every fact comes from @hllmr/portfolio.
+ */
+import type { Project } from "@hllmr/portfolio";
+
+interface Props {
+  project: Project;
+  /** Heading level for the name. */
+  level?: "h2" | "h3";
+}
+const { project: p, level = "h3" } = Astro.props;
+const Heading = level;
+const chip = p.availability ? `${p.availability}${p.early ? " · early" : ""}` : p.status;
+const links = [...(p.page ? [{ label: "case study", href: p.page }] : []), ...p.links];
+---
+
+<article class="card" id={p.slug}>
+  <p class="meta">
+    <span class:list={["chip", `chip-${(p.availability ?? "info").toLowerCase()}`]}>{chip}</span>
+    <span class="status">{p.status}</span>
+  </p>
+  <Heading class="name">{p.name}</Heading>
+  <p class="what">{p.what}</p>
+  <p class="summary">{p.summary}</p>
+  {
+    links.length > 0 && (
+      <p class="links">
+        {links.map((l) => (
+          <a href={l.href} rel="noopener">
+            {l.label}
+          </a>
+        ))}
+      </p>
+    )
+  }
+</article>
+
+<style>
+  .card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-top: 2px solid var(--venture);
+    padding: var(--space-5);
+    display: grid;
+    gap: var(--space-2);
+    align-content: start;
+    min-width: 0;
+  }
+  .meta {
+    margin: 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px 12px;
+    align-items: baseline;
+  }
+  .chip {
+    font-family: var(--font-mono);
+    font-size: 0.66rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    padding: 2px 8px;
+    border: 1px solid var(--rule);
+    color: var(--text);
+  }
+  .chip-available {
+    border-color: var(--venture);
+    color: var(--venture);
+  }
+  .status {
+    font-family: var(--font-mono);
+    font-size: 0.7rem;
+    color: var(--muted);
+  }
+  .name {
+    margin: var(--space-1) 0 0;
+    font-family: var(--font-ui);
+    font-weight: 650;
+    font-size: 1.25rem;
+    letter-spacing: 0;
+    line-height: 1.2;
+  }
+  .what {
+    margin: 0;
+    font-weight: 600;
+  }
+  .summary {
+    margin: 0;
+    color: var(--muted);
+  }
+  .links {
+    margin: var(--space-2) 0 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px 16px;
+    font-family: var(--font-mono);
+    font-size: 0.78rem;
+  }
+</style>
