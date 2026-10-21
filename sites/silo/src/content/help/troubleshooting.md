@@ -28,7 +28,7 @@ For crashes and mods that won't load, start with [Last run](/help/crash-triage/)
 
 ## Windows SmartScreen or macOS warns on first launch
 
-Silo's Windows installers are signed by Silo's developer, **David Hellmer**, so the prompt names that publisher instead of "unknown". SmartScreen builds reputation per release, so a brand-new build may still prompt: click **More info**, then **Run anyway**. The macOS and Linux builds aren't signed with an OS certificate, so macOS blocks the first launch: open Silo once, then go to **System Settings**, then **Privacy & Security**, and click **Open Anyway**. You can [verify the signature, checksum and build provenance](https://github.com/HLLMR/silo/blob/main/docs/VERIFY_DOWNLOAD.md) yourself.
+Silo's Windows installers are signed by Silo's developer, **David Hellmer**, so the prompt names that publisher instead of "unknown". SmartScreen builds reputation per release, so a brand-new build may still prompt: click **More info**, then **Run anyway**. The macOS and Linux builds aren't signed with an OS certificate, so macOS blocks the first launch: open Silo once, then go to **System Settings**, then **Privacy & Security**, and click **Open Anyway**. You can [verify the signature, checksum and build provenance](https://github.com/HLLMR-VENTURES/silo/blob/main/docs/VERIFY_DOWNLOAD.md) yourself.
 
 ## Do I need Developer Mode or administrator rights?
 
@@ -49,7 +49,7 @@ Silo can only verify a build it has a published copy of to compare against. No b
 ## Where to ask
 
 1. Copy your diagnostics: **Settings**, then **Diagnostics**, then **Copy diagnostics**. It's a summary of your library and Silo's recent log, with your user name removed.
-2. Ask on the [Silo Discord](/discord) or in [GitHub Discussions](https://github.com/HLLMR/silo/discussions). Include your Silo version (**Settings**, then **About**), the diagnostics, and for a crash the game's `log.txt`.
+2. Ask on the [Silo Discord](/discord) or in [GitHub Discussions](https://github.com/HLLMR-VENTURES/silo/discussions). Include your Silo version (**Settings**, then **About**), the diagnostics, and for a crash the game's `log.txt`.
 3. For a bug, **Help**, then **Report a problem** copies the diagnostics and opens the bug report form on GitHub, ready to paste.
 
 ![Settings, Diagnostics, with Copy diagnostics and Export report](../../assets/screens/help-copy-diagnostics.png)
