@@ -16,8 +16,8 @@ export const LINKS = {
   hubContact: `${HUB}/contact/`,
   hubWriting: `${HUB}/writing/`,
   hubFeed: `${HUB}/feed.xml`,
-  github: "https://github.com/HLLMR",
-  siteSource: "https://github.com/HLLMR/web",
+  github: "https://github.com/HLLMR-VENTURES",
+  siteSource: "https://github.com/HLLMR-VENTURES/web",
 } as const;
 
 export const NAV = [
@@ -50,9 +50,9 @@ export const PROFILES: Profile[] = [
   },
   {
     label: "GitHub",
-    handle: "github.com/HLLMR",
+    handle: "github.com/HLLMR-VENTURES",
     href: LINKS.github,
-    note: "Code for Silo, Writwall, stratum-dsp and the rest, under the HLLMR organization.",
+    note: "Code for Silo, Writwall, Stratum DSP and the rest, under the HLLMR Ventures organization.",
   },
 ];
 

@@ -60,7 +60,7 @@ export const ERAS: Era[] = [
             text: "A released governance method and toolkit for AI-assisted development, adapted from construction document control: bounded work orders, independent review and evidence-based acceptance. The public release includes the pilot evidence and its documented limits. Formerly Plumbline.",
           },
           {
-            name: "stratum-dsp",
+            name: "Stratum DSP",
             text: "A pure-Rust audio-analysis library for BPM, key and beat-grid detection, evaluated against a commercial baseline on a 155-track ground-truth set. More than 25,000 package downloads as of September 2026.",
           },
           {
