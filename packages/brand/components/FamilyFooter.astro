@@ -33,7 +33,7 @@ const others = DIVISION_SITES.filter((d) => d.key !== site.key);
       <div class="col">
         <span class="anno">Contact</span>
         <a class="mail" href={mailto(site.subject)}>{COMPANY.email}</a>
-        <a class="muted" href={COMPANY.github} rel="noopener">github.com/HLLMR</a>
+        <a class="muted" href={COMPANY.github} rel="noopener">github.com/HLLMR-VENTURES</a>
         <a class="muted" href={COMPANY.founderUrl}>Founder: dhellmer.com</a>
       </div>
       <nav class="col index" aria-label="Footer">
@@ -108,6 +108,7 @@ const others = DIVISION_SITES.filter((d) => d.key !== site.key);
     color: var(--muted);
     font-size: 0.9rem;
     text-decoration: none;
+    overflow-wrap: anywhere;
   }
   .index ul,
   .family ul {

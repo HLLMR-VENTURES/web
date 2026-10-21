@@ -12,12 +12,12 @@ export const THEME_STORAGE_KEY = "hllmr-theme";
 export const CONTACT_EMAIL = "d@hllmr.com";
 
 export const LINKS = {
-  github: "https://github.com/HLLMR",
+  github: "https://github.com/HLLMR-VENTURES",
   silo: "https://silo.hllmr.com",
-  siloSource: "https://github.com/HLLMR/silo",
-  writwall: "https://github.com/HLLMR/writwall",
-  writwallLatest: "https://github.com/HLLMR/writwall/releases/latest",
-  siteSource: "https://github.com/HLLMR/web",
+  siloSource: "https://github.com/HLLMR-VENTURES/silo",
+  writwall: "https://github.com/HLLMR-VENTURES/writwall",
+  writwallLatest: "https://github.com/HLLMR-VENTURES/writwall/releases/latest",
+  siteSource: "https://github.com/HLLMR-VENTURES/web",
   /** The founder's personal site; it links back here (owner decision 2026-10-18: cross-link the two). */
   founder: "https://dhellmer.com",
 } as const;
