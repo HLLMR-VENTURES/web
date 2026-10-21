@@ -13,9 +13,9 @@ export const COMPANY = {
   founderUrl: ORIGINS.dhellmer,
   /** The one contact route (owner decision 2026-10-18): a plain mailto, nothing sent by any site. */
   email: "d@hllmr.com",
-  github: "https://github.com/HLLMR",
+  github: "https://github.com/HLLMR-VENTURES",
   /** Source of every HLLMR site. */
-  siteSource: "https://github.com/HLLMR/web",
+  siteSource: "https://github.com/HLLMR-VENTURES/web",
 } as const;
 
 /** A mailto link with a subject line (the address stays visible beside it). */
