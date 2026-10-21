@@ -3,6 +3,7 @@
 import { defineCollection } from "astro:content";
 import { file, glob } from "astro/loaders";
 import { z } from "astro/zod";
+import { SILO_REPO } from "./lib/site";
 
 const link = z.object({ href: z.string().startsWith("/"), label: z.string() });
 
@@ -111,7 +112,7 @@ const releases = defineCollection({
       try {
         const headers: Record<string, string> = { Accept: "application/vnd.github+json", "User-Agent": "hllmr-web-build" };
         if (process.env.GITHUB_TOKEN) headers.Authorization = `Bearer ${process.env.GITHUB_TOKEN}`;
-        const res = await fetch("https://api.github.com/repos/HLLMR/silo/releases?per_page=30", {
+        const res = await fetch(`https://api.github.com/repos/${SILO_REPO}/releases?per_page=30`, {
           headers,
           signal: AbortSignal.timeout(10_000),
         });

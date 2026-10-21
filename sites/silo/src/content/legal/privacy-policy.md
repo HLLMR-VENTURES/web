@@ -17,7 +17,7 @@ The controller for the Services is **HLLMR Ventures LLC**, a Texas limited liabi
 
 This policy covers:
 
-- The **Silo desktop app** (Windows, macOS and Linux builds). Its source is MIT-licensed at github.com/HLLMR/silo.
+- The **Silo desktop app** (Windows, macOS and Linux builds). Its source is MIT-licensed at github.com/HLLMR-VENTURES/silo.
 - The **Silo website** at silo.hllmr.com, including the landing page, /browse, /help, /trust and the shared mod set page /c/.
 - The **Silo public read API** at silo-api.hllmr.com.
 
@@ -38,7 +38,7 @@ The app has no background telemetry. Apart from the update check at launch (and,
 
 | What triggers it | Where it goes | What is sent |
 |---|---|---|
-| **App update check**: every time Silo starts | GitHub (`github.com/HLLMR/silo/releases/latest/download/latest.json`) | A plain request for that file. No library data. If you choose to install an update, the installer downloads from GitHub Releases. |
+| **App update check**: every time Silo starts | GitHub (`github.com/HLLMR-VENTURES/silo/releases/latest/download/latest.json`; builds released before the repository moved in October 2026 ask for the old `github.com/HLLMR/silo` address, which GitHub redirects there) | A plain request for that file. No library data. If you choose to install an update, the installer downloads from GitHub Releases. |
 | **Browse**: opening the Browse tab, searching, filtering, sorting or paging | Our catalog API (silo-api.hllmr.com) | Your search terms, filters, sort order and page. |
 | **A mod's details**: opening a mod's drawer in Library or Browse | Our catalog API | That mod's tech name (or its catalog id), to show its catalog record and whether a newer version exists. |
 | **Check for updates** (Updates → Check now, the Needs update filter, or Check for mod updates when Silo starts, which is off by default) | Our catalog API | The tech names of your installed mods. Versions are compared on your computer. |
