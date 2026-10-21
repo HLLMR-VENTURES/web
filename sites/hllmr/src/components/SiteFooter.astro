@@ -25,7 +25,7 @@ const year = REVISION.date === "unreleased" ? "2026" : REVISION.date.slice(0, 4)
       <div class="col">
         <span class="anno">Contact</span>
         <a class="mail" href={`mailto:${CONTACT_EMAIL}`}>{CONTACT_EMAIL}</a>
-        <a class="muted" href={LINKS.github} rel="noopener">github.com/HLLMR</a>
+        <a class="muted" href={LINKS.github} rel="noopener">github.com/HLLMR-VENTURES</a>
         <a class="muted" href={LINKS.founder}>Founder: dhellmer.com</a>
       </div>
       <nav class="col index" aria-label="Footer">
@@ -89,6 +89,7 @@ const year = REVISION.date === "unreleased" ? "2026" : REVISION.date.slice(0, 4)
     color: var(--muted);
     font-size: 0.9rem;
     text-decoration: none;
+    overflow-wrap: anywhere;
   }
   .index ul {
     list-style: none;
