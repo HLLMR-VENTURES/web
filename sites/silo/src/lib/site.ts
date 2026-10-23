@@ -25,6 +25,8 @@ export const LINKS = {
   issues: `https://github.com/${SILO_REPO}/issues`,
   newIssue: `https://github.com/${SILO_REPO}/issues/new/choose`,
   hllmr: "https://hllmr.com/",
+  /** HLLMR GAMING, the division Silo is endorsed under (ADR-0015 D4). */
+  gaming: "https://gaming.hllmr.com/",
   verifyDownload: `https://github.com/${SILO_REPO}/blob/main/docs/VERIFY_DOWNLOAD.md`,
   /** Vanity redirect served by this site (nginx 302, static stub fallback). */
   discord: "/discord",
