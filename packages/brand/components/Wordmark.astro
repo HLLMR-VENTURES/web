@@ -12,14 +12,16 @@ interface Props {
   suffix?: string;
   /** Accessible words for the suffix, when it differs from the text shown. */
   suffixLabel?: string;
+  /** Hide the drawing from assistive tech (when real text beside it already says HLLMR). */
+  decorative?: boolean;
   class?: string;
 }
-const { height = 18, suffix, suffixLabel, class: cls = "" } = Astro.props;
+const { height = 18, suffix, suffixLabel, decorative = false, class: cls = "" } = Astro.props;
 const width = Math.round((height * 106.5) / 24 * 100) / 100;
 ---
 
 <span class:list={["wm", cls]}
-  ><svg class="wm-svg" viewBox="0 0 106.5 24" width={width} height={height} role="img" aria-label="HLLMR" focusable="false"
+  ><svg class="wm-svg" viewBox="0 0 106.5 24" width={width} height={height} role={decorative ? undefined : "img"} aria-label={decorative ? undefined : "HLLMR"} aria-hidden={decorative ? "true" : undefined} focusable="false"
     ><g fill="currentColor"
       ><path d="M0 0h4v10.4h10V0h4v24h-4V13.6H4V24H0z"></path><path transform="translate(24 0)" d="M0 0h4v20.8h10V24H0z"
       ></path><path transform="translate(41 0)" d="M0 0h4v20.8h10V24H0z"></path><path

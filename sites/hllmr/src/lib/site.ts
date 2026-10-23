@@ -1,6 +1,6 @@
 /** Site-wide constants for hllmr.com. Absolute URLs derive from Astro's `site` (SITE_URL). */
 import { execFileSync } from "node:child_process";
-import { ORIGINS, local } from "@hllmr/portfolio";
+import { ORIGINS, divisionSite, local } from "@hllmr/portfolio";
 
 export const SITE_NAME = "HLLMR";
 export const OWNER = "HLLMR Ventures LLC";
@@ -25,23 +25,16 @@ export const LINKS = {
 /** A portfolio URL as this site renders it: links to hllmr.com become paths, others stay absolute. */
 export const here = (href: string): string => local(href, ORIGINS.vntrs);
 
+/** HLLMR Ventures, shown as VNTRS: the parent of the four divisions (ADR-0015 D1). */
+export const SITE = divisionSite("vntrs");
+
 export const NAV = [
-  { href: "/projects/", label: "Ventures" },
+  { href: "/#divisions", label: "Divisions" },
+  { href: "/projects/", label: "Register" },
   { href: "/writing/", label: "Writing" },
   { href: "/company/", label: "About" },
   { href: "/contact/", label: "Contact" },
 ] as const;
-
-/** The AI-assisted development venture. Name "HLLMR Build" and path /build/ confirmed by the owner 2026-10-18. */
-export const BUILD = {
-  name: "HLLMR Build",
-  label: "AI-assisted development",
-  nav: [
-    { href: "/build/", label: "Overview" },
-    { href: "/build/services/", label: "Services" },
-    { href: "/projects/silo/", label: "Case study" },
-  ],
-} as const;
 
 /**
  * Absolute URL for a site path, from the build-time origin.

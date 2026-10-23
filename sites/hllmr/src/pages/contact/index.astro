@@ -2,12 +2,13 @@
 /** Contact: a mailto link only (owner decision 2026-10-18). The site has no form and sends nothing. */
 import BaseLayout from "../../layouts/BaseLayout.astro";
 import PageHead from "@hllmr/brand/components/PageHead.astro";
+import { DIVISION_SITES, mailto } from "@hllmr/portfolio";
 import { CONTACT_EMAIL, LINKS } from "../../lib/site";
 ---
 
 <BaseLayout
   title="Contact · HLLMR Ventures"
-  description="Contact HLLMR Ventures by email: partnerships, projects, bookings and questions."
+  description="Contact HLLMR Ventures and its divisions by email: partnerships, projects, business systems, bookings and questions."
   sheet="Contact"
 >
   <PageHead dwg="Contact" title="Start with an email" />
@@ -16,8 +17,18 @@ import { CONTACT_EMAIL, LINKS } from "../../lib/site";
       <div class="prose">
         <p class="big"><a href={`mailto:${CONTACT_EMAIL}`}>{CONTACT_EMAIL}</a></p>
         <p>A few lines are enough. It helps to know:</p>
+        <p>The subject line tells us which part of HLLMR it is for:</p>
+        <ul class="subjects">
+          {
+            DIVISION_SITES.map((d) => (
+              <li>
+                <a href={mailto(d.subject)}>{d.subject}</a> <span>· {d.key === "vntrs" ? "the company, partnerships, anything else" : d.name}</span>
+              </li>
+            ))
+          }
+        </ul>
+        <p>In the message, it helps to know:</p>
         <ul>
-          <li>which venture it is about, if you know (or none yet);</li>
           <li>what you have in mind, and any dates that matter;</li>
           <li>what a good outcome would look like for you.</li>
         </ul>
@@ -35,6 +46,9 @@ import { CONTACT_EMAIL, LINKS } from "../../lib/site";
 </BaseLayout>
 
 <style>
+  .subjects span {
+    color: var(--muted);
+  }
   .grid {
     display: grid;
     grid-template-columns: minmax(0, 1.6fr) minmax(0, 1fr);
