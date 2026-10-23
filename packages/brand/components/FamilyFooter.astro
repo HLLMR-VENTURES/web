@@ -1,6 +1,6 @@
 ---
 /**
- * Footer for an HLLMR family site (ADR-0015 D4, D5): the provenance strip with the site's arms; the
+ * Footer for a HLLMR family site (ADR-0015 D4, D5): the provenance strip with the site's arms; the
  * company (a division names its parent, HLLMR Ventures LLC); the contact route with this site's
  * subject line; the site's index; the other family sites; then the colophon with the site revision
  * (the last commit touching what the site shows, so an unchanged rebuild stays byte-identical).
@@ -33,7 +33,7 @@ const others = DIVISION_SITES.filter((d) => d.key !== site.key);
       <div class="col">
         <span class="anno">Contact</span>
         <a class="mail" href={mailto(site.subject)}>{COMPANY.email}</a>
-        <a class="muted" href={COMPANY.github} rel="noopener">github.com/HLLMR</a>
+        <a class="muted" href={COMPANY.github} rel="noopener">github.com/HLLMR-VENTURES</a>
         <a class="muted" href={COMPANY.founderUrl}>Founder: dhellmer.com</a>
       </div>
       <nav class="col index" aria-label="Footer">
@@ -108,6 +108,7 @@ const others = DIVISION_SITES.filter((d) => d.key !== site.key);
     color: var(--muted);
     font-size: 0.9rem;
     text-decoration: none;
+    overflow-wrap: anywhere;
   }
   .index ul,
   .family ul {

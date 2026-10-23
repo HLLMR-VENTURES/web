@@ -5,7 +5,7 @@
  * The release id of the site artifact is content-addressed, so a new app version (new links and
  * version text) produces a new site release, and an unchanged one does not.
  */
-import { LINKS } from "./site";
+import { LINKS, SILO_REPO, SILO_REPO_URLS } from "./site";
 
 export interface AppAsset {
   name: string;
@@ -33,7 +33,7 @@ export interface AppRelease {
   sums: AppAsset | null;
 }
 
-const API = "https://api.github.com/repos/HLLMR/silo/releases/latest";
+const API = `https://api.github.com/repos/${SILO_REPO}/releases/latest`;
 let cached: Promise<AppRelease | null> | undefined;
 
 /** @returns the latest published (non-draft, non-prerelease) release, or null */
@@ -60,10 +60,10 @@ async function load(): Promise<AppRelease | null> {
     };
     const version = r.tag_name.replace(/^v/, "");
     if (!/^\d+\.\d+\.\d+$/.test(version)) throw new Error(`unexpected tag ${r.tag_name}`);
-    const pageUrl = r.html_url.startsWith(`${LINKS.releases}/`) ? r.html_url : LINKS.releases;
+    const pageUrl = SILO_REPO_URLS.some((p) => r.html_url.startsWith(`${p}releases/`)) ? r.html_url : LINKS.releases;
     const pick = (re: RegExp): AppAsset | null => {
       const a = r.assets.find((x) => re.test(x.name));
-      if (!a || !a.browser_download_url.startsWith("https://github.com/HLLMR/silo/releases/download/")) return null;
+      if (!a || !SILO_REPO_URLS.some((p) => a.browser_download_url.startsWith(`${p}releases/download/`))) return null;
       return { name: a.name, url: a.browser_download_url, size: a.size };
     };
     const sums = pick(/^SHA256SUMS\.txt$/);

@@ -53,7 +53,7 @@ export const PROJECTS: Project[] = [
     page: hub("/projects/silo/"),
     links: [
       { label: "silo.hllmr.com", href: "https://silo.hllmr.com" },
-      { label: "source", href: "https://github.com/HLLMR/silo" },
+      { label: "source", href: "https://github.com/HLLMR-VENTURES/silo" },
     ],
   },
   {
@@ -81,7 +81,7 @@ export const PROJECTS: Project[] = [
     division: "tools",
     availability: "Available",
     page: hub("/writwall/"),
-    links: [{ label: "source", href: "https://github.com/HLLMR/writwall" }],
+    links: [{ label: "source", href: "https://github.com/HLLMR-VENTURES/writwall" }],
   },
   {
     tag: "P-04",
@@ -109,7 +109,7 @@ export const PROJECTS: Project[] = [
     availability: "Available",
     links: [
       { label: "crates.io", href: "https://crates.io/crates/stratum-dsp" },
-      { label: "source", href: "https://github.com/HLLMR/stratum-dsp" },
+      { label: "source", href: "https://github.com/HLLMR-VENTURES/stratum-dsp" },
     ],
   },
   {
@@ -124,8 +124,8 @@ export const PROJECTS: Project[] = [
     division: "gaming",
     availability: "Available",
     links: [
-      { label: "demand", href: "https://github.com/HLLMR/FS25_RealisticMarketDemand" },
-      { label: "inputs", href: "https://github.com/HLLMR/FS25_RealisticInputMarket" },
+      { label: "demand", href: "https://github.com/HLLMR-VENTURES/FS25_RealisticMarketDemand" },
+      { label: "inputs", href: "https://github.com/HLLMR-VENTURES/FS25_RealisticInputMarket" },
     ],
   },
   {
@@ -141,8 +141,8 @@ export const PROJECTS: Project[] = [
     availability: "Available",
     early: true,
     links: [
-      { label: "openrouter-media", href: "https://github.com/HLLMR/openrouter-media" },
-      { label: "spend-guard", href: "https://github.com/HLLMR/paperclip-spend-guard" },
+      { label: "openrouter-media", href: "https://github.com/HLLMR-VENTURES/openrouter-media" },
+      { label: "spend-guard", href: "https://github.com/HLLMR-VENTURES/paperclip-spend-guard" },
     ],
   },
   {
@@ -157,7 +157,7 @@ export const PROJECTS: Project[] = [
     division: "tools",
     availability: "Development",
     early: true,
-    links: [{ label: "source", href: "https://github.com/HLLMR/curia" }],
+    links: [{ label: "source", href: "https://github.com/HLLMR-VENTURES/curia" }],
   },
   {
     tag: "P-09",

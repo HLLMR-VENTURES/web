@@ -7,7 +7,7 @@ draft: true
 order: 3
 ---
 
-This page explains what Silo is and is not, who owns the names and content you see in it, and the limits of what Silo promises. Silo is a free, open-source desktop application that manages Farming Simulator 25 (FS25) mods. Its source code is MIT-licensed and available at [github.com/HLLMR/silo](https://github.com/HLLMR/silo). Silo is published by **HLLMR Ventures LLC**, a Texas limited liability company, USA ("HLLMR", "we", "us").
+This page explains what Silo is and is not, who owns the names and content you see in it, and the limits of what Silo promises. Silo is a free, open-source desktop application that manages Farming Simulator 25 (FS25) mods. Its source code is MIT-licensed and available at [github.com/HLLMR-VENTURES/silo](https://github.com/HLLMR-VENTURES/silo). Silo is published by **HLLMR Ventures LLC**, a Texas limited liability company, USA ("HLLMR", "we", "us").
 
 ## No affiliation or endorsement
 

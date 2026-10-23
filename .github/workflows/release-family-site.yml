@@ -1,4 +1,4 @@
-# Reusable release for an HLLMR division site (ADR-0015): builds sites/<site>, checks it, runs its
+# Reusable release for a HLLMR division site (ADR-0015): builds sites/<site>, checks it, runs its
 # URL contract against real nginx, and publishes a versioned static artifact as a GitHub Release:
 #   tag  <site>-site/<yyyymmdd>-<id12>   assets  site-<id>.tar.gz, SHA256SUMS, ARTIFACT.json
 # <id> is content-addressed (scripts/make-artifact.sh), so a rebuild that changes nothing is not
