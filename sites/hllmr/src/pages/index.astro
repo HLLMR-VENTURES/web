@@ -1,14 +1,16 @@
 ---
 /**
- * Home: HLLMR Ventures, the incubator. Industry-neutral on purpose (owner decision 2026-10-18):
- * ventures in any field start here, each under its own arms (heraldry direction), with its own
- * front door once it is ready.
+ * Home: HLLMR Ventures, shown as VNTRS (ADR-0015). The parent company that owns the HLLMR name
+ * and runs four divisions, each on its own site. Direction 2, identity first (owner decision
+ * 2026-10-20): the name, then the company, then the four doors of equal standing, with UPGRADE
+ * holding the one paid call to action.
  */
 import BaseLayout from "../layouts/BaseLayout.astro";
 import Arms from "@hllmr/brand/components/Arms.astro";
+import Wordmark from "@hllmr/brand/components/Wordmark.astro";
 import { ARMS, type ArmsKey } from "@hllmr/brand/arms";
 import VentureRegister, { type RegisterRow } from "../components/VentureRegister.astro";
-import { PROJECTS, PROJECT_STAGE, VENTURES, WRITING } from "@hllmr/portfolio";
+import { DIVISION_SITES, PROJECTS, PROJECT_STAGE, WRITING, mailto } from "@hllmr/portfolio";
 import { CONTACT_EMAIL, FOUNDER, LINKS, LOCALITY, OWNER, abs, here } from "../lib/site";
 
 const site = Astro.site;
@@ -36,12 +38,8 @@ const jsonLd = {
   ],
 };
 
-const ventures: RegisterRow[] = VENTURES.map((v) => ({
-  ...v,
-  href: v.href && here(v.href),
-  links: v.slug === "silo" ? [{ label: "case study", href: "/projects/silo/" }, { label: "source", href: LINKS.siloSource }] : undefined,
-}));
-const projects: RegisterRow[] = PROJECTS.filter((p) => p.slug !== "silo").map((p) => ({
+const divisions = DIVISION_SITES.filter((d) => d.key !== "vntrs");
+const projects: RegisterRow[] = PROJECTS.map((p) => ({
   slug: p.slug,
   name: p.name,
   field: p.kind,
@@ -51,13 +49,13 @@ const projects: RegisterRow[] = PROJECTS.filter((p) => p.slug !== "silo").map((p
   links: p.links,
 }));
 const essay = WRITING[0]!;
-const cycle: ArmsKey[] = ["house", "build", "silo", "live", "next"];
+const cycle: ArmsKey[] = ["house", "tools", "upgrade", "live", "gaming"];
 const roll: ArmsKey[] = [...cycle, ...cycle, ...cycle, ...cycle];
 ---
 
 <BaseLayout
-  title="HLLMR Ventures · Projects start here"
-  description="HLLMR Ventures LLC is where new ventures begin: software, services, entertainment and whatever comes next. Each starts here, proves itself, and gets its own front door when it is ready."
+  title="HLLMR · Software, business systems, music and games"
+  description="HLLMR Ventures LLC owns the HLLMR name and runs four divisions: TOOLS for software, UPGRADE for business systems, LIVE for music and media, and GAMING for games and mods."
   sheet="Home"
   jsonLd={jsonLd}
 >
@@ -67,10 +65,10 @@ const roll: ArmsKey[] = [...cycle, ...cycle, ...cycle, ...cycle];
         <p class="meta anno">
           <span>{OWNER}</span><span>{LOCALITY}</span><span>Est. 2026</span>
         </p>
-        <h1>Projects start <em>here.</em></h1>
+        <h1><span class="visually-hidden">HLLMR</span><Wordmark height={88} class="hero-wm" decorative /></h1>
         <p class="lede">
-          HLLMR Ventures is where new things begin: software, services, entertainment and whatever comes next. Each venture
-          bears its own arms, proves itself in the open, and gets its own name and front door when it is ready.
+          One name across software, business systems, music and games. HLLMR Ventures owns it and runs each line as its own
+          division, built and shown working before it is called done.
         </p>
       </div>
       <figure class="house">
@@ -82,17 +80,51 @@ const roll: ArmsKey[] = [...cycle, ...cycle, ...cycle, ...cycle];
       {roll.map((k) => <Arms coat={k} size={72} form="banner" decorative />)}
     </div>
     <div class="wrap roll-cap">
-      <span class="anno">The roll of arms</span><span class="anno">House · Build · Silo · DJ &amp; events · reserved</span>
+      <span class="anno">The roll of arms</span><span class="anno">House · Tools · Upgrade · Live · Gaming</span>
     </div>
   </section>
 
-  <section class="section" aria-labelledby="ventures-h">
+  <section class="section" id="divisions" aria-labelledby="divisions-h">
     <div class="wrap">
       <div class="head">
-        <h2 id="ventures-h">Ventures</h2>
-        <p class="count anno">{VENTURES.length} in the register</p>
+        <h2 id="divisions-h">Four divisions</h2>
+        <p class="count anno">Each on its own site</p>
       </div>
-      <VentureRegister rows={ventures} label="Ventures" />
+      <ul class="doors">
+        {
+          divisions.map((d) => (
+            <li class:list={["door", { lead: d.key === "upgrade" }]}>
+              <a class="door-name" href={`${d.origin}/`}>
+                <Arms coat={d.coat} size={48} decorative />
+                <span>
+                  <span class="wm-name">HLLMR <span class="desc">{d.descriptor}</span></span>
+                  {d.field.toUpperCase() !== d.descriptor && <span class="field anno">{d.field}</span>}
+                </span>
+              </a>
+              <p>{d.line}</p>
+              {d.key === "upgrade" ? (
+                <a class="btn btn-primary" href={mailto(d.subject)}>
+                  Request an assessment
+                </a>
+              ) : (
+                <a class="go" href={`${d.origin}/`}>
+                  {new URL(d.origin).host} →
+                </a>
+              )}
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+  </section>
+
+  <section class="section" aria-labelledby="projects-h">
+    <div class="wrap">
+      <div class="head">
+        <h2 id="projects-h">The register</h2>
+        <p class="count anno"><a href="/projects/">Divisions and projects →</a></p>
+      </div>
+      <VentureRegister rows={projects} label="Projects" size="sm" />
     </div>
   </section>
 
@@ -105,7 +137,7 @@ const roll: ArmsKey[] = [...cycle, ...cycle, ...cycle, ...cycle];
         <li>
           <span class="n anno">01 · Idea</span>
           <h3>Start here</h3>
-          <p>An idea gets a line in the register and a page on this site. Nothing more until it earns it.</p>
+          <p>An idea gets a line in the register. Nothing more until it earns it.</p>
         </li>
         <li>
           <span class="n anno">02 · Building</span>
@@ -120,19 +152,9 @@ const roll: ArmsKey[] = [...cycle, ...cycle, ...cycle, ...cycle];
         <li>
           <span class="n anno">04 · Spun out</span>
           <h3>Its own company</h3>
-          <p>When it outgrows the house, it moves to its own domain or company. The register keeps the link.</p>
+          <p>When it outgrows the house, it can become its own company. The register keeps the link.</p>
         </li>
       </ol>
-    </div>
-  </section>
-
-  <section class="section" aria-labelledby="projects-h">
-    <div class="wrap">
-      <div class="head">
-        <h2 id="projects-h">Projects and tools</h2>
-        <p class="count anno"><a href="/projects/">Full schedule →</a></p>
-      </div>
-      <VentureRegister rows={projects} label="Projects and tools" size="sm" />
     </div>
   </section>
 
@@ -148,10 +170,13 @@ const roll: ArmsKey[] = [...cycle, ...cycle, ...cycle, ...cycle];
 
   <section class="section contact" aria-labelledby="contact-h">
     <div class="wrap two">
-      <h2 id="contact-h">Have something that should start here?</h2>
+      <h2 id="contact-h">Get in touch.</h2>
       <div>
-        <p class="muted">A partnership, a project, a booking or a question. One address reaches a person.</p>
-        <p><a class="btn btn-primary" href={`mailto:${CONTACT_EMAIL}`}>{CONTACT_EMAIL}</a></p>
+        <p class="muted">
+          A partnership, a project, a booking or a question. One address reaches a person. Founded and run by {FOUNDER};
+          background and writing at <a href={LINKS.founder}>dhellmer.com</a>.
+        </p>
+        <p><a class="btn btn-primary" href="/contact/">{CONTACT_EMAIL}</a></p>
       </div>
     </div>
   </section>
@@ -175,13 +200,12 @@ const roll: ArmsKey[] = [...cycle, ...cycle, ...cycle, ...cycle];
     margin: 0 0 var(--space-5);
   }
   .hero h1 {
-    font-size: clamp(3rem, 1.4rem + 6.4vw, 6.8rem);
-    line-height: 0.95;
-    letter-spacing: -0.02em;
-    font-weight: 400;
+    margin: 0;
+    line-height: 1;
   }
-  .hero h1 em {
-    font-style: italic;
+  .hero h1 :global(.hero-wm .wm-svg) {
+    width: min(390px, 78vw);
+    height: auto;
   }
   .lede {
     margin: var(--space-5) 0 0;
@@ -239,8 +263,70 @@ const roll: ArmsKey[] = [...cycle, ...cycle, ...cycle, ...cycle];
   .head h2 {
     font-size: var(--text-3xl);
   }
-  .count a {
+  .count {
+    margin: 0;
+  }
+
+  .doors {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(min(100%, 240px), 1fr));
+    gap: var(--space-4);
+  }
+  .door {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-top: 2px solid var(--text);
+    padding: var(--space-5);
+    display: grid;
+    gap: var(--space-3);
+    align-content: start;
+    min-width: 0;
+  }
+  .door.lead {
+    border: 2px solid var(--primary);
+  }
+  .door-name {
+    display: flex;
+    align-items: center;
+    gap: 12px;
     color: var(--text);
+    text-decoration: none;
+  }
+  .door-name > span {
+    display: grid;
+    gap: 2px;
+  }
+  .wm-name {
+    font-family: var(--font-ui);
+    font-weight: 700;
+    font-size: 1.1rem;
+    letter-spacing: 0.02em;
+  }
+  .desc {
+    font-family: var(--font-ui);
+    font-stretch: 125%;
+    font-weight: 500;
+    font-size: 0.78rem;
+    letter-spacing: 0.2em;
+    padding-left: 6px;
+    border-left: 1px solid var(--rule);
+  }
+  .field {
+    font-size: 0.64rem;
+  }
+  .door p {
+    margin: 0;
+    color: var(--muted);
+  }
+  .go {
+    font-family: var(--font-mono);
+    font-size: 0.8rem;
+  }
+  .door .btn {
+    justify-self: start;
   }
 
   .path {
@@ -251,73 +337,55 @@ const roll: ArmsKey[] = [...cycle, ...cycle, ...cycle, ...cycle];
     grid-template-columns: repeat(4, minmax(0, 1fr));
     border-top: 2px solid var(--text);
   }
-  .path h3 {
-    font-family: var(--font-display);
-    font-weight: 450;
-    font-size: var(--text-2xl);
-  }
   .path li {
-    padding: var(--space-5) var(--space-5) var(--space-5) 0;
+    padding: var(--space-4) var(--space-4) var(--space-2) 0;
   }
   .path li + li {
-    padding-left: var(--space-5);
     border-left: 1px solid var(--rule);
+    padding-left: var(--space-4);
   }
   .path h3 {
-    font-size: var(--text-xl);
-    margin: var(--space-3) 0 var(--space-2);
+    margin: var(--space-2) 0;
   }
   .path p {
     margin: 0;
     color: var(--muted);
-    font-size: 0.97rem;
-  }
-  .n {
-    color: var(--accent);
   }
   @media (max-width: 900px) {
     .path {
       grid-template-columns: 1fr 1fr;
     }
     .path li:nth-child(3) {
-      padding-left: 0;
       border-left: 0;
+      padding-left: 0;
     }
     .path li:nth-child(n + 3) {
       border-top: 1px solid var(--rule);
     }
   }
-  @media (max-width: 560px) {
+  @media (max-width: 520px) {
     .path {
       grid-template-columns: 1fr;
     }
     .path li + li {
-      padding-left: 0;
       border-left: 0;
+      padding-left: 0;
       border-top: 1px solid var(--rule);
     }
   }
 
   .two {
     display: grid;
-    grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr);
-    gap: clamp(20px, 5vw, 72px);
-    align-items: end;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    gap: clamp(24px, 5vw, 72px);
+    align-items: start;
   }
   .two h2 {
     font-size: var(--text-2xl);
-    margin-top: var(--space-2);
-  }
-  .two h2 a {
-    color: var(--text);
-    text-decoration-color: var(--rule);
   }
   .muted {
     color: var(--muted);
-  }
-  .contact h2 {
-    font-size: var(--text-3xl);
-    line-height: 1;
+    margin: 0 0 var(--space-4);
   }
   @media (max-width: 760px) {
     .two {

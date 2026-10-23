@@ -25,7 +25,7 @@ Silo is not a game, is not a mod, and does not include any FS25 mod files.
 
 The App is free of charge. There is no paid tier, no subscription, no advertising, and no user account.
 
-The source code for the App is licensed under the MIT License and is available at github.com/HLLMR/silo. **The MIT License, not these Terms, governs your rights to use, copy, modify, and distribute the App's software itself.** In the event of any conflict between these Terms and the MIT License with respect to the software source code, the MIT License controls as to that software. These Terms govern your use of the Services as we operate them — in particular the Website, the /browse catalog, and the API.
+The source code for the App is licensed under the MIT License and is available at github.com/HLLMR-VENTURES/silo. **The MIT License, not these Terms, governs your rights to use, copy, modify, and distribute the App's software itself.** In the event of any conflict between these Terms and the MIT License with respect to the software source code, the MIT License controls as to that software. These Terms govern your use of the Services as we operate them — in particular the Website, the /browse catalog, and the API.
 
 ## 3. Data Practices
 

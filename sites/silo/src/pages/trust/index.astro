@@ -251,7 +251,10 @@ const endpoints = [
       const tr = document.createElement("tr");
       const tagCell = document.createElement("td");
       const a = document.createElement("a");
-      a.href = String(r.url).startsWith("https://github.com/HLLMR/silo/") ? r.url : "https://github.com/HLLMR/silo/releases";
+      // GitHub URLs from the counts job, under the repository's new owner or its old one (both redirect).
+      const url = String(r.url);
+      const ours = ["https://github.com/HLLMR-VENTURES/silo/", "https://github.com/HLLMR/silo/"].some((p) => url.startsWith(p));
+      a.href = ours ? url : "https://github.com/HLLMR-VENTURES/silo/releases";
       a.textContent = r.tag;
       tagCell.append(a);
       const n = document.createElement("td");

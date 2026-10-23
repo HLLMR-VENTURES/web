@@ -1,8 +1,8 @@
 /**
- * What dhellmer.com shows from hllmr.com: the ventures and the writing. Read straight from the
- * shared HLLMR portfolio record (@hllmr/portfolio, ADR-0015 D6) at build time, so the personal site can never list a venture or an essay
- * the company site does not (and never misses one). The essays are linked, never copied: their
- * canonical home is hllmr.com.
+ * What dhellmer.com shows from hllmr.com: the divisions, the projects and the writing. Read
+ * straight from the shared HLLMR portfolio record (@hllmr/portfolio, ADR-0015 D6) at build time,
+ * so the personal site can never list a division, project or essay the company site does not (and
+ * never misses one). The essays are linked, never copied: their canonical home is hllmr.com.
  */
 import { PROJECTS, PROJECT_STAGE, VENTURES, WRITING, type Stage } from "@hllmr/portfolio";
 import { HUB, NAME } from "./site";
@@ -43,9 +43,20 @@ export interface ProjectLink {
   host: string;
 }
 
-/** The hub's projects, each linked to its hllmr.com page, else its first public link, else the register. */
+/** A project's own product site: a link on its own *.hllmr.com subdomain (e.g. silo.hllmr.com). */
+const productSite = (p: (typeof PROJECTS)[number]) =>
+  p.links.find((l) => {
+    const h = new URL(l.href).hostname;
+    return h.endsWith(".hllmr.com") && h !== "www.hllmr.com";
+  })?.href;
+
+/**
+ * The hub's projects, each linked to its own product site if it has one, else its hllmr.com page,
+ * else its first public link, else the register. A personal site points at the thing itself;
+ * hllmr.com's case study stays one click away from there.
+ */
 export const PROJECT_LINKS: ProjectLink[] = PROJECTS.map((p) => {
-  const href = out(p.page ?? p.links[0]?.href ?? "/projects/");
+  const href = out(productSite(p) ?? p.page ?? p.links[0]?.href ?? "/projects/");
   return { slug: p.slug, name: p.name, what: p.what, stage: PROJECT_STAGE[p.slug] ?? "Building", href, host: host(href) };
 });
 

@@ -9,19 +9,19 @@ import { here } from "../../lib/site";
 ---
 
 <BaseLayout
-  title="Ventures and projects · HLLMR Ventures"
-  description="The HLLMR Ventures register: ventures (Silo, HLLMR Build, DJ and events) and projects (a self-hosted business stack, Writwall, Conset, stratum-dsp, Farming Simulator 25 mods, agent tooling)."
-  sheet="Ventures"
+  title="The register · HLLMR Ventures"
+  description="The HLLMR Ventures register: the four divisions (TOOLS, UPGRADE, LIVE, GAMING) and every project, each with its stage and a link you can check."
+  sheet="Register"
 >
   <PageHead
     dwg="Register"
-    title="Ventures and projects"
-    lede="Everything that has started here, with its stage. Where something is public, the link is here so you can check it rather than take our word."
+    title="Projects start here."
+    lede="Everything HLLMR Ventures owns and runs: its four divisions and every project, each with its stage. Where something is public, the link is here so you can check it rather than take our word."
   />
   <section class="section" aria-labelledby="v-h">
     <div class="wrap">
-      <h2 id="v-h" class="sh">Ventures</h2>
-      <VentureRegister rows={VENTURES.map((v) => ({ ...v, href: v.href && here(v.href) }))} label="Ventures" />
+      <h2 id="v-h" class="sh">Divisions</h2>
+      <VentureRegister rows={VENTURES.map((v) => ({ ...v, href: v.href && here(v.href) }))} label="Divisions" />
     </div>
   </section>
   <section class="section" aria-labelledby="p-h">

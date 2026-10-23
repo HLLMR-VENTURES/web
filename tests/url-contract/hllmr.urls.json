@@ -5,18 +5,18 @@
     {
       "path": "/",
       "status": 200,
-      "contains": "Projects start here</title>",
+      "contains": "HLLMR · Software, business systems, music and games</title>",
       "why": "home; canonical"
     },
     {
       "path": "/index.html",
       "status": 200,
-      "contains": "Projects start here</title>"
+      "contains": "HLLMR · Software, business systems, music and games</title>"
     },
     {
       "path": "/projects/",
       "status": 200,
-      "contains": "Ventures and projects",
+      "contains": "Projects start here",
       "why": "2026-08 page, linked from the old home"
     },
     {
@@ -41,19 +41,19 @@
     },
     {
       "path": "/build/",
-      "status": 200,
-      "contains": "commissioned.",
-      "why": "HLLMR Build venture (AI-assisted development)"
+      "status": 301,
+      "location": "https://upgrade.hllmr.com/",
+      "why": "HLLMR Build became HLLMR UPGRADE, its own site (ADR-0015 D6)"
     },
     {
       "path": "/build",
       "status": 301,
-      "location": "/build/"
+      "location": "https://upgrade.hllmr.com/"
     },
     {
       "path": "/build/services/",
-      "status": 200,
-      "contains": "Two ways to work with us"
+      "status": 301,
+      "location": "https://upgrade.hllmr.com/"
     },
     {
       "path": "/build/og.png",
@@ -183,6 +183,11 @@
     {
       "path": "/.git/config",
       "status": 403
+    },
+    {
+      "path": "/build/services",
+      "status": 301,
+      "location": "https://upgrade.hllmr.com/"
     }
   ]
 }
