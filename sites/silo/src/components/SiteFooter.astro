@@ -1,6 +1,8 @@
 ---
 /**
- * Site footer: four link columns and the disclosure line. Discord goes through the /discord
+ * Site footer: the tagline with the HLLMR GAMING endorsement, four link columns and the disclosure
+ * line. The endorsement is plain text (ADR-0015 D4): the Silo glyph is never locked up with the HLLMR
+ * arms, and legal naming stays HLLMR Ventures LLC (D5). Discord goes through the /discord
  * redirect so an invite change is one line in redirects.json. Columns list only pages that exist.
  */
 import glyph from "../assets/brand/silo-glyph.svg";
@@ -49,7 +51,10 @@ const columns = [
   <div class="in">
     <div class="about">
       <img src={glyph.src} width="32" height="32" alt="" />
-      <p>Silo is a free, open-source mod manager for Farming Simulator 25.</p>
+      <div>
+        <p>Silo is a free, open-source mod manager for Farming Simulator 25.</p>
+        <p class="endorse">Silo · a <a href={LINKS.gaming} rel="noopener">HLLMR GAMING</a> product</p>
+      </div>
     </div>
     {
       columns.map((c) => (
@@ -92,6 +97,14 @@ const columns = [
   .about p {
     margin: 0;
     color: var(--muted);
+  }
+  .about .endorse {
+    margin-top: 2px;
+    font-size: 0.9rem;
+  }
+  .endorse a {
+    color: var(--primary-text);
+    font-weight: 600;
   }
   .col h2 {
     font-family: var(--font-ui);
