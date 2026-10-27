@@ -14,7 +14,7 @@ Silo is a desktop app for your Farming Simulator 25 mods. It isn't an in-game mo
 Get Silo from the [download page](/download/) or the [Releases page](https://github.com/HLLMR-VENTURES/silo/releases).
 
 - **Windows:** the setup `.exe` (recommended) installs Silo for your user account and needs no administrator rights. The `.msi` installs it for everyone on the PC and asks for administrator rights. The installers are signed by Silo's developer, **David Hellmer**. A brand-new release can still show a blue "Windows protected your PC" prompt while it builds reputation: click **More info**, then **Run anyway**.
-- **macOS (preview):** open the `.dmg` and drag Silo to Applications. The Mac build isn't signed by Apple, so macOS blocks the first launch. Open Silo once, then go to **System Settings**, then **Privacy & Security**, and click **Open Anyway**.
+- **macOS (preview):** open the `.dmg` and drag Silo to Applications. The Mac build is signed with an Apple Developer ID by Silo's developer, **David Hellmer**, and notarized by Apple, so it opens without a warning.
 - **Linux (preview):** an `.AppImage` (make it executable with `chmod +x`), a `.deb` or an `.rpm`.
 
 Windows is the tested platform. Silo runs natively on macOS and Linux, but it hasn't been tried on many real machines there yet.

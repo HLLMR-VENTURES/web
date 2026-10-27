@@ -26,9 +26,9 @@ When something goes wrong, Silo says what happened and what to do, and every err
 
 For crashes and mods that won't load, start with [Last run](/help/crash-triage/) and [Problems](/help/health/) in Diagnose.
 
-## Windows SmartScreen or macOS warns on first launch
+## Windows SmartScreen warns on first launch
 
-Silo's Windows installers are signed by Silo's developer, **David Hellmer**, so the prompt names that publisher instead of "unknown". SmartScreen builds reputation per release, so a brand-new build may still prompt: click **More info**, then **Run anyway**. The macOS and Linux builds aren't signed with an OS certificate, so macOS blocks the first launch: open Silo once, then go to **System Settings**, then **Privacy & Security**, and click **Open Anyway**. You can [verify the signature, checksum and build provenance](https://github.com/HLLMR-VENTURES/silo/blob/main/docs/VERIFY_DOWNLOAD.md) yourself.
+Silo's Windows installers are signed by Silo's developer, **David Hellmer**, so the prompt names that publisher instead of "unknown". SmartScreen builds reputation per release, so a brand-new build may still prompt: click **More info**, then **Run anyway**. The macOS builds are signed with an Apple Developer ID and notarized by Apple, so macOS opens them without a warning. If an older Mac build (1.0.1 or earlier) is blocked, open Silo once, then go to **System Settings**, then **Privacy & Security**, and click **Open Anyway**. Linux builds aren't signed with an OS certificate. You can [verify the signature, checksum and build provenance](https://github.com/HLLMR-VENTURES/silo/blob/main/docs/VERIFY_DOWNLOAD.md) yourself.
 
 ## Do I need Developer Mode or administrator rights?
 
