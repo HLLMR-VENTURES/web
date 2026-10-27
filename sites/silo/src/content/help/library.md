@@ -43,7 +43,7 @@ Filters in effect show as chips under the toolbar. Each chip's ✕ removes it, a
 
 ## Changing many mods at once
 
-A checkbox appears when you point at a row. Once anything is selected, a bar replaces the toolbar: **Turn on**, **Park**, **Favorite**, **Hide** and **Select all N shown**, then **Clear**. Shift-click selects a range. Turning on or parking more than 25 mods asks first, and you can undo it right after.
+A checkbox appears when you point at a row. Once anything is selected, a bar replaces the toolbar: **Turn on**, **Park**, **Favorite**, **Hide**, **Mod sets…** (see [adding mods to several sets](/help/loadouts/#adding-mods-to-several-sets-at-once)) and **Select all N shown**, then **Clear**. Shift-click selects a range. Turning on or parking more than 25 mods asks first, and you can undo it right after.
 
 ## How active mods reach the game
 
