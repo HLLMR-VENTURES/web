@@ -35,6 +35,21 @@ The **⋯** menu on each row has:
 
 Automatic sets can be shared or deleted but not updated, because Silo prunes them later. Save your current mods as a new set instead.
 
+## Adding mods to several sets at once
+
+You can add mods to your sets, or take them out, from the **Library**. Select one or more mods and click **Mod sets…** in the selection bar, or choose **Mod sets…** from a single mod's row menu.
+
+The dialog lists your saved sets, each with a checkbox. Automatic "Before …" sets aren't listed.
+- **Ticked:** every mod you chose is in that set.
+- **Unticked:** none of them is.
+- **Mixed:** some are.
+
+Click a box to change it, or click **Untick all**, then **Save**. If you have no saved sets yet, the dialog says to save one on the **Mod sets** page first.
+
+Editing the set you're on also turns those mods on or parks them, so you stay on that set. The dialog says so beside that set: "also turns them on now" or "also parks them now".
+
+After **Save**, a toast offers **Undo**, which puts every set back and reverses any turn-on or park. If mods you took out of sets are still on, it also offers **Park them too** (**Park it too** for one mod).
+
 ## When your mods drift from a set
 
 Silo remembers the set you last switched to. If you turn a mod on or off afterwards, Silo shows how far you've moved from that set instead of forgetting it:
