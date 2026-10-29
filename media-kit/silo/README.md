@@ -63,11 +63,21 @@ Grounds and type, from the site's skin (`packages/design/skins/silo.css`, mirror
 
 Both OFL fonts can be used, embedded and shipped freely, but not sold on their own. The kit uses `@fontsource-variable/fraunces` 5.3.0 and `@fontsource-variable/hanken-grotesk` 5.3.0, the versions the site ships.
 
-The launch videos use Segoe UI Black for captions. That isn't a Silo font: Silo's UI face is Hanken Grotesk. Segoe UI is Microsoft's and comes with Windows. Rendering it into a video is fine, but don't ship the font file.
+### Where the launch videos differ
+
+The videos use some colours and a font that aren't Silo's. The owner decides whether to keep them.
+
+| Videos | Silo's nearest | Notes |
+|---|---|---|
+| Gold `#F2C94C` | `#E3B23C` | The sun in the mark stays `#E3B23C` whatever surrounds it |
+| Card text `#F3EFE2`, `#D9D3BF`, `#B8B19B` | `#EDEBE0` text, `#ADAC9C` muted | |
+| Card ground: radial `#2B3A1F` to `#141A10`; pad `#141A10` | `#171A14` background, `#13160F` band | Close; no conflict with the mark |
+| Captions in Segoe UI Black | Hanken Grotesk | Segoe UI is Microsoft's and comes with Windows. Rendering it into a video is fine, but don't ship the font file |
+| Titles in Fraunces 600 | Fraunces | Matches |
 
 ## Platforms
 
-Every size was checked against the platform's live help page on 2026-10-28.
+Every size was checked against the platform's live help page on 2026-10-28. Priority, per the launch-videos spec: the logo, the endorsement line, the thumbnail frames and Discord. X isn't requested yet; its files are here in case.
 
 | Platform | Item | File | Size | What the page says | Source |
 |---|---|---|---|---|---|
@@ -79,17 +89,35 @@ Every size was checked against the platform's live help page on 2026-10-28.
 | Reddit | Community icon | `reddit/silo-community-icon-300.png` | 300×300 | "a 300x300px image" | [Community icon](https://support.reddithelp.com/hc/en-us/articles/15484265952660-Community-icon) |
 | Reddit | Banner, desktop | `reddit/silo-banner-desktop-2144x256.png` | 2144×256 | At least 1072×128; this is twice that | [Banner](https://support.reddithelp.com/hc/en-us/articles/15484339588884-Banner) |
 | Reddit | Banner, mobile | `reddit/silo-banner-mobile-2160x256.png` | 2160×256 | At least 1080×128; this is twice that | [Banner](https://support.reddithelp.com/hc/en-us/articles/15484339588884-Banner) |
-| YouTube | Video thumbnail frame | `youtube/silo-thumbnail-frame-3840x2160.png`, `-1280x720.png` | 3840×2160, 1280×720 | 3840×2160 for videos, at least 640 px wide, 16:9, JPG or PNG. 2 MB limit on mobile, 50 MB on desktop | [Add video thumbnails](https://support.google.com/youtube/answer/72431?hl=en&co=GENIE.Platform%3DDesktop) |
-| YouTube | Shorts thumbnail frame | `youtube/silo-thumbnail-frame-2160x3840.png`, `-1080x1920.png` | 2160×3840, 1080×1920 | 2160×3840 for Shorts, at least 640 px high, 9:16 | the same page |
+| YouTube | Video thumbnail frame | `youtube/silo-thumbnail-frame-1920x1080.png`, `-3840x2160.png` | 1920×1080, 3840×2160 | 3840×2160 for videos, at least 640 px wide, 16:9, JPG or PNG. 2 MB limit on mobile, 50 MB on desktop | [Add video thumbnails](https://support.google.com/youtube/answer/72431?hl=en&co=GENIE.Platform%3DDesktop) |
+| YouTube | Shorts thumbnail frame | `youtube/silo-thumbnail-frame-1080x1920.png`, `-2160x3840.png` | 1080×1920, 2160×3840 | 2160×3840 for Shorts, at least 640 px high, 9:16 | the same page |
 
-The thumbnail frames are a frame and type only. The slot for the shot is transparent: put the frame over the shot and export as JPG or PNG. The YouTube channel itself is HLLMR GAMING's, so this kit has no channel icon or banner.
+The thumbnail frames follow the launch videos' layout, so Silo's thumbnails look distinct from HLLMR GAMING's:
+
+- The shot fills the whole frame; everything not covered is transparent. Put the frame over a still and export as JPG or PNG.
+- A darkened third in Silo's band colour (`#13160F`, about 90 % opaque, fading into the shot) carries the 3 or 4 huge title words. It's the left third of the landscape frame and the top third of the vertical one, because a left third is too narrow for huge words at 9:16.
+- The tile sits bottom right. It is lifted clear of the corner, where YouTube draws the video's length.
+- Custom thumbnails need a channel with intermediate features, which means a verified phone number ([feature access](https://support.google.com/youtube/answer/9890437)).
+
+The YouTube channel itself is HLLMR GAMING's, so this kit has no channel icon or banner.
+
+### The live Silo Discord (checked 2026-10-28)
+
+The server's public invite (`silo.hllmr.com/discord`, which is `discord.gg/NpxcYdGHrW`) shows:
+
+- an icon is set, but it's a 180 px image of an older drawing of the mark;
+- no banner and no invite background;
+- 0 boosts.
+
+`discord/silo-server-icon-1024.png` is the current tile at 1024 px and is meant to **replace** the live icon. The banner and the invite background are ready, but Discord only shows them once the server reaches Boosting Level 2 and Level 1. Changing the icon is a server setting, so the owner does it in Discord.
 
 `masters/png/silo-avatar-1024.png` is a general profile picture for any other platform that takes a square image.
 
 **Skipped**, because Silo is a product, not a company, and none of these is a likely home for it:
 
 - **LinkedIn:** the company page belongs to HLLMR Ventures.
-- **Instagram, TikTok, Facebook, Twitch:** no Silo account is planned. If one is made, start from `silo-avatar-1024.png` and check that platform's live help page first.
+- **Instagram and TikTok:** undecided. If an account is made, start from `silo-avatar-1024.png` and check that platform's live help page first.
+- **Facebook, Twitch:** no Silo account is planned.
 - **Bluesky:** no published pixel sizes for profile pictures or banners, so nothing could be checked.
 
 ## Masters
