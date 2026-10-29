@@ -1,5 +1,9 @@
 ---
-/** Privacy notice for gaming.hllmr.com; the shared family text (@hllmr/brand PrivacyBody). */
+/**
+ * Privacy notice for gaming.hllmr.com: the shared family text (@hllmr/brand PrivacyBody), after a
+ * section of this site's own on the videos, the one thing here that can load from a third party (and
+ * only when a visitor presses play). Keep it true to src/components/VideoFacade.astro.
+ */
 import FamilyLayout from "@hllmr/brand/components/FamilyLayout.astro";
 import PageHead from "@hllmr/brand/components/PageHead.astro";
 import PrivacyBody from "@hllmr/brand/components/PrivacyBody.astro";
@@ -12,9 +16,22 @@ import { NAV, REVISION, SITE, THEME_STORAGE_KEY } from "../../lib/site";
   revision={REVISION}
   themeKey={THEME_STORAGE_KEY}
   title={`Privacy · ${SITE.name}`}
-  description="What gaming.hllmr.com collects: no cookies, no trackers, no third-party requests; aggregate request counts from server logs, kept private."
+  description="What gaming.hllmr.com collects: no cookies, no trackers, no third-party requests until you play a video; aggregate request counts from server logs, kept private."
   sheet="Privacy"
 >
   <PageHead dwg="Privacy" title="Privacy" lede="Short, because the site does very little." />
+  <section class="section">
+    <div class="wrap prose">
+      <h2>Videos: the one exception</h2>
+      <p>
+        The home page shows Silo's videos, which are published on YouTube. Until you press play, your browser loads
+        only a still image from gaming.hllmr.com and contacts neither YouTube nor Google. Pressing play loads YouTube's
+        player from youtube-nocookie.com. From then on, Google receives your IP address and may store data in your
+        browser for that player, under <a href="https://policies.google.com/privacy">Google's privacy policy</a>.
+        <strong>Watch on YouTube</strong> opens the video on youtube.com instead.
+      </p>
+      <p>Everything below holds for the rest of the site, and for the home page until you press play.</p>
+    </div>
+  </section>
   <PrivacyBody site={SITE} themeKey={THEME_STORAGE_KEY} />
 </FamilyLayout>
