@@ -2,8 +2,8 @@
 
 Brand kits for setting up social accounts (profile pictures, banners, watermarks, thumbnail templates and
 account copy), one per HLLMR brand. The rendered kits live on the owner's PC, in `F:\Media Kits\<Brand>\`.
-This directory holds what rebuilds them: the generator, each brand's settings, its SVG masters, README and
-copy.
+This directory holds what rebuilds them: the generator, each brand's settings, its SVG masters and its
+account copy.
 
 ## Layout
 
@@ -45,7 +45,9 @@ node media-kit/build.mjs hllmr-gaming --out "F:\Media Kits"
 | `lib/layouts.mjs` | The canvases: avatar, lockup, banner, pattern field, watermark, thumbnail templates |
 | `lib/render.mjs` | Headless Edge or Chrome over the DevTools protocol, the same browser the sites' og.png cards are rendered with |
 | `<brand>/brand.mjs` | The brand's arms, descriptor, colours, line and platform extras |
-| `<brand>/README.md`, `copy.md` | The kit's README (the build fills in its file list and sources) and account copy |
+| `kit-README.md` | The kit README template: the build fills in the brand, its colours, file list and sources |
+| `<brand>/copy.md` | The brand's account copy, copied into the kit |
+| `<brand>/notes.md` | Optional: a brand-specific README section (GAMING's: how it shares a channel with Silo) |
 | `<brand>/masters/` | The SVG masters the build writes |
 
 ## Who owns what

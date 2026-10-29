@@ -7,12 +7,12 @@
  * Needs `npm ci` (for the brand fonts and sharp, both already in the lockfile) and Edge or Chrome.
  * Adds no dependency; touches nothing a site release builds from.
  */
-import { copyFileSync, mkdirSync, readFileSync, writeFileSync } from "node:fs";
+import { copyFileSync, existsSync, mkdirSync, readFileSync, writeFileSync } from "node:fs";
 import { dirname, join } from "node:path";
 import { fileURLToPath, pathToFileURL } from "node:url";
 import sharp from "sharp";
 import { openBrowser } from "./lib/render.mjs";
-import { checkWordmarkSource } from "./lib/marks.mjs";
+import { ARMS, TINCTURES, checkWordmarkSource } from "./lib/marks.mjs";
 import {
   MEASURE_EXPR,
   THEMES,
@@ -35,7 +35,10 @@ const key = args.find((a) => !a.startsWith("--"));
 const outIdx = args.indexOf("--out");
 if (!key) throw new Error("usage: node media-kit/build.mjs <brand> [--out <dir>]");
 const brandDir = join(here, key);
-const brand = (await import(pathToFileURL(join(brandDir, "brand.mjs")).href)).default;
+const brand = { ...(await import(pathToFileURL(join(brandDir, "brand.mjs")).href)).default };
+// The arms' tinctures, from the brand package: the field for frames and the foot, the charge for hairlines.
+brand.field = TINCTURES[ARMS[brand.coat].field].hex;
+brand.charge = TINCTURES[ARMS[brand.coat].charge].hex;
 const root = outIdx >= 0 ? args[outIdx + 1] : join(here, "out");
 const out = join(root, brand.folder);
 
@@ -123,7 +126,39 @@ const sources =
   Object.entries(PLATFORMS)
     .flatMap(([p, s]) => s.sources.map((x) => `| ${s.name} | ${x.says} | ${x.url} | ${x.checked}${x.official === false ? " (not an official page)" : ""} |`))
     .join("\n");
-const readme = readFileSync(join(brandDir, "README.md"), "utf8").replace("{{FILES}}", fileTable).replace("{{SOURCES}}", sources);
+const coat = ARMS[brand.coat];
+const tint = (k) => `${TINCTURES[k].name} | \`${TINCTURES[k].hex}\``;
+const colours =
+  "| Name | Hex | Use |\n|---|---|---|\n" +
+  [
+    `| ${tint(coat.field)} | The arms' field: the shield, frames, the foot band |`,
+    `| ${tint(coat.charge)} | The arms' charge, and hairlines${coat.charge === "or" ? ". Never as text on a light ground" : ""} |`,
+    ...(coat.field !== "sable" && coat.charge !== "sable" ? [`| ${tint("sable")} | Ink on light grounds; the arms' outline on light |`] : []),
+    ...(coat.field !== "argent" && coat.charge !== "argent" ? [`| ${tint("argent")} | The arms' outline on dark |`] : []),
+    `| Dark ground | \`${THEMES.dark.ground}\` | Backgrounds of the banners, avatars and thumbnail band |`,
+    `| Dark ink | \`${THEMES.dark.ink}\` | Text on the dark ground |`,
+    `| Dark muted | \`${THEMES.dark.muted}\` | The line ("${brand.line}") on dark |`,
+    `| Light ground | \`${THEMES.light.ground}\` | Light backgrounds |`,
+    `| Light muted | \`${THEMES.light.muted}\` | Secondary text on light |`,
+    `| Accent on dark | \`${brand.accentDark}\` | ${brand.name}'s accent as text on dark (the site's dark theme) |`,
+  ].join("\n");
+const notesPath = join(brandDir, "notes.md");
+const fill = {
+  NAME: brand.name,
+  KEY: key,
+  SITE: brand.site.replace(/^https:\/\/|\/$/g, ""),
+  SITE_URL: brand.site,
+  ABOUT: brand.about,
+  BLAZON: coat.blazon,
+  PLAIN: coat.plain,
+  DESCRIPTOR: brand.descriptor,
+  ENDORSE: brand.endorse,
+  COLOURS: colours,
+  NOTES: existsSync(notesPath) ? readFileSync(notesPath, "utf8") : "",
+  FILES: fileTable,
+  SOURCES: sources,
+};
+const readme = readFileSync(join(here, "kit-README.md"), "utf8").replace(/\{\{(\w+)\}\}/g, (_, k) => fill[k]);
 writeFileSync(join(out, "README.md"), readme);
 copyFileSync(join(brandDir, "copy.md"), join(out, "copy.md"));
 console.log(`${files.length} files, README.md and copy.md in ${out}`);

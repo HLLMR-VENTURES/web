@@ -5,7 +5,7 @@
  */
 import { readFileSync } from "node:fs";
 import { fileURLToPath } from "node:url";
-import { SHIELD_H, SHIELD_W, WORDMARK_H, WORDMARK_W, r, shield, wordmark } from "./marks.mjs";
+import { ARMS, SHIELD_H, SHIELD_W, WORDMARK_H, WORDMARK_W, r, shield, wordmark } from "./marks.mjs";
 
 const font = (rel) =>
   "data:font/woff2;base64," + readFileSync(fileURLToPath(new URL(`../../node_modules/${rel}`, import.meta.url))).toString("base64");
@@ -104,16 +104,28 @@ export function avatarSvg(brand, S, { edge, mono }) {
   return shield(brand.coat, { x: (S - w) / 2, y: (S - h) / 2, h, edge, mono });
 }
 
-/** A diaper (a repeating field pattern) of small saltires, the GAMING ordinary, in its field colour. */
-function diaper(id, cell, color, opacity) {
+/**
+ * A diaper (a repeating field pattern) of the brand's own ordinary, drawn small: a saltire for
+ * GAMING, a pale for TOOLS, a chevron for UPGRADE, a zigzag for LIVE, a half-filled square (per pale)
+ * for the house.
+ */
+function diaper(id, cell, brand) {
+  const { color, opacity } = brand.pattern;
   const a = cell * 0.2;
   const c = cell / 2;
-  const sw = cell * 0.045;
-  return (
-    `<defs><pattern id="${id}" width="${r(cell)}" height="${r(cell)}" patternUnits="userSpaceOnUse">` +
-    `<path d="M${r(c - a)} ${r(c - a)}L${r(c + a)} ${r(c + a)}M${r(c + a)} ${r(c - a)}L${r(c - a)} ${r(c + a)}" stroke="${color}" stroke-width="${r(sw)}" stroke-linecap="square" opacity="${opacity}"/>` +
-    `</pattern></defs>`
-  );
+  const sw = r(cell * 0.045);
+  const line = (d) => `<path d="${d}" fill="none" stroke="${color}" stroke-width="${sw}" stroke-linecap="square" stroke-linejoin="miter"/>`;
+  const motif = {
+    saltire: () => line(`M${r(c - a)} ${r(c - a)}L${r(c + a)} ${r(c + a)}M${r(c + a)} ${r(c - a)}L${r(c - a)} ${r(c + a)}`),
+    pale: () => line(`M${r(c)} ${r(c - a)}V${r(c + a)}`),
+    chevron: () => line(`M${r(c - a)} ${r(c + a / 2)}L${r(c)} ${r(c - a / 2)}L${r(c + a)} ${r(c + a / 2)}`),
+    fessDancetty: () => line(`M${r(c - a)} ${r(c + a / 3)}L${r(c - a / 2)} ${r(c - a / 3)}L${r(c)} ${r(c + a / 3)}L${r(c + a / 2)} ${r(c - a / 3)}L${r(c + a)} ${r(c + a / 3)}`),
+    perPale: () =>
+      line(`M${r(c - a * 0.7)} ${r(c - a * 0.7)}H${r(c + a * 0.7)}V${r(c + a * 0.7)}H${r(c - a * 0.7)}Z`) +
+      `<rect x="${r(c - a * 0.7)}" y="${r(c - a * 0.7)}" width="${r(a * 0.7)}" height="${r(a * 1.4)}" fill="${color}"/>`,
+    bend: () => line(`M${r(c - a)} ${r(c - a)}L${r(c + a)} ${r(c + a)}`),
+  }[ARMS[brand.coat].division]();
+  return `<defs><pattern id="${id}" width="${r(cell)}" height="${r(cell)}" patternUnits="userSpaceOnUse"><g opacity="${opacity}">${motif}</g></pattern></defs>`;
 }
 
 /**
@@ -149,7 +161,7 @@ export function bannerPage(brand, W, H, safe, { theme = "dark", align = "center"
 
 /**
  * The ground alone: the diaper and the foot, no arms or type. For places that ask for no logos or
- * text (Discord's banner and invite background). Never the arms as a full-bleed field: a saltire
+ * text (Discord's banner and invite background). Never the arms as a full-bleed field: an ordinary
  * across a whole canvas reads as a flag, not as arms.
  */
 export function fieldPage(brand, W, H, { theme = "dark", content = "" } = {}) {
@@ -158,7 +170,7 @@ export function fieldPage(brand, W, H, { theme = "dark", content = "" } = {}) {
   const foot = Math.max(4, Math.round(H * 0.03));
   const svg =
     `<svg xmlns="http://www.w3.org/2000/svg" width="${W}" height="${H}" viewBox="0 0 ${W} ${H}">` +
-    diaper("d", cell, brand.field, theme === "dark" ? 0.5 : 0.2) +
+    diaper("d", cell, brand) +
     `<rect width="${W}" height="${H}" fill="${T.ground}"/><rect width="${W}" height="${H}" fill="url(#d)"/>` +
     `<rect y="${H - foot}" width="${W}" height="${foot}" fill="${brand.field}"/><rect y="${H - foot}" width="${W}" height="${Math.max(1, Math.round(foot / 5))}" fill="${brand.charge}"/>` +
     content +
