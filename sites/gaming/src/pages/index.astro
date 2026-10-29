@@ -1,15 +1,18 @@
 ---
 /**
  * gaming.hllmr.com home: HLLMR GAMING (ADR-0015 D1). Silo first (released, with its own product
- * site), then the mods, then what is planned, marked as planned with no dates. Silo's own mark is
- * never recoloured or locked up with HLLMR arms (D4); it is endorsed in text only.
+ * site) and its launch videos, then the mods, then what is planned, marked as planned with no dates.
+ * Silo's own mark is never recoloured or locked up with HLLMR arms (D4); it is endorsed in text only.
+ * The videos load from YouTube only when played (VideoFacade); src/lib/videos.ts lists only public ones.
  */
 import FamilyLayout from "@hllmr/brand/components/FamilyLayout.astro";
 import DivisionHero from "@hllmr/brand/components/DivisionHero.astro";
 import ProductCard from "@hllmr/brand/components/ProductCard.astro";
 import ContactBlock from "@hllmr/brand/components/ContactBlock.astro";
+import VideoFacade from "../components/VideoFacade.astro";
 import { COMPANY, ORIGINS, PROJECTS } from "@hllmr/portfolio";
 import { NAV, REVISION, SITE, THEME_STORAGE_KEY } from "../lib/site";
+import { CHANNEL_URL, HOW_TO, SHORTS, SHOWCASE, SILO_PLAYLIST_URL } from "../lib/videos";
 
 const silo = PROJECTS.find((p) => p.slug === "silo")!;
 const mods = PROJECTS.filter((p) => p.division === "gaming" && p.kind === "Mod");
@@ -68,6 +71,31 @@ const jsonLd = {
     </div>
   </section>
 
+  <section class="section" id="videos">
+    <div class="wrap">
+      <div class="section-head">
+        <p class="anno">Videos</p>
+        <h2>Silo on video</h2>
+        <p>
+          A two-minute tour, a step-by-step how-to, and short clips. Every mod shown is from a fictional demo
+          library.
+        </p>
+      </div>
+      <div class="videos">
+        <div class="landscape">
+          <VideoFacade {...SHOWCASE} sizes="(min-width: 840px) 760px, 100vw" />
+          <VideoFacade {...HOW_TO} sizes="(min-width: 840px) 760px, 100vw" />
+        </div>
+        <div class="shorts">{SHORTS.map((v) => <VideoFacade {...v} />)}</div>
+      </div>
+      <p class="video-note">
+        The videos play from YouTube, which loads only when you press play (see <a href="/privacy/">privacy</a>).
+        More in the <a href={SILO_PLAYLIST_URL}>Silo playlist</a> on the
+        <a href={CHANNEL_URL}>HLLMR GAMING channel</a>.
+      </p>
+    </div>
+  </section>
+
   <section class="section" id="mods">
     <div class="wrap">
       <div class="section-head">
@@ -108,6 +136,29 @@ const jsonLd = {
 </FamilyLayout>
 
 <style>
+  .videos {
+    display: grid;
+    gap: var(--space-6);
+    max-width: 760px;
+  }
+  .landscape {
+    display: grid;
+    gap: var(--space-6);
+  }
+  .shorts {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-4);
+  }
+  .shorts > :global(.vf.short) {
+    width: min(100%, 236px);
+  }
+  .video-note {
+    margin: var(--space-5) 0 0;
+    max-width: 760px;
+    color: var(--muted);
+    font-size: 0.92rem;
+  }
   .one {
     display: grid;
     gap: var(--space-4);

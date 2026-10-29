@@ -27,13 +27,17 @@ export default defineConfig({
   },
   security: {
     // Per-page <meta> CSP with hashes for what Astro renders; frame-ancestors and friends come from
-    // deploy/gaming/security-headers.conf. The site fetches nothing at runtime.
+    // deploy/gaming/security-headers.conf. The site fetches nothing at runtime; YouTube loads only
+    // after a visitor presses play on a video.
     csp: {
       directives: [
         "default-src 'self'",
         "connect-src 'self'",
         "img-src 'self' data:",
         "font-src 'self'",
+        // The Silo launch videos: a youtube-nocookie.com player, created only after a click on a
+        // video (src/components/VideoFacade.astro). Nothing else may be framed.
+        "frame-src https://www.youtube-nocookie.com",
         "object-src 'none'",
         "base-uri 'none'",
         "form-action 'none'",

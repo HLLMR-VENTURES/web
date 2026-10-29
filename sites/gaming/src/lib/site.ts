@@ -7,6 +7,7 @@ export const THEME_STORAGE_KEY = "hllmr-theme";
 
 export const NAV = [
   { href: "/#featured", label: "Silo" },
+  { href: "/#videos", label: "Videos" },
   { href: "/#mods", label: "Mods" },
   { href: "/#planned", label: "Planned" },
   { href: "/#contact", label: "Contact" },
