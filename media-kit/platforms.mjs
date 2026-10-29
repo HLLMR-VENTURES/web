@@ -23,7 +23,7 @@ export const PLATFORMS = {
       },
       {
         url: "https://support.google.com/youtube/answer/9890437",
-        says: "Feature access: custom thumbnails are a feature of the standard tier and up, with a daily limit. No image sizes on this page.",
+        says: "Feature access: custom thumbnails are an intermediate-tier feature, which needs phone verification (standard covers uploads, playlists and Posts), with a daily limit. No image sizes on this page.",
         checked: D,
       },
     ],

@@ -159,7 +159,7 @@ const platformNotes = [
     ? "- Reddit's figures could not be checked on Reddit's own page (it showed a bot check), so its sizes rest on\n  a search engine's excerpt of that page. Check them when you set the community up."
     : "",
   has("youtube") && (brand.extras ?? []).includes("youtube-extras")
-    ? "- YouTube thumbnails: put the video still under the overlay and set three or four huge words on its dark third.\n  Custom thumbnails need the channel's standard feature access (see the sources)."
+    ? "- YouTube thumbnails: put the video still under the overlay and set three or four huge words on its dark third.\n  Custom thumbnails need the channel's intermediate feature access: verify a phone number (see the sources)."
     : "",
 ]
   .filter(Boolean)
