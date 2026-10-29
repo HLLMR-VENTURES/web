@@ -59,7 +59,7 @@ Silo builds with its own script (see below).
 A brand with no arms and no HLLMR wordmark (the personal site, for one) uses the same generator. Its
 `brand.mjs` can bring its own drawing and platforms; the head of `build.mjs` lists the hooks (`layouts`,
 `ownMarks`, `platforms`, `colours`), and a `kit-README.md` in its folder replaces the shared template.
-Nothing in `build.mjs` needs forking.
+A brand can also keep its own build, as Silo and dhellmer.com do.
 
 ## Who owns what
 
