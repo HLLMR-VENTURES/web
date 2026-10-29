@@ -27,7 +27,8 @@ npm ci
 node media-kit/build.mjs hllmr-gaming --out "F:\Media Kits"
 ```
 
-The family brands are `hllmr-ventures`, `hllmr-tools`, `hllmr-upgrade`, `hllmr-live` and `hllmr-gaming`.
+The family brands are `hllmr-ventures`, `hllmr-tools`, `hllmr-upgrade`, `hllmr-live`, `hllmr-gaming`, and
+`hllmr-plays` (HLLMR PLAYS, the let's-play channel under LIVE: YouTube and Twitch only).
 Silo builds with its own script (see below).
 
 - **Needs:** Node 22.18 or newer (it imports the brand package's TypeScript directly), Edge or Chrome, found automatically (set `MEDIA_KIT_BROWSER` to point at another one), and
@@ -52,6 +53,13 @@ Silo builds with its own script (see below).
 | `<brand>/copy.md` | The brand's account copy, copied into the kit |
 | `<brand>/notes.md` | Optional: a brand-specific README section (GAMING's: how it shares a channel with Silo) |
 | `<brand>/masters/` | The SVG masters the build writes |
+
+## A brand that isn't a HLLMR family brand
+
+A brand with no arms and no HLLMR wordmark (the personal site, for one) uses the same generator. Its
+`brand.mjs` can bring its own drawing and platforms; the head of `build.mjs` lists the hooks (`layouts`,
+`ownMarks`, `platforms`, `colours`), and a `kit-README.md` in its folder replaces the shared template.
+Nothing in `build.mjs` needs forking.
 
 ## Who owns what
 

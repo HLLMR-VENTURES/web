@@ -61,7 +61,7 @@ Download them from Google Fonts or Fontsource; the kit uses the @fontsource pack
 | Typeface | Use |
 |---|---|
 | Bodoni Moda (italic for the line) | Display: the line on banners. At 28 px and up only |
-| Archivo (variable: width 125%, weight 500 for the descriptor; width 112%, weight 800 for thumbnail titles) | The descriptor, labels and thumbnail titles |
+| Archivo (variable: width 125%, weight 500 for the descriptor; weight 800 for the huge words on thumbnails) | The descriptor, labels and thumbnail words |
 | IBM Plex Mono | Codes and hex values, if ever needed |
 {{NOTES}}
 ## Platform files
@@ -69,11 +69,7 @@ Download them from Google Fonts or Fontsource; the kit uses the @fontsource pack
 Every image below was rendered by the build, which checked its pixel size and the platform's file-size
 limit. Notes:
 
-- Instagram and TikTok have no banner, so those folders hold only a profile picture.
-- Where a kit has Discord files: the server banner needs Boost Level 2 and the invite background Boost
-  Level 1. Discord advises no logos or text on either, so both are pattern only.
-- Reddit's figures could not be checked on Reddit's own page (it showed a bot check), so its sizes rest on
-  a search engine's excerpt of that page. Check them when you set the community up.
+{{PLATFORM_NOTES}}
 - "Ours" in a note means the platform's page gives no figure and the size is our choice.
 
 {{FILES}}

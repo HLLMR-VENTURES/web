@@ -20,6 +20,12 @@ const FACES =
   `@font-face{font-family:"Bodoni Moda";src:url(${BODONI}) format("woff2");font-weight:400 900}` +
   `@font-face{font-family:"Bodoni Moda";font-style:italic;src:url(${BODONI_I}) format("woff2");font-weight:400 900}`;
 
+/**
+ * The line is set in Bodoni Moda italic at a small optical size: at display sizes its comma tail is a
+ * hairline that vanishes on a banner, so "playing, less" read as "playing. less".
+ */
+const LINE_OPSZ = "font-variation-settings:'opsz' 11";
+
 /** Grounds and inks per theme (the hllmr.com skin's page tokens; the arms keep their tinctures). */
 export const THEMES = {
   light: { ground: "#e9ecef", ink: "#14161a", muted: "#525a66", rule: "#c3c9d1", edge: "#14161a" },
@@ -69,7 +75,7 @@ export function measurePage(brand) {
     4000,
     300,
     `<svg width="4000" height="300"><text id="d" x="0" y="100" font-family="Archivo" font-size="100" font-weight="500" style="font-stretch:125%" letter-spacing="24">${brand.descriptor}</text>` +
-      `<text id="l" x="0" y="250" font-family="Bodoni Moda" font-style="italic" font-size="100">${brand.line}</text></svg>`,
+      `<text id="l" x="0" y="250" font-family="Bodoni Moda" font-style="italic" style="${LINE_OPSZ}" font-size="100">${brand.line}</text></svg>`,
   );
 }
 // The trailing letter-space is not part of the ink, so it is removed from the descriptor's advance.
@@ -148,7 +154,7 @@ export function bannerPage(brand, W, H, safe, { theme = "dark", align = "center"
     shield(brand.coat, { x: 0, y: 0, h: sh, edge: T.edge }) +
     `<g transform="translate(${r(colX)} ${r(colTop)})">${lk.svg}</g>` +
     (line
-      ? `<text x="${r(colX)}" y="${r(colTop + k + k * 0.62 + lineFs * 0.72)}" font-family="Bodoni Moda" font-style="italic" font-size="${r(lineFs)}" fill="${T.muted}">${brand.line}</text>`
+      ? `<text x="${r(colX)}" y="${r(colTop + k + k * 0.62 + lineFs * 0.72)}" font-family="Bodoni Moda" font-style="italic" style="${LINE_OPSZ}" font-size="${r(lineFs)}" fill="${T.muted}">${brand.line}</text>`
       : "");
   const pad = 0.9;
   const s = Math.min((safe.w * pad) / blockW, (safe.h * pad) / sh);
@@ -194,56 +200,59 @@ export function watermarkPage(brand, S) {
 }
 
 /**
- * Thumbnail templates. `overlay`: transparent where the shot goes, with the brand band; the title
- * is typed over the band in the editor. `guide`: the same with the slot shaded and a sample title,
- * to show type size and the corner YouTube covers with the video length.
+ * Thumbnail templates (the launch-videos spec, 2026-10-28): the shot fills the canvas; a darkened
+ * third holds three or four huge words; the brand mark sits bottom right, raised clear of the corner
+ * YouTube covers with the video's length. Landscape darkens the left third. Portrait (Shorts) is too
+ * narrow for that, so it darkens the bottom third instead, with the mark at that band's right.
+ * `overlay` is transparent where the shot goes; `guide` shades the slot and sets sample words.
  */
 export function thumbPage(brand, W, H, { guide = false, descW }) {
   const T = THEMES.dark;
   const vertical = H > W;
-  const u = Math.min(W, H) / 720; // one unit = 1 px at 1280x720
-  const bandH = Math.round((vertical ? 460 : 230) * u);
-  const tagH = Math.round(30 * u);
+  const u = Math.min(W, H) / 1080; // one unit = 1 px at 1920x1080
+  const frame = Math.max(6, Math.round(12 * u));
+  const tagH = Math.round(40 * u);
   const lk = lockupSvg(brand, { h: tagH, ink: T.ink, rule: T.rule, edge: T.edge, descW });
-  const pad = Math.round(36 * u);
-  const frame = Math.max(6, Math.round(8 * u));
+  const pad = Math.round(48 * u);
   const plateW = lk.width + pad;
   const plateH = lk.height + pad * 0.7;
+  // Keep the mark above the corner YouTube covers with the video's length (bottom right).
+  const plateX = W - frame - Math.round(24 * u) - plateW;
+  const plateY = H - frame - Math.round(130 * u) - plateH;
   let s = `<svg xmlns="http://www.w3.org/2000/svg" width="${W}" height="${H}" viewBox="0 0 ${W} ${H}">`;
   if (guide) {
     s +=
-      `<defs><pattern id="h" width="24" height="24" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><rect width="24" height="24" fill="#5b616b"/><rect width="12" height="24" fill="#646a74"/></pattern></defs>` +
+      `<defs><pattern id="h" width="32" height="32" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><rect width="32" height="32" fill="#5b616b"/><rect width="16" height="32" fill="#646a74"/></pattern></defs>` +
       `<rect width="${W}" height="${H}" fill="url(#h)"/>` +
-      `<text x="${W / 2}" y="${r((H - bandH) / 2)}" text-anchor="middle" font-family="Archivo" font-weight="600" font-size="${r(26 * u)}" letter-spacing="${r(3 * u)}" fill="#e9ecef">SHOT GOES HERE (FULL BLEED, ${W}×${H})</text>`;
+      `<text x="${r(vertical ? W / 2 : W * 0.66)}" y="${r(vertical ? H * 0.3 : H * 0.42)}" text-anchor="middle" font-family="Archivo" font-weight="600" font-size="${r(30 * u)}" letter-spacing="${r(3 * u)}" fill="#e9ecef">VIDEO STILL (FULL BLEED, ${W}×${H})</text>`;
   }
-  // Band: the ground, fading up into the shot so the title holds on any image.
+  // The darkened third: solid ground fading out into the shot, so the words hold on any image.
+  s += vertical
+    ? `<defs><linearGradient id="b" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="${T.ground}" stop-opacity="0"/><stop offset="0.3" stop-color="${T.ground}" stop-opacity="0.88"/><stop offset="1" stop-color="${T.ground}" stop-opacity="0.96"/></linearGradient></defs>` +
+      `<rect y="${r(H * 0.58)}" width="${W}" height="${r(H * 0.42)}" fill="url(#b)"/>`
+    : `<defs><linearGradient id="b" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="${T.ground}" stop-opacity="0.96"/><stop offset="0.72" stop-color="${T.ground}" stop-opacity="0.88"/><stop offset="1" stop-color="${T.ground}" stop-opacity="0"/></linearGradient></defs>` +
+      `<rect width="${r(W * 0.42)}" height="${H}" fill="url(#b)"/>`;
   s +=
-    `<defs><linearGradient id="b" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="${T.ground}" stop-opacity="0"/><stop offset="0.38" stop-color="${T.ground}" stop-opacity="0.86"/><stop offset="1" stop-color="${T.ground}" stop-opacity="0.96"/></linearGradient></defs>` +
-    `<rect y="${H - bandH}" width="${W}" height="${bandH}" fill="url(#b)"/>` +
-    // Frame: the division's field, with an Or hairline inside it.
+    // Frame: the division's field, with a hairline of its charge inside it.
     `<rect x="${frame / 2}" y="${frame / 2}" width="${W - frame}" height="${H - frame}" fill="none" stroke="${brand.field}" stroke-width="${frame}"/>` +
-    `<rect x="${frame + 0.5}" y="${frame + 0.5}" width="${W - 2 * frame - 1}" height="${H - 2 * frame - 1}" fill="none" stroke="${brand.charge}" stroke-width="${Math.max(1, Math.round(u * 1.5))}"/>` +
-    // Tag: the lockup on a ground plate, top left (YouTube puts the video length bottom right).
-    `<rect x="${frame}" y="${frame}" width="${r(plateW + frame)}" height="${r(plateH)}" fill="${T.ground}" fill-opacity="0.92"/>` +
-    `<g transform="translate(${r(frame + pad / 2)} ${r(frame + (plateH - lk.height) / 2)})">${lk.svg}</g>`;
+    `<rect x="${frame + 0.5}" y="${frame + 0.5}" width="${W - 2 * frame - 1}" height="${H - 2 * frame - 1}" fill="none" stroke="${brand.charge}" stroke-width="${Math.max(1, Math.round(u * 2))}"/>` +
+    // The mark: the lockup on a ground plate, bottom right.
+    `<rect x="${r(plateX)}" y="${r(plateY)}" width="${r(plateW)}" height="${r(plateH)}" fill="${T.ground}" fill-opacity="0.92"/>` +
+    `<g transform="translate(${r(plateX + pad / 2)} ${r(plateY + (plateH - lk.height) / 2)})">${lk.svg}</g>`;
   if (guide) {
-    const fs = Math.round(60 * u);
-    const tx = Math.round(40 * u);
-    const lines = vertical ? ["VIDEO TITLE,", "THREE LINES", "AT MOST"] : ["VIDEO TITLE IN", "TWO LINES AT MOST"];
-    // The last line's baseline: clear of the frame, and on vertical, of the bottom eighth.
-    const last = vertical ? H * 0.86 : H - 46 * u;
-    s += lines
-      .map(
-        (l, i) =>
-          `<text x="${tx}" y="${r(last - (lines.length - 1 - i) * fs * 1.04)}" font-family="Archivo" font-weight="800" style="font-stretch:112%" font-size="${fs}" fill="${T.ink}">${l}</text>`,
-      )
+    // Sample words: four, one per line, at the size the third holds.
+    const words = ["FOUR", "HUGE", "WORDS", "MAX"];
+    const fs = Math.round((vertical ? 130 : 165) * u);
+    const tx = frame + Math.round(48 * u);
+    const lead = fs * 0.98;
+    const top = vertical ? H * 0.6 : (H - lead * words.length) / 2;
+    s += words
+      .map((w, i) => `<text x="${tx}" y="${r(top + lead * (i + 0.8))}" font-family="Archivo" font-weight="800" font-size="${fs}" fill="${T.ink}">${w}</text>`)
       .join("");
-    if (!vertical) {
-      // The corner YouTube covers with the video's length: keep the title and faces out of it.
-      const cw = Math.round(150 * u);
-      const ch = Math.round(60 * u);
-      s += `<rect x="${W - cw - Math.round(14 * u)}" y="${H - ch - Math.round(14 * u)}" width="${cw}" height="${ch}" fill="none" stroke="#e3b23c" stroke-width="${Math.max(2, Math.round(2 * u))}" stroke-dasharray="${r(10 * u)} ${r(8 * u)}"/>`;
-    }
+    // The corner YouTube covers with the video's length.
+    const cw = Math.round(225 * u);
+    const ch = Math.round(90 * u);
+    s += `<rect x="${W - frame - cw - Math.round(10 * u)}" y="${H - frame - ch - Math.round(10 * u)}" width="${cw}" height="${ch}" fill="none" stroke="#e3b23c" stroke-width="${Math.max(2, Math.round(3 * u))}" stroke-dasharray="${r(14 * u)} ${r(10 * u)}"/>`;
   }
   s += `</svg>`;
   return page(W, H, s);

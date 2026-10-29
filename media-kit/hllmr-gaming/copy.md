@@ -48,11 +48,21 @@ Very short (for 80-character fields, 60 characters):
 >
 > HLLMR GAMING is a division of HLLMR Ventures LLC.
 
-## Links
+## Channel tagline (YouTube)
 
-- Main link: https://gaming.hllmr.com/
-- Silo: https://silo.hllmr.com/
-- Contact: the email on gaming.hllmr.com's contact section (one address reaches a person).
+More playing, less fixing.
+
+The same line as the site and the banner. For a longer channel subtitle: "More playing, less fixing.
+Silo, game mods, and what comes next."
+
+## Links (YouTube's channel links, in this order)
+
+1. HLLMR GAMING: https://gaming.hllmr.com/
+2. Silo, the mod manager: https://silo.hllmr.com/
+3. Silo Discord: https://silo.hllmr.com/discord (the site's own link: it redirects to the current invite,
+   so it keeps working if the invite changes)
+
+Contact: the email on gaming.hllmr.com's contact section (one address reaches a person).
 
 ## Lines to reuse
 
