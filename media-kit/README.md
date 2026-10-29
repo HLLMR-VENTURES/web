@@ -59,12 +59,17 @@ Silo builds with its own script (see below).
 A brand with no arms and no HLLMR wordmark (the personal site, for one) uses the same generator. Its
 `brand.mjs` can bring its own drawing and platforms; the head of `build.mjs` lists the hooks (`layouts`,
 `ownMarks`, `platforms`, `colours`), and a `kit-README.md` in its folder replaces the shared template.
-Nothing in `build.mjs` needs forking.
+A brand can also keep its own build, as Silo and dhellmer.com do.
 
 ## Who owns what
 
 - **The family kits** (HLLMR VENTURES, TOOLS, UPGRADE, LIVE, GAMING), this README and the generator:
   the hllmr.com site agent.
+- **`media-kit/dhellmer/`**: the dhellmer.com site agent. dhellmer.com is the owner's personal site, so
+  its kit carries no HLLMR arms or wordmark (ADR-0015) and may use the portrait the site publishes. It has
+  its own build (`node media-kit/dhellmer/build.mjs --out "F:\Media Kits"`) that reuses `lib/render.mjs`
+  and `platforms.mjs` read-only, and its own README template. The "no photos of the owner" rule below is
+  for the HLLMR kits.
 - **`media-kit/silo/`**: the Silo site agent. Silo has its own build (`media-kit/silo/build.sh`, which
   runs `generate.py` in Docker) and its own README. Silo's mark keeps its own rules: it is never recoloured
   and never locked up with the HLLMR arms.
