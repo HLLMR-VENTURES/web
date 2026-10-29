@@ -29,6 +29,10 @@ export const PLATFORMS = {
       ...shared("youtube", {
         "profile-800x800.png": "Profile picture, monogram. Renders at 98×98; the page gives no upload size, 800 is ours",
         "watermark-300x300.png": "Video watermark (branding): the monogram on its dark plate, square, over the 150×150 minimum",
+        "thumbnail-overlay-1920x1080.png": "Thumbnail template: put the video still under it, type the title on the bottom band beside the monogram",
+        "thumbnail-guide-1920x1080.png": "Thumbnail guide: sample title size, safe margin, and the corner the video length covers",
+        "shorts-overlay-1080x1920.png": "Shorts thumbnail template: the title goes on the band below the middle",
+        "shorts-guide-1080x1920.png": "Shorts thumbnail guide: sample title size and safe margin",
       }).map((a) => (a.file === "profile-800x800.png" ? { ...a, file: "profile-mark-800x800.png" } : a)),
       photo("profile-photo-400x400.png", 400, { maxBytes: 15 * MB, note: "Profile picture, photo (the portrait's native 400 px crop). Renders at 98×98" }),
     ],
