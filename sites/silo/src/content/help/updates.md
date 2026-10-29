@@ -50,6 +50,8 @@ If you've changed a mod yourself, an update would replace your changes. Switch u
 - In the **Library**, select one or more mods and click **Skip updates** in the selection bar. A toast confirms it, for example "Silo won't check 3 mods for updates.", with **Undo**.
 - From a mod's row menu, choose **Don't check for updates**.
 
+Hiding a mod is separate: **Hide** only takes it out of the Library list, and Silo still checks it for updates. To stop the checks, switch off **Check for updates**.
+
 These mods are listed under **Not checked** in **Updates**. To check one again, click **Check for updates** on its row there, or use any of the three places above. The row menu then reads **Check for updates**, and the selection bar reads **Check updates** when every mod you selected is left out.
 
 ## ModHub updates
