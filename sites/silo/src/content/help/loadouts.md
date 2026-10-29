@@ -44,7 +44,7 @@ The dialog lists your saved sets, each with a checkbox. Automatic "Before …" s
 - **Unticked:** none of them is.
 - **Mixed:** some are.
 
-Click a box to change it, or click **Untick all**, then **Save**. If you have no saved sets yet, the dialog says to save one on the **Mod sets** page first.
+Click a box to change it, then **Save**. **Tick all** adds the mods you chose to every set in the list in one click, and **Untick all** takes them out of every set. If you have no saved sets yet, the dialog says to save one on the **Mod sets** page first.
 
 Editing the set you're on also turns those mods on or parks them, so you stay on that set. The dialog says so beside that set: "also turns them on now" or "also parks them now".
 

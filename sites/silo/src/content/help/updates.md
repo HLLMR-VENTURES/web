@@ -28,8 +28,9 @@ Results are grouped, and empty groups are hidden:
 - **Ready to install**: newer GitHub releases. **Update** installs one, and **Update all** installs them one after another.
 - **Download from ModHub**: updates Silo can't install for you because there's no `.zip` for it to download. ModHub mods get **Open on ModHub** (see below). Others get **Open page**, including a GitHub release without a `.zip`, which opens the release's page.
 - **Check these yourself**: mods with a saved download page, oldest-checked first, with **Open page** and **I checked it**.
-- **Couldn't check**: each with the reason, **Try again** and **Copy details**.
+- **Couldn't check**: each with the reason, **Try again** and **Copy details**. The **Activity** list and the copied details name the mod. A linked GitHub page that's been renamed, made private or deleted says so.
 - **Up to date** and **Not tracked**, collapsed. Not tracked means Silo's catalog doesn't know the mod.
+- **Not checked**, collapsed: mods you've switched update checks off for (see below).
 
 After a check, **Updates** in the rail shows how many are waiting, and those mods carry an **Update** badge in the **Library**. **Needs update** in the Library's **Filters** popover lists just them.
 
@@ -40,6 +41,18 @@ Silo downloads the new version beside the old one, checks that it's a complete a
 **Update all** shows its progress under **Running now** in the **Activity** panel, for example "Updating 2 of 4: AutoDrive", and each row reads "Updating…" while its turn runs. The **Activity** bell in the header shows a ring meanwhile. It ends with one toast, such as "Updated 4 mods. The previous versions are in backups." or "3 updated, 1 failed". A failed row says why, with **Try again**.
 
 Silo won't update while Farming Simulator 25 is running: close the game first. If Silo stops partway through an update, it finishes or rolls back the swap the next time it reads your library, and tells you what it did.
+
+## Leaving a mod out of update checks
+
+If you've changed a mod yourself, an update would replace your changes. Switch update checks off for it, and Silo leaves it out of checks and **Update all**, and never shows an **Update** badge for it. You can do this in three places:
+
+- In the mod's details, under **Source and updates**, turn off **Check for updates**.
+- In the **Library**, select one or more mods and click **Skip updates** in the selection bar. A toast confirms it, for example "Silo won't check 3 mods for updates.", with **Undo**.
+- From a mod's row menu, choose **Don't check for updates**.
+
+Hiding a mod is separate: **Hide** only takes it out of the Library list, and Silo still checks it for updates. To stop the checks, switch off **Check for updates**.
+
+These mods are listed under **Not checked** in **Updates**. To check one again, click **Check for updates** on its row there, or use any of the three places above. The row menu then reads **Check for updates**, and the selection bar reads **Check updates** when every mod you selected is left out.
 
 ## ModHub updates
 
