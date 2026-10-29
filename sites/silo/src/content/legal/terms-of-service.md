@@ -44,7 +44,7 @@ The [Privacy Policy](/legal/privacy-policy.html) lists every connection in one t
 
 ### 3.2 The Website
 
-The Website sets no cookies and runs no analytics scripts. The only client-side storage is a "theme" preference kept in your browser's localStorage. The /browse, /trust and /c/ pages load data from the API and from GitHub's API within your browser.
+The Website sets no cookies and runs no analytics scripts. The only client-side storage is a "theme" preference kept in your browser's localStorage. The /browse, /trust and /c/ pages load data from the API and from GitHub's API within your browser. Videos on the Website are hosted by YouTube. YouTube's player (youtube-nocookie.com) loads only when you press play, and from then on YouTube's terms and Google's privacy policy apply to it.
 
 ### 3.3 The API and Website servers
 

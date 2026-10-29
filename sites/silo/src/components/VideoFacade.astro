@@ -1,0 +1,163 @@
+---
+/**
+ * A YouTube video that loads only when asked. Until then the page makes no request to Google: the
+ * thumbnail is served from this site, and the play control is an ordinary link to the video on
+ * YouTube, which is what a visitor gets without scripts, or with a middle- or modifier-click. A
+ * plain click swaps the link for a youtube-nocookie.com player that starts playing, so the page's
+ * CSP needs `frame-src https://www.youtube-nocookie.com`.
+ *
+ * Self-contained (markup, scoped styles, one script) so other HLLMR sites can copy it as is. The
+ * colours fall back to neutral values where a site's design tokens are missing.
+ */
+import type { ImageMetadata } from "astro";
+import { Picture } from "astro:assets";
+
+interface Props {
+  /** The YouTube video id. */
+  id: string;
+  title: string;
+  /** Self-hosted thumbnail: 16:9 for a video, 9:16 for a Short. */
+  thumb: ImageMetadata;
+  /** A vertical Short (9:16), shown narrower. */
+  short?: boolean;
+  /** Running time as YouTube shows it, e.g. "2:01". */
+  duration?: string;
+  /** The thumbnail's `sizes`; the defaults suit a full-width column and a 260px Short. */
+  sizes?: string;
+}
+
+const { id, title, thumb, short = false, duration, sizes } = Astro.props;
+const watch = short ? `https://www.youtube.com/shorts/${id}` : `https://www.youtube.com/watch?v=${id}`;
+---
+
+<figure class:list={["vf", { short }]}>
+  <a class="frame" href={watch} data-vf-id={id} data-vf-title={title} aria-label={`Play video: ${title}`}>
+    <Picture
+      src={thumb}
+      formats={["avif"]}
+      fallbackFormat="webp"
+      widths={short ? [360, 720] : [640, 1080, 1600]}
+      sizes={sizes ?? (short ? "260px" : "(min-width: 900px) 820px, 100vw")}
+      alt=""
+      loading="lazy"
+      layout="none"
+    />
+    <svg class="play" viewBox="0 0 64 64" aria-hidden="true" focusable="false">
+      <circle cx="32" cy="32" r="31"></circle>
+      <path d="M26 20v24l19-12z"></path>
+    </svg>
+  </a>
+  <figcaption>
+    <span class="t">{title}{duration && <span class="d"> · {duration}</span>}</span>
+    <a href={watch}>Watch on YouTube</a>
+  </figcaption>
+</figure>
+
+<style>
+  .vf {
+    width: 100%;
+    margin: 0;
+  }
+  .vf.short {
+    width: min(100%, 260px);
+  }
+  .frame,
+  .vf :global(.vf-player) {
+    display: block;
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    border: 0;
+    border-radius: var(--radius, 10px);
+    background: #000;
+  }
+  .short .frame,
+  .short :global(.vf-player) {
+    aspect-ratio: 9 / 16;
+  }
+  .frame {
+    position: relative;
+    overflow: hidden;
+    box-shadow:
+      0 0 0 1px var(--border, rgb(0 0 0 / 0.15)),
+      var(--shadow-1, 0 1px 3px rgb(0 0 0 / 0.12));
+  }
+  .frame :global(img) {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  .play {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 72px;
+    height: 72px;
+    margin: -36px 0 0 -36px;
+    transition: transform 120ms ease-out;
+  }
+  .short .play {
+    width: 60px;
+    height: 60px;
+    margin: -30px 0 0 -30px;
+  }
+  .play circle {
+    fill: rgb(12 12 10 / 0.72);
+    stroke: rgb(255 255 255 / 0.85);
+    stroke-width: 2;
+  }
+  .play path {
+    fill: #fff;
+  }
+  .frame:hover .play circle,
+  .frame:focus-visible .play circle {
+    fill: var(--primary, #4a7330);
+  }
+  @media (prefers-reduced-motion: no-preference) {
+    .frame:hover .play {
+      transform: scale(1.06);
+    }
+  }
+  .frame:focus-visible {
+    outline: 3px solid var(--primary, #4a7330);
+    outline-offset: 3px;
+  }
+  figcaption {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    margin-top: 10px;
+    font-size: 0.95rem;
+  }
+  .t {
+    font-weight: 600;
+  }
+  .d {
+    font-weight: 400;
+    color: var(--muted, inherit);
+  }
+  figcaption a {
+    color: var(--primary-text, inherit);
+    font-weight: 600;
+  }
+</style>
+
+<script>
+  for (const link of document.querySelectorAll<HTMLAnchorElement>("a[data-vf-id]")) {
+    link.addEventListener("click", (e) => {
+      // A middle- or modifier-click opens YouTube in a new tab, as the link says.
+      if (e.button !== 0 || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
+      e.preventDefault();
+      const player = document.createElement("iframe");
+      player.className = "vf-player";
+      player.src = `https://www.youtube-nocookie.com/embed/${encodeURIComponent(link.dataset.vfId ?? "")}?autoplay=1&rel=0`;
+      player.title = link.dataset.vfTitle ?? "YouTube video";
+      player.allow = "autoplay; encrypted-media; picture-in-picture; fullscreen";
+      player.allowFullscreen = true;
+      // YouTube's player refuses to play without the embedding page's origin as referrer.
+      player.referrerPolicy = "strict-origin-when-cross-origin";
+      link.replaceWith(player);
+      player.focus();
+    });
+  }
+</script>

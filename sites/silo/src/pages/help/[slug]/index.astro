@@ -2,27 +2,55 @@
 /**
  * One help topic per Markdown file in src/content/help/, at /help/<id>/. The h1 carries the old
  * single-page anchor id (for example id="crash-triage-h") so links that reach this page with the
- * old fragment still land on the right heading.
+ * old fragment still land on the right heading. A topic with launch videos (src/lib/videos.ts)
+ * ends with them under "Watch it", linked from just below the title.
  */
 import { render } from "astro:content";
 import HelpLayout from "../../../layouts/HelpLayout.astro";
 import ShotViewer from "../../../components/ShotViewer.astro";
+import VideoFacade from "../../../components/VideoFacade.astro";
 import { topics } from "../../../lib/help";
+import { VIDEOS } from "../../../lib/videos";
 
 export async function getStaticPaths() {
   const all = await topics();
+  for (const v of VIDEOS) {
+    if (v.help && !all.some((t) => t.id === v.help)) throw new Error(`video ${v.id}: no help topic "${v.help}"`);
+  }
   return all.map((t, i) => ({ params: { slug: t.id }, props: { topic: t, prev: all[i - 1], next: all[i + 1] } }));
 }
 
 const { topic, prev, next } = Astro.props;
 const { Content } = await render(topic);
+const videos = VIDEOS.filter((v) => v.help === topic.id);
 ---
 
 <HelpLayout title={`${topic.data.title} · Silo help`} description={topic.data.summary} current={topic.id}>
   <article class="prose">
     <p class="crumbs"><a href="/help/">Help</a> · {topic.data.group}</p>
     <h1 id={topic.data.legacyAnchor}>{topic.data.title}</h1>
+    {
+      videos.length > 0 && (
+        <p class="watch-jump">
+          <a href="#watch">{videos.length === 1 ? "Watch the video" : `Watch the ${videos.length} videos`}</a> for this
+          topic.
+        </p>
+      )
+    }
     <Content />
+    {
+      videos.length > 0 && (
+        <section class="watch" aria-labelledby="watch">
+          <h2 id="watch">Watch it</h2>
+          <div class="vids">
+            {videos.map((v) => (
+              <VideoFacade {...v} />
+            ))}
+          </div>
+          <p class="watch-note">Videos play from YouTube, which loads only when you press play.</p>
+        </section>
+      )
+    }
     <p class="applies">Written for Silo {topic.data.appliesTo}. Something out of date? <a href="/go/new-issue">Tell us</a>.</p>
   </article>
   <nav class="pager" aria-label="More help">
@@ -97,6 +125,22 @@ const { Content } = await render(topic);
   }
   .prose :global(blockquote p) {
     margin: 0;
+  }
+  .watch-jump {
+    margin: -8px 0 20px;
+    font-size: 0.95rem;
+  }
+  .vids {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-start;
+    gap: 28px 24px;
+    margin-top: 16px;
+  }
+  .watch-note {
+    margin: 16px 0 0;
+    color: var(--muted);
+    font-size: 0.9rem;
   }
   .applies {
     margin-top: 40px;
