@@ -63,7 +63,8 @@ Nothing in `build.mjs` needs forking.
 
 ## Who owns what
 
-- **The family kits** (HLLMR VENTURES, TOOLS, UPGRADE, LIVE, GAMING), this README and the generator:
+- **The family kits** (HLLMR VENTURES, TOOLS, UPGRADE, LIVE, GAMING, and PLAYS under LIVE), this README and
+  the generator:
   the hllmr.com site agent.
 - **`media-kit/silo/`**: the Silo site agent. Silo has its own build (`media-kit/silo/build.sh`, which
   runs `generate.py` in Docker) and its own README. Silo's mark keeps its own rules: it is never recoloured
