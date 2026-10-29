@@ -31,6 +31,8 @@ export const LINKS = {
   /** Vanity redirect served by this site (nginx 302, static stub fallback). */
   discord: "/discord",
   orgGithub: "https://github.com/HLLMR-VENTURES",
+  /** The HLLMR GAMING YouTube channel, where the Silo videos are published. */
+  youtube: "https://www.youtube.com/@HLLMRGAMING",
 } as const;
 
 /**

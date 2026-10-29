@@ -73,6 +73,9 @@ export default defineConfig({
         `img-src 'self' data: ${SILO_API} https://avatars.githubusercontent.com`,
         "font-src 'self'",
         "media-src 'self'",
+        // The launch videos: a youtube-nocookie.com player, created only after a click on a video
+        // (src/components/VideoFacade.astro). Nothing else may be framed.
+        "frame-src https://www.youtube-nocookie.com",
         "object-src 'none'",
         "base-uri 'none'",
         "form-action 'none'",

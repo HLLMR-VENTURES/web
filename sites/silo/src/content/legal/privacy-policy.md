@@ -61,8 +61,9 @@ Silo never uploads your saves, mod archives, notes, settings or personal files.
 - **/browse** loads catalog data from our API in your browser. Cover images load from our API's image cache, or for some mods directly from where the source hosts them (GitHub or ModHub).
 - **/trust** loads catalog counts, traffic totals and release statistics from our servers, in your browser. Our server reads the release statistics from GitHub's public data, so your browser does not contact GitHub for them.
 - **/c/** (shared mod sets) reads the shared set from the GitHub API in your browser.
+- **Videos** on the home page and some Help pages are published on YouTube. Until you press play, your browser loads only a still image from our server and contacts neither YouTube nor Google. Pressing play loads YouTube's player from youtube-nocookie.com. From then on, Google receives your IP address and may store data in your browser for that player. **Watch on YouTube** opens the video on youtube.com instead.
 
-When your browser loads data from GitHub, GitHub sees your IP address under its own privacy policy.
+When your browser loads data from GitHub, GitHub sees your IP address under its own privacy policy. The same goes for YouTube and Google once you play a video.
 
 ## Our servers and their logs
 
@@ -94,6 +95,7 @@ These services have their own privacy policies:
 
 - **GitHub** (app updates, sign-in, downloads, shared mod sets) — https://docs.github.com/en/site-policy/privacy-policies/github-general-privacy-statement
 - **GIANTS Software / ModHub** (pages you open in your browser, and some cover images on /browse) — https://www.giants-software.com/privacy.php
+- **YouTube / Google** (videos on the website, only after you press play) — https://policies.google.com/privacy
 
 We are not responsible for their practices.
 
