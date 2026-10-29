@@ -90,3 +90,9 @@ test(
     }
   },
 );
+
+test("/changelog/ links point at the repo's current owner (old notes are rewritten at build)", async () => {
+  const r = await get("/changelog/");
+  assert.equal(r.status, 200);
+  assert.ok(!r.body.includes('href="https://github.com/HLLMR/silo'), "/changelog/ still links to github.com/HLLMR/silo");
+});

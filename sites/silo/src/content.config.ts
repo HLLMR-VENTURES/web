@@ -3,7 +3,7 @@
 import { defineCollection } from "astro:content";
 import { file, glob } from "astro/loaders";
 import { z } from "astro/zod";
-import { SILO_REPO } from "./lib/site";
+import { SILO_REPO, SILO_REPO_URLS } from "./lib/site";
 
 const link = z.object({ href: z.string().startsWith("/"), label: z.string() });
 
@@ -101,7 +101,9 @@ const help = defineCollection({
  * App releases for /changelog/, read from GitHub at build time (newest first) with the notes
  * rendered by Astro's own Markdown pipeline. Fails soft: no releases means the page links to
  * GitHub instead. The notes' own "## What's new in x" heading is dropped (the page titles each
- * release) and deeper headings move down one level.
+ * release) and deeper headings move down one level. Notes written before the repo moved link to
+ * the old owner; those link targets point at the new one. Only href values change, so v0.4.0's
+ * `gh attestation verify --repo HLLMR/silo` command (attested under the old name) stays as written.
  */
 const releases = defineCollection({
   loader: {
@@ -134,7 +136,9 @@ const releases = defineCollection({
           // page's ids stay unique (v0.11.0 + "fixed" -> "v0-11-0-fixed").
           const rendered = await renderMarkdown(body);
           const prefix = r.tag_name.toLowerCase().replace(/[^a-z0-9]+/g, "-");
-          rendered.html = rendered.html.replace(/ id="([^"]+)"/g, (_m, id: string) => ` id="${prefix}-${id}"`);
+          rendered.html = rendered.html
+            .replace(/ id="([^"]+)"/g, (_m, id: string) => ` id="${prefix}-${id}"`)
+            .replaceAll(`href="${SILO_REPO_URLS[1]}`, `href="${SILO_REPO_URLS[0]}`);
           store.set({
             id: r.tag_name,
             data: { tag: r.tag_name, name: r.name || r.tag_name, date: r.published_at.slice(0, 10), url: r.html_url, order: i },
