@@ -27,6 +27,9 @@ npm ci
 node media-kit/build.mjs hllmr-gaming --out "F:\Media Kits"
 ```
 
+The family brands are `hllmr-ventures`, `hllmr-tools`, `hllmr-upgrade`, `hllmr-live` and `hllmr-gaming`.
+Silo builds with its own script (see below).
+
 - **Needs:** Node 22.18 or newer (it imports the brand package's TypeScript directly), Edge or Chrome, found automatically (set `MEDIA_KIT_BROWSER` to point at another one), and
   `npm ci` for the brand fonts and `sharp`, which are already in the lockfile.
 - **Adds no npm dependency.** A lockfile change would fire every site's release.
@@ -54,7 +57,8 @@ node media-kit/build.mjs hllmr-gaming --out "F:\Media Kits"
 
 - **The family kits** (HLLMR VENTURES, TOOLS, UPGRADE, LIVE, GAMING), this README and the generator:
   the hllmr.com site agent.
-- **`media-kit/silo/`**: the Silo site agent. Silo's mark keeps its own rules: it is never recoloured
+- **`media-kit/silo/`**: the Silo site agent. Silo has its own build (`media-kit/silo/build.sh`, which
+  runs `generate.py` in Docker) and its own README. Silo's mark keeps its own rules: it is never recoloured
   and never locked up with the HLLMR arms.
 
 ## Rules every kit follows
