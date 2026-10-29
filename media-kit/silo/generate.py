@@ -219,30 +219,35 @@ def masters():
               [(p + f"endorsement-{name}-2048w.png", 2048, round(2048 * H / W))])
 
 
-def thumbnail_frames():
-    """Video thumbnail frames: a transparent slot for the shot, a band with the lockup and the line."""
-    # Landscape 1280 x 720: the shot fills the top, a band along the bottom carries the type.
-    W, H, band = 1280, 720, 132
-    t = 72
-    body, _ = logo(48, H - band + (band - t) / 2, t, CREAM)
-    lw = endorsement(0, 0, 26, MUTED_DARK)[1]
-    line, _ = endorsement(W - 48 - lw, H - band / 2 + 9, 26, MUTED_DARK)
-    svg = doc(W, H, f'<rect y="{H - band}" width="{W}" height="{band}" fill="{BAND}"/>'
-                    f'<rect y="{H - band}" width="{W}" height="2" fill="{FRAME_EDGE}"/>' + body + line)
-    write("youtube/silo-thumbnail-frame-1280x720.svg", svg,
-          [("youtube/silo-thumbnail-frame-1280x720.png", W, H)])
+def shade(uid, w, h, vertical):
+    """A darkened third for the title words: Silo's band colour, solid then fading into the shot."""
+    x2, y2 = ("0", "1") if vertical else ("1", "0")
+    return (f'<defs><linearGradient id="shade-{uid}" x1="0" y1="0" x2="{x2}" y2="{y2}">'
+            f'<stop offset="0" stop-color="{BAND}" stop-opacity="0.92"/>'
+            f'<stop offset="0.7" stop-color="{BAND}" stop-opacity="0.85"/>'
+            f'<stop offset="1" stop-color="{BAND}" stop-opacity="0"/></linearGradient></defs>'
+            f'<rect width="{w}" height="{h}" fill="url(#shade-{uid})"/>')
 
-    # Vertical 1080 x 1920: the type sits in a top band, clear of the player's bottom and side controls.
-    W, H, band = 1080, 1920, 300
-    t = 104
-    lw = logo(0, 0, t, CREAM)[1]
-    body, _ = logo((W - lw) / 2, 64, t, CREAM)
-    ew = endorsement(0, 0, 34, MUTED_DARK)[1]
-    line, _ = endorsement((W - ew) / 2, 64 + t + 76, 34, MUTED_DARK)
-    svg = doc(W, H, f'<rect width="{W}" height="{band}" fill="{BAND}"/>'
-                    f'<rect y="{band - 2}" width="{W}" height="2" fill="{FRAME_EDGE}"/>' + body + line)
-    write("youtube/silo-thumbnail-frame-1080x1920.svg", svg,
-          [("youtube/silo-thumbnail-frame-1080x1920.png", W, H)])
+
+def thumbnail_frames():
+    """Video thumbnail frames, laid out to the launch videos' spec: the shot fills the frame (the
+    slot is transparent), a darkened third carries 3-4 huge title words, and the tile sits bottom
+    right. The tile is lifted clear of the corner, where YouTube draws the video's length."""
+    # Landscape 1920 x 1080: the left third is darkened (fading out by 0.45 of the width).
+    W, H = 1920, 1080
+    t = 150
+    body = shade("l", 0.45 * W, H, vertical=False) + tile(W - 72 - t, H - 150 - t, t)
+    write("youtube/silo-thumbnail-frame-1920x1080.svg", doc(W, H, body),
+          [("youtube/silo-thumbnail-frame-1920x1080.png", W, H),
+           ("youtube/silo-thumbnail-frame-3840x2160.png", 3840, 2160)])
+
+    # Vertical 1080 x 1920: a left third is too narrow for huge words, so the top third is darkened.
+    W, H = 1080, 1920
+    t = 150
+    body = shade("v", W, 0.42 * H, vertical=True) + tile(W - 72 - t, H - 220 - t, t)
+    write("youtube/silo-thumbnail-frame-1080x1920.svg", doc(W, H, body),
+          [("youtube/silo-thumbnail-frame-1080x1920.png", W, H),
+           ("youtube/silo-thumbnail-frame-2160x3840.png", 2160, 3840)])
 
 
 def avatar(rel, px, png_rel=None, ground=LOAM):
@@ -331,17 +336,8 @@ def reddit():
     art("reddit/silo-banner-mobile-2160x256", 2160, 256, horizon=0.6, sun_x=0.82)
 
 
-def youtube_large():
-    # YouTube Help now recommends 3840x2160 for videos and 2160x3840 for Shorts: the same frames, larger.
-    for src, w, h in (("youtube/silo-thumbnail-frame-1280x720.svg", 3840, 2160),
-                      ("youtube/silo-thumbnail-frame-1080x1920.svg", 2160, 3840)):
-        png = f"youtube/silo-thumbnail-frame-{w}x{h}.png"
-        subprocess.run(["rsvg-convert", "-w", str(w), "-h", str(h), "-o", os.path.join(OUT, png),
-                        os.path.join(OUT, src)], check=True)
-        made.append((png, w, h))
 
-
-PLATFORMS = [generic_avatar, discord, x, reddit, youtube_large]
+PLATFORMS = [generic_avatar, discord, x, reddit]
 
 
 def main():
