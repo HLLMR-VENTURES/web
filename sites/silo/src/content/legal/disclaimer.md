@@ -31,7 +31,7 @@ Use of these names and marks does not imply any endorsement of Silo by, or affil
 
 ## Catalog content belongs to its owners
 
-Silo's catalog (browsable at [silo.hllmr.com/browse](https://silo.hllmr.com/browse) and served by the public read API at [silo-api.hllmr.com](https://silo-api.hllmr.com)) aggregates **publicly available mod metadata** — such as names, images, descriptions, versions, and ratings — from ModHub and GitHub. This metadata is deduplicated into one record per mod, and each record links back to its original source.
+Silo's catalog (browsable at [silo.hllmr.com/browse](https://silo.hllmr.com/browse) and served by the public read API at silo-api.hllmr.com) aggregates **publicly available mod metadata** — such as names, images, descriptions, versions, and ratings — from ModHub and GitHub. This metadata is deduplicated into one record per mod, and each record links back to its original source.
 
 Ownership of that content stays with the people and platforms it came from:
 

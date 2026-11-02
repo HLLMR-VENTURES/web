@@ -94,7 +94,7 @@ If data-protection law such as the EU or UK GDPR applies to you:
 These services have their own privacy policies:
 
 - **GitHub** (app updates, sign-in, downloads, shared mod sets) — https://docs.github.com/en/site-policy/privacy-policies/github-general-privacy-statement
-- **GIANTS Software / ModHub** (pages you open in your browser, and some cover images on /browse) — https://www.giants-software.com/privacy.php
+- **GIANTS Software / ModHub** (pages you open in your browser, and some cover images on /browse) — https://www.giants-software.com/privacyPolicy.php
 - **YouTube / Google** (videos on the website, only after you press play) — https://policies.google.com/privacy
 
 We are not responsible for their practices.
