@@ -18,11 +18,13 @@ You can choose another drive during the first-run setup, or later in **Settings*
 3. Pick the new folder. Silo checks it, then asks **Move your library to …?** with the number of mods, their size and, on another drive, the free space there.
 4. Click **Move library**. A notice at the top shows how many mods have moved and how much data. When it finishes, the card reads **Custom location** and your library looks exactly as before.
 
+To a folder on the same drive, Silo renames each mod into place, so the move is quick and needs no extra space. To another drive, it copies each mod.
+
 Silo refuses a folder that can't work and says why: for example it overlaps your mods folder or another mods folder Silo knows, or the drive doesn't have room (Silo keeps 1 GB spare). Each mods folder has its own archive.
 
 ## Pause, resume and cancel
 
-A big library can take a while. While the move runs, Play is blocked. Click **Pause** on the notice and you can play right away: your active mods still load, including ones already moved. When you're done, close the game and click **Resume**. Silo won't move mods while the game is using them, so it won't start or resume while FS25 is open, and a move pauses itself if you start the game mid-move.
+A big library can take a while. While the move runs, Play is blocked. Click **Pause** on the notice and you can play right away: your active mods still load, including ones already moved. If some of your active mods can't be opened from your mods folder while the move is paused (for example after Silo stopped partway), **Play** names them and asks you to resume the move first, which mends their links, with **Play anyway** if you'd rather start now. If the drive runs low on space, the move pauses with a message saying how much room it needs: free some space, then resume. When you're done, close the game and click **Resume**. Silo won't move mods while the game is using them, so it won't start or resume while FS25 is open, and a move pauses itself if you start the game mid-move.
 
 While a move is running or paused, Silo leaves your library alone: organizing, switching mods on and off, switching mods folders and the archive controls wait, with the reason "Finish or cancel the archive move first".
 

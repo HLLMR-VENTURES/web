@@ -20,9 +20,11 @@ The **Game** card below it shows where Farming Simulator 25 is installed. If Sil
 ## Changing the folder
 
 1. Click **Change…** and pick a folder. If it holds no mods yet, Silo asks first, and **Use this folder** goes ahead. Nothing is moved.
-2. Silo switches to the folder and reads it. If the game still reads a different folder, Silo asks **Point Farming Simulator at this folder too?**
-   - **Update FS25's setting** writes the new folder into FS25's `gameSettings.xml` and keeps a backup of it (`gameSettings.xml.bak`), so you can switch back later. Close FS25 first: the game rewrites that file when it exits.
-   - **Only in Silo** leaves the game alone. Use it when you only want to look at or tidy another folder.
+2. Silo switches to the folder and reads it. If the game still reads a different folder, Silo asks **Point Farming Simulator 25 at this folder too?**
+   - **Update the game's setting** writes the new folder into FS25's `gameSettings.xml` and keeps a backup of it (`gameSettings.xml.bak`), so you can switch back later. Close FS25 first: the game rewrites that file when it exits.
+   - **Only in Silo** leaves the game alone. Use it when you only want to look at or tidy another folder. It's already selected, so pressing Enter changes nothing outside Silo.
+
+Silo doesn't ask for a folder in a [separate FS25 profile](#separate-fs25-profiles), which has settings of its own.
 
 Once you've chosen a folder in Silo, **Use the game's folder** on the same card goes back to the one FS25 reads.
 
@@ -38,6 +40,14 @@ If Silo and the game end up on different folders, a notice says "FS25 is reading
 ## Several folders, each with its own library
 
 Silo remembers each folder's library separately. Switching away and back brings that folder's library back exactly as you left it. Folders you've used before are listed under **Other folders Silo knows**, with how many mods each holds. Click **Switch** next to one to use it.
+
+## Separate FS25 profiles
+
+Some players keep a second FS25 profile, a folder of its own with its own settings, savegames and `mods` folder, and start the game with it using `-profile`. If your mods folder is the `mods` folder in such a profile, **Play** can start the game with that profile, so it loads the mods Silo shows instead of your main profile's.
+
+On the **Mods folder** card, the switch is **Launch FS25 with this folder's profile**. Silo turns it on by itself when the folder next to `mods` has the game's settings files, and you can turn it off or on. While it's on, Diagnose, the "last game ended unexpectedly" notice, savegames and game settings use that profile's files, and Silo doesn't offer to change your main profile's mods folder setting for it. A library archive can't be moved into a profile folder, the same as the game's own folder.
+
+This works on Windows only for now. On macOS and Linux, the card says why Silo can't start the game with the profile there yet, and **Play** starts your main profile.
 
 ## If the folder goes missing
 

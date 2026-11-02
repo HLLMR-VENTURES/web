@@ -40,7 +40,11 @@ Yes. Parking never deletes a mod, and switching mods on or off shows **Undo** ri
 
 ## Where does Silo keep its data?
 
-Your mods stay in your mods folder or your library archive. Silo's own database (`silo.db`: the library index and your notes, tags and ratings) lives in the app's data folder for your user. A GitHub token goes into your computer's credential store (Windows Credential Manager, macOS Keychain, Linux Secret Service). On Linux without a keyring, Silo keeps it in its own database and warns you first.
+Your mods stay in your mods folder or your library archive. Silo's own database (`silo.db`: the library index and your notes, tags and ratings) lives in the app's data folder for your user. A GitHub token goes into your computer's credential store (Windows Credential Manager, macOS Keychain, Linux Secret Service). If the store refuses it, for example while it's locked, Silo says so and doesn't save the token anywhere else. Only on Linux with no keyring service at all does Silo keep it in its own database, and it warns you first.
+
+## Can I go back to an older Silo?
+
+Not always. Silo 1.0.4 upgrades its database to version 5, and Silo 1.0.3 can't open the upgraded one, so going back to 1.0.3 after updating isn't supported. Before the upgrade, Silo tries to save a copy of the old database in the `db-snapshots` folder next to `silo.db` (`silo-before-v3.db` when you update from 1.0.3). If a copy by that name is already there, Silo keeps it as it is. If the copy can't be made, on a full disk for example, the upgrade still goes ahead. An older Silo that finds a newer database says "This library was used by a newer Silo."
 
 ## Why does a mod show no Verified build badge?
 
