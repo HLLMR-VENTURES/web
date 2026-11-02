@@ -24,7 +24,7 @@ Parking a loose mod (a `.zip` you dropped into the mods folder that Silo hasn't 
 
 The list is the default. The two buttons at the right of the toolbar switch between **List view** and **Card view**, and Silo remembers your choice. For more rows on screen, set **List density** to **Compact** in **Settings**, then **General**.
 
-Each row shows the mod's icon, title, author, version, category and size, plus up to three badges. Problems come first (**Modified**, **Can't load**, **Ignored name**, **Conflict**, **Flagged**), then status (**Verified build**, **Update**, **Folder mod**), then info (**Map**, **Has settings**). Click a row or press Enter to open the mod's details. The **⋯** button, a right-click or Shift+F10 opens the same menu: **Activate** or **Park**, **Open details**, **Find in Browse**, **Change category…**, **Edit settings…** (when the mod has settings), **Favorite**, **Hide** and **Flag**.
+Each row shows the mod's icon, title, author, version, category and size, plus up to three badges. Problems come first (**Modified**, **Can't load**, **Ignored name**, **Conflict**, **Flagged**), then status (**Other copy loads**, **Verified build**, **Update**, **Folder mod**), then info (**Map**, **Has settings**). Click a row or press Enter to open the mod's details. The **⋯** button, a right-click or Shift+F10 opens the same menu: **Activate** or **Park**, **Open details**, **Find in Browse**, **Change category…**, **Edit settings…** (when the mod has settings), **Favorite**, **Hide** and **Flag**.
 
 ![The Library list with switches, badges and the status strip above it](../../assets/screens/library.png)
 

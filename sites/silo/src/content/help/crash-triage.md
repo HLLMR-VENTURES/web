@@ -43,6 +43,17 @@ Each row in the first two groups has **Copy details**, which copies the name, co
 
 ![Diagnose, Last run, showing a crash with its most likely cause and two mods worth a look](../../assets/screens/triage.png)
 
+## When the game ran out of room
+
+Some failures come from all your mods together, not from one of them. **Last run** explains two of them in plain words:
+
+- **The game ran out of ground-pile slots.** The game's own message is about the "maximum number of height types". Last run says how many the map has room for and, when the game reports it, what turned itself off and closed the save, such as Straw Harvest or Pumps n' Hoses.
+- **The game ran out of material types.** The game supports 255 and skipped the rest. Last run lists the materials it skipped, so you know which mods may not fully work.
+
+Either way, [Conflicts](/help/conflicts/#ground-pile-slots-and-material-types) shows which mods use the most. Turn a few of those off, and Conflicts warns you before you play the next time.
+
+Two more things Last run handles on its own. The game looks inside every folder in `mods` for a mod, so it logs that it couldn't open Silo's own `archive` and `backups` folders. Last run says in one line that these are Silo's folders, not broken mods. And with a very large `log.txt`, from a mod that logs an error every frame say, Last run reads the start of the log and its last 64 MB, where the mod list and the crash are, and says so when it skipped the middle.
+
 ## When the log names no mod
 
 Findings the log can't tie to any mod are counted at the bottom as engine or base game, with **Open log.txt** so you can read the lines yourself. If the game crashed and no mod logged an error, the log can't tell what caused it. Often it's mods that only break together. **Find the problem mod** tests half your mods at a time to find it, and a **Not named here?** link offers the same for any other run.
