@@ -36,7 +36,7 @@ Almost never. Packed `.zip` mods are linked into your mods folder on the same dr
 
 ## Is my library safe? Can I undo this?
 
-Yes. Parking never deletes a mod, and switching mods on or off shows **Undo** right away. Organizing shows every move before anything happens, and **Settings**, then **Maintenance**, then **Undo organizing** puts every mod back into your mods folder. Mod updates keep the previous version in backups. Silo never deletes a file it doesn't recognize, never removes the only copy of a mod, and leaves alone a build you swapped into the mods folder yourself.
+Yes. Parking never deletes a mod, and switching mods on or off shows **Undo** right away. Organizing shows every move before anything happens, and **Settings**, then **Maintenance**, then **Undo organizing** puts every mod back into your mods folder. Mod updates keep the previous version in backups. Silo removes a mod only when you ask: **Remove from library** and **Keep this one** send files to the Recycle Bin (the Trash on macOS and Linux) after a confirmation, so you can restore them. Otherwise Silo never deletes a file it doesn't recognize, never removes the only copy of a mod, and leaves alone a build you swapped into the mods folder yourself.
 
 ## Where does Silo keep its data?
 
@@ -44,7 +44,7 @@ Your mods stay in your mods folder or your library archive. Silo's own database 
 
 ## Can I go back to an older Silo?
 
-Not always. Silo 1.0.4 upgrades its database to version 5, and Silo 1.0.3 can't open the upgraded one, so going back to 1.0.3 after updating isn't supported. Before the upgrade, Silo tries to save a copy of the old database in the `db-snapshots` folder next to `silo.db` (`silo-before-v3.db` when you update from 1.0.3). If a copy by that name is already there, Silo keeps it as it is. If the copy can't be made, on a full disk for example, the upgrade still goes ahead. An older Silo that finds a newer database says "This library was used by a newer Silo."
+Not always. Silo 1.0.5 upgrades its database to version 6, and Silo 1.0.4 can't open the upgraded one, so going back to 1.0.4 after updating isn't supported. In the same way, Silo 1.0.3 can't open the version 5 database from Silo 1.0.4. Before an upgrade, Silo tries to save a copy of the old database in the `db-snapshots` folder next to `silo.db`, named after the version it upgrades from: `silo-before-v5.db` when you update from 1.0.4, or `silo-before-v3.db` from 1.0.3. If a copy by that name is already there, Silo keeps it as it is. If the copy can't be made, on a full disk for example, the upgrade still goes ahead. An older Silo that finds a newer database says "This library was used by a newer Silo."
 
 ## Why does a mod show no Verified build badge?
 

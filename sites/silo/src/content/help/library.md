@@ -43,7 +43,18 @@ Filters in effect show as chips under the toolbar. Each chip's ✕ removes it, a
 
 ## Changing many mods at once
 
-A checkbox appears when you point at a row. Once anything is selected, a bar replaces the toolbar: **Turn on**, **Park**, **Favorite**, **Hide**, **Mod sets…** (see [adding mods to several sets](/help/loadouts/#adding-mods-to-several-sets-at-once)) and **Select all N shown**, then **Clear**. Shift-click selects a range. Turning on or parking more than 25 mods asks first, and you can undo it right after.
+A checkbox appears when you point at a row. Once anything is selected, a bar replaces the toolbar: **Turn on**, **Park**, **Favorite**, **Hide**, **Mod sets…** (see [adding mods to several sets](/help/loadouts/#adding-mods-to-several-sets-at-once)), **Remove…** (see [removing mods](#removing-mods-from-your-library)) and **Select all N shown**, then **Clear**. Shift-click selects a range. Turning on or parking more than 25 mods asks first, and you can undo it right after.
+
+## Removing mods from your library
+
+Parking keeps a mod. To get rid of one, open its details and choose **Remove from library…** from the **⋯** menu, or select several mods and click **Remove…** on the selection bar. Silo asks first, naming the mods, and **Cancel** is the default. The confirm button is **Move to Recycle Bin** (**Move to Trash** on macOS and Linux).
+
+- Each mod's file or folder goes to the Recycle Bin (the Trash on macOS and Linux), so you can restore it from there.
+- A mod that's on is parked first.
+- Where Windows can't use the Recycle Bin (a USB stick or network drive, or a bin that's turned off or too small), it asks you before deleting the mod permanently, as File Explorer does. Silo follows your answer and says which happened.
+- Mods you haven't filed into your library yet can be removed too.
+- Anything that changed after you confirmed is left alone.
+- A mod set that lists a removed mod keeps it, and shows it as not in your library.
 
 ## How active mods reach the game
 
