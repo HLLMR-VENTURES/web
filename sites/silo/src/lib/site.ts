@@ -28,8 +28,7 @@ export const LINKS = {
   /** HLLMR GAMING, the division Silo is endorsed under (ADR-0015 D4). */
   gaming: "https://gaming.hllmr.com/",
   verifyDownload: `https://github.com/${SILO_REPO}/blob/main/docs/VERIFY_DOWNLOAD.md`,
-  /** Linux/macOS profile-launch test: the smoke-test steps (section 1b) and the issue testers report on. */
-  profileTestSteps: `https://github.com/${SILO_REPO}/blob/main/docs/SMOKE_TEST.md#1b-mods-folder-selection--auto-verified-modsroot-resolveoverridepath-map-per-folder-db-isolation-migration`,
+  /** Linux/macOS profile-launch test: the issue opens with "How to help test" and is where testers report. */
   profileTestIssue: `https://github.com/${SILO_REPO}/issues/417`,
   /** Vanity redirect served by this site (nginx 302, static stub fallback). */
   discord: "/discord",
