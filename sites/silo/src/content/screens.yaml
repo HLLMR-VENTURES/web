@@ -92,8 +92,8 @@
 - id: help-undo-organizing
   order: 17
   file: help-undo-organizing.png
-  alt: "Settings, Maintenance: the Undo organizing confirmation, which puts every mod back in the mods folder and deletes nothing."
-  appVersion: "1.0"
+  alt: "Settings, Maintenance: the Undo organizing confirmation, which puts your mods back in the mods folder and deletes nothing."
+  appVersion: "1.0.5"
 - id: help-accounts
   order: 18
   file: help-accounts.png

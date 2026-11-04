@@ -31,7 +31,7 @@ Click **File N mods** to go ahead, or **Cancel**. Progress shows at the bottom o
 
 A mod that already has another copy in your mods folder (an unzipped folder of it, say) stays parked in your library instead, because the game loads only one copy, and Silo says which copy is in the way. If **Auto-file new mods** is on, the question says it will be turned off, and Undo organizing turns it off, so the next scan doesn't file every mod straight back. To organize again, use **Organize**.
 
-![Settings, Maintenance, with the Undo organizing confirmation](../../assets/screens/help-undo-organizing.png)
+![Settings, Maintenance: the Undo organizing confirmation, which puts your mods back in the mods folder and deletes nothing.](../../assets/screens/help-undo-organizing.png)
 
 ## Favorite, hide and flag
 
