@@ -28,6 +28,8 @@ export const LINKS = {
   /** HLLMR GAMING, the division Silo is endorsed under (ADR-0015 D4). */
   gaming: "https://gaming.hllmr.com/",
   verifyDownload: `https://github.com/${SILO_REPO}/blob/main/docs/VERIFY_DOWNLOAD.md`,
+  /** Linux/macOS profile-launch test: the issue opens with "How to help test" and is where testers report. */
+  profileTestIssue: `https://github.com/${SILO_REPO}/issues/417`,
   /** Vanity redirect served by this site (nginx 302, static stub fallback). */
   discord: "/discord",
   orgGithub: "https://github.com/HLLMR-VENTURES",
