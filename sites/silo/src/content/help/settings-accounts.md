@@ -52,7 +52,7 @@ A summary of your library, conflicts and health issues, plus Silo's recent log, 
 
 - **Re-read every mod** scans every mod again from scratch. Use it after a Silo update improves categories, so existing mods pick them up.
 - **Reclaim disk space** turns any active mod that ended up as a full copy back into a link, freeing the duplicated space. It only touches files identical to the copy in your library, never a build you swapped in. On a cloud-synced folder it explains why copies are used instead.
-- **Undo organizing** puts every mod back in your mods folder and removes Silo's links. Nothing is deleted. It's the only undo for organizing.
+- **Undo organizing** puts every mod back in your mods folder, removes Silo's links and turns off **Auto-file new mods**. Nothing is deleted. It's the only undo for organizing (see [Undo organizing](/help/curation/#undo-organizing)).
 
 ![Settings, Maintenance, with the Undo organizing confirmation](../../assets/screens/help-undo-organizing.png)
 

@@ -27,7 +27,9 @@ Click **File N mods** to go ahead, or **Cancel**. Progress shows at the bottom o
 
 ## Undo organizing
 
-**Undo organizing** is the only undo for organizing, and it undoes all of it: there is no undo for a single batch. Open **Settings**, then **Maintenance**, and click **Undo organizing**. Silo asks **Put every mod back in your mods folder?**, then moves every parked and active mod out of the library folder and removes its links. Nothing is deleted. Afterwards the game loads every mod in that folder again, including the ones you had parked. To organize again, use **Organize**.
+**Undo organizing** is the only undo for organizing, and it undoes all of it: there is no undo for a single batch. Open **Settings**, then **Maintenance**, and click **Undo organizing**. Silo asks **Put your mods back in your mods folder?**, then moves every parked and active mod out of the library folder and removes its links. Nothing is deleted. Afterwards the game loads every mod in that folder again, including the ones you had parked.
+
+A mod that already has another copy in your mods folder (an unzipped folder of it, say) stays parked in your library instead, because the game loads only one copy, and Silo says which copy is in the way. If **Auto-file new mods** is on, the question says it will be turned off, and Undo organizing turns it off, so the next scan doesn't file every mod straight back. To organize again, use **Organize**.
 
 ![Settings, Maintenance, with the Undo organizing confirmation](../../assets/screens/help-undo-organizing.png)
 
