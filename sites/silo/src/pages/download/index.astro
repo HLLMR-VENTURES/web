@@ -91,6 +91,16 @@ const platforms: { id: string; name: string; note: string; files: { label: strin
       ))
     }
 
+    <section class="testers" id="help-test" aria-labelledby="help-test-h">
+      <h2 id="help-test-h">Play on Linux or Mac? Help us test.</h2>
+      <p>
+        Silo's <strong>Launch FS25 with this folder's profile</strong> switch is Windows-only until someone confirms the
+        game reads it under Proton (Linux and Steam Deck) or on macOS. It takes about 15 minutes with a scratch folder.
+        <a href={LINKS.profileTestSteps}>See the steps</a> and <a href={LINKS.profileTestIssue}>tell us what you saw</a>.
+        Once it's confirmed, the switch turns on in the next release.
+      </p>
+    </section>
+
     <section class="notes" aria-labelledby="notes-h">
       <h2 id="notes-h">Before you install</h2>
       <h3>Windows</h3>
@@ -208,6 +218,23 @@ const platforms: { id: string; name: string; note: string; files: { label: strin
     background: var(--sunken);
     border-radius: var(--radius-sm);
     overflow-wrap: anywhere;
+  }
+  .testers {
+    border: 1px solid var(--border);
+    border-left: 4px solid var(--info);
+    border-radius: var(--radius-lg);
+    background: var(--sunken);
+    padding: 20px 26px;
+    margin-top: 28px;
+    scroll-margin-top: 88px;
+  }
+  .testers h2 {
+    font-size: 1.25rem;
+    margin: 0 0 8px;
+  }
+  .testers p {
+    max-width: 70ch;
+    margin: 0;
   }
   .notes {
     margin-top: 40px;
