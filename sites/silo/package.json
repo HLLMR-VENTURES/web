@@ -11,7 +11,7 @@
     "preview": "astro preview"
   },
   "dependencies": {
-    "@astrojs/svelte": "9.0.1",
+    "@astrojs/svelte": "9.1.2",
     "@hllmr/design": "0.1.0",
     "astro": "7.3.8",
     "svelte": "5.57.1",
