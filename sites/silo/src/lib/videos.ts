@@ -12,6 +12,8 @@ import howToCrashLog from "../assets/videos/how-to-crash-log.jpg";
 import crashPark from "../assets/videos/crash-park.jpg";
 import conflicts from "../assets/videos/conflicts.jpg";
 import shareSet from "../assets/videos/share-set.jpg";
+import organizeUndo from "../assets/videos/organize-undo.jpg";
+import lastRun from "../assets/videos/last-run.jpg";
 
 export interface Video {
   /** YouTube video id. */
@@ -41,4 +43,6 @@ export const VIDEOS: Video[] = [
   { id: "9E6CSWyU1L4", title: "FS25 crashed? Silo names the likely mod", thumb: crashPark, short: true, help: "crash-triage" },
   { id: "EU4qLxqUPh4", title: "Catch a mod conflict before you launch", thumb: conflicts, short: true, help: "conflicts" },
   { id: "sQ-QugiebJE", title: "Share your exact mod list with friends", thumb: shareSet, short: true, help: "collections" },
+  { id: "VQcAW6x-cqA", title: "Organize your mods folder, and undo it any time", thumb: organizeUndo, short: true, help: "curation" },
+  { id: "mvW8sMtDnz4", title: "Your FS25 crash log, read for you", thumb: lastRun, short: true, help: "crash-triage" },
 ];
