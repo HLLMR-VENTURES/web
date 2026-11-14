@@ -13,7 +13,7 @@
   "dependencies": {
     "@astrojs/svelte": "9.0.1",
     "@hllmr/design": "0.1.0",
-    "astro": "7.3.8",
+    "astro": "7.4.12",
     "svelte": "5.57.1",
     "typescript": "6.0.3"
   }
