@@ -27,7 +27,7 @@ Results are grouped, and empty groups are hidden:
 
 - **Ready to install**: newer GitHub releases. **Update** installs one, and **Update all** installs them one after another.
 - **Download from ModHub**: updates Silo can't install for you because there's no `.zip` for it to download. ModHub mods get **Open on ModHub** (see below). Others get **Open page**, including a GitHub release without a `.zip`, which opens the release's page.
-- **Check these yourself**: mods with a saved download page, oldest-checked first, with **Open page** and **I checked it**.
+- **Check these yourself**: mods with a saved download page, oldest-checked first, with **Open page** and **I checked it**. Each row shows the version you have, for example "You have 1.2.0.0", when the mod names one, so you can compare it with the page without looking the mod up in the Library. It also shows the page's site and when you last checked it.
 - **Couldn't check**: each with the reason, **Try again** and **Copy details**. The **Activity** list and the copied details name the mod. A linked GitHub page that's been renamed, made private or deleted says so.
 - **Up to date** and **Not tracked**, collapsed. Not tracked means Silo's catalog doesn't know the mod.
 - **Not checked**, collapsed: mods you've switched update checks off for (see below).
