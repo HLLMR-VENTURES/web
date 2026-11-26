@@ -15,6 +15,10 @@ Open **Settings**, then **Mods folder**. The **Mods folder** card shows the fold
 
 The **Game** card below it shows where Farming Simulator 25 is installed. If Silo can't find the game, the Play button is hidden.
 
+On Windows, Silo looks for the game in your Steam libraries. If you installed it from DVD or the GIANTS shop, click **Choose the game…** on the **Game** card and pick `FarmingSimulator2025.exe` in the folder the game is installed in. Silo checks that the game's `dataS.gar` is next to it, then the card says "Chosen in Silo", and **Play** starts the game directly, not through Steam. If the copy you choose is in a Steam library, Silo still starts it through Steam.
+
+If the file you chose goes missing later, for example on a drive you've unplugged, the **Game** card says so when you come back to Silo. Meanwhile Silo uses your Steam install, or, if you don't have one, **Play** says "The game you chose isn't there anymore" until you choose it again. **Use the Steam install** forgets your choice and goes back to finding the game in Steam.
+
 ![Settings, Mods folder, with the folder path, where it came from, and the Change button](../../assets/screens/help-mods-folder.png)
 
 ## Changing the folder
